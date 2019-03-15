@@ -566,6 +566,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Collab: 0
     UNet: 1
   luminIcon:
     m_Name: 
@@ -589,7 +590,7 @@ PlayerSettings:
   cloudProjectId: bc6986fe-01d7-45ec-adac-bc640044a30b
   framebufferDepthMemorylessMode: 0
   projectName: Walking Letrz
-  organizationId: remcopeters
+  organizationId: team-rsw
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
