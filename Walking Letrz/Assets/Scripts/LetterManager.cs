@@ -26,6 +26,7 @@ public class LetterManager : MonoBehaviour
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
+        Debug.Log(CalculatePoints(new []{"w", "o", "u", "t", "e", "r"}));
     }
 
     private void instantiatePlayerLetters()
@@ -59,25 +60,25 @@ public class LetterManager : MonoBehaviour
     }
 
     
-    public int CalculatePoints(string[] letters){
-        int value = 0;
+    public long CalculatePoints(string[] letters){
+        long value = 0;
         foreach(string letter in letters)
         {
-            value += (byte)charactersValues.First(x => x.Key == letter).Value;
+            value += (long)charactersValues.First(x => x.Key == letter).Value;
         }
         return value;
     }
 
     public void InitCharactersValues(){
 
-        using (StreamReader r = new StreamReader("Assets\\Scripts\\settings.json"))
+        using (StreamReader r = new StreamReader("settings.json"))
         {
             string json = r.ReadToEnd();
             var items = (Dictionary<string, object>)MiniJSON.Json.Deserialize(json);
             foreach (var item in items)
             {
                 if (item.Key != "lettervalues") continue;
-                charactersValues = (Dictionary<string, object>)item.Value;
+                charactersValues = item.Value as Dictionary<string, object>;
             }
         }
     }
