@@ -5,10 +5,15 @@ using UnityEngine;
 public class MyPlayer : MonoBehaviour
 {
     public LetterManager LetterManagerClass;
+
+    public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(LetterManagerClass);
+        Instantiate(WriteBoard);
+        GameObject LetterBoard = Instantiate(LetterBoardObject);
+        LetterManager letterManager = Instantiate(LetterManagerClass);
+        letterManager.LetterBoard = LetterBoard;
     }
 
     // Update is called once per frame

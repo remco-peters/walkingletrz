@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5283383342240413596}
   - component: {fileID: 162299970123258566}
   - component: {fileID: 6413205857811815508}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: WriteBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7333138695347828264}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.01, y: -3.58, z: -0.25}
-  m_LocalScale: {x: 0.5625, y: 1, z: -0.27989584}
+  m_LocalPosition: {x: -0.024, y: -1.7, z: -0.25}
+  m_LocalScale: {x: 0.5667424, y: 1.0077, z: -0.095192224}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4729794657349520370}
   - component: {fileID: 5208229986213813095}
   - component: {fileID: 2407267715209858751}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LetterBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1097105684312427122}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25009722, y: -0.6079292, z: 0.08522223}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.023, y: -3.619, z: 0.08522223}
+  m_LocalScale: {x: 0.57881254, y: 1, z: -0.30564627}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &4729794657349520370
 MeshFilter:
   m_ObjectHideFlags: 0
