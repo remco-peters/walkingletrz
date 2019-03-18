@@ -10,6 +10,7 @@ public class LetterManager : MonoBehaviour
     public StartingLetters StartingLettersClass;
     public PlayerLetters PlayerLettersClass;
     public GameObject LetterBlockObject;
+    public GameObject StartingLetterBlockObject;
 
     public GameObject LetterBoard { get; set; }
 
@@ -44,13 +45,10 @@ public class LetterManager : MonoBehaviour
 
     private void instantiateStartingLetters()
     {
-        {
-            StartingLetters startingLetters = Instantiate(StartingLettersClass);
+        StartingLetters startingLetters = Instantiate(StartingLettersClass);
 
-            var startingLetterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
-
-            startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter;
-
-        }
+        var startingLetterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
+        
+        startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter;
     }
 }
