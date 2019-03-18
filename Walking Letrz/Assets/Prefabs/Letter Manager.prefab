@@ -49,3 +49,5 @@ MonoBehaviour:
     type: 3}
   LetterBlockObject: {fileID: 2203837333111555353, guid: 2f33818c4004a4d52bbe1b7dffa620c9,
     type: 3}
+  StartingLetterBlockObject: {fileID: 2203837333111555353, guid: a78bbc5964a89492798b0d562d22e9a4,
+    type: 3}
