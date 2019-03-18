@@ -184,6 +184,12 @@ PrefabInstance:
       propertyPath: TimerText
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7894821349571393290, guid: 8d04773724aa046d98ddfb51db478e9b,
+        type: 3}
+      propertyPath: HUDClass
+      value: 
+      objectReference: {fileID: 5715539553406491007, guid: 26be54bc3e5ff6f47b1981c7556b60dd,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d04773724aa046d98ddfb51db478e9b, type: 3}
 --- !u!1001 &1490187946

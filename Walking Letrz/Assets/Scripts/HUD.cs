@@ -9,7 +9,7 @@ public class HUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Assert.IsNotNull(Player, "Player misses at row 12, HUDClass");
+        Assert.IsNotNull(Player, "Player misses in HUDClass");
     }
 
     // Update is called once per frame
