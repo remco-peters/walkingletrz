@@ -47,3 +47,5 @@ MonoBehaviour:
     type: 3}
   PlayerLettersClass: {fileID: 4269516298161866295, guid: b516a8a346e354294a68a088cdcfe1d2,
     type: 3}
+  LetterBlockObject: {fileID: 2203837333111555353, guid: 2f33818c4004a4d52bbe1b7dffa620c9,
+    type: 3}
