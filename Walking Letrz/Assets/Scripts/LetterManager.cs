@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Experimental.UIElements;
-using Button = UnityEngine.UI.Button;
 
 public class LetterManager : MonoBehaviour
 {
@@ -36,13 +34,19 @@ public class LetterManager : MonoBehaviour
         {
             if (i > 0)
                 lastLetterPosition.x += 0.80f;
-            if (i > 0 && i % 7 == 0)
+            if (i == 5)
             {
                 lastLetterPosition.x = -2.5f;
                 lastLetterPosition.y -= 0.75f;
             }
+            
+            if (i == 12)
+            {
+                lastLetterPosition.x = -0.9f;
+                lastLetterPosition.y -= 0.75f;
+            }
 
-            var letterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
+            GameObject letterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
 
             lastLetterPosition = letterBlock.transform.position;
             letterBlock.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
@@ -53,9 +57,13 @@ public class LetterManager : MonoBehaviour
     {
         StartingLetters startingLetters = Instantiate(StartingLettersClass);
 
-        var startingLetterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
-        
-        startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter;
+        GameObject startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());        
+        startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
+        lastLetterPosition.x += 0.8f;
+
+        startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());     
+        startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.secondLetter.ToUpper();
+        lastLetterPosition.x += 0.8f;
     }
 
     
