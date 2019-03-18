@@ -1,7 +1,9 @@
 ﻿
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 public class LetterManager : MonoBehaviour
@@ -27,8 +29,9 @@ public class LetterManager : MonoBehaviour
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
-        CheckWord("wouter", out long points);
+        bool isWord = CheckWord("wondhaake", out long points);
         Debug.Log(points);
+        Debug.Log(isWord);
     }
 
     private void instantiatePlayerLetters()
@@ -98,10 +101,49 @@ public class LetterManager : MonoBehaviour
     public bool CheckWord(string word, out long points)
     {
         points = CalculatePoints(word);
-        //todo check if word is valid
+        if (!Exists(word)) return false;
         if (!PlacedWords.Contains(word))
         {
             PlacedWords.Add(word);
+            return true;
+        }
+        return false;
+    }
+
+    public bool Exists(string word)
+    {
+        using (StreamReader r = new StreamReader("woordenlijst.txt"))
+        {
+            string woorden = r.ReadToEnd();
+            if (woorden.Contains(word)) return true;
+        }
+
+        return false;
+        /* uit zipje lezen
+        using (ZipArchive archive = ZipFile.OpenRead("woordenlijst.zip"))
+        {
+            foreach (ZipArchiveEntry entry in archive.Entries)
+            {
+                Debug.Log("TEST!@#");
+                Stream r = entry.Open();
+                return StreamHasString(r, word);
+            }
+        }
+        return false;*/
+    }
+
+    private bool StreamHasString (Stream vStream, string word) {
+        byte[] streamBytes = new byte[vStream.Length];
+
+        int pos = 0;
+        int len = (int)vStream.Length;
+        while (pos < len) {
+            int n = vStream.Read(streamBytes, pos, len - pos);
+            pos += n;
+        }
+
+        string stringOfStream = Encoding.UTF32.GetString(streamBytes);
+        if (stringOfStream.Contains(word)) {
             return true;
         }
         return false;
