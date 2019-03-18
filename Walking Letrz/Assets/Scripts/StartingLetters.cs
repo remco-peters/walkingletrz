@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StartingLetters : MonoBehaviour
 {
-    private string[] availableLetters = { "a", "b,", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+    private string[] availableLetters = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
         "m", "n", "o", "p", "r", "s", "t", "u", "v", "w", "z" };
     
     public string firstLetter { get; set; }
