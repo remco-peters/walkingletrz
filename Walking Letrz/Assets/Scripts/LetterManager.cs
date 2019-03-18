@@ -19,12 +19,16 @@ public class LetterManager : MonoBehaviour
 
     public Dictionary<string, object> charactersValues { get; set; }
 
+    private List<string> PlacedWords { get; set; }
+
     private void Start()
     {
+        PlacedWords = new List<string>();
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
-        Debug.Log(CalculatePoints(new []{"w", "o", "u", "t", "e", "r"}));
+        CheckWord("wouter", out long points);
+        Debug.Log(points);
     }
 
     private void instantiatePlayerLetters()
@@ -68,11 +72,11 @@ public class LetterManager : MonoBehaviour
     }
 
     
-    public long CalculatePoints(string[] letters){
+    public long CalculatePoints(string word){
         long value = 0;
-        foreach(string letter in letters)
+        foreach(var letter in word)
         {
-            value += (long)charactersValues.First(x => x.Key == letter).Value;
+            value += (long)charactersValues.First(x => x.Key == letter.ToString()).Value;
         }
         return value;
     }
@@ -91,8 +95,15 @@ public class LetterManager : MonoBehaviour
         }
     }
 
-    public bool CheckWord(string word){
-        //todo check if word is in list
-        return true;
+    public bool CheckWord(string word, out long points)
+    {
+        points = CalculatePoints(word);
+        //todo check if word is valid
+        if (!PlacedWords.Contains(word))
+        {
+            PlacedWords.Add(word);
+            return true;
+        }
+        return false;
     }
 }
