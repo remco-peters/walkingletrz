@@ -15,13 +15,13 @@ public class PlayerLetters : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < 14; i++)
+        string s = "";
+        for (int i = 0; i <= 14; i++)
         {
             startingLetters[i] = availableLetters[Random.Range(0, 26)];
-            Debug.Log(startingLetters[i]);
+            s += $"{startingLetters[i]}, ";
         }
-        
-        Debug.Log(startingLetters);
+        Debug.Log(s);
     }
 
     // Update is called once per frame

@@ -5,15 +5,13 @@ using UnityEngine;
 public class GameState : MonoBehaviour
 {
     public Camera CameraClass;
-    public PlayerManager PlayerManagerClass;
+    public MyPlayer PlayerClass;
 
-    public LetterManager LetterManagerClass;
     // Start is called before the first frame update
     void Start()
     {
         Instantiate(CameraClass);
-//        Instantiate(PlayerManagerClass);
-        Instantiate(LetterManagerClass);
+        Instantiate(PlayerClass);
     }
 
     // Update is called once per frame

@@ -45,7 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraClass: {fileID: 6380335646067993506, guid: a690ef05f79fb49e19dd6b84c3a6f6fc,
     type: 3}
-  PlayerManagerClass: {fileID: 5813736667840174792, guid: e80fbe90d9c89814f92de537175a549c,
-    type: 3}
-  LetterManagerClass: {fileID: 5501810388853740986, guid: b97e240c5575c4448848b8372db08d08,
+  PlayerClass: {fileID: 6351817948111272653, guid: 3af7f24475642b9429fd7ce4b292ecb3,
     type: 3}
