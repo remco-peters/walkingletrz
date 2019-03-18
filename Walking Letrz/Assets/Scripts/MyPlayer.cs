@@ -18,7 +18,7 @@ public class MyPlayer : MonoBehaviour
         GameObject LetterBoard = Instantiate(LetterBoardObject);
         LetterManager letterManager = Instantiate(LetterManagerClass);
         letterManager.LetterBoard = LetterBoard;
-        TimeRemaining = 5;
+        TimeRemaining = 300;
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class MyPlayer : MonoBehaviour
             CoolDownTime -= Time.deltaTime;
         }
 
-        if (CoolDownTime <= 0)
+        if (CoolDownTime <= 0 && TimeRemaining > 0)
         {
             CanMove = true;
             Debug.Log("You can click again!");
