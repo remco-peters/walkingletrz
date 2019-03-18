@@ -81,8 +81,8 @@ public class LetterManager : MonoBehaviour
         return value;
     }
 
-    public void InitCharactersValues(){
-
+    public void InitCharactersValues()
+    {
         using (StreamReader r = new StreamReader("settings.json"))
         {
             string json = r.ReadToEnd();

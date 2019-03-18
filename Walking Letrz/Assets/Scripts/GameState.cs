@@ -41,7 +41,7 @@ public class GameState : MonoBehaviour
             // Time's up - Next scene...
         } else
         {
-            if (CanMove && Input.GetMouseButtonDown(0)) // If player sents a word
+            if (CanMove && Input.GetKeyDown(KeyCode.Space)) // If player sents a word
             {
                 CanMove = false;
                 Debug.Log("Clicked!");
