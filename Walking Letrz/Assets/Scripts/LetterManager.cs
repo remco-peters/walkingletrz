@@ -23,7 +23,7 @@ public class LetterManager : MonoBehaviour
 
     private void Start()
     {
-        InstantiateStartingLetters();
+        InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
     }
