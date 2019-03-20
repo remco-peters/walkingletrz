@@ -14,6 +14,5 @@ public class StartingLetters : MonoBehaviour
     {
         firstLetter = availableLetters[Random.Range(0, availableLetters.Length)];
         secondLetter = availableLetters[Random.Range(0, availableLetters.Length)];
-        Debug.Log(firstLetter + " " + secondLetter);
     }
 }
