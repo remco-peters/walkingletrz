@@ -7,7 +7,7 @@ public class MyPlayer : MonoBehaviour
     public LetterManager LetterManagerClass;
 
     public float TimeRemaining {get; set; }
-    private float CoolDownTime = 10;
+    public float CoolDownTime = 10;
     public bool CanMove = true;
 
     public GameObject WriteBoard, LetterBoardObject;

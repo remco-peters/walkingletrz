@@ -29,6 +29,8 @@ public class LetterManager : MonoBehaviour
 
     private List<string> PlacedWords { get; set; } = new List<string>();
 
+    private StartingLetters StartingLetters { get; set; }
+
     private string[] AllWords { get; set; }
 
     private string MadeWord;
@@ -39,9 +41,6 @@ public class LetterManager : MonoBehaviour
         InstantiateStartingLetters();
         instantiatePlayerLetters();
         InitAllWords();
-        bool isWord = CheckWord("test", out long points);
-        Debug.Log(points);
-        Debug.Log(isWord);
     }
 
     private void instantiatePlayerLetters()
@@ -113,10 +112,14 @@ public class LetterManager : MonoBehaviour
                 // Nieuwe letters genereren op lege plekken?
                 // Testen voor vaste letters op juiste volgorde
             }
-
             Debug.Log(points);
             Debug.Log(isWord);
         }
+        else
+        {
+            Debug.Log("Cant move yet: " + Player.CoolDownTime + " seconds remaining");
+        }
+        MadeWord = "";
     }
 
     private void InstantiateStartingLetters()
@@ -132,6 +135,8 @@ public class LetterManager : MonoBehaviour
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.secondLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
         lastLetterPosition.x += 0.8f;
+
+        StartingLetters = startingLetters;
     }
 
     private void InitAllWords()
@@ -142,7 +147,7 @@ public class LetterManager : MonoBehaviour
         {
             for (int i = 0; i < lines; i++)
             {
-                AllWords[i] = r.ReadLine();
+                AllWords[i] = r.ReadLine()?.Replace(" ", "");
             }
         }
     }
@@ -175,8 +180,24 @@ public class LetterManager : MonoBehaviour
     public bool CheckWord(string word, out long points)
     {
         points = CalculatePoints(word);
-        if (!Exists(word)) return false;
-        if (PlacedWords.Contains(word)) return false;
+        if (!word.Contains(StartingLetters.firstLetter) || !word.Contains(StartingLetters.secondLetter))
+        {
+            Debug.Log("Word does not contain the two letters");
+            return false;
+        }
+
+        if (!Exists(word))
+        {
+            Debug.Log("Word does not exist");
+            return false;
+        }
+
+        if (PlacedWords.Contains(word))
+        {
+            Debug.Log("Word already placed");
+            return false;
+        }
+
         PlacedWords.Add(word);
         return true;
 
@@ -200,9 +221,6 @@ public class LetterManager : MonoBehaviour
             block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
             PlacedLetters.Add(block);
         }
-
-        Debug.Log(PlacedLetters.Count);
-        Debug.Log(PlacedLetters.ToString());
     }
 
     public bool Exists(string word)
