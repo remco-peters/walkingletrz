@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -81,10 +82,22 @@ public class LetterManager : MonoBehaviour
     private void RemoveAllLetters()
     {
         foreach (LetterBlock block in PlacedLetters)
-        {           
-            Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+        {
+            Vector3 pos = new Vector3();
+            if (block.IsFirtsLetter)
+            {
+                pos = new Vector3(-2.5f, -2.5f);
+            }
+            else if (block.IsSecondLetter)
+            {
+                pos = new Vector3(-1.7f, -2.5f);
+            }
+            else
+            {  
+                pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+                PlayerLetterPositions[pos] = block;
+            }
             block.transform.localScale= new Vector3(0.5f, 0.5f, 1);
-            PlayerLetterPositions[pos] = block;
             block.transform.position = pos;
         }
         PlacedLetters.RemoveAll(x => true);
@@ -130,11 +143,13 @@ public class LetterManager : MonoBehaviour
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
         lastLetterPosition.x += 0.8f;
+        startingLetterBlock.IsFirtsLetter = true;
 
         startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.secondLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
         lastLetterPosition.x += 0.8f;
+        startingLetterBlock.IsSecondLetter = true;
 
         StartingLetters = startingLetters;
     }
@@ -147,7 +162,7 @@ public class LetterManager : MonoBehaviour
         {
             for (int i = 0; i < lines; i++)
             {
-                AllWords[i] = r.ReadLine()?.Replace(" ", "");
+                AllWords[i] = r.ReadLine();
             }
         }
     }
@@ -185,6 +200,11 @@ public class LetterManager : MonoBehaviour
             Debug.Log("Word does not contain the two letters");
             return false;
         }
+        if(word.IndexOf(StartingLetters.firstLetter, StringComparison.Ordinal) > word.IndexOf(StartingLetters.secondLetter, StringComparison.Ordinal))
+        {
+            Debug.Log("First letter is after second letter");
+            return false;
+        }
 
         if (!Exists(word))
         {
@@ -203,8 +223,35 @@ public class LetterManager : MonoBehaviour
 
     }
 
+    private void StartLetterTouched(LetterBlock block, Vector3 pos)
+    {
+        if (PlacedLetters.Contains(block))
+        {
+            PlacedLetters.Remove(block);
+            block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+            block.transform.position = pos;
+        }
+        else if (PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
+        {
+            block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
+            block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
+            PlacedLetters.Add(block);
+        }
+    }
+
     private void LetterTouched(LetterBlock block)
     {
+        if (block.IsFirtsLetter)
+        {
+            StartLetterTouched(block, new Vector3(-2.5f, -2.5f));
+            return;
+        }
+
+        if (block.IsSecondLetter)
+        {
+            StartLetterTouched(block, new Vector3(-1.7f, -2.5f));
+            return;
+        }
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
