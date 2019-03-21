@@ -134,13 +134,14 @@ public class LetterManager : MonoBehaviour
     private void LetterTouched(LetterBlock block)
     {
         if (PlacedLetters.Contains(block))
-        {          
+        {
             PlacedLetters.Remove(block);
             Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             PlayerLetterPositions[pos] = block;
             block.transform.position = pos;
+        }
 
-        else if(PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
+        else if (PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
         {
             PlayerLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
