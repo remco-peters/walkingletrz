@@ -12,27 +12,30 @@ public class LetterManager : MonoBehaviour
     public PlayerLetters PlayerLettersClass;
     public LetterBlock LetterBlockObject;
     public LetterBlock StartingLetterBlockObject;
+    public RemoveWordBtn RemoveWordBtnClass;
+    public PlaceWordBtn PlaceWordBtnClass;
+
+    private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get;set; } = new Dictionary<Vector3, LetterBlock>();
+    private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
 
     public GameObject LetterBoard { get; set; }
 
     private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
-    public List<LetterBlock> PlacedLetters { get; set; }
+    public List<LetterBlock> PlacedLetters { get; set; } = new List<LetterBlock>();
 
     public Dictionary<string, object> charactersValues { get; set; }
 
-    private List<string> PlacedWords { get; set; }
+    private List<string> PlacedWords { get; set; } = new List<string>();
 
     private void Start()
     {
-        PlacedWords = new List<string>();
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
         bool isWord = CheckWord("bijenkorf", out long points);
         Debug.Log(points);
         Debug.Log(isWord);
-        PlacedLetters = new List<LetterBlock>();
     }
 
     private void instantiatePlayerLetters()
@@ -56,10 +59,27 @@ public class LetterManager : MonoBehaviour
             }
 
             LetterBlock letterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
+            letterBlock.IsLetterSet = false;
+            PlayerLetterPositions.Add(lastLetterPosition, letterBlock);
             letterBlock.OnLetterTouched += LetterTouched; 
             lastLetterPosition = letterBlock.transform.position;
             letterBlock.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
         }
+        lastLetterPosition.x += 0.80f;
+        RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass, lastLetterPosition, new Quaternion());
+        PlaceWordBtn placeWordBtn = Instantiate(PlaceWordBtnClass);
+        removeWordBtn.OnRemoveTouched += RemoveAllLetters;
+    }
+
+    private void RemoveAllLetters()
+    {
+        foreach (LetterBlock block in PlacedLetters)
+        {           
+            Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlayerLetterPositions[pos] = block;
+            block.transform.position = pos;
+        }
+        PlacedLetters.RemoveAll(x => true);
     }
 
     private void InstantiateStartingLetters()
@@ -117,11 +137,15 @@ public class LetterManager : MonoBehaviour
     private void LetterTouched(LetterBlock block)
     {
         if (PlacedLetters.Contains(block))
-        {
+        {          
             PlacedLetters.Remove(block);
+            Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlayerLetterPositions[pos] = block;
+            block.transform.position = pos;
         }
         else
         {
+            PlayerLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
             block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
             PlacedLetters.Add(block);
