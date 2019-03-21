@@ -73,7 +73,6 @@ public class LetterManager : MonoBehaviour
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.secondLetter.ToUpper();
         lastLetterPosition.x += 0.8f;
     }
-
     
     public long CalculatePoints(string word){
         long value = 0;

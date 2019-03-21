@@ -7,6 +7,7 @@ public class LetterBlock : MonoBehaviour
     private void OnMouseDown()
     {
         var letter = GetComponentInChildren<TextMesh>().text;
+        PlaceWordBtn.IClickedIt();
         Debug.Log($"letter: {letter}");
     }
 }
