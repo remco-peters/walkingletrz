@@ -110,8 +110,8 @@ public class LetterManager : MonoBehaviour
                 Player.StartCooldown();
                 RemoveAllLettersFromPlayerBoard();
                 PlacedLetters.RemoveAll(x => true);
+                PlaceWordInGameBoard();
 
-                // Woord plaatsen in scherm erboven
                 // Nieuwe letters genereren op lege plekken?
             }
         }
@@ -208,7 +208,7 @@ public class LetterManager : MonoBehaviour
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
-            block.transform.localScale= new Vector3(0.5f, 0.5f, 1);
+            block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
             Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             PlayerLetterPositions[pos] = block;
             block.transform.position = pos;
@@ -255,5 +255,16 @@ public class LetterManager : MonoBehaviour
         {
             Destroy(block.gameObject);
         }
+    }
+
+    private void PlaceWordInGameBoard()
+    {
+        string lastWord = PlacedWords[PlacedWords.Count - 1];
+        GameObject text = new GameObject();
+        TextMesh t = text.AddComponent<TextMesh>();
+        t.text = "New Text";
+        t.fontSize = 30;
+        t.transform.localEulerAngles += new Vector3(90, 0, 0);
+        t.transform.localPosition += new Vector3(56f, 3f, 40f);
     }
 }
