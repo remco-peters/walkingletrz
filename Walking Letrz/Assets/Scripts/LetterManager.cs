@@ -118,13 +118,15 @@ public class LetterManager : MonoBehaviour
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
+            // Letters terugplaatsen in veld
         }
-        else
+        else if(PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
         {
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
             block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
             PlacedLetters.Add(block);
         }
+
         Debug.Log(PlacedLetters.Count);
         Debug.Log(PlacedLetters.ToString());
     }
