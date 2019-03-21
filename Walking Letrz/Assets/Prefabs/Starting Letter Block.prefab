@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 2203837333111555356}
   - component: {fileID: 2203837333111555355}
   - component: {fileID: 2203837333111555354}
-  - component: {fileID: 2808454594730983960}
+  - component: {fileID: 5478674216125862282}
   m_Layer: 8
   m_Name: Starting Letter Block
   m_TagString: Untagged
@@ -184,7 +184,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2808454594730983960
+--- !u!114 &5478674216125862282
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,3 +196,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3746de5147b435196fd908aa79fda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsLetterSet: 0

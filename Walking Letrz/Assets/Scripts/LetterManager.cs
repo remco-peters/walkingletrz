@@ -19,6 +19,7 @@ public class LetterManager : MonoBehaviour
     private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
 
     public GameObject LetterBoard { get; set; }
+    public MyPlayer Player { get; set; }
 
     private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
@@ -28,14 +29,13 @@ public class LetterManager : MonoBehaviour
 
     private List<string> PlacedWords { get; set; } = new List<string>();
 
+    private string MadeWord;
+
     private void Start()
     {
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
-        bool isWord = CheckWord("bijenkorf", out long points);
-        Debug.Log(points);
-        Debug.Log(isWord);
     }
 
     private void instantiatePlayerLetters()
@@ -87,9 +87,29 @@ public class LetterManager : MonoBehaviour
 
     private void PlaceWord()
     {
-        foreach(LetterBlock block in PlacedLetters)
+        // Alleen wanneer mag versturen
+        if (Player.CanMove)
         {
-            Debug.Log(block);
+            foreach (LetterBlock block in PlacedLetters)
+            {
+                MadeWord += block.GetComponentInChildren<TextMesh>().text;
+            }
+
+            bool isWord = CheckWord(MadeWord.ToLower(), out long points);
+            if (isWord)
+            {
+                // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
+                Player.CanMove = false;
+                Player.StartCooldown();
+                // Woord plaatsen in scherm erboven
+                // Letters uit placedLetters halen
+                // Woord van bord afhalen
+                // Nieuwe letters genereren op lege plekken?
+                // Testen voor vaste letters op juiste volgorde
+            }
+
+            Debug.Log(points);
+            Debug.Log(isWord);
         }
     }
 
@@ -99,10 +119,12 @@ public class LetterManager : MonoBehaviour
 
         LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
+        startingLetterBlock.OnLetterTouched += LetterTouched;
         lastLetterPosition.x += 0.8f;
 
         startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.secondLetter.ToUpper();
+        startingLetterBlock.OnLetterTouched += LetterTouched;
         lastLetterPosition.x += 0.8f;
     }
 

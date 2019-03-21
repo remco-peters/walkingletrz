@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5869715420686289406}
   - component: {fileID: 5869715420686289401}
   - component: {fileID: 5869715420686289400}
-  - component: {fileID: 2812176426169103504}
+  - component: {fileID: 3858483424432135390}
   m_Layer: 0
   m_Name: PlaceWordBtn
   m_TagString: Untagged
@@ -92,7 +92,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2812176426169103504
+--- !u!114 &3858483424432135390
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

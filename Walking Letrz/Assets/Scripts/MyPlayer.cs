@@ -8,7 +8,7 @@ public class MyPlayer : MonoBehaviour
 
     public float TimeRemaining {get; set; }
     private float CoolDownTime = 10;
-    private bool CanMove = true;
+    public bool CanMove = true;
 
     public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update
@@ -19,6 +19,7 @@ public class MyPlayer : MonoBehaviour
         LetterManager letterManager = Instantiate(LetterManagerClass);
         letterManager.LetterBoard = LetterBoard;
         TimeRemaining = 300;
+        letterManager.Player = this;
     }
 
     // Update is called once per frame
@@ -26,28 +27,31 @@ public class MyPlayer : MonoBehaviour
     {
         TimeRemaining -= Time.deltaTime;
 
-        if (CanMove && Input.GetKeyDown(KeyCode.Space)) // If player sents a word
+        if (TimeRemaining <= 0)
         {
             CanMove = false;
-            Debug.Log("Clicked!");
         }
+    }
 
-        if (CanMove == false)
+    public void StartCooldown()
+    {
+        StartCoroutine(CoolDownTimer());
+    }
+
+    IEnumerator CoolDownTimer()
+    {
+        Debug.Log("Placed a word");
+        while(CoolDownTime >= 0)
         {
             CoolDownTime -= Time.deltaTime;
-        }
-
-        if (CoolDownTime <= 0 && TimeRemaining > 0)
-        {
-            CanMove = true;
-            Debug.Log("You can click again!");
-            CoolDownTime = 10;
-        }
-
-        if(TimeRemaining <= 0)
-        {
             CanMove = false;
+            yield return new WaitForFixedUpdate();
         }
+
+        Debug.Log("Can place again");
+
+        CanMove = true;
+        CoolDownTime = 10;
 
     }
 }
