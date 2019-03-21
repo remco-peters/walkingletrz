@@ -66,7 +66,7 @@ public class LetterManager : MonoBehaviour
             letterBlock.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
         }
         lastLetterPosition.x += 0.80f;
-        RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass, lastLetterPosition, new Quaternion());
+        RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass);
         removeWordBtn.OnRemoveTouched += RemoveAllLetters;
 
         PlaceWordBtn placeWordBtn = Instantiate(PlaceWordBtnClass);
@@ -78,6 +78,7 @@ public class LetterManager : MonoBehaviour
         foreach (LetterBlock block in PlacedLetters)
         {           
             Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            block.transform.localScale= new Vector3(0.5f, 0.5f, 1);
             PlayerLetterPositions[pos] = block;
             block.transform.position = pos;
         }
@@ -148,6 +149,7 @@ public class LetterManager : MonoBehaviour
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
+            block.transform.localScale= new Vector3(0.5f, 0.5f, 1);
             Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             PlayerLetterPositions[pos] = block;
             block.transform.position = pos;
