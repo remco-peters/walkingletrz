@@ -1,23 +1,23 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LetterManager : MonoBehaviour
 {
     public StartingLetters StartingLettersClass;
     public PlayerLetters PlayerLettersClass;
-    public GameObject LetterBlockObject;
-    public GameObject StartingLetterBlockObject;
+    public LetterBlock LetterBlockObject;
+    public LetterBlock StartingLetterBlockObject;
 
     public GameObject LetterBoard { get; set; }
 
     private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
-    public char[] PlacedLetters{get;set;}
+    public List<LetterBlock> PlacedLetters { get; set; }
 
     public Dictionary<string, object> charactersValues { get; set; }
 
@@ -29,9 +29,10 @@ public class LetterManager : MonoBehaviour
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
-        bool isWord = CheckWord("wondhaake", out long points);
+        bool isWord = CheckWord("bijenkorf", out long points);
         Debug.Log(points);
         Debug.Log(isWord);
+        PlacedLetters = new List<LetterBlock>();
     }
 
     private void instantiatePlayerLetters()
@@ -47,15 +48,15 @@ public class LetterManager : MonoBehaviour
                 lastLetterPosition.x = -2.5f;
                 lastLetterPosition.y -= 0.75f;
             }
-            
+
             if (i == 12)
             {
                 lastLetterPosition.x = -0.9f;
                 lastLetterPosition.y -= 0.75f;
             }
 
-            GameObject letterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
-
+            LetterBlock letterBlock = Instantiate(LetterBlockObject, lastLetterPosition, new Quaternion());
+            letterBlock.OnLetterTouched += LetterTouched; 
             lastLetterPosition = letterBlock.transform.position;
             letterBlock.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
         }
@@ -65,21 +66,23 @@ public class LetterManager : MonoBehaviour
     {
         StartingLetters startingLetters = Instantiate(StartingLettersClass);
 
-        GameObject startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());        
+        LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
         lastLetterPosition.x += 0.8f;
 
-        startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());     
+        startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.secondLetter.ToUpper();
         lastLetterPosition.x += 0.8f;
     }
-    
-    public long CalculatePoints(string word){
+
+    public long CalculatePoints(string word)
+    {
         long value = 0;
-        foreach(var letter in word)
+        foreach (var letter in word)
         {
-            value += (long)charactersValues.First(x => x.Key == letter.ToString()).Value;
+            value += (long) charactersValues.First(x => x.Key == letter.ToString()).Value;
         }
+
         return value;
     }
 
@@ -88,7 +91,7 @@ public class LetterManager : MonoBehaviour
         using (StreamReader r = new StreamReader("settings.json"))
         {
             string json = r.ReadToEnd();
-            var items = (Dictionary<string, object>)MiniJSON.Json.Deserialize(json);
+            var items = (Dictionary<string, object>) MiniJSON.Json.Deserialize(json);
             foreach (var item in items)
             {
                 if (item.Key != "lettervalues") continue;
@@ -106,7 +109,24 @@ public class LetterManager : MonoBehaviour
             PlacedWords.Add(word);
             return true;
         }
+
         return false;
+    }
+
+    private void LetterTouched(LetterBlock block)
+    {
+        if (PlacedLetters.Contains(block))
+        {
+            PlacedLetters.Remove(block);
+        }
+        else
+        {
+            block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
+            block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
+            PlacedLetters.Add(block);
+        }
+        Debug.Log(PlacedLetters.Count);
+        Debug.Log(PlacedLetters.ToString());
     }
 
     public bool Exists(string word)
@@ -131,20 +151,24 @@ public class LetterManager : MonoBehaviour
         return false;*/
     }
 
-    private bool StreamHasString (Stream vStream, string word) {
+    private bool StreamHasString(Stream vStream, string word)
+    {
         byte[] streamBytes = new byte[vStream.Length];
 
         int pos = 0;
-        int len = (int)vStream.Length;
-        while (pos < len) {
+        int len = (int) vStream.Length;
+        while (pos < len)
+        {
             int n = vStream.Read(streamBytes, pos, len - pos);
             pos += n;
         }
 
         string stringOfStream = Encoding.UTF32.GetString(streamBytes);
-        if (stringOfStream.Contains(word)) {
+        if (stringOfStream.Contains(word))
+        {
             return true;
         }
+
         return false;
     }
 }
