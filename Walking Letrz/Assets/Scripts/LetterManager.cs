@@ -18,6 +18,7 @@ public class LetterManager : MonoBehaviour
 
     private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get;set; } = new Dictionary<Vector3, LetterBlock>();
     private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
+    
 
     public GameObject LetterBoard { get; set; }
     public MyPlayer Player { get; set; }
@@ -126,6 +127,7 @@ public class LetterManager : MonoBehaviour
 
                 // Woord plaatsen in scherm erboven
                 // Nieuwe letters genereren op lege plekken?
+                ChangeFixedLetters();
             }
         }
         else
@@ -269,6 +271,24 @@ public class LetterManager : MonoBehaviour
             PlacedLetters.Add(block);
         }
     }
+
+    private void ChangeFixedLetters()
+    {
+        StartingLetters.secondLetter = StartingLetters.firstLetter;
+        var lastIndex = MadeWord.Length;
+        StartingLetters.firstLetter = MadeWord[lastIndex - 1].ToString().ToLower();
+        
+        Vector3 startingLetterPos = new Vector3(-2.5f, -2.5f);
+
+        LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, startingLetterPos, new Quaternion());
+        startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.firstLetter.ToUpper();
+        startingLetterBlock.OnLetterTouched += LetterTouched;
+        startingLetterPos.x += 0.8f;
+
+        startingLetterBlock = Instantiate(StartingLetterBlockObject, startingLetterPos, new Quaternion());
+        startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.secondLetter.ToUpper();
+        startingLetterBlock.OnLetterTouched += LetterTouched;
+    }    
 
     public bool Exists(string word)
     {
