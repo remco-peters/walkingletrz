@@ -27,12 +27,15 @@ public class LetterManager : MonoBehaviour
 
     private List<string> PlacedWords { get; set; } = new List<string>();
 
+    private string[] AllWords { get; set; }
+
     private void Start()
     {
         InitCharactersValues();
         InstantiateStartingLetters();
         instantiatePlayerLetters();
-        bool isWord = CheckWord("bijenkorf", out long points);
+        InitAllWords();
+        bool isWord = CheckWord("test", out long points);
         Debug.Log(points);
         Debug.Log(isWord);
     }
@@ -94,6 +97,19 @@ public class LetterManager : MonoBehaviour
         lastLetterPosition.x += 0.8f;
     }
 
+    private void InitAllWords()
+    {
+        int lines = File.ReadLines(@"woordenlijst.txt").Count();
+        AllWords = new string[lines];
+        using (StreamReader r = File.OpenText(@"woordenlijst.txt"))
+        {
+            for (int i = 0; i < lines; i++)
+            {
+                AllWords[i] = r.ReadLine();
+            }
+        }
+    }
+
     public long CalculatePoints(string word)
     {
         long value = 0;
@@ -123,13 +139,10 @@ public class LetterManager : MonoBehaviour
     {
         points = CalculatePoints(word);
         if (!Exists(word)) return false;
-        if (!PlacedWords.Contains(word))
-        {
-            PlacedWords.Add(word);
-            return true;
-        }
+        if (PlacedWords.Contains(word)) return false;
+        PlacedWords.Add(word);
+        return true;
 
-        return false;
     }
 
     private void LetterTouched(LetterBlock block)
@@ -157,24 +170,7 @@ public class LetterManager : MonoBehaviour
 
     public bool Exists(string word)
     {
-        using (StreamReader r = new StreamReader("woordenlijst.txt"))
-        {
-            string woorden = r.ReadToEnd();
-            if (woorden.Contains(word)) return true;
-        }
-
-        return false;
-        /* uit zipje lezen
-        using (ZipArchive archive = ZipFile.OpenRead("woordenlijst.zip"))
-        {
-            foreach (ZipArchiveEntry entry in archive.Entries)
-            {
-                Debug.Log("TEST!@#");
-                Stream r = entry.Open();
-                return StreamHasString(r, word);
-            }
-        }
-        return false;*/
+        return AllWords.Contains(word);
     }
 
     private bool StreamHasString(Stream vStream, string word)
