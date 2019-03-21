@@ -10,8 +10,6 @@ public class GameState : MonoBehaviour
     public Camera CameraClass;
     public MyPlayer PlayerClass;
     public HUD HUDClass;
-    public RemoveWordBtn RemoveWordBtnClass;
-    public PlaceWordBtn PlaceWordBtnClass;
     
     // Start is called before the first frame update
     void Start()
