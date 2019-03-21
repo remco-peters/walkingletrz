@@ -25,7 +25,7 @@ public class LetterManager : MonoBehaviour
 
     public List<LetterBlock> PlacedLetters { get; set; } = new List<LetterBlock>();
 
-    public Dictionary<string, object> charactersValues { get; set; }
+    public Dictionary<string, object> CharactersValues { get; set; }
 
     private List<string> PlacedWords { get; set; } = new List<string>();
 
@@ -39,11 +39,11 @@ public class LetterManager : MonoBehaviour
     {
         InitCharactersValues();
         InstantiateStartingLetters();
-        instantiatePlayerLetters();
+        InstantiatePlayerLetters();
         InitAllWords();
     }
 
-    private void instantiatePlayerLetters()
+    private void InstantiatePlayerLetters()
     {
         PlayerLetters playerLetters = Instantiate(PlayerLettersClass);
         char[] letters = playerLetters.getLetters();
@@ -70,7 +70,9 @@ public class LetterManager : MonoBehaviour
             lastLetterPosition = letterBlock.transform.position;
             letterBlock.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
         }
+
         lastLetterPosition.x += 0.80f;
+
         RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass);
         removeWordBtn.OnRemoveTouched += RemoveAllLetters;
 
@@ -106,14 +108,12 @@ public class LetterManager : MonoBehaviour
                 // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
                 Player.CanMove = false;
                 Player.StartCooldown();
+                RemoveAllLettersFromPlayerBoard();
+                PlacedLetters.RemoveAll(x => true);
+
                 // Woord plaatsen in scherm erboven
-                // Letters uit placedLetters halen
-                // Woord van bord afhalen
                 // Nieuwe letters genereren op lege plekken?
-                // Testen voor vaste letters op juiste volgorde
             }
-            Debug.Log(points);
-            Debug.Log(isWord);
         }
         else
         {
@@ -157,7 +157,7 @@ public class LetterManager : MonoBehaviour
         long value = 0;
         foreach (var letter in word)
         {
-            value += (long) charactersValues.First(x => x.Key == letter.ToString()).Value;
+            value += (long) CharactersValues.First(x => x.Key == letter.ToString()).Value;
         }
 
         return value;
@@ -172,7 +172,7 @@ public class LetterManager : MonoBehaviour
             foreach (var item in items)
             {
                 if (item.Key != "lettervalues") continue;
-                charactersValues = item.Value as Dictionary<string, object>;
+                CharactersValues = item.Value as Dictionary<string, object>;
             }
         }
     }
@@ -247,5 +247,13 @@ public class LetterManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void RemoveAllLettersFromPlayerBoard()
+    {
+        foreach(LetterBlock block in PlacedLetters)
+        {
+            Destroy(block.gameObject);
+        }
     }
 }
