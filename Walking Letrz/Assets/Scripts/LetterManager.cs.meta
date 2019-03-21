@@ -3,7 +3,13 @@ guid: 8c4cd3c27d4ea44beb4f2a63ad09f45b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - StartingLettersClass: {instanceID: 0}
+  - PlayerLettersClass: {instanceID: 0}
+  - LetterBlockObject: {instanceID: 0}
+  - StartingLetterBlockObject: {instanceID: 0}
+  - RemoveWordBtnClass: {instanceID: 0}
+  - PlaceWordBtnClass: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

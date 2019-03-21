@@ -13,6 +13,7 @@ public class LetterManager : MonoBehaviour
     public LetterBlock LetterBlockObject;
     public LetterBlock StartingLetterBlockObject;
     public RemoveWordBtn RemoveWordBtnClass;
+    public PlaceWordBtn PlaceWordBtnClass;
 
     private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get;set; } = new Dictionary<Vector3, LetterBlock>();
     private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
@@ -67,6 +68,9 @@ public class LetterManager : MonoBehaviour
         lastLetterPosition.x += 0.80f;
         RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass, lastLetterPosition, new Quaternion());
         removeWordBtn.OnRemoveTouched += RemoveAllLetters;
+
+        PlaceWordBtn placeWordBtn = Instantiate(PlaceWordBtnClass);
+        placeWordBtn.OnPlaceBtnTouched += PlaceWord;
     }
 
     private void RemoveAllLetters()
@@ -78,6 +82,14 @@ public class LetterManager : MonoBehaviour
             block.transform.position = pos;
         }
         PlacedLetters.RemoveAll(x => true);
+    }
+
+    private void PlaceWord()
+    {
+        foreach(LetterBlock block in PlacedLetters)
+        {
+            Debug.Log(block);
+        }
     }
 
     private void InstantiateStartingLetters()
