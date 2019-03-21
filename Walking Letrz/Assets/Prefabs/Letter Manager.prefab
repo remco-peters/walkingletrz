@@ -49,9 +49,9 @@ MonoBehaviour:
     type: 3}
   LetterBlockObject: {fileID: 7022275390496583630, guid: 2f33818c4004a4d52bbe1b7dffa620c9,
     type: 3}
-  StartingLetterBlockObject: {fileID: 2808454594730983960, guid: a78bbc5964a89492798b0d562d22e9a4,
+  StartingLetterBlockObject: {fileID: 5478674216125862282, guid: a78bbc5964a89492798b0d562d22e9a4,
     type: 3}
   RemoveWordBtnClass: {fileID: 4138439581318517794, guid: 758b6f6fd035718439fa51b9a057cfd0,
     type: 3}
-  PlaceWordBtnClass: {fileID: 2812176426169103504, guid: 8cdeab5dda3ac774d8c6c31b9d8de819,
+  PlaceWordBtnClass: {fileID: 3858483424432135390, guid: 8cdeab5dda3ac774d8c6c31b9d8de819,
     type: 3}
