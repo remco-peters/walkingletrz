@@ -47,7 +47,7 @@ public class LetterManager : MonoBehaviour
     private void InstantiatePlayerLetters()
     {
         PlayerLetters playerLetters = Instantiate(PlayerLettersClass);
-        char[] letters = playerLetters.getLetters();
+        char[] letters = GetLetters();
         for (int i = 0; i < letters.Length; i++)
         {
             if (i > 0)
@@ -200,7 +200,7 @@ public class LetterManager : MonoBehaviour
             Debug.Log("Word does not contain the two letters");
             return false;
         }
-        if(word.IndexOf(StartingLetters.firstLetter, StringComparison.Ordinal) > word.IndexOf(StartingLetters.secondLetter, StringComparison.Ordinal))
+        if(word.IndexOf(StartingLetters.firstLetter, StringComparison.Ordinal) > word.LastIndexOf(StartingLetters.secondLetter, StringComparison.Ordinal))
         {
             Debug.Log("First letter is after second letter");
             return false;
@@ -221,6 +221,29 @@ public class LetterManager : MonoBehaviour
         PlacedWords.Add(word);
         return true;
 
+    }
+
+    public char[] GetLetters()
+    {
+        char[] startingLetters = new char[15];
+        List<char> availableLetters =new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
+            'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+        List<char> lettersToChoseFrom = new List<char>();
+
+        foreach (char c in availableLetters)
+        {
+            long val = (long) CharactersValues[c.ToString()];
+            for (int i = 0; i < 10 - val; i++)
+            {
+                lettersToChoseFrom.Add(c);
+            }
+        }
+        for (int i = 0; i <= 14; i++)
+        {
+            startingLetters[i] = lettersToChoseFrom[UnityEngine.Random.Range(0, lettersToChoseFrom.Count)];
+        }
+        return startingLetters;
     }
 
     private void StartLetterTouched(LetterBlock block, Vector3 pos)
