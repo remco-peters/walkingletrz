@@ -95,7 +95,6 @@ public class LetterManager : MonoBehaviour
         lastLetterPosition.x += 0.8f;
     }
 
-
     public long CalculatePoints(string word)
     {
         long value = 0;

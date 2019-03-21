@@ -47,7 +47,8 @@ MonoBehaviour:
     type: 3}
   PlayerClass: {fileID: 6351817948111272653, guid: 3af7f24475642b9429fd7ce4b292ecb3,
     type: 3}
-  HUDClass: {fileID: 0}
+  HUDClass: {fileID: 5715539553406491007, guid: 26be54bc3e5ff6f47b1981c7556b60dd,
+    type: 3}
   RemoveWordBtnClass: {fileID: 4138439581318517794, guid: 758b6f6fd035718439fa51b9a057cfd0,
     type: 3}
   PlaceWordBtnClass: {fileID: 2812176426169103504, guid: 8cdeab5dda3ac774d8c6c31b9d8de819,
