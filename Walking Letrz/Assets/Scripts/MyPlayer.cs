@@ -18,7 +18,7 @@ public class MyPlayer : MonoBehaviour
         GameObject LetterBoard = Instantiate(LetterBoardObject);
         LetterManager letterManager = Instantiate(LetterManagerClass);
         letterManager.LetterBoard = LetterBoard;
-        TimeRemaining = 300;
+        TimeRemaining = 3000000;
         letterManager.Player = this;
     }
 
