@@ -27,7 +27,7 @@ public class LetterManager : MyMonoBehaviour
 
     private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
-    private Vector3 firstLetterPositionWordList = new Vector3(-2.5f, 4.3f);
+    private Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
 
     public List<LetterBlock> PlacedLetters { get; set; } = new List<LetterBlock>();
 
@@ -126,24 +126,30 @@ public class LetterManager : MyMonoBehaviour
         // Alleen wanneer mag versturen
         if (Player.CanMove)
         {
-            foreach (LetterBlock block in PlacedLetters)
+            if (PlacedLetters.Count > 0)
             {
-                MadeWord += block.GetComponentInChildren<TextMesh>().text;
-            }
+                foreach (LetterBlock block in PlacedLetters)
+                {
+                    MadeWord += block.GetComponentInChildren<TextMesh>().text;
+                }
 
-            bool isWord = CheckWord(MadeWord.ToLower(), out long points);
-            if (isWord)
+                bool isWord = CheckWord(MadeWord.ToLower(), out long points);
+                if (isWord)
+                {
+                    // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
+                    Player.CanMove = false;
+                    Player.StartCooldown();
+                    RemoveAllLettersFromPlayerBoard();
+                    PlacedLetters.RemoveAll(x => true);
+                    PlaceWordInGameBoard();
+
+                    // Nieuwe letters genereren op lege plekken?
+                    AddLetters(MadeWord.Length - 2);
+                    ChangeFixedLetters();
+                }
+            } else
             {
-                // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
-                Player.CanMove = false;
-                Player.StartCooldown();
-                RemoveAllLettersFromPlayerBoard();
-                PlacedLetters.RemoveAll(x => true);
-                PlaceWordInGameBoard();
-
-                // Nieuwe letters genereren op lege plekken?
-                AddLetters(MadeWord.Length - 2);
-                ChangeFixedLetters();
+                Debug.Log("No letters placed yet");
             }
         }
         else
@@ -412,16 +418,17 @@ public class LetterManager : MyMonoBehaviour
         string lastWord = PlacedWords[PlacedWords.Count - 1];
         if(PlacedWords.Count > 1)
         {
-            firstLetterPositionWordList.y -= 0.65f;
-            firstLetterPositionWordList.x = -2.5f;
+            firstLetterPositionWordList.y -= 0.45f;
+            firstLetterPositionWordList.x = -2.75f;
             
         }
         foreach(char letter in lastWord)
         {
-            firstLetterPositionWordList.x += 0.65f;
+            firstLetterPositionWordList.x += 0.45f;
             
             LetterBlock letterBlock = Instantiate(LetterBlockObject, firstLetterPositionWordList, new Quaternion());
             letterBlock.IsLetterSet = false;
+            letterBlock.transform.localScale = new Vector3(0.4f, 0.4f, 1);
             letterBlock.GetComponentInChildren<TextMesh>().text = letter.ToString().ToUpper();
         }
     }
