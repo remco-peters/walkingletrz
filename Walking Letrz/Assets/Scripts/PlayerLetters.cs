@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlayerLetters : MonoBehaviour
+public class PlayerLetters : MyMonoBehaviour
 {    
     private char[] availableLetters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
         'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+    public LetterManager letterManager { get; set; }
     // Start is called before the first frame update
 
 //    private int letterCount = 15;
@@ -12,10 +15,7 @@ public class PlayerLetters : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i <= 14; i++)
-        {
-            startingLetters[i] = availableLetters[Random.Range(0, 26)];
-        }
+        startingLetters = letterManager.GetLetters(15);
     }
 
     public char[] getLetters()
