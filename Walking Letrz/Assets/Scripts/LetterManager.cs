@@ -16,6 +16,8 @@ public class LetterManager : MyMonoBehaviour
     public RemoveWordBtn RemoveWordBtnClass;
     public PlaceWordBtn PlaceWordBtnClass;
     public TradeLettersBtn TradeLettersBtnClass;
+    public TextAsset Woordenlijst;
+    public TextAsset JsonAsset;
 
     private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
     private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
@@ -241,15 +243,7 @@ public class LetterManager : MyMonoBehaviour
 
     private void InitAllWords()
     {
-        int lines = File.ReadLines(@"Assets/Resources/woordenlijst.txt").Count();
-        AllWords = new HashSet<string>();
-        using (StreamReader r = File.OpenText(@"Assets/Resources/woordenlijst.txt"))
-        {
-            for (int i = 0; i < lines; i++)
-            {
-                AllWords.Add(r.ReadLine());
-            }
-        }
+        AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] { Environment.NewLine },StringSplitOptions.None));
     }
 
     public long CalculatePoints(string word)
@@ -265,15 +259,12 @@ public class LetterManager : MyMonoBehaviour
 
     public void InitCharactersValues()
     {
-        using (StreamReader r = new StreamReader("Assets/Resources/settings.json"))
+        string json = JsonAsset.text;
+        var items = (Dictionary<string, object>) MiniJSON.Json.Deserialize(json);
+        foreach (var item in items)
         {
-            string json = r.ReadToEnd();
-            var items = (Dictionary<string, object>) MiniJSON.Json.Deserialize(json);
-            foreach (var item in items)
-            {
-                if (item.Key != "lettervalues") continue;
-                CharactersValues = item.Value as Dictionary<string, object>;
-            }
+            if (item.Key != "lettervalues") continue;
+            CharactersValues = item.Value as Dictionary<string, object>;
         }
     }
 

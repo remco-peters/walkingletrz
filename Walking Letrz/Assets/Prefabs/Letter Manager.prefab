@@ -43,10 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4cd3c27d4ea44beb4f2a63ad09f45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingLettersClass: {fileID: 8801065566919357914, guid: 9000ed06ddc314d9abe1d5a5652174c3,
-    type: 3}
-  PlayerLettersClass: {fileID: 4269516298161866295, guid: b516a8a346e354294a68a088cdcfe1d2,
-    type: 3}
+  StartingLettersClass: {fileID: 99, guid: 9000ed06ddc314d9abe1d5a5652174c3, type: 3}
+  PlayerLettersClass: {fileID: 92, guid: b516a8a346e354294a68a088cdcfe1d2, type: 3}
   LetterBlockObject: {fileID: 7022275390496583630, guid: 2f33818c4004a4d52bbe1b7dffa620c9,
     type: 3}
   StartingLetterBlockObject: {fileID: 5478674216125862282, guid: a78bbc5964a89492798b0d562d22e9a4,
@@ -55,5 +53,6 @@ MonoBehaviour:
     type: 3}
   PlaceWordBtnClass: {fileID: 3858483424432135390, guid: 8cdeab5dda3ac774d8c6c31b9d8de819,
     type: 3}
-  TradeLettersBtnClass: {fileID: 3698696206068080590, guid: 36b2323d2113b4c48aa74fda12d986e9,
-    type: 3}
+  TradeLettersBtnClass: {fileID: 89, guid: 36b2323d2113b4c48aa74fda12d986e9, type: 3}
+  Woordenlijst: {fileID: 4900000, guid: c0bd38f26abd1b641a02eb44a24c7762, type: 3}
+  JsonAsset: {fileID: 4900000, guid: 0488c993e50388942bf493d29a66d114, type: 3}
