@@ -241,9 +241,9 @@ public class LetterManager : MyMonoBehaviour
 
     private void InitAllWords()
     {
-        int lines = File.ReadLines(@"woordenlijst.txt").Count();
+        int lines = File.ReadLines(@"Assets/Resources/woordenlijst.txt").Count();
         AllWords = new HashSet<string>();
-        using (StreamReader r = File.OpenText(@"woordenlijst.txt"))
+        using (StreamReader r = File.OpenText(@"Assets/Resources/woordenlijst.txt"))
         {
             for (int i = 0; i < lines; i++)
             {
@@ -265,7 +265,7 @@ public class LetterManager : MyMonoBehaviour
 
     public void InitCharactersValues()
     {
-        using (StreamReader r = new StreamReader("settings.json"))
+        using (StreamReader r = new StreamReader("Assets/Resources/settings.json"))
         {
             string json = r.ReadToEnd();
             var items = (Dictionary<string, object>) MiniJSON.Json.Deserialize(json);
