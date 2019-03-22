@@ -4,10 +4,11 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LetterManager : MonoBehaviour
+public class LetterManager : MyMonoBehaviour
 {
     public StartingLetters StartingLettersClass;
     public PlayerLetters PlayerLettersClass;
@@ -50,8 +51,8 @@ public class LetterManager : MonoBehaviour
 
     private void InstantiatePlayerLetters()
     {
-        PlayerLetters playerLetters = Instantiate(PlayerLettersClass);
-        char[] letters = GetLetters(15);
+        PlayerLetters playerLetters = Spawn(PlayerLettersClass, this, arg0 => { arg0.letterManager = this; });
+        char[] letters = playerLetters.getLetters();
         for (int i = 0; i < letters.Length; i++)
         {
             if (i > 0)
@@ -165,7 +166,7 @@ public class LetterManager : MonoBehaviour
 
     private void InstantiateStartingLetters()
     {
-        StartingLetters startingLetters = Instantiate(StartingLettersClass);
+        StartingLetters startingLetters =  Spawn(StartingLettersClass, this, arg0 => { arg0.LetterManager = this;});
         LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
