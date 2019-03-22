@@ -9,7 +9,7 @@ public class MyPlayer : MonoBehaviour
     public float TimeRemaining { get; set; }
     public float CoolDownTime = 10;
     public bool CanMove = true;
-    public int EarnedPoints { get; set; }
+    public long EarnedPoints { get; set; }
 
     public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update
@@ -21,6 +21,7 @@ public class MyPlayer : MonoBehaviour
         letterManager.LetterBoard = LetterBoard;
         TimeRemaining = 300;
         letterManager.Player = this;
+        EarnedPoints = 0;
     }
 
     // Update is called once per frame
