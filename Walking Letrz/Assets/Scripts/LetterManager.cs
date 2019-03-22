@@ -48,7 +48,7 @@ public class LetterManager : MonoBehaviour
     private void InstantiatePlayerLetters()
     {
         PlayerLetters playerLetters = Instantiate(PlayerLettersClass);
-        char[] letters = GetLetters();
+        char[] letters = GetLetters(15);
         for (int i = 0; i < letters.Length; i++)
         {
             if (i > 0)
@@ -127,6 +127,7 @@ public class LetterManager : MonoBehaviour
                 PlaceWordInGameBoard();
 
                 // Nieuwe letters genereren op lege plekken?
+                AddLetters(MadeWord.Length - 2);
                 ChangeFixedLetters();
             }
         }
@@ -137,10 +138,23 @@ public class LetterManager : MonoBehaviour
         MadeWord = "";
     }
 
+    private void AddLetters(int amount)
+    {
+        char[] letters = GetLetters(amount);
+        for (int i = 0; i < amount; i++)
+        {
+            LetterBlock block = Instantiate(LetterBlockObject);
+            Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlayerLetterPositions[pos] = block;
+            block.transform.position = pos;
+            block.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
+            block.OnLetterTouched += LetterTouched;
+        }
+    }
+
     private void InstantiateStartingLetters()
     {
         StartingLetters startingLetters = Instantiate(StartingLettersClass);
-
         LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
@@ -225,7 +239,7 @@ public class LetterManager : MonoBehaviour
 
     }
 
-    public char[] GetLetters()
+    public char[] GetLetters(int amount)
     {
         char[] startingLetters = new char[15];
         List<char> availableLetters =new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -235,13 +249,15 @@ public class LetterManager : MonoBehaviour
 
         foreach (char c in availableLetters)
         {
+            bool isVowel = "aeiou".IndexOf(c) >= 0;
             long val = (long) CharactersValues[c.ToString()];
+            if (isVowel) val -= 10;
             for (int i = 0; i < 10 - val; i++)
             {
                 lettersToChoseFrom.Add(c);
             }
         }
-        for (int i = 0; i <= 14; i++)
+        for (int i = 0; i < amount; i++)
         {
             startingLetters[i] = lettersToChoseFrom[UnityEngine.Random.Range(0, lettersToChoseFrom.Count)];
         }
@@ -307,10 +323,12 @@ public class LetterManager : MonoBehaviour
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.firstLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
         startingLetterPos.x += 0.8f;
+        startingLetterBlock.IsFirtsLetter = true;
 
         startingLetterBlock = Instantiate(StartingLetterBlockObject, startingLetterPos, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.secondLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
+        startingLetterBlock.IsSecondLetter = true;
     }    
 
     public bool Exists(string word)
