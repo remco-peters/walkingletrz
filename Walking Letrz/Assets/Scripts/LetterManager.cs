@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Assets.Scripts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -17,7 +18,7 @@ public class LetterManager : MyMonoBehaviour
     public RemoveWordBtn RemoveWordBtnClass;
     public PlaceWordBtn PlaceWordBtnClass;
 
-    private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get;set; } = new Dictionary<Vector3, LetterBlock>();
+    private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
     private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
     
 
@@ -90,6 +91,7 @@ public class LetterManager : MyMonoBehaviour
     {
         foreach (LetterBlock block in PlacedLetters)
         {
+            PlacedLetterPositions[block.transform.position] = null;
             Vector3 pos = new Vector3();
             if (block.IsFirtsLetter)
             {
@@ -106,6 +108,7 @@ public class LetterManager : MyMonoBehaviour
             }
             block.transform.localScale= new Vector3(0.5f, 0.5f, 1);
             block.transform.position = pos;
+            
         }
         PlacedLetters.RemoveAll(x => true);
     }
@@ -222,8 +225,19 @@ public class LetterManager : MyMonoBehaviour
 
     public bool CheckWord(string word, out long points)
     {
+        bool containsFirstLetter = false;
+        bool containsSecondLetter = false;
         points = CalculatePoints(word);
-        if (!word.Contains(StartingLetters.firstLetter) || !word.Contains(StartingLetters.secondLetter))
+        foreach (var letterBlock in PlacedLetters)
+        {
+            if (letterBlock.IsFirtsLetter)
+                containsFirstLetter = true;
+
+            if (letterBlock.IsSecondLetter)
+                containsSecondLetter = true;
+        }
+
+        if (!containsFirstLetter && !containsSecondLetter)
         {
             Debug.Log("Word does not contain the two letters");
             return false;
@@ -236,7 +250,7 @@ public class LetterManager : MyMonoBehaviour
 
         if (!Exists(word))
         {
-            Debug.Log("Word does not exist");
+            Debug.Log($"Word does not exist. Word: {word}");
             return false;
         }
 
@@ -324,8 +338,18 @@ public class LetterManager : MyMonoBehaviour
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
             Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             PlacedLetterPositions[pos] = block;
+            var index = 0;
+            foreach (var v in PlacedLetterPositions.Keys)
+            {
+                if (v == pos)
+                {
+                    break;
+                }
+
+                index++;
+            }
             block.transform.position = pos;
-            PlacedLetters.Add(block);
+            PlacedLetters.Insert(index, block);
         }
     }
 
