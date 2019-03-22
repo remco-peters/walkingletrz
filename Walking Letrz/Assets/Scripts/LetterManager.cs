@@ -43,6 +43,7 @@ public class LetterManager : MonoBehaviour
         InstantiateStartingLetters();
         InstantiatePlayerLetters();
         InitAllWords();
+        InitPlacedLetterPositions();
     }
 
     private void InstantiatePlayerLetters()
@@ -104,6 +105,14 @@ public class LetterManager : MonoBehaviour
             block.transform.position = pos;
         }
         PlacedLetters.RemoveAll(x => true);
+    }
+
+    private void InitPlacedLetterPositions()
+    {
+        for (int i = 0; i < 11; i++)
+        {
+            PlacedLetterPositions.Add(new Vector3(-2.5f + 0.45f * i, -1.7f), null);
+        }
     }
 
     private void PlaceWord()
@@ -264,18 +273,21 @@ public class LetterManager : MonoBehaviour
         return startingLetters;
     }
 
-    private void StartLetterTouched(LetterBlock block, Vector3 pos)
+    private void StartLetterTouched(LetterBlock block, Vector3 startPos)
     {
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
+            PlacedLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-            block.transform.position = pos;
+            block.transform.position = startPos;
         }
         else if (PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
         {
+            Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlacedLetterPositions[pos] = block;
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-            block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
+            block.transform.position = pos;
             PlacedLetters.Add(block);
         }
     }
@@ -296,6 +308,7 @@ public class LetterManager : MonoBehaviour
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
+            PlacedLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
             Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             PlayerLetterPositions[pos] = block;
@@ -306,7 +319,9 @@ public class LetterManager : MonoBehaviour
         {
             PlayerLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-            block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
+            Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlacedLetterPositions[pos] = block;
+            block.transform.position = pos;
             PlacedLetters.Add(block);
         }
     }
