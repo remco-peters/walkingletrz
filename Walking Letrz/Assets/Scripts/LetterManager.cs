@@ -45,12 +45,13 @@ public class LetterManager : MonoBehaviour
         InstantiateStartingLetters();
         InstantiatePlayerLetters();
         InitAllWords();
+        InitPlacedLetterPositions();
     }
 
     private void InstantiatePlayerLetters()
     {
         PlayerLetters playerLetters = Instantiate(PlayerLettersClass);
-        char[] letters = GetLetters();
+        char[] letters = GetLetters(15);
         for (int i = 0; i < letters.Length; i++)
         {
             if (i > 0)
@@ -108,6 +109,14 @@ public class LetterManager : MonoBehaviour
         PlacedLetters.RemoveAll(x => true);
     }
 
+    private void InitPlacedLetterPositions()
+    {
+        for (int i = 0; i < 11; i++)
+        {
+            PlacedLetterPositions.Add(new Vector3(-2.5f + 0.45f * i, -1.7f), null);
+        }
+    }
+
     private void PlaceWord()
     {
         // Alleen wanneer mag versturen
@@ -129,6 +138,7 @@ public class LetterManager : MonoBehaviour
                 PlaceWordInGameBoard();
 
                 // Nieuwe letters genereren op lege plekken?
+                AddLetters(MadeWord.Length - 2);
                 ChangeFixedLetters();
             }
         }
@@ -139,10 +149,23 @@ public class LetterManager : MonoBehaviour
         MadeWord = "";
     }
 
+    private void AddLetters(int amount)
+    {
+        char[] letters = GetLetters(amount);
+        for (int i = 0; i < amount; i++)
+        {
+            LetterBlock block = Instantiate(LetterBlockObject);
+            Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlayerLetterPositions[pos] = block;
+            block.transform.position = pos;
+            block.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
+            block.OnLetterTouched += LetterTouched;
+        }
+    }
+
     private void InstantiateStartingLetters()
     {
         StartingLetters startingLetters = Instantiate(StartingLettersClass);
-
         LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, lastLetterPosition, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = startingLetters.firstLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
@@ -227,7 +250,7 @@ public class LetterManager : MonoBehaviour
 
     }
 
-    public char[] GetLetters()
+    public char[] GetLetters(int amount)
     {
         char[] startingLetters = new char[15];
         List<char> availableLetters =new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -237,31 +260,36 @@ public class LetterManager : MonoBehaviour
 
         foreach (char c in availableLetters)
         {
+            bool isVowel = "aeiou".IndexOf(c) >= 0;
             long val = (long) CharactersValues[c.ToString()];
+            if (isVowel) val -= 10;
             for (int i = 0; i < 10 - val; i++)
             {
                 lettersToChoseFrom.Add(c);
             }
         }
-        for (int i = 0; i <= 14; i++)
+        for (int i = 0; i < amount; i++)
         {
             startingLetters[i] = lettersToChoseFrom[UnityEngine.Random.Range(0, lettersToChoseFrom.Count)];
         }
         return startingLetters;
     }
 
-    private void StartLetterTouched(LetterBlock block, Vector3 pos)
+    private void StartLetterTouched(LetterBlock block, Vector3 startPos)
     {
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
+            PlacedLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-            block.transform.position = pos;
+            block.transform.position = startPos;
         }
         else if (PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
         {
+            Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlacedLetterPositions[pos] = block;
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-            block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
+            block.transform.position = pos;
             PlacedLetters.Add(block);
         }
     }
@@ -282,6 +310,7 @@ public class LetterManager : MonoBehaviour
         if (PlacedLetters.Contains(block))
         {
             PlacedLetters.Remove(block);
+            PlacedLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
             Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             PlayerLetterPositions[pos] = block;
@@ -292,7 +321,9 @@ public class LetterManager : MonoBehaviour
         {
             PlayerLetterPositions[block.transform.position] = null;
             block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-            block.transform.position = new Vector3(-2.5f + 0.45f * PlacedLetters.Count, -1.7f);
+            Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            PlacedLetterPositions[pos] = block;
+            block.transform.position = pos;
             PlacedLetters.Add(block);
         }
     }
@@ -309,10 +340,12 @@ public class LetterManager : MonoBehaviour
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.firstLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
         startingLetterPos.x += 0.8f;
+        startingLetterBlock.IsFirtsLetter = true;
 
         startingLetterBlock = Instantiate(StartingLetterBlockObject, startingLetterPos, new Quaternion());
         startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.secondLetter.ToUpper();
         startingLetterBlock.OnLetterTouched += LetterTouched;
+        startingLetterBlock.IsSecondLetter = true;
     }    
 
     public bool Exists(string word)
