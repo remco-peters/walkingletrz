@@ -36,7 +36,7 @@ public class LetterManager : MyMonoBehaviour
 
     private StartingLetters StartingLetters { get; set; }
 
-    private string[] AllWords { get; set; }
+    private HashSet<string> AllWords { get; set; }
 
     private string MadeWord;
 
@@ -242,12 +242,12 @@ public class LetterManager : MyMonoBehaviour
     private void InitAllWords()
     {
         int lines = File.ReadLines(@"woordenlijst.txt").Count();
-        AllWords = new string[lines];
+        AllWords = new HashSet<string>();
         using (StreamReader r = File.OpenText(@"woordenlijst.txt"))
         {
             for (int i = 0; i < lines; i++)
             {
-                AllWords[i] = r.ReadLine();
+                AllWords.Add(r.ReadLine());
             }
         }
     }
