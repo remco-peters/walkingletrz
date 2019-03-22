@@ -55,3 +55,5 @@ MonoBehaviour:
     type: 3}
   PlaceWordBtnClass: {fileID: 3858483424432135390, guid: 8cdeab5dda3ac774d8c6c31b9d8de819,
     type: 3}
+  TradeLettersBtnClass: {fileID: 3698696206068080590, guid: 36b2323d2113b4c48aa74fda12d986e9,
+    type: 3}

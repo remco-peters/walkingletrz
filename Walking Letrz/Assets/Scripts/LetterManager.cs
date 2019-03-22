@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Assets.Scripts;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
+
 
 public class LetterManager : MyMonoBehaviour
 {
@@ -17,6 +15,7 @@ public class LetterManager : MyMonoBehaviour
     public LetterBlock StartingLetterBlockObject;
     public RemoveWordBtn RemoveWordBtnClass;
     public PlaceWordBtn PlaceWordBtnClass;
+    public TradeLettersBtn TradeLettersBtnClass;
 
     private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
     private Dictionary<Vector3, LetterBlock> PlayerLetterPositions{get; set; } = new Dictionary<Vector3, LetterBlock>();
@@ -48,6 +47,41 @@ public class LetterManager : MyMonoBehaviour
         InstantiatePlayerLetters();
         InitAllWords();
         InitPlacedLetterPositions();
+        InstantiatieTradeLetterBtn();;
+    }
+
+    private void InstantiatieTradeLetterBtn()
+    {
+        Spawn(TradeLettersBtnClass, this, arg0 =>
+        {
+            arg0.LetterManager = this;
+            arg0.OnTradeTouched += () =>
+            {
+                LetterBlock test;
+                while ((test = PlayerLetterPositions.FirstOrDefault(x => x.Value != null).Value) != null)
+                {
+                    Vector3 pos = test.transform.position;
+                    Destroy(test.gameObject);
+                    PlayerLetterPositions[pos] = null;
+                }
+                while ((test = PlacedLetterPositions.Where(y => y.Value?.IsFirtsLetter != true && y.Value?.IsSecondLetter != true).FirstOrDefault(x => x.Value != null).Value) != null)
+                {              
+                    Vector3 pos = test.transform.position;
+                    Destroy(test.gameObject);
+                    PlacedLetterPositions[pos] = null;
+                }
+                char[] letters = GetLetters(15);
+                foreach (var t in letters)
+                {
+                    Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+                    LetterBlock letterBlock = Instantiate(LetterBlockObject);
+                    letterBlock.transform.position = pos;
+                    letterBlock.OnLetterTouched += LetterTouched;
+                    letterBlock.GetComponentInChildren<TextMesh>().text = t.ToString().ToUpper();
+                    PlayerLetterPositions[pos] = letterBlock;
+                }
+            };
+        });
     }
 
     private void InstantiatePlayerLetters()
