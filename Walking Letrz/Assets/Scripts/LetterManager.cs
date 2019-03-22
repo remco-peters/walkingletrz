@@ -25,6 +25,8 @@ public class LetterManager : MonoBehaviour
 
     private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
+    private Vector3 firstLetterPositionWordList = new Vector3(-2.5f, 4.3f);
+
     public List<LetterBlock> PlacedLetters { get; set; } = new List<LetterBlock>();
 
     public Dictionary<string, object> CharactersValues { get; set; }
@@ -350,5 +352,18 @@ public class LetterManager : MonoBehaviour
     private void PlaceWordInGameBoard()
     {
         string lastWord = PlacedWords[PlacedWords.Count - 1];
+        if(PlacedWords.Count > 1)
+        {
+            firstLetterPositionWordList.y -= 0.65f;
+        }
+        foreach(char letter in lastWord)
+        {
+            firstLetterPositionWordList.x += 0.65f;
+            //lastLetterPosition.y -= 0.75f;
+            
+            LetterBlock letterBlock = Instantiate(LetterBlockObject, firstLetterPositionWordList, new Quaternion());
+            letterBlock.IsLetterSet = false;
+            letterBlock.GetComponentInChildren<TextMesh>().text = letter.ToString().ToUpper();
+        }
     }
 }
