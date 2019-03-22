@@ -57,6 +57,13 @@ public class LetterManager : MyMonoBehaviour
             arg0.LetterManager = this;
             arg0.OnTradeTouched += () =>
             {
+                if (!Player.CanMove)
+                {
+                    Debug.Log("Cant trade yet: " + Player.CoolDownTime + " seconds remaining");
+                    return;
+                }
+                Player.CanMove = false;
+                Player.StartCooldown();
                 LetterBlock test;
                 while ((test = PlayerLetterPositions.FirstOrDefault(x => x.Value != null).Value) != null)
                 {
