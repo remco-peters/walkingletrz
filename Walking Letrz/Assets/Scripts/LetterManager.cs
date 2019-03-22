@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using Assets.Scripts;
 using UnityEngine;
 
@@ -39,8 +37,6 @@ public class LetterManager : MyMonoBehaviour
     private StartingLetters StartingLetters { get; set; }
 
     private HashSet<string> AllWords { get; set; }
-
-    private string MadeWord;
 
     private void Start()
     {
@@ -166,6 +162,7 @@ public class LetterManager : MyMonoBehaviour
 
     private void PlaceWord()
     {
+        string madeWord = "";
         // Alleen wanneer mag versturen
         if (Player.CanMove)
         {
@@ -173,10 +170,10 @@ public class LetterManager : MyMonoBehaviour
             {
                 foreach (LetterBlock block in PlacedLetters)
                 {
-                    MadeWord += block.GetComponentInChildren<TextMesh>().text;
+                    madeWord += block.GetComponentInChildren<TextMesh>().text;
                 }
 
-                bool isWord = CheckWord(MadeWord.ToLower(), out long points);
+                bool isWord = CheckWord(madeWord.ToLower(), out long points);
                 if (isWord)
                 {
                     // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
@@ -187,8 +184,8 @@ public class LetterManager : MyMonoBehaviour
                     PlaceWordInGameBoard();
 
                     // Nieuwe letters genereren op lege plekken?
-                    AddLetters(MadeWord.Length - 2);
-                    ChangeFixedLetters();
+                    AddLetters(madeWord.Length - 2);
+                    ChangeFixedLetters(madeWord);
                 }
             } else
             {
@@ -206,7 +203,6 @@ public class LetterManager : MyMonoBehaviour
                 Debug.Log("Cant move yet: " + Player.CoolDownTime + " seconds remaining");
             }
         }
-        MadeWord = "";
     }
 
     private void AddLetters(int amount)
@@ -324,7 +320,7 @@ public class LetterManager : MyMonoBehaviour
             bool isVowel = "aeiou".IndexOf(c) >= 0;
             long val = (long) CharactersValues[c.ToString()];
             if (isVowel) val -= 10;
-            for (int i = 0; i < 10 - val; i++)
+            for (int i = 0; i < 8 - val; i++)
             {
                 lettersToChoseFrom.Add(c);
             }
@@ -399,11 +395,11 @@ public class LetterManager : MyMonoBehaviour
         }
     }
 
-    private void ChangeFixedLetters()
+    private void ChangeFixedLetters(string madeWord)
     {
         StartingLetters.secondLetter = StartingLetters.firstLetter;
-        var lastIndex = MadeWord.Length;
-        StartingLetters.firstLetter = MadeWord[lastIndex - 1].ToString().ToLower();
+        var lastIndex = madeWord.Length;
+        StartingLetters.firstLetter = madeWord[lastIndex - 1].ToString().ToLower();
         
         Vector3 startingLetterPos = new Vector3(-2.5f, -2.5f);
 
@@ -422,27 +418,6 @@ public class LetterManager : MyMonoBehaviour
     public bool Exists(string word)
     {
         return AllWords.Contains(word);
-    }
-
-    private bool StreamHasString(Stream vStream, string word)
-    {
-        byte[] streamBytes = new byte[vStream.Length];
-
-        int pos = 0;
-        int len = (int) vStream.Length;
-        while (pos < len)
-        {
-            int n = vStream.Read(streamBytes, pos, len - pos);
-            pos += n;
-        }
-
-        string stringOfStream = Encoding.UTF32.GetString(streamBytes);
-        if (stringOfStream.Contains(word))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     private void RemoveAllLettersFromPlayerBoard()

@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class PlayerLetters : MyMonoBehaviour
 {    

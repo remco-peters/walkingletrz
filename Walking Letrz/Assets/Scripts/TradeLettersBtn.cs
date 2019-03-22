@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts;
-using UnityEngine;
 using UnityEngine.Events;
 
 public class TradeLettersBtn : MyMonoBehaviour
