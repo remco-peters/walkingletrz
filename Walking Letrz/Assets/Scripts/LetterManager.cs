@@ -388,11 +388,12 @@ public class LetterManager : MonoBehaviour
         if(PlacedWords.Count > 1)
         {
             firstLetterPositionWordList.y -= 0.65f;
+            firstLetterPositionWordList.x = -2.5f;
+            
         }
         foreach(char letter in lastWord)
         {
             firstLetterPositionWordList.x += 0.65f;
-            //lastLetterPosition.y -= 0.75f;
             
             LetterBlock letterBlock = Instantiate(LetterBlockObject, firstLetterPositionWordList, new Quaternion());
             letterBlock.IsLetterSet = false;
