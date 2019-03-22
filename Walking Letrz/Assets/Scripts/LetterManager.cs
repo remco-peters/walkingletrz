@@ -195,7 +195,14 @@ public class LetterManager : MyMonoBehaviour
         }
         else
         {
-            Debug.Log("Cant move yet: " + Player.CoolDownTime + " seconds remaining");
+            if (Player.TimeRemaining <= 0)
+            {
+                Debug.Log("Time's over. Play again!");
+            }
+            else
+            {
+                Debug.Log("Cant move yet: " + Player.CoolDownTime + " seconds remaining");
+            }
         }
         MadeWord = "";
     }
