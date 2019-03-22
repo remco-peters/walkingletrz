@@ -6,9 +6,10 @@ public class MyPlayer : MonoBehaviour
 {
     public LetterManager LetterManagerClass;
 
-    public float TimeRemaining {get; set; }
+    public float TimeRemaining { get; set; }
     public float CoolDownTime = 10;
     public bool CanMove = true;
+    public int EarnedPoints { get; set; }
 
     public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update
