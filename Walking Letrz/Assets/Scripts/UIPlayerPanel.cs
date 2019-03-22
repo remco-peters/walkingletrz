@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UIPlayerPanel : UIBehaviour
 {
     public Text TimeRemainingText;
+    public Text PointText;
 
     public MyPlayer Player
     {
@@ -44,7 +45,7 @@ public class UIPlayerPanel : UIBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        PointText.text = $"Points: {Player.EarnedPoints}";
     }
 
     private string TimeText(float seconds)

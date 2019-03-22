@@ -176,6 +176,7 @@ public class LetterManager : MyMonoBehaviour
                 bool isWord = CheckWord(madeWord.ToLower(), out long points);
                 if (isWord)
                 {
+                    Player.EarnedPoints += points;
                     // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
                     Player.CanMove = false;
                     Player.StartCooldown();
@@ -271,7 +272,6 @@ public class LetterManager : MyMonoBehaviour
         points = CalculatePoints(word);
         foreach (var letterBlock in PlacedLetters)
         {
-            Debug.Log(letterBlock.GetComponentInChildren<TextMesh>().text);
             if (letterBlock.IsFirtsLetter)
                 containsFirstLetter = true;
 
