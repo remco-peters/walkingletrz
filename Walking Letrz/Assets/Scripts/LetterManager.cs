@@ -236,6 +236,7 @@ public class LetterManager : MyMonoBehaviour
         points = CalculatePoints(word);
         foreach (var letterBlock in PlacedLetters)
         {
+            Debug.Log(letterBlock.GetComponentInChildren<TextMesh>().text);
             if (letterBlock.IsFirtsLetter)
                 containsFirstLetter = true;
 
@@ -243,7 +244,7 @@ public class LetterManager : MyMonoBehaviour
                 containsSecondLetter = true;
         }
 
-        if (!containsFirstLetter && !containsSecondLetter)
+        if (!containsFirstLetter || !containsSecondLetter)
         {
             Debug.Log("Word does not contain the two letters");
             return false;
