@@ -9,6 +9,7 @@ public class UIPlayerPanel : UIBehaviour
 {
     public Text TimeRemainingText;
     public Text PointText;
+    public Text InfoText;
 
     public MyPlayer Player
     {
@@ -39,13 +40,24 @@ public class UIPlayerPanel : UIBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        TimeRemainingText.text = "TIJD IS OP!!!!!";
+        TimeRemainingText.text = "Time's up";
+        InfoText.text = $"Time's up. Play again! You've got a total of {Player.EarnedPoints} points!";
+        InfoText.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         PointText.text = $"Points: {Player.EarnedPoints}";
+
+        if(Player.CoolDownTime >= 0 && Player.CoolDownTime < 10)
+        {
+            InfoText.enabled = true;
+            InfoText.text = "Can't move yet: " + TimeText(Player.CoolDownTime) + " seconds remaining";
+        } else
+        {
+            InfoText.enabled = false;
+        }
     }
 
     private string TimeText(float seconds)
