@@ -186,8 +186,10 @@ namespace Assets.Scripts
                         ChangeFixedLetters(madeWord);
                         Player.MustThrowLetterAway = true;
                     }
+                    Player.InfoText = "";
                 } else
                 {
+                    Player.InfoText = "No letters placed yet";
                     Debug.Log("No letters placed yet");
                 }
             }
@@ -282,23 +284,29 @@ namespace Assets.Scripts
             if (containsFirstLetter < 0 || containsSecondLetter < 0)
             {
                 Debug.Log("Word does not contain the two letters");
+                Player.InfoText = "Word does not contain the two letters";
                 return false;
             }
             if(containsFirstLetter > containsSecondLetter)
             {
                 Debug.Log("First letter is after second letter");
+                Player.InfoText = "First letter is after second letter";
                 return false;
             }
             if (!Exists(word))
             {
                 Debug.Log($"Word does not exist. Word: {word}");
+                Player.InfoText = $"Word does not exist. Word: {word}";
+
                 return false;
             }
             if (PlacedWords.Contains(word))
             {
                 Debug.Log("Word already placed");
+                Player.InfoText = "Word already placed";
                 return false;
             }
+            Player.InfoText = "";
             PlacedWords.Add(word);
             return true;
 

@@ -11,6 +11,7 @@ public class MyPlayer : MyMonoBehaviour
     public bool CanMove = true;
     public long EarnedPoints { get; set; }
     public bool MustThrowLetterAway { get; set; }
+    public string InfoText;
 
     public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update

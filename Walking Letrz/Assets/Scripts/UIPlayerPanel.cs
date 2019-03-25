@@ -62,7 +62,11 @@ public class UIPlayerPanel : UIBehaviour
             InfoText.enabled = true;
             InfoText.text = "Choose a Letter to get rid of";
         }
-        else
+        else if(Player.InfoText.Length > 0)
+        {
+            InfoText.enabled = true;
+            InfoText.text = Player.InfoText;
+        }else
         {
             InfoText.enabled = false;
         }
