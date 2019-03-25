@@ -75,8 +75,7 @@ namespace Assets.Scripts
                         PlacedLetterPositions[pos] = null;
                         PlacedLetters.Remove(test);
                     }
-                    char[] letters = GetLetters(15);
-                    foreach (var t in letters)
+                    foreach (var t in GetLetters(15))
                     {
                         Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
                         LetterBlock letterBlock = Instantiate(LetterBlockObject);
@@ -172,9 +171,7 @@ namespace Assets.Scripts
                     {
                         madeWord += block.GetComponentInChildren<TextMesh>().text;
                     }
-
-                    bool isWord = CheckWord(madeWord.ToLower(), out long points);
-                    if (isWord)
+                    if (CheckWord(madeWord.ToLower(), out long points))
                     {
                         Player.EarnedPoints += points;
                         // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
@@ -187,6 +184,7 @@ namespace Assets.Scripts
                         // Nieuwe letters genereren op lege plekken?
                         AddLetters(madeWord.Length - 2);
                         ChangeFixedLetters(madeWord);
+                        Player.MustThrowLetterAway = true;
                     }
                 } else
                 {
@@ -241,6 +239,7 @@ namespace Assets.Scripts
         private void InitAllWords()
         {
             AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] { Environment.NewLine },StringSplitOptions.None));
+            Woordenlijst = null;
         }
 
         public long CalculatePoints(string word)
@@ -267,41 +266,39 @@ namespace Assets.Scripts
 
         public bool CheckWord(string word, out long points)
         {
-            bool containsFirstLetter = false;
-            bool containsSecondLetter = false;
+            int containsFirstLetter = -1;
+            int containsSecondLetter = -1;
             points = CalculatePoints(word);
+            int i = 0;
             foreach (var letterBlock in PlacedLetters)
             {
                 if (letterBlock.IsFirtsLetter)
-                    containsFirstLetter = true;
+                    containsFirstLetter = i;
 
                 if (letterBlock.IsSecondLetter)
-                    containsSecondLetter = true;
+                    containsSecondLetter = i;
+                i++;
             }
-
-            if (!containsFirstLetter || !containsSecondLetter)
+            if (containsFirstLetter < 0 || containsSecondLetter < 0)
             {
                 Debug.Log("Word does not contain the two letters");
                 return false;
             }
-            if(word.IndexOf(StartingLetters.firstLetter, StringComparison.Ordinal) > word.LastIndexOf(StartingLetters.secondLetter, StringComparison.Ordinal))
+            if(containsFirstLetter > containsSecondLetter)
             {
                 Debug.Log("First letter is after second letter");
                 return false;
             }
-
             if (!Exists(word))
             {
                 Debug.Log($"Word does not exist. Word: {word}");
                 return false;
             }
-
             if (PlacedWords.Contains(word))
             {
                 Debug.Log("Word already placed");
                 return false;
             }
-
             PlacedWords.Add(word);
             return true;
 
@@ -353,6 +350,15 @@ namespace Assets.Scripts
 
         private void LetterTouched(LetterBlock block)
         {
+            if (Player.MustThrowLetterAway)
+            {
+                if (block.IsFirtsLetter || block.IsSecondLetter) return;
+                PlayerLetterPositions[block.transform.position] = null;
+                Destroy(block.gameObject);
+                Player.MustThrowLetterAway = false;
+                AddLetters(1);
+                return;
+            }
             if (block.IsFirtsLetter)
             {
                 StartLetterTouched(block, new Vector3(-2.5f, -2.5f));

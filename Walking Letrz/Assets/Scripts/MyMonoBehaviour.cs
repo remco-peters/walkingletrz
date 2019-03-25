@@ -199,9 +199,7 @@ namespace Assets.Scripts
 
                 Instance = Instantiate(ComponentClass, Parent.transform);
 
-                if (Initializer != null) {
-                    Initializer(Instance);
-                }
+                Initializer?.Invoke(Instance);
 
                 Instance.gameObject.SetActive(true);
             });

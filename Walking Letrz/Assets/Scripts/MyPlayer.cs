@@ -2,7 +2,7 @@
 using Assets.Scripts;
 using UnityEngine;
 
-public class MyPlayer : MonoBehaviour
+public class MyPlayer : MyMonoBehaviour
 {
     public LetterManager LetterManagerClass;
 
@@ -10,6 +10,7 @@ public class MyPlayer : MonoBehaviour
     public float CoolDownTime = 10;
     public bool CanMove = true;
     public long EarnedPoints { get; set; }
+    public bool MustThrowLetterAway { get; set; }
 
     public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update

@@ -45,7 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LetterManagerClass: {fileID: 5501810388853740986, guid: b97e240c5575c4448848b8372db08d08,
     type: 3}
-  TimeRemaining: 20
+  CoolDownTime: 10
+  CanMove: 1
   WriteBoard: {fileID: 7333138695347828264, guid: 40df59ee1256e3345a2d6b37ff878437,
     type: 3}
   LetterBoardObject: {fileID: 1097105684312427122, guid: 39db8d240b4119b43a497239d660a8d8,
