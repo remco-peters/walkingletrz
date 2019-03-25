@@ -3,6 +3,7 @@ using UnityEngine.Assertions;
 
 public class GameState : MonoBehaviour
 {
+    public GameObject GameBoardClass;
     public Camera CameraClass;
     public MyPlayer PlayerClass;
     public HUD HUDClass;
@@ -13,6 +14,9 @@ public class GameState : MonoBehaviour
         Assert.IsNotNull(CameraClass, "Camera misses in GameState");
         Assert.IsNotNull(PlayerClass, "Player misses in GameState");
         Assert.IsNotNull(HUDClass, "HUD misses in GameState");
+        Assert.IsNotNull(GameBoardClass, "GameBoard misses in GameState");
+
+        Instantiate(GameBoardClass);
 
         Instantiate(CameraClass);
         MyPlayer Player = Instantiate(PlayerClass);

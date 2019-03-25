@@ -186,7 +186,6 @@ namespace Assets.Scripts
                         ChangeFixedLetters(madeWord);
                         Player.MustThrowLetterAway = true;
                     }
-                    Player.InfoText = "";
                 } else
                 {
                     Player.InfoText = "No letters placed yet";
