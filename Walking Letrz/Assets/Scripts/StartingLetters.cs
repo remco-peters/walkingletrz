@@ -8,8 +8,8 @@ public class StartingLetters : MyMonoBehaviour
     public LetterBlock StartingLetterBlockObject;
     public LetterManager LetterManager { get; set; }    
     public Vector3 lastLetterPosition { get; set; }
-    public string firstLetter { get; set; }
-    public string secondLetter { get; set; }
+    public char firstLetter { get; set; }
+    public char secondLetter { get; set; }
 
     private Vector3 pos;
     // Start is called before the first frame update
@@ -20,21 +20,14 @@ public class StartingLetters : MyMonoBehaviour
 
     private void InitStartingLetters()
     {
-        firstLetter = LetterManager.GetLetters(1)[0].ToString();
-        secondLetter =  LetterManager.GetLetters(1)[0].ToString();
+        firstLetter = LetterManager.GetLetters(1)[0];
+        secondLetter = LetterManager.GetLetters(1)[0];
         pos = lastLetterPosition;
-        
-        LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, pos, new Quaternion());
-        startingLetterBlock.GetComponentInChildren<TextMesh>().text = firstLetter.ToUpper();
-        startingLetterBlock.OnLetterTouched += LetterManager.LetterTouched;
+
+        LetterManager.InstantiateLetterButton(firstLetter, pos, true);
         pos.x += 0.8f;
-        startingLetterBlock.IsFirstLetter = true;
-        
-        startingLetterBlock = Instantiate(StartingLetterBlockObject, pos, new Quaternion());
-        startingLetterBlock.GetComponentInChildren<TextMesh>().text = secondLetter.ToUpper();
-        startingLetterBlock.OnLetterTouched += LetterManager.LetterTouched;
+        LetterManager.InstantiateLetterButton(secondLetter, pos, false, true);
         pos.x += 0.8f;
-        startingLetterBlock.IsSecondLetter = true;
         
         Debug.Log($"{firstLetter}, {secondLetter}");
     }

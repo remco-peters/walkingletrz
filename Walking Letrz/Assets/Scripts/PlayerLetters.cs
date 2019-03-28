@@ -10,7 +10,6 @@ public class PlayerLetters : MyMonoBehaviour
     public LetterBlock LetterBlockObject;
     public LetterManager letterManager { get; set; }
     public Vector3 lastLetterPosition { get; set; }
-    private Dictionary<Vector3, LetterBlock> PlayerLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
 
 //    private int letterCount = 15;
     private char[] startingLetters = new char[15];
@@ -45,15 +44,9 @@ public class PlayerLetters : MyMonoBehaviour
                 pos.x = -0.9f;
                 pos.y -= 0.75f;
             }
-
-            LetterBlock letterBlock = Instantiate(LetterBlockObject, pos, new Quaternion());
-            letterBlock.IsLetterSet = false;
-            PlayerLetterPositions.Add(pos, letterBlock);
-            letterBlock.OnLetterTouched += letterManager.LetterTouched; 
-            pos = letterBlock.transform.position;
-            letterBlock.GetComponentInChildren<TextMesh>().text = startingLetters[i].ToString().ToUpper();
+            LetterBlock letterBlock = letterManager.InstantiateLetterButton(startingLetters[i], pos);
+            letterManager.PlayerLetterPositions.Add(pos, letterBlock);
         }
-
         pos.x += 0.80f;
     }
 }

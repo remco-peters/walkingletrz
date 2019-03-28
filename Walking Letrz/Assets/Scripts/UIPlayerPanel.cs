@@ -53,15 +53,8 @@ public class UIPlayerPanel : UIBehaviour
         if(Player.CoolDownTime >= 0 && Player.CoolDownTime < 10)
         {
             InfoText.enabled = true;
-            InfoText.text = Player.MustThrowLetterAway ? 
-                "Choose a Letter to get rid of" : 
-                "Can't move yet: " + TimeText(Player.CoolDownTime) + " seconds remaining";
+            InfoText.text = "Can't move yet: " + TimeText(Player.CoolDownTime) + " seconds remaining";
         } 
-        else if (Player.MustThrowLetterAway)
-        {
-            InfoText.enabled = true;
-            InfoText.text = "Choose a Letter to get rid of";
-        }
         else if(Player.InfoText.Length > 0)
         {
             InfoText.enabled = true;

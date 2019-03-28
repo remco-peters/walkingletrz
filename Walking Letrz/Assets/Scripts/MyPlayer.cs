@@ -10,7 +10,7 @@ public class MyPlayer : MyMonoBehaviour
     public float CoolDownTime = 10;
     public bool CanMove = true;
     public long EarnedPoints { get; set; }
-    public bool MustThrowLetterAway { get; set; }
+   // public bool MustThrowLetterAway { get; set; }
     public string InfoText;
 
     public GameObject WriteBoard, LetterBoardObject;
@@ -20,7 +20,6 @@ public class MyPlayer : MyMonoBehaviour
         Instantiate(WriteBoard);
         GameObject LetterBoard = Instantiate(LetterBoardObject);
         LetterManager letterManager = Instantiate(LetterManagerClass);
-        letterManager.LetterBoard = LetterBoard;
         TimeRemaining = 300;
         letterManager.Player = this;
         EarnedPoints = 0;
@@ -37,10 +36,10 @@ public class MyPlayer : MyMonoBehaviour
         }
     }
 
-    public void StartCooldown()
+   /* public void StartCooldown()
     {
         StartCoroutine(CoolDownTimer());
-    }
+    }*/
 
     IEnumerator CoolDownTimer()
     {

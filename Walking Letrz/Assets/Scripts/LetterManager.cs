@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -11,24 +10,25 @@ namespace Assets.Scripts
         public StartingLetters StartingLettersClass;
         public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
-        public LetterBlock StartingLetterBlockObject;
+        //public LetterBlock StartingLetterBlockObject;
         public RemoveWordBtn RemoveWordBtnClass;
         public PlaceWordBtn PlaceWordBtnClass;
         public TradeLettersBtn TradeLettersBtnClass;
         public TextAsset Woordenlijst;
         public TextAsset JsonAsset;
+        public Material WalkingLetrMaterial;
+        public Material NormalLetrMaterial;
 
         private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
-        private Dictionary<Vector3, LetterBlock> PlayerLetterPositions {get; } = new Dictionary<Vector3, LetterBlock>();
+
+        public Dictionary<Vector3, LetterBlock> PlayerLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
     
-        public GameObject LetterBoard { get; set; }
         public MyPlayer Player { get; set; }
 
         private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
         private Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
 
-        public List<LetterBlock> PlacedLetters { get; set; } = new List<LetterBlock>();
 
         public Dictionary<string, object> CharactersValues { get; set; }
 
@@ -45,47 +45,53 @@ namespace Assets.Scripts
             InstantiatePlayerLetters();
             InitAllWords();
             InitPlacedLetterPositions();
-            InstantiatieTradeLetterBtn();;
+            InstantiateTradeLetterBtn();
         }
 
-        private void InstantiatieTradeLetterBtn()
+        private void TradeLetterBtnTouch()
+        {
+            foreach (var key in PlayerLetterPositions.Keys.ToList())
+            {
+                LetterBlock block = PlayerLetterPositions[key];
+                if (block == null) continue;
+                Destroy(block.gameObject);
+                PlayerLetterPositions[key] = null;
+            }
+            foreach (var key in PlacedLetterPositions.Keys.ToList())
+            {
+                LetterBlock block = PlacedLetterPositions[key];
+                if (block == null || block.IsFirstLetter || block.IsSecondLetter) continue;
+                Destroy(block.gameObject);
+                PlacedLetterPositions[key] = null;
+            }
+            foreach (var t in GetLetters(15))
+            {
+                Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+                LetterBlock letterBlock = InstantiateLetterButton(t, pos);
+                PlayerLetterPositions[pos] = letterBlock;
+            }
+        }
+        
+        private void InstantiateTradeLetterBtn()
         {
             Spawn(TradeLettersBtnClass, this, tradebtn =>
             {
                 tradebtn.LetterManager = this;
-                tradebtn.OnTradeTouched += () =>
-                {
-                    if (!Player.CanMove)
-                    {
-                        Debug.Log("Cant trade yet: " + Player.CoolDownTime + " seconds remaining");
-                        return;
-                    }
-                    Player.CanMove = false;
-                    Player.StartCooldown();
-                    LetterBlock test;
-                    while ((test = PlayerLetterPositions.FirstOrDefault(x => x.Value != null).Value) != null)
-                    {
-                        Vector3 pos = test.transform.position;
-                        Destroy(test.gameObject);
-                        PlayerLetterPositions[pos] = null;
-                    }
-                    while ((test = PlacedLetterPositions.FirstOrDefault(x => x.Value != null && !x.Value.IsFirstLetter && !x.Value.IsSecondLetter).Value) != null)
-                    {              
-                        Vector3 pos = test.transform.position;
-                        Destroy(test.gameObject);
-                        PlacedLetterPositions[pos] = null;
-                        PlacedLetters.Remove(test);
-                    }
-                    foreach (var t in GetLetters(15))
-                    {
-                        Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-                        LetterBlock letterBlock = Instantiate(LetterBlockObject);
-                        letterBlock.transform.position = pos;
-                        letterBlock.OnLetterTouched += LetterTouched;
-                        letterBlock.GetComponentInChildren<TextMesh>().text = t.ToString().ToUpper();
-                        PlayerLetterPositions[pos] = letterBlock;
-                    }
-                };
+                tradebtn.OnTradeTouched += TradeLetterBtnTouch;
+            });
+        }
+
+        public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false)
+        {
+            return Spawn(LetterBlockObject, this, lttrblock =>
+            {
+                if (isFirstLetter || isSecondLetter) lttrblock.GetComponent<MeshRenderer>().material = WalkingLetrMaterial;
+                else lttrblock.GetComponent<MeshRenderer>().material = NormalLetrMaterial;
+                lttrblock.IsFirstLetter = isFirstLetter;
+                lttrblock.IsSecondLetter = isSecondLetter;
+                lttrblock.OnLetterTouched += LetterTouched;
+                lttrblock.GetComponentInChildren<TextMesh>().text = letter.ToString().ToUpper();
+                lttrblock.transform.position = pos;
             });
         }
 
@@ -106,9 +112,10 @@ namespace Assets.Scripts
 
         private void RemoveAllLetters()
         {
-            foreach (LetterBlock block in PlacedLetters)
+            foreach (LetterBlock block in PlacedLetterPositions.Values.ToList())
             {
-                PlacedLetterPositions[block.transform.position] = null;
+                if (block == null) continue;
+                Vector3 oldPos = PlacedLetterPositions.FirstOrDefault(x => x.Value == block).Key;
                 Vector3 pos;
                 if (block.IsFirstLetter)
                 {
@@ -125,14 +132,13 @@ namespace Assets.Scripts
                 }
                 block.transform.localScale= new Vector3(0.5f, 0.5f, 1);
                 block.transform.position = pos;
-            
+                PlacedLetterPositions[oldPos] = null;
             }
-            PlacedLetters.RemoveAll(x => true);
         }
 
         private void InitPlacedLetterPositions()
         {
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 12; i++)
             {
                 PlacedLetterPositions.Add(new Vector3(-2.5f + 0.45f * i, -1.7f), null);
             }
@@ -144,26 +150,24 @@ namespace Assets.Scripts
             // Alleen wanneer mag versturen
             if (Player.CanMove)
             {
-                if (PlacedLetters.Count > 0)
+                if (PlacedLetterPositions.Any(x => x.Value != null))
                 {
-                    foreach (LetterBlock block in PlacedLetters)
+                    foreach (LetterBlock block in PlacedLetterPositions.Values.ToList())
                     {
+                        if (block == null) continue;
                         madeWord += block.GetComponentInChildren<TextMesh>().text;
                     }
                     if (CheckWord(madeWord.ToLower(), out long points))
                     {
                         Player.EarnedPoints += points;
                         // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
-                        Player.CanMove = false;
-                        Player.StartCooldown();
                         RemoveAllLettersFromPlayerBoard();
-                        PlacedLetters.RemoveAll(x => true);
                         PlaceWordInGameBoard();
 
                         // Nieuwe letters genereren op lege plekken?
                         AddLetters(madeWord.Length - 2);
                         ChangeFixedLetters(madeWord);
-                        Player.MustThrowLetterAway = true;
+                        //Player.MustThrowLetterAway = true;
                     }
                 } else
                 {
@@ -189,12 +193,9 @@ namespace Assets.Scripts
             char[] letters = GetLetters(amount);
             for (int i = 0; i < amount; i++)
             {
-                LetterBlock block = Instantiate(LetterBlockObject);
                 Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+                LetterBlock block = InstantiateLetterButton(letters[i], pos);
                 PlayerLetterPositions[pos] = block;
-                block.transform.position = pos;
-                block.GetComponentInChildren<TextMesh>().text = letters[i].ToString().ToUpper();
-                block.OnLetterTouched += LetterTouched;
             }
         }
 
@@ -243,8 +244,9 @@ namespace Assets.Scripts
             int containsSecondLetter = -1;
             points = CalculatePoints(word);
             int i = 0;
-            foreach (var letterBlock in PlacedLetters)
+            foreach (var letterBlock in PlacedLetterPositions.Values.ToList())
             {
+                if (letterBlock == null) continue;
                 if (letterBlock.IsFirstLetter)
                     containsFirstLetter = i;
 
@@ -307,75 +309,36 @@ namespace Assets.Scripts
             }
             return startingLetters;
         }
-        private void StartLetterTouched(LetterBlock block, Vector3 startPos)
-        {
-            if (PlacedLetters.Contains(block))
-            {
-                PlacedLetters.Remove(block);
-                PlacedLetterPositions[block.transform.position] = null;
-                block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-                block.transform.position = startPos;
-            }
-            else if (PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
-            {
-                Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-                PlacedLetterPositions[pos] = block;
-                block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-                block.transform.position = pos;
-                PlacedLetters.Add(block);
-            }
-        }
 
         public void LetterTouched(LetterBlock block)
         {
-            if (Player.MustThrowLetterAway)
+            Vector3 pos;
+            if (PlacedLetterPositions.Values.Contains(block))
             {
-                if (block.IsFirstLetter || block.IsSecondLetter) return;
-                PlayerLetterPositions[block.transform.position] = null;
-                Destroy(block.gameObject);
-                Player.MustThrowLetterAway = false;
-                AddLetters(1);
-                return;
-            }
-            if (block.IsFirstLetter)
-            {
-                StartLetterTouched(block, new Vector3(-2.5f, -2.5f));
-                return;
-            }
-
-            if (block.IsSecondLetter)
-            {
-                StartLetterTouched(block, new Vector3(-1.7f, -2.5f));
-                return;
-            }
-            if (PlacedLetters.Contains(block))
-            {
-                PlacedLetters.Remove(block);
-                PlacedLetterPositions[block.transform.position] = null;
-                block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-                Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-                PlayerLetterPositions[pos] = block;
-                block.transform.position = pos;
-            }
-
-            else if (PlacedLetters.Count < 12) // Anders niks doen; Maximaal 12 letterige woorden
-            {
-                PlayerLetterPositions[block.transform.position] = null;
-                block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-                Vector3 pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-                PlacedLetterPositions[pos] = block;
-                var index = 0;
-                foreach (var v in PlacedLetterPositions.Keys)
+                Vector3 oldPos = PlacedLetterPositions.FirstOrDefault(x => x.Value == block).Key;
+                if (block.IsFirstLetter) pos = new Vector3(-2.5f, -2.5f);
+                else if (block.IsSecondLetter) pos = new Vector3(-1.7f, -2.5f);
+                else
                 {
-                    if (v == pos)
-                    {
-                        break;
-                    }
-
-                    index++;
+                    pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+                    PlayerLetterPositions[pos] = block;
                 }
+                PlacedLetterPositions[oldPos] = null;
+                block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
                 block.transform.position = pos;
-                PlacedLetters.Insert(index, block);
+            }
+            else
+            {
+                if (PlacedLetterPositions.Values.Count(x => x != null) >= 12) return;
+                if (!block.IsSecondLetter && !block.IsFirstLetter)
+                {
+                    Vector3 oldPos = PlayerLetterPositions.FirstOrDefault(x => x.Value == block).Key;
+                    PlayerLetterPositions[oldPos] = null;
+                }
+                block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
+                pos = PlacedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+                PlacedLetterPositions[pos] = block;
+                block.transform.position = pos;
             }
         }
 
@@ -383,20 +346,14 @@ namespace Assets.Scripts
         {
             StartingLetters.secondLetter = StartingLetters.firstLetter;
             var lastIndex = madeWord.Length;
-            StartingLetters.firstLetter = madeWord[lastIndex - 1].ToString().ToLower();
+            StartingLetters.firstLetter = madeWord[lastIndex - 1];
         
             Vector3 startingLetterPos = new Vector3(-2.5f, -2.5f);
 
-            LetterBlock startingLetterBlock = Instantiate(StartingLetterBlockObject, startingLetterPos, new Quaternion());
-            startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.firstLetter.ToUpper();
-            startingLetterBlock.OnLetterTouched += LetterTouched;
+            InstantiateLetterButton(StartingLetters.firstLetter, startingLetterPos, true);
             startingLetterPos.x += 0.8f;
-            startingLetterBlock.IsFirstLetter = true;
 
-            startingLetterBlock = Instantiate(StartingLetterBlockObject, startingLetterPos, new Quaternion());
-            startingLetterBlock.GetComponentInChildren<TextMesh>().text = StartingLetters.secondLetter.ToUpper();
-            startingLetterBlock.OnLetterTouched += LetterTouched;
-            startingLetterBlock.IsSecondLetter = true;
+            InstantiateLetterButton(StartingLetters.secondLetter, startingLetterPos, false, true);
         }    
 
         public bool Exists(string word)
@@ -406,8 +363,11 @@ namespace Assets.Scripts
 
         private void RemoveAllLettersFromPlayerBoard()
         {
-            foreach(LetterBlock block in PlacedLetters)
+            foreach(LetterBlock block in PlacedLetterPositions.Values.ToList())
             {
+                if (block == null) continue;
+                Vector3 oldPos = PlacedLetterPositions.FirstOrDefault(x => x.Value == block).Key;
+                PlacedLetterPositions[oldPos] = null;
                 Destroy(block.gameObject);
             }
         }
@@ -419,16 +379,12 @@ namespace Assets.Scripts
             {
                 firstLetterPositionWordList.y -= 0.45f;
                 firstLetterPositionWordList.x = -2.75f;
-            
+          
             }
             foreach(char letter in lastWord)
             {
                 firstLetterPositionWordList.x += 0.45f;
-            
-                LetterBlock letterBlock = Instantiate(LetterBlockObject, firstLetterPositionWordList, new Quaternion());
-                letterBlock.IsLetterSet = false;
-                letterBlock.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-                letterBlock.GetComponentInChildren<TextMesh>().text = letter.ToString().ToUpper();
+                InstantiateLetterButton(letter, firstLetterPositionWordList);
             }
         }
     }

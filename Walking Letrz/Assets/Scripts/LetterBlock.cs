@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 using UnityEngine.Events;
 
-public class LetterBlock : MonoBehaviour
+public class LetterBlock : MyMonoBehaviour
 {
-    public bool IsLetterSet;
     public event UnityAction<LetterBlock> OnLetterTouched;
     public bool IsFirstLetter { get; set; } = false;
     public bool IsSecondLetter { get; set; } = false;

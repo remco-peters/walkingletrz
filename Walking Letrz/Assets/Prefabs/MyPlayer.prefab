@@ -47,6 +47,7 @@ MonoBehaviour:
     type: 3}
   CoolDownTime: 10
   CanMove: 1
+  InfoText: 
   WriteBoard: {fileID: 7333138695347828264, guid: 40df59ee1256e3345a2d6b37ff878437,
     type: 3}
   LetterBoardObject: {fileID: 1097105684312427122, guid: 39db8d240b4119b43a497239d660a8d8,
