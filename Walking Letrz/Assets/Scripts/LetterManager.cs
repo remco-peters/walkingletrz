@@ -132,7 +132,7 @@ namespace Assets.Scripts
 
         private void InitPlacedLetterPositions()
         {
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 12; i++)
             {
                 PlacedLetterPositions.Add(new Vector3(-2.5f + 0.45f * i, -1.7f), null);
             }
