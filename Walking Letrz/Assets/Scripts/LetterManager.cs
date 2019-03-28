@@ -10,6 +10,8 @@ namespace Assets.Scripts
     {
         public StartingLetters StartingLettersClass;
         public PlayerLetters PlayerLettersClass;
+        public LetterBlock LetterBlockObject;
+        public LetterBlock StartingLetterBlockObject;
         public RemoveWordBtn RemoveWordBtnClass;
         public PlaceWordBtn PlaceWordBtnClass;
         public TradeLettersBtn TradeLettersBtnClass;
