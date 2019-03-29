@@ -38,6 +38,10 @@ namespace Assets.Scripts
 
         private HashSet<string> AllWords { get; set; }
 
+        private Vector3 firstLetterPosition = new Vector3(-2.5f, -2.5f);
+
+        private Vector3 secondLetterPosition = new Vector3(-1.7f, -2.5f);
+
         private void Start()
         {
             InitCharactersValues();
@@ -90,7 +94,8 @@ namespace Assets.Scripts
                 lttrblock.IsFirstLetter = isFirstLetter;
                 lttrblock.IsSecondLetter = isSecondLetter;
                 lttrblock.OnLetterTouched += LetterTouched;
-                lttrblock.GetComponentInChildren<TextMesh>().text = letter.ToString().ToUpper();
+                lttrblock.GetComponentsInChildren<TextMesh>()[0].text =  letter.ToString().ToUpper();
+                lttrblock.GetComponentsInChildren<TextMesh>()[1].text =  CharactersValues.First(x => x.Key == letter.ToString().ToLower()).Value.ToString();
                 lttrblock.transform.position = pos;
             });
         }
@@ -117,14 +122,8 @@ namespace Assets.Scripts
                 if (block == null) continue;
                 Vector3 oldPos = PlacedLetterPositions.FirstOrDefault(x => x.Value == block).Key;
                 Vector3 pos;
-                if (block.IsFirstLetter)
-                {
-                    pos = new Vector3(-2.5f, -2.5f);
-                }
-                else if (block.IsSecondLetter)
-                {
-                    pos = new Vector3(-1.7f, -2.5f);
-                }
+                if (block.IsFirstLetter) pos = firstLetterPosition;
+                else if (block.IsSecondLetter) pos = secondLetterPosition;
                 else
                 {  
                     pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
@@ -161,8 +160,8 @@ namespace Assets.Scripts
                     {
                         Player.EarnedPoints += points;
                         // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
-                        RemoveAllLettersFromPlayerBoard();
                         PlaceWordInGameBoard();
+                        RemoveAllLettersFromPlayerBoard();
 
                         // Nieuwe letters genereren op lege plekken?
                         AddLetters(madeWord.Length - 2);
@@ -316,8 +315,8 @@ namespace Assets.Scripts
             if (PlacedLetterPositions.Values.Contains(block))
             {
                 Vector3 oldPos = PlacedLetterPositions.FirstOrDefault(x => x.Value == block).Key;
-                if (block.IsFirstLetter) pos = new Vector3(-2.5f, -2.5f);
-                else if (block.IsSecondLetter) pos = new Vector3(-1.7f, -2.5f);
+                if (block.IsFirstLetter) pos = firstLetterPosition;
+                else if (block.IsSecondLetter) pos = secondLetterPosition;
                 else
                 {
                     pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
@@ -381,10 +380,11 @@ namespace Assets.Scripts
                 firstLetterPositionWordList.x = -2.75f;
           
             }
-            foreach(char letter in lastWord)
+            foreach(LetterBlock block in PlacedLetterPositions.Values.ToList())
             {
+                if (block == null) continue;
                 firstLetterPositionWordList.x += 0.45f;
-                InstantiateLetterButton(letter, firstLetterPositionWordList);
+                InstantiateLetterButton(block.GetComponentInChildren<TextMesh>().text[0], firstLetterPositionWordList, block.IsFirstLetter, block.IsSecondLetter);
             }
         }
     }

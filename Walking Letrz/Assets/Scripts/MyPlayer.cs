@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MyPlayer : MyMonoBehaviour
 {
-    public LetterManager LetterManagerClass;
-
     public float TimeRemaining { get; set; }
     public float CoolDownTime = 10;
     public bool CanMove = true;
@@ -18,10 +16,8 @@ public class MyPlayer : MyMonoBehaviour
     void Start()
     {
         Instantiate(WriteBoard);
-        GameObject LetterBoard = Instantiate(LetterBoardObject);
-        LetterManager letterManager = Instantiate(LetterManagerClass);
-        TimeRemaining = 300;
-        letterManager.Player = this;
+        //GameObject LetterBoard = Instantiate(LetterBoardObject);
+        TimeRemaining = 120;
         EarnedPoints = 0;
     }
 
