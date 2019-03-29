@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Assets.Scripts
 {
     public class LetterManager : MyMonoBehaviour
     {
+        float accelerometerUpdateInterval = 1.0f / 60.0f;
+    // The greater the value of LowPassKernelWidthInSeconds, the slower the
+    // filtered value will converge towards current input sample (and vice versa).
+        float lowPassKernelWidthInSeconds = 1.0f;
+    // This next parameter is initialized to 2.0 per Apple's recommendation,
+    // or at least according to Brady! ;)
+        float shakeDetectionThreshold = 2.0f;
+
+        float lowPassFilterFactor;
+        Vector3 lowPassValue;
+
         public StartingLetters StartingLettersClass;
         public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
@@ -41,6 +53,7 @@ namespace Assets.Scripts
         private Vector3 firstLetterPosition = new Vector3(-2.5f, -2.5f);
 
         private Vector3 secondLetterPosition = new Vector3(-1.7f, -2.5f);
+        private float ShuffleTimeRemaining;
 
         private void Start()
         {
@@ -50,6 +63,37 @@ namespace Assets.Scripts
             InitAllWords();
             InitPlacedLetterPositions();
             InstantiateTradeLetterBtn();
+
+            ShuffleTimeRemaining = 1;
+            lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
+            shakeDetectionThreshold *= shakeDetectionThreshold;
+            lowPassValue = Input.acceleration;
+        }
+
+        private void Update()
+        {
+            Vector3 acceleration = Input.acceleration;
+            lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
+            Vector3 deltaAcceleration = acceleration - lowPassValue;
+            ShuffleTimeRemaining -= Time.deltaTime;
+            if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold && ShuffleTimeRemaining <= 0)
+            {
+                ShufflePlayerLetters();
+            }
+        }
+
+        private void ShufflePlayerLetters()
+        {
+            ShuffleTimeRemaining = 1;
+            List<LetterBlock> letters = PlayerLetterPositions.Values.ToList().OrderBy(a => UnityEngine.Random.Range(0, 100)).ToList(); // random order
+            int i = 0;
+            foreach (var key in PlayerLetterPositions.Keys.ToList())
+            {                  
+                LetterBlock b = letters[i];
+                PlayerLetterPositions[key] = b;
+                if (b != null) b.transform.position = key;
+                i++;
+            }
         }
 
         private void TradeLetterBtnTouch()
