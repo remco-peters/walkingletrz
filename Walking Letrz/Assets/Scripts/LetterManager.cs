@@ -9,11 +9,7 @@ namespace Assets.Scripts
     public class LetterManager : MyMonoBehaviour
     {
         float accelerometerUpdateInterval = 1.0f / 60.0f;
-    // The greater the value of LowPassKernelWidthInSeconds, the slower the
-    // filtered value will converge towards current input sample (and vice versa).
         float lowPassKernelWidthInSeconds = 1.0f;
-    // This next parameter is initialized to 2.0 per Apple's recommendation,
-    // or at least according to Brady! ;)
         float shakeDetectionThreshold = 2.0f;
 
         float lowPassFilterFactor;
@@ -40,7 +36,6 @@ namespace Assets.Scripts
         private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
 
         private Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
-
 
         public Dictionary<string, object> CharactersValues { get; set; }
 
@@ -98,20 +93,18 @@ namespace Assets.Scripts
 
         private void TradeLetterBtnTouch()
         {
-            foreach (var key in PlayerLetterPositions.Keys.ToList())
+            void ClearDictionary(Dictionary<Vector3, LetterBlock> blocks)
             {
-                LetterBlock block = PlayerLetterPositions[key];
-                if (block == null) continue;
-                Destroy(block.gameObject);
-                PlayerLetterPositions[key] = null;
+                foreach (var key in blocks.Keys.ToList())
+                {
+                    LetterBlock block = blocks[key];
+                    if (block == null || block.IsFirstLetter || block.IsSecondLetter) continue;
+                    Destroy(block.gameObject);
+                    blocks[key] = null;
+                }
             }
-            foreach (var key in PlacedLetterPositions.Keys.ToList())
-            {
-                LetterBlock block = PlacedLetterPositions[key];
-                if (block == null || block.IsFirstLetter || block.IsSecondLetter) continue;
-                Destroy(block.gameObject);
-                PlacedLetterPositions[key] = null;
-            }
+            ClearDictionary(PlayerLetterPositions);
+            ClearDictionary(PlacedLetterPositions);
             foreach (var t in GetLetters(15))
             {
                 Vector3 pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
@@ -266,7 +259,10 @@ namespace Assets.Scripts
             {
                 value += (long) CharactersValues.First(x => x.Key == letter.ToString()).Value;
             }
-
+             if (word.Length >= 5 && word.Length <= 7) value = (long)(value * 1.5);
+            else if (word.Length >= 8 && word.Length <= 10) value *= 2;
+            else if (word.Length == 11) value = (long)(value * 2.5);
+            else if (word.Length == 12) value *= 3;
             return value;
         }
 
@@ -331,8 +327,9 @@ namespace Assets.Scripts
         public char[] GetLetters(int amount)
         {
             char[] startingLetters = new char[15];
-            List<char> availableLetters =new List<char> { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
-                'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+            List<char> availableLetters =new List<char>
+            { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
             List<char> lettersToChoseFrom = new List<char>();
 
@@ -413,6 +410,29 @@ namespace Assets.Scripts
                 PlacedLetterPositions[oldPos] = null;
                 Destroy(block.gameObject);
             }
+        }
+
+        private void Test()
+        {
+            LetterBlock previous = null;
+            foreach (var key in PlacedLetterPositions.Keys.ToList())
+            {
+                if (previous != null) previous.transform.position = key;
+                var current = PlacedLetterPositions[key];
+                PlacedLetterPositions[key] = previous;
+                previous = current;
+            }
+            if (previous == null) return;
+            Vector3 pos;
+            if (previous.IsFirstLetter) pos = firstLetterPosition;
+            else if (previous.IsSecondLetter) pos = secondLetterPosition;
+            else
+            {
+                pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            }
+            previous.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+            previous.transform.position = pos;
+            PlayerLetterPositions[pos] = previous;
         }
 
         private void PlaceWordInGameBoard()
