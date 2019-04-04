@@ -3,7 +3,7 @@ using UnityEngine.Assertions;
 
 public class GameState : MonoBehaviour
 {
-    public GameObject GameBoardClass;
+    public DynamicUI GameBoardClass;
     public Camera CameraClass;
     public MyPlayer PlayerClass;
     public HUD HUDClass;
@@ -17,10 +17,9 @@ public class GameState : MonoBehaviour
         Assert.IsNotNull(GameBoardClass, "GameBoard misses in GameState");
 
         Instantiate(GameBoardClass);
-
         Instantiate(CameraClass);
-        MyPlayer Player = Instantiate(PlayerClass);
 
+        MyPlayer Player = Instantiate(PlayerClass);
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = Player;
     }

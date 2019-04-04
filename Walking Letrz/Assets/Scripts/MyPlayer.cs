@@ -10,10 +10,10 @@ public class MyPlayer : MyMonoBehaviour
     public float CoolDownTime = 10;
     public bool CanMove = true;
     public long EarnedPoints { get; set; }
-   // public bool MustThrowLetterAway { get; set; }
     public string InfoText;
+    public GameObject WriteBoard { get; set; }
+    public GameObject LetterBoardObject { get; set; }
 
-    public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update
     void Start()
     {

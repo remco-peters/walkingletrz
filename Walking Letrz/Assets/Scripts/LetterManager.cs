@@ -99,8 +99,8 @@ namespace Assets.Scripts
         {
             PlayerLetters playerLetters = Spawn(PlayerLettersClass, this, pl =>
             {
-                pl.letterManager = this;
-                pl.lastLetterPosition = lastLetterPosition;
+                pl.LetterManager = this;
+                pl.LastLetterPosition = lastLetterPosition;
             });
             
             RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass);
