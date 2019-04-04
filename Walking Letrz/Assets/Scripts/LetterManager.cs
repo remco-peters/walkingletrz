@@ -138,6 +138,7 @@ namespace Assets.Scripts
                 lttrblock.IsFirstLetter = isFirstLetter;
                 lttrblock.IsSecondLetter = isSecondLetter;
                 lttrblock.OnLetterTouched += LetterTouched;
+                lttrblock.OnLetterDragged += LetterDragged;
                 lttrblock.GetComponentsInChildren<TextMesh>()[0].text =  letter.ToString().ToUpper();
                 lttrblock.GetComponentsInChildren<TextMesh>()[1].text =  CharactersValues.First(x => x.Key == letter.ToString().ToLower()).Value.ToString();
                 lttrblock.transform.position = pos;
@@ -430,6 +431,11 @@ namespace Assets.Scripts
                 firstLetterPositionWordList.x += 0.45f;
                 InstantiateLetterButton(block.GetComponentInChildren<TextMesh>().text[0], firstLetterPositionWordList, block.IsFirstLetter, block.IsSecondLetter);
             }
+        }
+        
+        private void LetterDragged(LetterBlock draggedLetter)
+        {
+            draggedLetter.LetterDragged(PlacedLetterPositions, PlayerLetterPositions);
         }
     }
 }
