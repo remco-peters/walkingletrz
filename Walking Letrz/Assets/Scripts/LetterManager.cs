@@ -413,29 +413,6 @@ namespace Assets.Scripts
             }
         }
 
-        private void Test()
-        {
-            LetterBlock previous = null;
-            foreach (var key in PlacedLetterPositions.Keys.ToList())
-            {
-                if (previous != null) previous.transform.position = key;
-                var current = PlacedLetterPositions[key];
-                PlacedLetterPositions[key] = previous;
-                previous = current;
-            }
-            if (previous == null) return;
-            Vector3 pos;
-            if (previous.IsFirstLetter) pos = firstLetterPosition;
-            else if (previous.IsSecondLetter) pos = secondLetterPosition;
-            else
-            {
-                pos = PlayerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-            }
-            previous.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-            previous.transform.position = pos;
-            PlayerLetterPositions[pos] = previous;
-        }
-
         private void PlaceWordInGameBoard()
         {
             string lastWord = PlacedWords[PlacedWords.Count - 1];
