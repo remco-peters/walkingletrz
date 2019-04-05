@@ -24,6 +24,8 @@ namespace Assets.Scripts
         public TextAsset JsonAsset;
         public Material WalkingLetrMaterial;
         public Material NormalLetrMaterial;
+        public Material PlaceButtonInactiveMaterial;
+        public Material PlaceButtonActiveMaterial;
 
         //private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
 
@@ -51,6 +53,7 @@ namespace Assets.Scripts
 
         private Vector3 secondLetterPosition = new Vector3(-1.7f, -2.5f);
         private float ShuffleTimeRemaining;
+        private PlaceWordBtn placeWordBtn;
 
         private void Start()
         {
@@ -149,7 +152,7 @@ namespace Assets.Scripts
             RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass);
             removeWordBtn.OnRemoveTouched += RemoveAllLetters;
 
-            PlaceWordBtn placeWordBtn = Instantiate(PlaceWordBtnClass);
+            placeWordBtn = Instantiate(PlaceWordBtnClass);
             placeWordBtn.OnPlaceBtnTouched += PlaceWord;
         }
 
@@ -173,6 +176,8 @@ namespace Assets.Scripts
                 position.LetterBlock.transform.localScale= new Vector3(0.5f, 0.5f, 1);
                 position.RemoveLetter();
             }
+
+            placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
         }
 
         private void InitPlacedLetterPositions()
@@ -385,6 +390,7 @@ namespace Assets.Scripts
                 LetterPosition letterPosition = placedLetters.FirstOrDefault(x => x.LetterBlock == null);
                 letterPosition.AddLetter(block);
             }
+            CheckWordAndSetSubmitButtonState();
         }
 
         private void ChangeFixedLetters(string madeWord)
@@ -435,7 +441,42 @@ namespace Assets.Scripts
         
         private void LetterDragged(LetterBlock draggedLetter)
         {
-            draggedLetter.LetterDragged(placedLetters, playerLetters);
+            draggedLetter.LetterDragged(PlacedLetterPositions, PlayerLetterPositions);
+            CheckWordAndSetSubmitButtonState();
+        }
+
+        private void CheckWordAndSetSubmitButtonState()
+        {
+            string madeWord = "";
+            if (PlacedLetterPositions.Any(x => x.Value != null))
+            {
+                bool containsFirstLetter = false;
+                bool containsSecondLetter = false;
+                foreach (LetterBlock block in PlacedLetterPositions.Values.ToList())
+                {
+                    if (block == null) continue;
+                    madeWord += block.GetComponentInChildren<TextMesh>().text;
+                    if (block.IsFirstLetter)
+                    {
+                        containsFirstLetter = true;
+                    }
+                    if (block.IsSecondLetter)
+                    {
+                        containsSecondLetter = true;
+                    }
+                }
+
+                if (Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
+                {
+                    placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonActiveMaterial;
+                    //TODO: Enable interaction when these are buttons (button.interactable = true)
+                }
+                else
+                {
+                    placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
+                    //TODO: Disable interaction when these are buttons (button.interactable = false)
+                }
+            }
         }
     }
 }

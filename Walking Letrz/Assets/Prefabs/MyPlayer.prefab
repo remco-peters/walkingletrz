@@ -43,8 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7155bb213107db540bdae2068815c9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LetterManagerClass: {fileID: 5501810388853740986, guid: b97e240c5575c4448848b8372db08d08,
-    type: 3}
   CoolDownTime: 10
   CanMove: 1
   InfoText: 
