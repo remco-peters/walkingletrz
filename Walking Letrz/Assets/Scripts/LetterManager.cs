@@ -86,18 +86,15 @@ namespace Assets.Scripts
         {
             ShuffleTimeRemaining = 1;
             List<LetterBlock> letters = playerLetters.Select(x => x.LetterBlock).OrderBy(a => UnityEngine.Random.Range(0, 100)).ToList(); // random order
-            int i = 0;
-            foreach (var letterPosition in playerLetters)
+            for (int i = 0; i < playerLetters.Count; i++)
             {                  
-                LetterBlock b = letters[i];
-                letterPosition.AddLetter(b);
-                i++;
+                playerLetters[i].AddLetter(letters[i]);
             }
         }
 
         private void TradeLetterBtnTouch()
         {
-            void ClearDictionary(List<LetterPosition> letterPositions)
+            void ClearDictionary(IEnumerable<LetterPosition> letterPositions)
             {
                 foreach (var letterPosition in letterPositions)
                 {
@@ -135,8 +132,8 @@ namespace Assets.Scripts
                 lttrblock.IsSecondLetter = isSecondLetter;
                 lttrblock.OnLetterTouched += LetterTouched;
                 lttrblock.OnLetterDragged += LetterDragged;
-                lttrblock.GetComponentsInChildren<TextMesh>()[0].text =  letter.ToString().ToUpper();
-                lttrblock.GetComponentsInChildren<TextMesh>()[1].text =  CharactersValues.First(x => x.Key == letter.ToString().ToLower()).Value.ToString();
+                lttrblock.GetComponentsInChildren<TextMesh>()[0].text = letter.ToString().ToUpper();
+                lttrblock.GetComponentsInChildren<TextMesh>()[1].text = CharactersValues.First(x => x.Key == letter.ToString().ToLower()).Value.ToString();
                 lttrblock.transform.position = pos;
             });
         }

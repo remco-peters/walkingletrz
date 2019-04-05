@@ -113,22 +113,19 @@ public class LetterBlock : MyMonoBehaviour
         }
 
         transform.localScale = new Vector3(0.4f, 0.4f, 1);
-        //var placedLetterCount = placedLetterPositions.Count(x => x != null);
-
-
-        InsertLetterAndMoveOtherLetters(placedLetterPositions, indexToUse, this);
-        
-       /* else
+        if (placedLetterPositions.Count(x => x != null) > indexToUse)
         {
-            transform.position = placedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-            placedLetterPositions[transform.position] = this;
-            if (placedLetterPositions.Values.Count(x => x != null) >= 12) return;
+            InsertLetterAndMoveOtherLetters(placedLetterPositions, indexToUse, this);
+        }
+        else
+        {
+            placedLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(this);
+            if (placedLetterPositions.Count(x => x.LetterBlock != null) >= 12) return;
             if (!IsSecondLetter && !IsFirstLetter)
             {
-                Vector3 oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
-                playerLetterPositions[oldPos] = null;
+                playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
             }
-        }*/
+        }
     }
 
     private void InsertLetterAndMoveOtherLetters(List<LetterPosition> placedLetterPos, int index, LetterBlock newLetter)
