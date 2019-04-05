@@ -92,52 +92,44 @@ public class LetterBlock : MyMonoBehaviour
     public void LetterDragged(Dictionary<Vector3, LetterBlock> placedLetterPositions, Dictionary<Vector3, LetterBlock> playerLetterPositions)
     {
         this.playerLetterPositions = playerLetterPositions;
-        if (transform.position.y < 0 && transform.position.y > -2)
+        if (!(transform.position.y < 0) || !(transform.position.y > -2))
         {
-            var placedLetterCount = placedLetterPositions.Values.Count(x => x != null);
+            SetToOldPosition(placedLetterPositions);
+            return;
+        }
 
-            Vector3 closestPos = new Vector3(0.0f, 0.0f, 0.0f);
-            float minDist = 100;
-            var index = 0;
-            var indexToUse = -1;
+        float minDist = 100;
+        var index = 0;
+        var indexToUse = -1;
 
-            foreach (var pos in placedLetterPositions.Keys)
+        foreach (var pos in placedLetterPositions.Keys)
+        {
+            var distance = Vector3.Distance(transform.position, pos);
+            if (distance < minDist)
             {
-                var distance = Vector3.Distance(transform.position, pos);
-
-                if (distance < minDist)
-                {
-                    closestPos = pos;
-                    minDist = distance;
-                    indexToUse = index;
-                }
-
-                index++;
+                minDist = distance;
+                indexToUse = index;
             }
+            index++;
+        }
 
-            transform.position = closestPos;
-            transform.localScale = new Vector3(0.4f, 0.4f, 1);
+        transform.localScale = new Vector3(0.4f, 0.4f, 1);
+        var placedLetterCount = placedLetterPositions.Values.Count(x => x != null);
 
-            if (placedLetterCount > indexToUse)
-            {
-                InsertLetterAndMoveOtherLetters(placedLetterPositions, indexToUse, this);
-            }
-
-            else
-            {
-                transform.position = placedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-                placedLetterPositions[transform.position] = this;
-                if (placedLetterPositions.Values.Count(x => x != null) >= 12) return;
-                if (!IsSecondLetter && !IsFirstLetter)
-                {
-                    Vector3 oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
-                    playerLetterPositions[oldPos] = null;
-                }
-            }
+        if (placedLetterCount > indexToUse)
+        {
+            InsertLetterAndMoveOtherLetters(placedLetterPositions, indexToUse, this);
         }
         else
         {
-            SetToOldPosition(placedLetterPositions);
+            transform.position = placedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            placedLetterPositions[transform.position] = this;
+            if (placedLetterPositions.Values.Count(x => x != null) >= 12) return;
+            if (!IsSecondLetter && !IsFirstLetter)
+            {
+                Vector3 oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
+                playerLetterPositions[oldPos] = null;
+            }
         }
     }
 
@@ -146,7 +138,8 @@ public class LetterBlock : MyMonoBehaviour
         LetterBlock previous = newLetter;
         foreach (var key in placedLetterPos.Keys.ToList().Skip(index))
         {
-            if (previous != null) previous.transform.position = key;
+            if (previous == null) break;
+            previous.transform.position = key;
             var current = placedLetterPos[key];
             placedLetterPos[key] = previous;
             previous = current;
@@ -156,16 +149,18 @@ public class LetterBlock : MyMonoBehaviour
             Vector3 oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
             playerLetterPositions[oldPos] = null;
         }
-        if (previous == null) return;
+        if (previous == null) return; // else set last letter to playerpos
         Vector3 pos;
         if (previous.IsFirstLetter) 
             pos = firstLetterPosition;
         else if (previous.IsSecondLetter) 
             pos = secondLetterPosition;
-        else 
-            pos = placedLetterPos.FirstOrDefault(x => x.Value == null).Key;
+        else
+        {
+            pos = playerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
+            playerLetterPositions[pos] = previous;
+        }
         previous.transform.localScale = new Vector3(0.5f, 0.5f, 1);
         previous.transform.position = pos;
-        placedLetterPos[pos] = previous;
     }
 }

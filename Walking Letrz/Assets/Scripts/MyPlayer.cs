@@ -25,7 +25,6 @@ public class MyPlayer : MyMonoBehaviour
     void Update()
     {
         TimeRemaining -= Time.deltaTime;
-
         if (TimeRemaining <= 0)
         {
             CanMove = false;
