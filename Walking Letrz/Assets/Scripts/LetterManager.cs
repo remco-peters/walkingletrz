@@ -29,12 +29,12 @@ namespace Assets.Scripts
         public Material NormalLetrMaterial;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
-        #endregion 
+        #endregion unity properties
 
         private PlaceWordBtn _placeWordBtn;
         private List<LetterPosition> PlacedLetters { get; } = new List<LetterPosition>();
         public List<LetterPosition> PlayerLetters { get; } = new List<LetterPosition>();
-        public Dictionary<string, object> CharactersValues { get; set; }
+        public Dictionary<char, long> CharactersValues { get; } = new Dictionary<char, long>();
         private List<string> PlacedWords { get; } = new List<string>();
         private StartingLetters StartingLetters { get; set; }
         private HashSet<string> AllWords { get; set; }
@@ -123,17 +123,17 @@ namespace Assets.Scripts
                 lttrblock.OnLetterTouched += LetterTouched;
                 lttrblock.OnLetterDragged += LetterDragged;
                 lttrblock.GetComponentsInChildren<TextMesh>()[0].text = letter.ToString().ToUpper();
-                lttrblock.GetComponentsInChildren<TextMesh>()[1].text = CharactersValues.First(x => x.Key == letter.ToString().ToLower()).Value.ToString();
+                lttrblock.GetComponentsInChildren<TextMesh>()[1].text = CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
                 lttrblock.transform.position = pos;
             });
         }
 
         private void InstantiatePlayerLetters()
         {
-            PlayerLetters playerLetters = Spawn(PlayerLettersClass, this, pl =>
+            Spawn(PlayerLettersClass, this, pl =>
             {
                 pl.letterManager = this;
-                pl.lastLetterPosition = StartingLetters.GetLastLetterPosition();;
+                pl.lastLetterPosition = StartingLetters.GetLastLetterPosition();
             });
             
             RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass);
@@ -177,31 +177,26 @@ namespace Assets.Scripts
 
         private void PlaceWord()
         {
-            string madeWord = "";
             // Alleen wanneer mag versturen
             if (Player.CanMove)
             {
                 if (PlacedLetters.Any(x => x.LetterBlock != null))
                 {
+                    string madeWord = "";
                     foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
                     {
                         if (block == null) continue;
                         madeWord += block.GetLetter();
                     }
-                    if (CheckWord(madeWord.ToLower(), out long points))
-                    {
-                        Player.EarnedPoints += points;
-                        // Timer aanzetten zodat er 10 seconden niet gedrukt kan worden
-                        PlaceWordInGameBoard();
-                        RemoveAllLettersFromPlayerBoard();
-
-                        // Nieuwe letters genereren op lege plekken?
-                        AddLetters(madeWord.Length - 2);
-                        ChangeFixedLetters(madeWord);
-                        _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
-                        //Player.MustThrowLetterAway = true;
-                    }
-                } else
+                    if (!CheckWord(madeWord, out long points)) return;
+                    Player.EarnedPoints += points;
+                    PlaceWordInGameBoard();
+                    RemoveAllLettersFromPlayerBoard();
+                    AddLetters(madeWord.Length - 2);
+                    ChangeFixedLetters(madeWord);
+                    _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
+                } 
+                else
                 {
                     Player.InfoText = "No letters placed yet";
                     Debug.Log("No letters placed yet");
@@ -209,14 +204,7 @@ namespace Assets.Scripts
             }
             else
             {
-                if (Player.TimeRemaining <= 0)
-                {
-                    Debug.Log("Time's over. Play again!");
-                }
-                else
-                {
-                    Debug.Log("Cant move yet: " + Player.CoolDownTime + " seconds remaining");
-                }
+                if (Player.TimeRemaining <= 0) Debug.Log("Time's over. Play again!");
             }
         }
 
@@ -250,7 +238,7 @@ namespace Assets.Scripts
             long value = 0;
             foreach (var letter in word)
             {
-                value += (long) CharactersValues.First(x => x.Key == letter.ToString()).Value;
+                value += CharactersValues.FirstOrDefault(x => x.Key == letter).Value;
             }
             if (word.Length >= 5 && word.Length <= 7) value = (long)(value * 1.5);
             else if (word.Length >= 8 && word.Length <= 10) value *= 2;
@@ -266,33 +254,36 @@ namespace Assets.Scripts
             foreach (var item in items)
             {
                 if (item.Key != "lettervalues") continue;
-                CharactersValues = item.Value as Dictionary<string, object>;
+                foreach (var val in item.Value as Dictionary<string, object> ?? new Dictionary<string, object>())
+                {
+                    CharactersValues[val.Key[0]] = (long) val.Value;
+                }
             }
         }
 
         public bool CheckWord(string word, out long points)
         {
-            int containsFirstLetter = -1;
-            int containsSecondLetter = -1;
+            word = word.ToLower();
+            int firstLetterIndex = -1;
+            int secondLetterIndex = -1;
             points = CalculatePoints(word);
             int i = 0;
             foreach (var letterBlock in PlacedLetters.Select(x => x.LetterBlock).ToList())
             {
                 if (letterBlock == null) continue;
                 if (letterBlock.IsFirstLetter)
-                    containsFirstLetter = i;
-
-                if (letterBlock.IsSecondLetter)
-                    containsSecondLetter = i;
+                    firstLetterIndex = i;
+                else if (letterBlock.IsSecondLetter)
+                    secondLetterIndex = i;
                 i++;
             }
-            if (containsFirstLetter < 0 || containsSecondLetter < 0)
+            if (firstLetterIndex < 0 || secondLetterIndex < 0)
             {
                 Debug.Log("Word does not contain the two letters");
                 Player.InfoText = "Word does not contain the two letters";
                 return false;
             }
-            if(containsFirstLetter > containsSecondLetter)
+            if(firstLetterIndex > secondLetterIndex)
             {
                 Debug.Log("First letter is after second letter");
                 Player.InfoText = "First letter is after second letter";
@@ -302,7 +293,6 @@ namespace Assets.Scripts
             {
                 Debug.Log($"Word does not exist. Word: {word}");
                 Player.InfoText = $"Word does not exist. Word: {word}";
-
                 return false;
             }
             if (PlacedWords.Contains(word))
@@ -329,7 +319,7 @@ namespace Assets.Scripts
             foreach (char c in availableLetters)
             {
                 bool isVowel = "aeiou".IndexOf(c) >= 0;
-                long val = (long) CharactersValues[c.ToString()];
+                long val = CharactersValues[c];
                 if (isVowel) val -= 10;
                 for (int i = 0; i < 8 - val; i++)
                 {
@@ -427,35 +417,27 @@ namespace Assets.Scripts
         private void CheckWordAndSetSubmitButtonState()
         {
             string madeWord = "";
-            if (PlacedLetters.Any(x => x.LetterBlock != null))
+            if (PlacedLetters.All(x => x.LetterBlock == null)) return;        
+            bool containsFirstLetter = false;
+            bool containsSecondLetter = false;
+            foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock))
             {
-                bool containsFirstLetter = false;
-                bool containsSecondLetter = false;
-                foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock))
-                {
-                    if (block == null) continue;
-                    madeWord += block.GetLetter();
-                    if (block.IsFirstLetter)
-                    {
-                        containsFirstLetter = true;
-                    }
-                    if (block.IsSecondLetter)
-                    {
-                        containsSecondLetter = true;
-                    }
-                }
-
-                if (Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
-                {
-                    _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonActiveMaterial;
-                    //TODO: Enable interaction when these are buttons (button.interactable = true)
-                }
-                else
-                {
-                    _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
-                    //TODO: Disable interaction when these are buttons (button.interactable = false)
-                }
+                if (block == null) continue;
+                madeWord += block.GetLetter();
+                if (block.IsFirstLetter) containsFirstLetter = true;
+                if (block.IsSecondLetter) containsSecondLetter = true;              
             }
+            if (Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
+            {
+                _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonActiveMaterial;
+                //TODO: Enable interaction when these are buttons (button.interactable = true)
+            }
+            else
+            {
+                _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
+                //TODO: Disable interaction when these are buttons (button.interactable = false)
+            }
+            
         }
     }
 }
