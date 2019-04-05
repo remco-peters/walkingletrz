@@ -17,7 +17,7 @@ public class LetterBlock : MyMonoBehaviour
     private Vector3 oldPosition;
     private Vector3 firstLetterPosition = new Vector3(-2.5f, -2.5f);
     private Vector3 secondLetterPosition = new Vector3(-1.7f, -2.5f);
-    private Dictionary<Vector3, LetterBlock> playerLetterPositions;
+    private List<LetterPosition> playerLetterPositions;
 
     private bool mouseDown;
     private float timer;
@@ -60,36 +60,35 @@ public class LetterBlock : MyMonoBehaviour
         timer = 0;
     }
 
-    public void SetToOldPosition(Dictionary<Vector3, LetterBlock> placedLetterPositions)
+    public void SetToOldPosition(List<LetterPosition> placedLetterPositions)
     {
         Vector3 pos;
-        Vector3 oldPos = placedLetterPositions.FirstOrDefault(x => x.Value == this).Key;
-        if (oldPos == new Vector3(0.0f, 0.0f, 0.0f))
+        if (placedLetterPositions.FirstOrDefault(x => x.LetterBlock == this) != null)
         {
-            oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
-            playerLetterPositions[oldPos] = null;
+            playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
         }
         else
         {
-            placedLetterPositions[oldPos] = null;
+            placedLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
         }
         if (IsFirstLetter) pos = firstLetterPosition;
         else if (IsSecondLetter) pos = secondLetterPosition;
         else
         {
-            pos = playerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-            if (pos == new Vector3(0.0f, 0.0f, 0.0f))
-            {
-                pos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
-            }
-            playerLetterPositions[pos] = this;
-        }
 
+            if (playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null) != null)
+            {
+                playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(this);
+            }
+            else
+            {
+                playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.AddLetter(this);
+            }
+        }
         transform.localScale = new Vector3(0.5f, 0.5f, 1);
-        transform.position = pos;
     }
 
-    public void LetterDragged(Dictionary<Vector3, LetterBlock> placedLetterPositions, Dictionary<Vector3, LetterBlock> playerLetterPositions)
+    public void LetterDragged(List<LetterPosition> placedLetterPositions, List<LetterPosition> playerLetterPositions)
     {
         this.playerLetterPositions = playerLetterPositions;
         if (!(transform.position.y < 0) || !(transform.position.y > -2))
@@ -102,7 +101,7 @@ public class LetterBlock : MyMonoBehaviour
         var index = 0;
         var indexToUse = -1;
 
-        foreach (var pos in placedLetterPositions.Keys)
+        foreach (var pos in placedLetterPositions.Select(x => x.Position))
         {
             var distance = Vector3.Distance(transform.position, pos);
             if (distance < minDist)
@@ -114,13 +113,12 @@ public class LetterBlock : MyMonoBehaviour
         }
 
         transform.localScale = new Vector3(0.4f, 0.4f, 1);
-        var placedLetterCount = placedLetterPositions.Values.Count(x => x != null);
+        //var placedLetterCount = placedLetterPositions.Count(x => x != null);
 
-        if (placedLetterCount > indexToUse)
-        {
-            InsertLetterAndMoveOtherLetters(placedLetterPositions, indexToUse, this);
-        }
-        else
+
+        InsertLetterAndMoveOtherLetters(placedLetterPositions, indexToUse, this);
+        
+       /* else
         {
             transform.position = placedLetterPositions.FirstOrDefault(x => x.Value == null).Key;
             placedLetterPositions[transform.position] = this;
@@ -130,24 +128,22 @@ public class LetterBlock : MyMonoBehaviour
                 Vector3 oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
                 playerLetterPositions[oldPos] = null;
             }
-        }
+        }*/
     }
 
-    private void InsertLetterAndMoveOtherLetters(Dictionary<Vector3, LetterBlock> placedLetterPos, int index, LetterBlock newLetter)
+    private void InsertLetterAndMoveOtherLetters(List<LetterPosition> placedLetterPos, int index, LetterBlock newLetter)
     {
         LetterBlock previous = newLetter;
-        foreach (var key in placedLetterPos.Keys.ToList().Skip(index))
+        foreach (var position in placedLetterPos.Skip(index))
         {
             if (previous == null) break;
-            previous.transform.position = key;
-            var current = placedLetterPos[key];
-            placedLetterPos[key] = previous;
+            var current = position.LetterBlock;
+            position.AddLetter(previous);
             previous = current;
         }
         if (!IsSecondLetter && !IsFirstLetter)
         {
-            Vector3 oldPos = playerLetterPositions.FirstOrDefault(x => x.Value == this).Key;
-            playerLetterPositions[oldPos] = null;
+            playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
         }
         if (previous == null) return; // else set last letter to playerpos
         Vector3 pos;
@@ -157,10 +153,13 @@ public class LetterBlock : MyMonoBehaviour
             pos = secondLetterPosition;
         else
         {
-            pos = playerLetterPositions.FirstOrDefault(x => x.Value == null).Key;
-            playerLetterPositions[pos] = previous;
+            playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(previous);
         }
         previous.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-        previous.transform.position = pos;
+    }
+
+    internal bool IsWalkingLetter()
+    {
+        return IsFirstLetter || IsSecondLetter;
     }
 }

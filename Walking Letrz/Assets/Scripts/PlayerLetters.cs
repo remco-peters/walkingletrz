@@ -45,7 +45,7 @@ public class PlayerLetters : MyMonoBehaviour
                 pos.y -= 0.75f;
             }
             LetterBlock letterBlock = letterManager.InstantiateLetterButton(startingLetters[i], pos);
-            letterManager.PlayerLetterPositions.Add(pos, letterBlock);
+            letterManager.playerLetters.Add(new LetterPosition(pos, letterBlock));
         }
         pos.x += 0.80f;
     }
