@@ -200,7 +200,7 @@ namespace Assets.Scripts
                     foreach (LetterBlock block in placedLetters.Select(x => x.LetterBlock).ToList())
                     {
                         if (block == null) continue;
-                        madeWord += block.GetComponentInChildren<TextMesh>().text;
+                        madeWord += block.GetLetter();
                     }
                     if (CheckWord(madeWord.ToLower(), out long points))
                     {
@@ -435,27 +435,27 @@ namespace Assets.Scripts
             {
                 if (block == null) continue;
                 firstLetterPositionWordList.x += 0.45f;
-                InstantiateLetterButton(block.GetComponentInChildren<TextMesh>().text[0], firstLetterPositionWordList, block.IsFirstLetter, block.IsSecondLetter);
+                InstantiateLetterButton(block.GetLetter(), firstLetterPositionWordList, block.IsFirstLetter, block.IsSecondLetter);
             }
         }
         
         private void LetterDragged(LetterBlock draggedLetter)
         {
-            draggedLetter.LetterDragged(PlacedLetterPositions, PlayerLetterPositions);
+            draggedLetter.LetterDragged(placedLetters, playerLetters);
             CheckWordAndSetSubmitButtonState();
         }
 
         private void CheckWordAndSetSubmitButtonState()
         {
             string madeWord = "";
-            if (PlacedLetterPositions.Any(x => x.Value != null))
+            if (placedLetters.Any(x => x.LetterBlock != null))
             {
                 bool containsFirstLetter = false;
                 bool containsSecondLetter = false;
-                foreach (LetterBlock block in PlacedLetterPositions.Values.ToList())
+                foreach (LetterBlock block in placedLetters.Select(x => x.LetterBlock))
                 {
                     if (block == null) continue;
-                    madeWord += block.GetComponentInChildren<TextMesh>().text;
+                    madeWord += block.GetLetter();
                     if (block.IsFirstLetter)
                     {
                         containsFirstLetter = true;

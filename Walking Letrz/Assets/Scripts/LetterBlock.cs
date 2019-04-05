@@ -162,4 +162,9 @@ public class LetterBlock : MyMonoBehaviour
     {
         return IsFirstLetter || IsSecondLetter;
     }
+
+    internal char GetLetter()
+    {
+        return GetComponentsInChildren<TextMesh>()[0].text[0];
+    }
 }
