@@ -53,9 +53,13 @@ public class LetterBlock : MyMonoBehaviour
         {
             OnLetterDragged(this);
         }
-        else
+        else if (timer < timeDelay && Vector2.Distance(oldPosition, transform.position) < 0.3)
         {
             OnLetterTouched(this);
+        }
+        else
+        {
+            transform.position = oldPosition;
         }
         timer = 0;
     }
