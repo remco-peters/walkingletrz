@@ -56,3 +56,7 @@ MonoBehaviour:
   JsonAsset: {fileID: 4900000, guid: 0488c993e50388942bf493d29a66d114, type: 3}
   WalkingLetrMaterial: {fileID: 2100000, guid: 52d59ad7b47d44bf78e9247e28a8b3de, type: 2}
   NormalLetrMaterial: {fileID: 2100000, guid: cd03590dd84ea4d628efce637b85fd6c, type: 2}
+  PlaceButtonInactiveMaterial: {fileID: 2100000, guid: cbffe45b7381a44bf9898ec4db292e54,
+    type: 2}
+  PlaceButtonActiveMaterial: {fileID: 2100000, guid: 6e6b418badae5c540bd52ee796966f72,
+    type: 2}
