@@ -209,6 +209,7 @@ namespace Assets.Scripts
                         // Nieuwe letters genereren op lege plekken?
                         AddLetters(madeWord.Length - 2);
                         ChangeFixedLetters(madeWord);
+                        placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
                         //Player.MustThrowLetterAway = true;
                     }
                 } else
