@@ -75,7 +75,6 @@ public class LetterBlock : MyMonoBehaviour
         else if (IsSecondLetter) pos = secondLetterPosition;
         else
         {
-
             if (playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null) != null)
             {
                 playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(this);
