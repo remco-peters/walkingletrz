@@ -143,15 +143,9 @@ public class LetterBlock : MyMonoBehaviour
             playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
         }
         if (previous == null) return; // else set last letter to playerpos
-        Vector3 pos;
-        if (previous.IsFirstLetter) 
-            pos = firstLetterPosition;
-        else if (previous.IsSecondLetter) 
-            pos = secondLetterPosition;
-        else
-        {
-            playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(previous);
-        }
+        if (previous.IsFirstLetter) previous.transform.position = firstLetterPosition;
+        else if (previous.IsSecondLetter) previous.transform.position = secondLetterPosition;
+        else playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(previous);       
         previous.transform.localScale = new Vector3(0.5f, 0.5f, 1);
     }
 
