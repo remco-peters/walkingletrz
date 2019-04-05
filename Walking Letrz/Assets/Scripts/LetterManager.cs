@@ -7,16 +7,19 @@ namespace Assets.Scripts
 {
     public class LetterManager : MyMonoBehaviour
     {
-        float accelerometerUpdateInterval = 1.0f / 60.0f;
-        float lowPassKernelWidthInSeconds = 1.0f;
-        float shakeDetectionThreshold = 2.0f;
-        float lowPassFilterFactor;
-        Vector3 lowPassValue;
+        #region shuffle
+        private const float AccelerometerUpdateInterval = 1.0f / 60.0f;
+        private const float LowPassKernelWidthInSeconds = 1.0f;
+        private float _shakeDetectionThreshold = 2.0f;
+        private float _lowPassFilterFactor;
+        private Vector3 _lowPassValue;      
+        private float _shuffleTimeRemaining;
+        #endregion shuffle
 
+        #region unity properties
         public StartingLetters StartingLettersClass;
         public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
-        //public LetterBlock StartingLetterBlockObject;
         public RemoveWordBtn RemoveWordBtnClass;
         public PlaceWordBtn PlaceWordBtnClass;
         public TradeLettersBtn TradeLettersBtnClass;
@@ -26,34 +29,21 @@ namespace Assets.Scripts
         public Material NormalLetrMaterial;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
+        #endregion 
 
-        //private Dictionary<Vector3, LetterBlock> PlacedLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
-
-
-       //public Dictionary<Vector3, LetterBlock> PlayerLetterPositions { get; } = new Dictionary<Vector3, LetterBlock>();
-
-        private List<LetterPosition> placedLetters { get; } = new List<LetterPosition>();
-        public List<LetterPosition> playerLetters { get; } = new List<LetterPosition>();
-
+        private PlaceWordBtn _placeWordBtn;
+        private List<LetterPosition> PlacedLetters { get; } = new List<LetterPosition>();
+        public List<LetterPosition> PlayerLetters { get; } = new List<LetterPosition>();
+        public Dictionary<string, object> CharactersValues { get; set; }
+        private List<string> PlacedWords { get; } = new List<string>();
+        private StartingLetters StartingLetters { get; set; }
+        private HashSet<string> AllWords { get; set; }
         public MyPlayer Player { get; set; }
 
-        private Vector3 lastLetterPosition = new Vector3(-2.5f, -2.5f);
-
-        private Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
-
-        public Dictionary<string, object> CharactersValues { get; set; }
-
-        private List<string> PlacedWords { get; } = new List<string>();
-
-        private StartingLetters StartingLetters { get; set; }
-
-        private HashSet<string> AllWords { get; set; }
-
-        private Vector3 firstLetterPosition = new Vector3(-2.5f, -2.5f);
-
-        private Vector3 secondLetterPosition = new Vector3(-1.7f, -2.5f);
-        private float ShuffleTimeRemaining;
-        private PlaceWordBtn placeWordBtn;
+        #region positions
+        private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
+        private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
+        #endregion positions
 
         private void Start()
         {
@@ -64,31 +54,31 @@ namespace Assets.Scripts
             InitPlacedLetterPositions();
             InstantiateTradeLetterBtn();
 
-            ShuffleTimeRemaining = 1;
-            lowPassFilterFactor = accelerometerUpdateInterval / lowPassKernelWidthInSeconds;
-            shakeDetectionThreshold *= shakeDetectionThreshold;
-            lowPassValue = Input.acceleration;
+            _shuffleTimeRemaining = 1;
+            _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
+            _shakeDetectionThreshold *= _shakeDetectionThreshold;
+            _lowPassValue = Input.acceleration;
         }
     
         private void Update()
         {
-            Vector3 acceleration = Input.acceleration;
-            lowPassValue = Vector3.Lerp(lowPassValue, acceleration, lowPassFilterFactor);
-            Vector3 deltaAcceleration = acceleration - lowPassValue;
-            ShuffleTimeRemaining -= Time.deltaTime;
-            if (deltaAcceleration.sqrMagnitude >= shakeDetectionThreshold && ShuffleTimeRemaining <= 0)
-            {
-                ShufflePlayerLetters();
-            }
+            ShufflePlayerLetters();
         }
 
         private void ShufflePlayerLetters()
         {
-            ShuffleTimeRemaining = 1;
-            List<LetterBlock> letters = playerLetters.Select(x => x.LetterBlock).OrderBy(a => UnityEngine.Random.Range(0, 100)).ToList(); // random order
-            for (int i = 0; i < playerLetters.Count; i++)
-            {                  
-                playerLetters[i].AddLetter(letters[i]);
+            Vector3 acceleration = Input.acceleration;
+            _lowPassValue = Vector3.Lerp(_lowPassValue, acceleration, _lowPassFilterFactor);
+            Vector3 deltaAcceleration = acceleration - _lowPassValue;
+            _shuffleTimeRemaining -= Time.deltaTime;
+            if (deltaAcceleration.sqrMagnitude >= _shakeDetectionThreshold && _shuffleTimeRemaining <= 0)
+            {
+                _shuffleTimeRemaining = 1;
+                List<LetterBlock> letters = PlayerLetters.Select(x => x.LetterBlock).OrderBy(a => UnityEngine.Random.Range(0, 100)).ToList(); // random order
+                for (int i = 0; i < PlayerLetters.Count; i++)
+                {                  
+                    PlayerLetters[i].AddLetter(letters[i]);
+                }
             }
         }
 
@@ -103,11 +93,11 @@ namespace Assets.Scripts
                     letterPosition.RemoveLetter();
                 }
             }
-            ClearDictionary(playerLetters);
-            ClearDictionary(placedLetters);
+            ClearDictionary(PlayerLetters);
+            ClearDictionary(PlacedLetters);
             foreach (var t in GetLetters(15))
             {
-                LetterPosition pos = playerLetters.FirstOrDefault(x => x.LetterBlock == null);
+                LetterPosition pos = PlayerLetters.FirstOrDefault(x => x.LetterBlock == null);
                 LetterBlock letterBlock = InstantiateLetterButton(t, pos.Position);
                 pos.AddLetter(letterBlock);
             }
@@ -143,46 +133,45 @@ namespace Assets.Scripts
             PlayerLetters playerLetters = Spawn(PlayerLettersClass, this, pl =>
             {
                 pl.letterManager = this;
-                pl.lastLetterPosition = lastLetterPosition;
+                pl.lastLetterPosition = StartingLetters.GetLastLetterPosition();;
             });
             
             RemoveWordBtn removeWordBtn = Instantiate(RemoveWordBtnClass);
             removeWordBtn.OnRemoveTouched += RemoveAllLetters;
 
-            placeWordBtn = Instantiate(PlaceWordBtnClass);
-            placeWordBtn.OnPlaceBtnTouched += PlaceWord;
+            _placeWordBtn = Instantiate(PlaceWordBtnClass);
+            _placeWordBtn.OnPlaceBtnTouched += PlaceWord;
         }
 
         private void RemoveAllLetters()
         {
-            foreach (LetterPosition position in placedLetters)
+            foreach (LetterPosition position in PlacedLetters)
             {
                 if (!position.ContainsLetter()) continue;
                 if (position.LetterBlock.IsFirstLetter)
                 {
-                    position.LetterBlock.transform.position = firstLetterPosition;
+                    position.LetterBlock.transform.position = _firstLetterPosition;
                 }
                 else if (position.LetterBlock.IsSecondLetter)
                 {
-                    position.LetterBlock.transform.position = secondLetterPosition;
+                    position.LetterBlock.transform.position = _secondLetterPosition;
                 }
                 else
                 {
-                    playerLetters.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(position.LetterBlock);
+                    PlayerLetters.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(position.LetterBlock);
                 }
                 position.LetterBlock.transform.localScale= new Vector3(0.5f, 0.5f, 1);
                 position.RemoveLetter();
             }
 
-            placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
+            _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
         }
 
         private void InitPlacedLetterPositions()
         {
             for (int i = 0; i < 12; i++)
             {
-                //PlacedLetterPositions.Add(new Vector3(-2.5f + 0.45f * i, -1.7f), null);
-                placedLetters.Add(new LetterPosition(new Vector3(-2.5f + 0.45f * i, -1.7f), null));
+                PlacedLetters.Add(new LetterPosition(new Vector3(-2.5f + 0.45f * i, -1.7f), null));
             }
         }
 
@@ -192,9 +181,9 @@ namespace Assets.Scripts
             // Alleen wanneer mag versturen
             if (Player.CanMove)
             {
-                if (placedLetters.Any(x => x.LetterBlock != null))
+                if (PlacedLetters.Any(x => x.LetterBlock != null))
                 {
-                    foreach (LetterBlock block in placedLetters.Select(x => x.LetterBlock).ToList())
+                    foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
                     {
                         if (block == null) continue;
                         madeWord += block.GetLetter();
@@ -209,7 +198,7 @@ namespace Assets.Scripts
                         // Nieuwe letters genereren op lege plekken?
                         AddLetters(madeWord.Length - 2);
                         ChangeFixedLetters(madeWord);
-                        placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
+                        _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
                         //Player.MustThrowLetterAway = true;
                     }
                 } else
@@ -236,7 +225,7 @@ namespace Assets.Scripts
             char[] letters = GetLetters(amount);
             for (int i = 0; i < amount; i++)
             {
-                LetterPosition pos = playerLetters.FirstOrDefault(x => x.LetterBlock == null);
+                LetterPosition pos = PlayerLetters.FirstOrDefault(x => x.LetterBlock == null);
                 LetterBlock block = InstantiateLetterButton(letters[i], pos.Position);
                 pos.AddLetter(block);
             }
@@ -247,10 +236,7 @@ namespace Assets.Scripts
             StartingLetters =  Spawn(StartingLettersClass, this, sl =>
             {
                 sl.LetterManager = this;
-                sl.lastLetterPosition = lastLetterPosition;
             });
-
-            lastLetterPosition = StartingLetters.GetLastLetterPosition();
         }
 
         private void InitAllWords()
@@ -266,7 +252,7 @@ namespace Assets.Scripts
             {
                 value += (long) CharactersValues.First(x => x.Key == letter.ToString()).Value;
             }
-             if (word.Length >= 5 && word.Length <= 7) value = (long)(value * 1.5);
+            if (word.Length >= 5 && word.Length <= 7) value = (long)(value * 1.5);
             else if (word.Length >= 8 && word.Length <= 10) value *= 2;
             else if (word.Length == 11) value = (long)(value * 2.5);
             else if (word.Length == 12) value *= 3;
@@ -290,7 +276,7 @@ namespace Assets.Scripts
             int containsSecondLetter = -1;
             points = CalculatePoints(word);
             int i = 0;
-            foreach (var letterBlock in placedLetters.Select(x => x.LetterBlock).ToList())
+            foreach (var letterBlock in PlacedLetters.Select(x => x.LetterBlock).ToList())
             {
                 if (letterBlock == null) continue;
                 if (letterBlock.IsFirstLetter)
@@ -359,34 +345,34 @@ namespace Assets.Scripts
 
         public void LetterTouched(LetterBlock block)
         {
-            if (placedLetters.Select(x => x.LetterBlock).Contains(block))
+            if (PlacedLetters.Select(x => x.LetterBlock).Contains(block))
             {
-                LetterPosition letterPosition = placedLetters.FirstOrDefault(x => x.LetterBlock == block);
+                LetterPosition letterPosition = PlacedLetters.FirstOrDefault(x => x.LetterBlock == block);
                 if (block.IsFirstLetter)
                 {
-                    block.transform.position = firstLetterPosition;
+                    block.transform.position = _firstLetterPosition;
                 }
                 else if (block.IsSecondLetter)
                 {
-                    block.transform.position = secondLetterPosition;
+                    block.transform.position = _secondLetterPosition;
                 }
                 else
                 {
-                    playerLetters.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(block);
+                    PlayerLetters.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(block);
                 }
                 letterPosition?.RemoveLetter();
                 block.transform.localScale = new Vector3(0.5f, 0.5f, 1);
             }
             else
             {
-                if (placedLetters.Count(x => x.LetterBlock != null) >= 12) return;
+                if (PlacedLetters.Count(x => x.LetterBlock != null) >= 12) return;
                 if (!block.IsSecondLetter && !block.IsFirstLetter)
                 {
-                    playerLetters.FirstOrDefault(x => x.LetterBlock == block)?.RemoveLetter();
+                    PlayerLetters.FirstOrDefault(x => x.LetterBlock == block)?.RemoveLetter();
                 }
                 block.transform.localScale = new Vector3(0.4f, 0.4f, 1);
-                LetterPosition letterPosition = placedLetters.FirstOrDefault(x => x.LetterBlock == null);
-                letterPosition.AddLetter(block);
+                LetterPosition letterPosition = PlacedLetters.FirstOrDefault(x => x.LetterBlock == null);
+                letterPosition?.AddLetter(block);
             }
             CheckWordAndSetSubmitButtonState();
         }
@@ -412,7 +398,7 @@ namespace Assets.Scripts
 
         private void RemoveAllLettersFromPlayerBoard()
         {
-            foreach(LetterPosition position in placedLetters)
+            foreach(LetterPosition position in PlacedLetters)
             {
                 if (position.LetterBlock == null) continue;
                 Destroy(position.LetterBlock.gameObject);
@@ -422,14 +408,9 @@ namespace Assets.Scripts
 
         private void PlaceWordInGameBoard()
         {
-            string lastWord = PlacedWords[PlacedWords.Count - 1];
-            if(PlacedWords.Count > 1)
-            {
-                firstLetterPositionWordList.y -= 0.45f;
-                firstLetterPositionWordList.x = -2.75f;
-          
-            }
-            foreach(LetterBlock block in placedLetters.Select(x => x.LetterBlock).ToList())
+            Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
+            firstLetterPositionWordList.y -= 0.45f * PlacedWords.Count;
+            foreach(LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
             {
                 if (block == null) continue;
                 firstLetterPositionWordList.x += 0.45f;
@@ -439,18 +420,18 @@ namespace Assets.Scripts
         
         private void LetterDragged(LetterBlock draggedLetter)
         {
-            draggedLetter.LetterDragged(placedLetters, playerLetters);
+            draggedLetter.LetterDragged(PlacedLetters, PlayerLetters);
             CheckWordAndSetSubmitButtonState();
         }
 
         private void CheckWordAndSetSubmitButtonState()
         {
             string madeWord = "";
-            if (placedLetters.Any(x => x.LetterBlock != null))
+            if (PlacedLetters.Any(x => x.LetterBlock != null))
             {
                 bool containsFirstLetter = false;
                 bool containsSecondLetter = false;
-                foreach (LetterBlock block in placedLetters.Select(x => x.LetterBlock))
+                foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock))
                 {
                     if (block == null) continue;
                     madeWord += block.GetLetter();
@@ -466,12 +447,12 @@ namespace Assets.Scripts
 
                 if (Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
                 {
-                    placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonActiveMaterial;
+                    _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonActiveMaterial;
                     //TODO: Enable interaction when these are buttons (button.interactable = true)
                 }
                 else
                 {
-                    placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
+                    _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
                     //TODO: Disable interaction when these are buttons (button.interactable = false)
                 }
             }

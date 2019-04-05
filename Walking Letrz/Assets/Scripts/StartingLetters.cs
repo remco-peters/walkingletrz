@@ -11,7 +11,7 @@ public class StartingLetters : MyMonoBehaviour
     public char firstLetter { get; set; }
     public char secondLetter { get; set; }
 
-    private Vector3 pos;
+    private Vector3 pos = new Vector3(-2.5f, -2.5f);
     // Start is called before the first frame update
     private void Awake()
     {
@@ -22,7 +22,6 @@ public class StartingLetters : MyMonoBehaviour
     {
         firstLetter = LetterManager.GetLetters(1)[0];
         secondLetter = LetterManager.GetLetters(1)[0];
-        pos = lastLetterPosition;
 
         LetterManager.InstantiateLetterButton(firstLetter, pos, true);
         pos.x += 0.8f;
