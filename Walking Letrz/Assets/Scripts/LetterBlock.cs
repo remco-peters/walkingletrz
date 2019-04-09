@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Experimental.UIElements;
 
 public class LetterBlock : MyMonoBehaviour
 {
@@ -124,32 +122,28 @@ public class LetterBlock : MyMonoBehaviour
         {
             placedLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(this);
             if (placedLetterPositions.Count(x => x.LetterBlock != null) >= 12) return;
-            if (!IsSecondLetter && !IsFirstLetter)
+            if (!IsWalkingLetter())
             {
                 playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
             }
         }
     }
 
-    private void InsertLetterAndMoveOtherLetters(List<LetterPosition> placedLetterPos, int index, LetterBlock newLetter)
+    private void InsertLetterAndMoveOtherLetters(IEnumerable<LetterPosition> placedLetterPos, int index, LetterBlock newLetter)
     {
-        LetterBlock previous = newLetter;
+        if (!newLetter.IsWalkingLetter()) playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
         foreach (var position in placedLetterPos.Skip(index))
         {
-            if (previous == null) break;
+            if (newLetter == null) return;
             var current = position.LetterBlock;
-            position.AddLetter(previous);
-            previous = current;
+            position.AddLetter(newLetter);
+            newLetter = current;
         }
-        if (!IsSecondLetter && !IsFirstLetter)
-        {
-            playerLetterPositions.FirstOrDefault(x => x.LetterBlock == this)?.RemoveLetter();
-        }
-        if (previous == null) return; // else set last letter to playerpos
-        if (previous.IsFirstLetter) previous.transform.position = firstLetterPosition;
-        else if (previous.IsSecondLetter) previous.transform.position = secondLetterPosition;
-        else playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(previous);       
-        previous.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+        if (newLetter == null) return; // else set last letter to playerpos
+        if (newLetter.IsFirstLetter) newLetter.transform.position = firstLetterPosition;
+        else if (newLetter.IsSecondLetter) newLetter.transform.position = secondLetterPosition;
+        else playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(newLetter);       
+        newLetter.transform.localScale = new Vector3(0.5f, 0.5f, 1);
     }
 
     internal bool IsWalkingLetter()

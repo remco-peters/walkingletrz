@@ -1,15 +1,19 @@
-﻿using Assets.Scripts;
+﻿using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class GameState : MonoBehaviour
+public class GameState : MyMonoBehaviour
 {
     public GameObject GameBoardClass;
     public Camera CameraClass;
     public MyPlayer PlayerClass;
+    public MyBot BotClass;
     public HUD HUDClass;
     public LetterManager LetterManagerClass;
-    
+    public PlayerManager PlayerManagerClass;
+    public TheLetterManager TheLetterManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,12 +22,25 @@ public class GameState : MonoBehaviour
         Assert.IsNotNull(HUDClass, "HUD misses in GameState");
         Assert.IsNotNull(GameBoardClass, "GameBoard misses in GameState");
         Assert.IsNotNull(LetterManagerClass, "LetterManagerClass misses in GameState");
+        Assert.IsNotNull(PlayerManagerClass, "PlayerManagerClass misses in GameState");
         Instantiate(GameBoardClass);
         Instantiate(CameraClass);
         MyPlayer player = Instantiate(PlayerClass);
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
-        LetterManager letterManager = Instantiate(LetterManagerClass);
-        letterManager.Player = player;
+        TheLetterManager = Instantiate(TheLetterManager);
+        LetterManagerClass = Spawn(LetterManagerClass, this, letterManager =>
+        {
+            letterManager.TheLetterManager = TheLetterManager;
+            letterManager.Player = player;
+            letterManager.GameState = this;
+        });
+        PlayerManagerClass = Spawn(PlayerManagerClass, this);
+        BotClass = Spawn(BotClass, this, bot => { 
+            bot.LetterManager = LetterManagerClass;
+            bot.TheLetterManager = TheLetterManager;
+        });
+        PlayerManagerClass.players = new List<Player> {player}; //todo add bots or other players
+        BotClass.playerManager = PlayerManagerClass;
     }
 }
