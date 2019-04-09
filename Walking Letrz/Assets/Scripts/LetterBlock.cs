@@ -18,24 +18,10 @@ public class LetterBlock : MyMonoBehaviour
     private Vector3 firstLetterPosition = new Vector3(-2.5f, -2.5f);
     private Vector3 secondLetterPosition = new Vector3(-1.7f, -2.5f);
     private List<LetterPosition> playerLetterPositions;
-
-    private bool mouseDown;
-    private float timer;
-    private float timeDelay = 0.5f;
-
-    private void Update()
-    {
-        if (mouseDown)
-        {
-            timer += Time.deltaTime;
-        }
-    }
-
     private void OnMouseDown()
     {
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
         oldPosition = transform.position;
-        mouseDown = true;
     }
 
     private void OnMouseDrag()
@@ -47,21 +33,21 @@ public class LetterBlock : MyMonoBehaviour
 
     private void OnMouseUp()
     {
-        mouseDown = false;
-
-        if (timer > timeDelay)
-        {
-            OnLetterDragged(this);
-        }
-        else if (timer < timeDelay && Vector2.Distance(oldPosition, transform.position) < 0.3)
+        if (Vector2.Distance(oldPosition, transform.position) < 0.3)
         {
             OnLetterTouched(this);
         }
         else
         {
-            transform.position = oldPosition;
+            OnLetterDragged(this);
         }
-        timer = 0;
+    }
+
+    private void Drag()
+    {
+        Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f);
+        Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
+        transform.position = curPosition;
     }
 
     public void SetToOldPosition(List<LetterPosition> placedLetterPositions)
