@@ -13,6 +13,7 @@ public class GameState : MyMonoBehaviour
     public LetterManager LetterManagerClass;
     public PlayerManager PlayerManagerClass;
     public TheLetterManager TheLetterManager;
+    public AchievementManager AchievementManagerClass;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class GameState : MyMonoBehaviour
         Assert.IsNotNull(GameBoardClass, "GameBoard misses in GameState");
         Assert.IsNotNull(LetterManagerClass, "LetterManagerClass misses in GameState");
         Assert.IsNotNull(PlayerManagerClass, "PlayerManagerClass misses in GameState");
+        Assert.IsNotNull(AchievementManagerClass, "AchievementManagerClass misses in GameState");
         Instantiate(GameBoardClass);
         Instantiate(CameraClass);
         MyPlayer player = Instantiate(PlayerClass);
@@ -42,5 +44,9 @@ public class GameState : MyMonoBehaviour
         });
         PlayerManagerClass.players = new List<Player> {player}; //todo add bots or other players
         BotClass.playerManager = PlayerManagerClass;
+        LetterManager letterManager = Instantiate(LetterManagerClass);
+        letterManager.Player = player;
+        AchievementManager achievementManager = Instantiate(AchievementManagerClass);
+        achievementManager.CheckWordCountAchievement();
     }
 }
