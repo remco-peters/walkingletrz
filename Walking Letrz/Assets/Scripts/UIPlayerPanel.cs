@@ -42,6 +42,7 @@ public class UIPlayerPanel : UIBehaviour
 
         TimeRemainingText.text = "Time's up";
         InfoText.text = $"Time's up. Play again! You've got a total of {Player.EarnedPoints} points!";
+        
         InfoText.enabled = true;
     }
 

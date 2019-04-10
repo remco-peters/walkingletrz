@@ -52,3 +52,5 @@ MonoBehaviour:
     type: 3}
   LetterManagerClass: {fileID: 5501810388853740986, guid: b97e240c5575c4448848b8372db08d08,
     type: 3}
+  AchievementManagerClass: {fileID: 3347263276593153821, guid: 1daa07072f1794b4c8af5f4c505b01f7,
+    type: 3}
