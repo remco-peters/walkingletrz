@@ -76,7 +76,6 @@ namespace Assets.Scripts
         
         private void InstantiatePlayerLetters()
         {
-            Assert.IsNotNull(StartingLettersClass, "Whoops");
             StartLetters = Spawn(StartingLettersClass, this, sl =>
             {
                 sl.LetterManager = this;
@@ -156,7 +155,6 @@ namespace Assets.Scripts
             LetterBlock block;
             if(isFirstLetter || isSecondLetter)
             {
-                Debug.Log("whoop?");
                 block = FixedLettersBlockObject;
             } else
             {

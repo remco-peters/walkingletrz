@@ -43,13 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4cd3c27d4ea44beb4f2a63ad09f45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartingLettersClass: {fileID: 99, guid: 9000ed06ddc314d9abe1d5a5652174c3, type: 3}
   PlayerLettersClass: {fileID: 92, guid: b516a8a346e354294a68a088cdcfe1d2, type: 3}
   LetterBlockObject: {fileID: 5298373603756057318, guid: c9cc7160b0c8b3f4f98b768d42226ca6,
     type: 3}
   TheLetterManager: {fileID: 8869493955269307291, guid: 1e092641aa86d3f40b92fb92fe41038c,
     type: 3}
   TradeLettersBtnClass: {fileID: 89, guid: 36b2323d2113b4c48aa74fda12d986e9, type: 3}
+  StartingLettersClass: {fileID: 99, guid: 9000ed06ddc314d9abe1d5a5652174c3, type: 3}
   PlaceButtonInactiveMaterial: {fileID: 2100000, guid: 8819f91770eaa9c4791077b3cb9871fb,
     type: 2}
   PlaceButtonActiveMaterial: {fileID: 2100000, guid: 376dccee5ce9c134eadae69dcc5b01a4,
