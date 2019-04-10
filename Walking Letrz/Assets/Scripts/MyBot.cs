@@ -35,19 +35,19 @@ namespace Assets.Scripts
                     {
                         indexFirstLetter = word.IndexOf(firstLetter);
                         indexSecondLetter = word.LastIndexOf(secondLetter);
-                        if (indexFirstLetter == -1 || indexSecondLetter == -1 || indexFirstLetter >= indexSecondLetter || !CheckWord(word, indexFirstLetter, indexSecondLetter)) continue;
+                        if (indexFirstLetter == -1 || indexSecondLetter == -1 || indexFirstLetter >= indexSecondLetter || !CheckWord(word, indexFirstLetter, indexSecondLetter) || word.Length > 7) continue;
                         foundWord = word;
                         break;
                     }
                     playerManager.NextTurn();
-                    timeRemaining = Random.Range(2, 10);
+                    timeRemaining = Random.Range(5, 12);
                     if (foundWord == "")
                     {
                         Letters = TheLetterManager.GetLetters(15).ToList();
                         return;
                     }
                     ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
-                    EarnedPoints += 10;
+                    EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
                     PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
                     LetterManager.ChangeFixedLetters(foundWord);
                 }
