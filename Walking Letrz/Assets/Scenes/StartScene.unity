@@ -213,5 +213,17 @@ PrefabInstance:
       propertyPath: PlayerManagerClass
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7894821349571393290, guid: 8d04773724aa046d98ddfb51db478e9b,
+        type: 3}
+      propertyPath: CameraClass
+      value: 
+      objectReference: {fileID: 8887447394265823373, guid: 4f9d916de8acd554fa49625368025a19,
+        type: 3}
+    - target: {fileID: 7894821349571393290, guid: 8d04773724aa046d98ddfb51db478e9b,
+        type: 3}
+      propertyPath: AchievementManagerClass
+      value: 
+      objectReference: {fileID: 3347263276593153821, guid: 1daa07072f1794b4c8af5f4c505b01f7,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d04773724aa046d98ddfb51db478e9b, type: 3}

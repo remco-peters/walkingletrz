@@ -49,3 +49,4 @@ MonoBehaviour:
     type: 3}
   WalkingLetrMaterial: {fileID: 2100000, guid: 52d59ad7b47d44bf78e9247e28a8b3de, type: 2}
   NormalLetrMaterial: {fileID: 2100000, guid: cd03590dd84ea4d628efce637b85fd6c, type: 2}
+  StartingLetters: {fileID: 0}
