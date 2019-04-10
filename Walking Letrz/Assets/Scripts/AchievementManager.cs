@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
-public class AchievementManager : MonoBehaviour
+public class AchievementManager : MyMonoBehaviour
 {
-    private int _wordCount;
+    private static int _wordCount;
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -13,38 +14,30 @@ public class AchievementManager : MonoBehaviour
     
     public void SubmitWordCountToAchievements(int count)
     {
-        int storedCount = PlayerPrefs.GetInt("playerWordCount");
-        if (storedCount == 0)
-        {
-            PlayerPrefs.SetInt("playerWordCount", count);
-            _wordCount = count;
-        }
-        else
-        {
-            count += storedCount;
-            PlayerPrefs.SetInt("playedWordCount", count);
-            _wordCount = count;
-        }
-        CheckWordCountAchievement();   
+//        int storedCount = PlayerPrefs.GetInt("playerWordCount");
+        PlayerPrefs.SetInt("playerWordCount", count);
+        _wordCount = count;
+        Debug.Log($"wordcount before check: {count}");
+        CheckWordCountAchievement();
     }
 
-    internal void CheckWordCountAchievement()
+    internal string CheckWordCountAchievement()
     {
-        if (_wordCount == 0)
+        
+//        Debug.Log($"wordcount: {_wordCount}");
+        if (_wordCount == 5)
         {
-            _wordCount = PlayerPrefs.GetInt("playerWordCount");
+            return "5 word achievement get";
         }
-        if (_wordCount >= 5)
+        if (_wordCount == 10)
         {
-            Debug.Log("5 word achievement get");
+            return "10 word achievement get";
         }
-        else if (_wordCount >= 10)
+        if (_wordCount == 25)
         {
-            Debug.Log("10 word achievement get");
+            return "25 word achievement get";
         }
-        else if (_wordCount >= 25)
-        {
-            Debug.Log("25 word achievement get");
-        }
+
+        return "";
     }
 }

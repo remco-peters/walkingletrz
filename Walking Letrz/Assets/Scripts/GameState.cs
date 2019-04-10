@@ -27,7 +27,9 @@ public class GameState : MyMonoBehaviour
         Assert.IsNotNull(AchievementManagerClass, "AchievementManagerClass misses in GameState");
         Instantiate(GameBoardClass);
         Instantiate(CameraClass);
-        MyPlayer player = Instantiate(PlayerClass);
+
+        AchievementManager achievementManager = Instantiate(AchievementManagerClass);
+        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; });
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
         TheLetterManager = Instantiate(TheLetterManager);
@@ -44,9 +46,8 @@ public class GameState : MyMonoBehaviour
         });
         PlayerManagerClass.players = new List<Player> {player}; //todo add bots or other players
         BotClass.playerManager = PlayerManagerClass;
-        LetterManager letterManager = Instantiate(LetterManagerClass);
-        letterManager.Player = player;
-        AchievementManager achievementManager = Instantiate(AchievementManagerClass);
+        
+        PlayerPrefs.DeleteKey("playerWordCount");
         achievementManager.CheckWordCountAchievement();
     }
 }

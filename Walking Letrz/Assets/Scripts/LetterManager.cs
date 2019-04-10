@@ -36,7 +36,6 @@ namespace Assets.Scripts
         public MyPlayer Player { get; set; }
         public GameState GameState { get; set; }
         #endregion
-        public AchievementManager AchievementManager { get; set; }
 
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
@@ -201,7 +200,6 @@ namespace Assets.Scripts
 
         private void PlaceWord()
         {
-            AchievementManager.SubmitWordCountToAchievements(5);
             // Alleen wanneer mag versturen
             if (Player.CanMove)
             {
@@ -221,6 +219,7 @@ namespace Assets.Scripts
                     ChangeFixedLetters(madeWord);
                     _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
                     GameState.PlayerManagerClass.NextTurn(Player);
+                    Player.IncreaseWordCount();
                 } 
                 else
                 {
