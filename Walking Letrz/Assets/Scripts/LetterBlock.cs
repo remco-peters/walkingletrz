@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class LetterBlock : MyMonoBehaviour
 {
@@ -11,6 +12,14 @@ public class LetterBlock : MyMonoBehaviour
     public bool IsFirstLetter { get; set; } = false;
     public bool IsSecondLetter { get; set; } = false;
 
+    public void ButtonClicked()
+    {
+        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
+        oldPosition = transform.position;
+    }
+
+    /*
+    public event UnityAction<LetterBlock> OnLetterDragged;
     private Vector3 offset;
     private Vector3 oldPosition;
     private Vector3 firstLetterPosition = new Vector3(-2.5f, -2.5f);
@@ -135,10 +144,11 @@ public class LetterBlock : MyMonoBehaviour
     internal bool IsWalkingLetter()
     {
         return IsFirstLetter || IsSecondLetter;
-    }
+    }*/
 
     internal char GetLetter()
     {
-        return GetComponentsInChildren<TextMesh>()[0].text[0];
+        return GetComponentInChildren<Text>().text[0];
     }
+
 }

@@ -130,11 +130,13 @@ namespace Assets.Scripts
             else if (word.Length == 12) value *= 3;
             return value;
         }      
+        
         public bool Exists(string word)
         {
             return AllWords.Contains(word);
         }
 
+// Todo: Deze aanpassen aan nieuwe variant
         public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false)
         {
             return Spawn(LetterBlockObject, this, lttrblock =>
@@ -148,6 +150,7 @@ namespace Assets.Scripts
                 lttrblock.transform.position = pos;
             });
         }
+        // Todo: Deze aanpassen aan de nieuwe variant
         public void PlaceWordInGameBoard(List<LetterBlock> blocks)
         {
             Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);

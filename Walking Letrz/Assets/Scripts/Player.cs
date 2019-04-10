@@ -8,7 +8,7 @@ namespace Assets.Scripts
         public long EarnedPoints { get; set; }
         public bool CanMove { get; set; }
         public LetterManager LetterManager { get; set; }
-        public string Name { get;set; }
+        public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
 
         public void Start()

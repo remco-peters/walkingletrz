@@ -3,28 +3,63 @@
 public class LetterPosition
 {
     // Start is called before the first frame update
-    internal LetterBlock LetterBlock { get; set; }
-    internal readonly Vector3 Position;
+    public LetterBlock LetterBlock { get; set; }
+    private int Row;
+    private int OldIndex;
+    private int CurrentIndex;
 
-    internal LetterPosition(Vector3 position, LetterBlock letterBlock)
+    internal LetterPosition(int row, int index, LetterBlock letterBlock)
     {
-        Position = position;
+        Row = row;
+        CurrentIndex = index;
         LetterBlock = letterBlock;
     }
 
-    internal bool ContainsLetter()
+    public bool ContainsLetter()
     {
         return LetterBlock != null;
     }
 
-    internal void RemoveLetter()
+    public void RemoveLetter()
     {
         LetterBlock = null;
+        SetRow(0);
     }
 
-    internal void AddLetter(LetterBlock letter)
+    public int GetRow()
     {
-        if (letter != null) letter.transform.position = Position;
+        return Row;
+    }
+
+    public void SetRow(int row)
+    {
+        Row = row;
+    }
+
+    public int GetOldIndex()
+    {
+        return OldIndex;
+    }
+
+    public void SetIndex(int index)
+    {
+        OldIndex = index;
+    }
+
+    public int GetCurrentIndex()
+    {
+        return CurrentIndex;
+    }
+
+    public void SetCurrentIndex(int wbIndex)
+    {
+        CurrentIndex = wbIndex;
+    }
+
+    public void AddLetter(LetterBlock letter, int oldIndex, int row)
+    {
         LetterBlock = letter;
+        Row = row;
+        OldIndex = oldIndex;
     }
 }

@@ -15,8 +15,9 @@ public class MyPlayer : Player
     {
         base.Start();
         CanMove = true;
-        Instantiate(WriteBoard);
         placedWordCount = 0;
+        //Todo fix this
+        //Instantiate(WriteBoard);
         //GameObject LetterBoard = Instantiate(LetterBoardObject);
     }
 
@@ -26,15 +27,15 @@ public class MyPlayer : Player
         base.Update();
     }
 
-   /* public void StartCooldown()
-    {
-        StartCoroutine(CoolDownTimer());
-    }*/
+    /* public void StartCooldown()
+     {
+         StartCoroutine(CoolDownTimer());
+     }*/
 
     IEnumerator CoolDownTimer()
     {
         Debug.Log("Placed a word");
-        while(CoolDownTime >= 0)
+        while (CoolDownTime >= 0)
         {
             CoolDownTime -= Time.deltaTime;
             CanMove = false;
