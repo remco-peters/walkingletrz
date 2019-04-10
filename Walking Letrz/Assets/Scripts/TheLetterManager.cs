@@ -17,11 +17,45 @@ namespace Assets.Scripts
         public LetterBlock LetterBlockObject;
         public Material WalkingLetrMaterial;
         public Material NormalLetrMaterial;
+        public StartingLetters StartingLetters;
 
         public void Start()
         {
             InitCharactersValues();
             InitAllWords();
+            InitStartingLetters();
+        }
+
+        public void InitStartingLetters()
+        {
+            FirstLetter = GetLetters(1)[0];
+            SecondLetter = GetLetters(1)[0];
+        }
+
+        public char[] GetLetters(int amount)
+        {
+            char[] startingLetters = new char[amount];
+            List<char> availableLetters =new List<char>
+            { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+
+            List<char> lettersToChoseFrom = new List<char>();
+
+            foreach (char c in availableLetters)
+            {
+                bool isVowel = "aeiou".IndexOf(c) >= 0;
+                long val = CharactersValues[c];
+                if (isVowel) val -= 10;
+                for (int i = 0; i < 8 - val; i++)
+                {
+                    lettersToChoseFrom.Add(c);
+                }
+            }
+            for (int i = 0; i < amount; i++)
+            {
+                startingLetters[i] = lettersToChoseFrom[UnityEngine.Random.Range(0, lettersToChoseFrom.Count)];
+            }
+            return startingLetters;
         }
 
         public void InitCharactersValues()
@@ -100,17 +134,6 @@ namespace Assets.Scripts
         {
             return AllWords.Contains(word);
         }
-       
-        public void PlaceWordInGameBoard(char[] placedLetters)
-        {
-            Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
-            firstLetterPositionWordList.y -= 0.45f * PlacedWords.Count;
-            foreach(char c in placedLetters)
-            {
-                firstLetterPositionWordList.x += 0.45f;
-                InstantiateLetterButton(c, firstLetterPositionWordList);
-            }
-        }
 
         public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false)
         {
@@ -124,6 +147,17 @@ namespace Assets.Scripts
                 lttrblock.GetComponentsInChildren<TextMesh>()[1].text = CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
                 lttrblock.transform.position = pos;
             });
+        }
+        public void PlaceWordInGameBoard(List<LetterBlock> blocks)
+        {
+            Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
+            firstLetterPositionWordList.y -= 0.45f * PlacedWords.Count;
+            foreach(LetterBlock block in blocks)
+            {
+                if (block == null) continue;
+                firstLetterPositionWordList.x += 0.45f;
+                InstantiateLetterButton(block.GetLetter(), firstLetterPositionWordList, block.IsFirstLetter, block.IsSecondLetter);
+            }
         }
     }
 }

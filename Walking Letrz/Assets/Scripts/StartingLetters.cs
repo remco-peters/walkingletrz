@@ -5,11 +5,10 @@ using Vector3 = UnityEngine.Vector3;
 public class StartingLetters : MyMonoBehaviour
 {
 
-    public LetterBlock StartingLetterBlockObject;
     public LetterManager LetterManager { get; set; }    
-    public Vector3 lastLetterPosition { get; set; }
     public char firstLetter { get; set; }
     public char secondLetter { get; set; }
+    public TheLetterManager TheLetterManager { get;set; }
 
     private Vector3 pos = new Vector3(-2.5f, -2.5f);
     // Start is called before the first frame update
@@ -20,8 +19,8 @@ public class StartingLetters : MyMonoBehaviour
 
     private void InitStartingLetters()
     {
-        firstLetter = LetterManager.GetLetters(1)[0];
-        secondLetter = LetterManager.GetLetters(1)[0];
+        firstLetter = TheLetterManager.GetLetters(1)[0];
+        secondLetter = TheLetterManager.GetLetters(1)[0];
 
         LetterManager.InstantiateLetterButton(firstLetter, pos, true);
         pos.x += 0.8f;
