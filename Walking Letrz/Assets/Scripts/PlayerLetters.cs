@@ -14,6 +14,9 @@ public class PlayerLetters : MyMonoBehaviour
 //    private int letterCount = 15;
     private char[] startingLetters = new char[15];
     private Vector3 pos;
+    private int row;
+    private int version = 2;
+    private int index;
 
     private void Awake()
     {
@@ -25,12 +28,32 @@ public class PlayerLetters : MyMonoBehaviour
     {
         return startingLetters;
     }
-
+    
     public void InitPlayerLetters()
     {
         startingLetters = LetterManager.GetLetters(15);
         for (int i = 0; i < startingLetters.Length; i++)
         {
+            if(version == 2)
+            {
+                if(i < 5)
+                {
+                    row = 1;
+                    index = i;
+                }
+                else if(i < 12)
+                {
+                    row = 2;
+                    index = i - 5;
+                }
+                else
+                {
+                    row = 3;
+                    index = i - 12;
+                }
+            }
+
+
             if (i > 0)
                 pos.x += 0.80f;
             if (i == 5)
@@ -43,9 +66,10 @@ public class PlayerLetters : MyMonoBehaviour
             {
                 pos.x = -0.9f;
                 pos.y -= 0.75f;
-            }
-            LetterBlock letterBlock = LetterManager.InstantiateLetterButton(startingLetters[i], pos);
-            LetterManager.PlayerLetterPositions.Add(pos, letterBlock);
+            } 
+            //Todo remove all the positions
+            LetterBlock letterBlock = LetterManager.InstantiateLetterButton(startingLetters[i], pos, false, false, row);
+            LetterManager.PlayerLetters.Add(new LetterPosition(row, index, letterBlock));
         }
         pos.x += 0.80f;
     }

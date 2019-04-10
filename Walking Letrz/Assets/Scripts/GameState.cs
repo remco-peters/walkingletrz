@@ -1,26 +1,21 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Assertions;
 
-public class GameState : MonoBehaviour
+public class GameState : MyMonoBehaviour
 {
-    public DynamicUI GameBoardClass;
+    public DynamicUI MediumGameBoard;
     public Camera CameraClass;
-    public MyPlayer PlayerClass;
-    public HUD HUDClass;
     
     // Start is called before the first frame update
     void Start()
     {
         Assert.IsNotNull(CameraClass, "Camera misses in GameState");
-        Assert.IsNotNull(PlayerClass, "Player misses in GameState");
-        Assert.IsNotNull(HUDClass, "HUD misses in GameState");
-        Assert.IsNotNull(GameBoardClass, "GameBoard misses in GameState");
-
-        Instantiate(GameBoardClass);
+        Assert.IsNotNull(MediumGameBoard, "GameBoard misses in GameState");
+        
+        // If medium is chosen
+        Instantiate(MediumGameBoard);
         Instantiate(CameraClass);
-
-        MyPlayer Player = Instantiate(PlayerClass);
-        HUD HUD = Instantiate(HUDClass);
-        HUD.Player = Player;
     }
 }

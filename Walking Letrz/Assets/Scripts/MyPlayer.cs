@@ -2,49 +2,36 @@
 using Assets.Scripts;
 using UnityEngine;
 
-public class MyPlayer : MyMonoBehaviour
+public class MyPlayer : Player
 {
-    public LetterManager LetterManagerClass;
-
-    public float TimeRemaining { get; set; }
     public float CoolDownTime = 10;
-    public bool CanMove = true;
-    public long EarnedPoints { get; set; }
     public string InfoText;
-    public GameObject WriteBoard { get; set; }
-    public GameObject LetterBoardObject { get; set; }
-
+    public GameObject WriteBoard, LetterBoardObject;
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        Instantiate(WriteBoard);
-        GameObject LetterBoard = Instantiate(LetterBoardObject);
-        LetterManager letterManager = Instantiate(LetterManagerClass);
-        TimeRemaining = 300;
-        letterManager.Player = this;
-        EarnedPoints = 0;
+        base.Start();
+        CanMove = true;
+        //Todo fix this
+        //Instantiate(WriteBoard);
+        //GameObject LetterBoard = Instantiate(LetterBoardObject);
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        TimeRemaining -= Time.deltaTime;
-
-        if (TimeRemaining <= 0)
-        {
-            CanMove = false;
-        }
+        base.Update();
     }
 
-   /* public void StartCooldown()
-    {
-        StartCoroutine(CoolDownTimer());
-    }*/
+    /* public void StartCooldown()
+     {
+         StartCoroutine(CoolDownTimer());
+     }*/
 
     IEnumerator CoolDownTimer()
     {
         Debug.Log("Placed a word");
-        while(CoolDownTime >= 0)
+        while (CoolDownTime >= 0)
         {
             CoolDownTime -= Time.deltaTime;
             CanMove = false;

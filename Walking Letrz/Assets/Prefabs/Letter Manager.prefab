@@ -45,14 +45,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartingLettersClass: {fileID: 99, guid: 9000ed06ddc314d9abe1d5a5652174c3, type: 3}
   PlayerLettersClass: {fileID: 92, guid: b516a8a346e354294a68a088cdcfe1d2, type: 3}
-  LetterBlockObject: {fileID: 7022275390496583630, guid: 2f33818c4004a4d52bbe1b7dffa620c9,
+  LetterBlockObject: {fileID: 5298373603756057318, guid: c9cc7160b0c8b3f4f98b768d42226ca6,
     type: 3}
-  RemoveWordBtnClass: {fileID: 4138439581318517794, guid: 758b6f6fd035718439fa51b9a057cfd0,
-    type: 3}
-  PlaceWordBtnClass: {fileID: 3858483424432135390, guid: 8cdeab5dda3ac774d8c6c31b9d8de819,
+  TheLetterManager: {fileID: 8869493955269307291, guid: 1e092641aa86d3f40b92fb92fe41038c,
     type: 3}
   TradeLettersBtnClass: {fileID: 89, guid: 36b2323d2113b4c48aa74fda12d986e9, type: 3}
-  Woordenlijst: {fileID: 4900000, guid: c0bd38f26abd1b641a02eb44a24c7762, type: 3}
-  JsonAsset: {fileID: 4900000, guid: 0488c993e50388942bf493d29a66d114, type: 3}
-  WalkingLetrMaterial: {fileID: 2100000, guid: 52d59ad7b47d44bf78e9247e28a8b3de, type: 2}
-  NormalLetrMaterial: {fileID: 2100000, guid: cd03590dd84ea4d628efce637b85fd6c, type: 2}
+  PlaceButtonInactiveMaterial: {fileID: 2100000, guid: 8819f91770eaa9c4791077b3cb9871fb,
+    type: 2}
+  PlaceButtonActiveMaterial: {fileID: 2100000, guid: 376dccee5ce9c134eadae69dcc5b01a4,
+    type: 2}

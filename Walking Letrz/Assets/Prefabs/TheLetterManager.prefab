@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &22
+--- !u!1 &7971823954475979799
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 42}
-  - component: {fileID: 92}
+  - component: {fileID: 3890907804835774958}
+  - component: {fileID: 8869493955269307291}
   m_Layer: 0
-  m_Name: PlayerLetters
+  m_Name: TheLetterManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &42
+--- !u!4 &3890907804835774958
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22}
+  m_GameObject: {fileID: 7971823954475979799}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2857695, y: -0.38307965, z: 0.1077705}
+  m_LocalPosition: {x: 93.07591, y: 389.20206, z: -1.2254615}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &92
+--- !u!114 &8869493955269307291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22}
+  m_GameObject: {fileID: 7971823954475979799}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d957216ea403d4dfdb55e9b5bfac6044, type: 3}
+  m_Script: {fileID: 11500000, guid: 25fc74d915b869b4ca0ff9c1989355b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  JsonAsset: {fileID: 4900000, guid: 0488c993e50388942bf493d29a66d114, type: 3}
+  Woordenlijst: {fileID: 4900000, guid: c0bd38f26abd1b641a02eb44a24c7762, type: 3}
   LetterBlockObject: {fileID: 5298373603756057318, guid: c9cc7160b0c8b3f4f98b768d42226ca6,
     type: 3}
+  WalkingLetrMaterial: {fileID: 2100000, guid: 52d59ad7b47d44bf78e9247e28a8b3de, type: 2}
+  NormalLetrMaterial: {fileID: 2100000, guid: cd03590dd84ea4d628efce637b85fd6c, type: 2}

@@ -194,7 +194,19 @@ PrefabInstance:
         type: 3}
       propertyPath: GameBoardClass
       value: 
-      objectReference: {fileID: 1423110881553052051, guid: 38c79472598f46447967e4e41b5d09fa,
+      objectReference: {fileID: 1911638306418503643, guid: 38c79472598f46447967e4e41b5d09fa,
+        type: 3}
+    - target: {fileID: 7894821349571393290, guid: 8d04773724aa046d98ddfb51db478e9b,
+        type: 3}
+      propertyPath: TheLetterManagerClass
+      value: 
+      objectReference: {fileID: 8869493955269307291, guid: 1e092641aa86d3f40b92fb92fe41038c,
+        type: 3}
+    - target: {fileID: 7894821349571393290, guid: 8d04773724aa046d98ddfb51db478e9b,
+        type: 3}
+      propertyPath: BotClass
+      value: 
+      objectReference: {fileID: 7829801615801251863, guid: 38887e225f69e5c4aafe18232c968047,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d04773724aa046d98ddfb51db478e9b, type: 3}

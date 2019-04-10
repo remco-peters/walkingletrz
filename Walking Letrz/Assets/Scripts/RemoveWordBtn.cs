@@ -4,7 +4,7 @@ using UnityEngine.Events;
 public class RemoveWordBtn : MonoBehaviour
 {
     public event UnityAction OnRemoveTouched;
-    private void OnMouseDown()
+    public void ButtonClicked()
     {
         OnRemoveTouched();
     }
