@@ -74,7 +74,7 @@ public class DynamicUI : MyMonoBehaviour
             bot.TheLetterManager = TheLetterManagerClass;
         });
 
-        PlayerManagerClass.players = new List<Player> { player }; // Todo add bots or other players
+        PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
         BotClass.playerManager = PlayerManagerClass;
     }
 }

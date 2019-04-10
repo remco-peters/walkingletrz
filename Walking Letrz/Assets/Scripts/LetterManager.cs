@@ -34,7 +34,7 @@ namespace Assets.Scripts
         #endregion UI
         
         #region unity properties
-        public PlayerLetters PlayerLettersClass;
+        //public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
         public TheLetterManager TheLetterManager;
         public TradeLettersBtn TradeLettersBtnClass;
@@ -58,7 +58,8 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            InstantiatePlayerLetters();
+            //InstantiatePlayerLetters();
+            InitFirstLetters();
             InitPlacedLetterPositions();
             InstantiateTradeLetterBtn();
 
@@ -74,12 +75,15 @@ namespace Assets.Scripts
         
         private void InitStartingLetters()
         {
-            FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, _firstLetterPosition, true, false, 0, 0);
-            SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, _secondLetterPosition, false, true, 0, 1);
+            //FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, _firstLetterPosition, true, false, 0, 0);
+            //SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, _secondLetterPosition, false, true, 0, 1);
         }
 
         public void InitFirstLetters()
         {
+            int version = 2;
+            int row = 0;
+            int index = 0;
             Vector3 pos = new Vector3(-0.9f, -2.5f);
             char[] startingLetters = TheLetterManager.GetLetters(15);
             for (int i = 0; i < startingLetters.Length; i++)
@@ -116,7 +120,7 @@ namespace Assets.Scripts
                     pos.y -= 0.75f;
                 }
                 //Todo remove all the positions
-                LetterBlock letterBlock = LetterManager.InstantiateLetterButton(startingLetters[i], pos, false, false, row);
+                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row);
                 PlayerLetters.Add(new LetterPosition(row, index, letterBlock));
             }
             pos.x += 0.80f;
@@ -190,12 +194,9 @@ namespace Assets.Scripts
                 //pos.AddLetter(letterBlock);
             }
             Player.TimeRemaining -= 10;
-            GameState.PlayerManagerClass.NextTurn();
+            DynamicUi.PlayerManagerClass.NextTurn();
         }
-
-        public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
-        {
-          
+        
         public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
         {
             LetterBlock block;
@@ -258,7 +259,7 @@ namespace Assets.Scripts
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
                     PlaceWordInGameBoard();
                     RemoveAllLettersFromPlayerBoard();
-                    AddLetters(madeWord.Length - 2);
+                    //AddLetter(madeWord.Length - 2);
                     ChangeFixedLetters(madeWord);
                     //GameState.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
@@ -305,7 +306,7 @@ namespace Assets.Scripts
         }
 
         // TheLetterManager
-        public char[] GetLetters(int amount)
+        /*public char[] GetLetters(int amount)
         {
             char[] startingLetters = new char[amount];
             List<char> availableLetters = new List<char>
@@ -336,6 +337,52 @@ namespace Assets.Scripts
             }
 
             return startingLetters;
+        }*/
+
+        // TheLetterManager
+        private void PlaceWordInGameBoard()
+        {
+            // Insantiate wordHolder
+            GameObject wordHolder = Instantiate(GameBoardWordHolder);
+
+            // Walk through all the letters placed
+            foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
+            {
+                if (block != null)
+                {
+                    block.transform.SetParent(wordHolder.transform);
+                    block.GetComponent<Button>().interactable = false;
+
+                    // Replace placeholder with letter on playerBoard
+                    LetterPosition letterPos = PlacedLetters.FirstOrDefault(x => x.LetterBlock == block);
+                    int row = letterPos.GetRow();
+                    int index = letterPos.GetOldIndex();
+                    int currentIndex = letterPos.GetOldIndex();
+                    PlayerLetters.Remove(letterPos);
+
+                    // Placeholders verwijderen
+                    GameObject parentRow = GetRightRow(row);
+                    Transform placeHolder = parentRow.transform.GetChild(index);
+                    Destroy(placeHolder.gameObject);
+
+                    // Lege gameobjecten toevoegen aan writeboard
+                    GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
+                    emptyBlock.transform.SetParent(WritingBoard.transform);
+                    emptyBlock.transform.SetSiblingIndex(currentIndex);
+
+                    // Nieuwe playerletters aanmaken
+                    if (!block.IsFirstLetter && !block.IsSecondLetter)
+                    {
+                        AddLetter(row, index);
+                    }
+                }
+                else
+                {
+                    GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
+                    emptyPlaceHolder.transform.SetParent(wordHolder.transform);
+                }
+                wordHolder.transform.SetParent(GameBoardWordContainer.transform);
+            }
         }
 
         public void LetterTouched(LetterBlock block)
@@ -397,8 +444,8 @@ namespace Assets.Scripts
         
         private void LetterDragged(LetterBlock draggedLetter)
         {
-            draggedLetter.LetterDragged(PlacedLetters, PlayerLetters);
-            CheckWordAndSetSubmitButtonState();
+            //draggedLetter.LetterDragged(PlacedLetters, PlayerLetters);
+            //CheckWordAndSetSubmitButtonState();
         }
 
         private void CheckWordAndSetSubmitButtonState()

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -29,8 +30,8 @@ namespace Assets.Scripts
             foreach (Player player in Players)
             {
                 //todo somehow get the walkingletterz of the player
-                LetterBlock firstLetter = player.TheLetterManager.InstantiateLetterButton(FirstLetter, player.LetterManager._firstLetterPosition, true);
-                LetterBlock secondLetter = player.LetterManager.InstantiateLetterButton(SecondLetter, player.LetterManager._secondLetterPosition, false, true);
+                LetterBlock firstLetter = player.LetterManager.InstantiateLetterButton(FirstLetter, new Vector3(), true, false, 0, 0);
+                LetterBlock secondLetter = player.LetterManager.InstantiateLetterButton(SecondLetter, new Vector3(), false, true, 0, 1);
             }
         }
     }

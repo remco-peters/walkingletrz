@@ -6,6 +6,7 @@ public class StartingLetters : MyMonoBehaviour
 {
 
     public LetterManager LetterManager { get; set; }    
+    public TheLetterManager TheLetterManager { get; set; }    
     public char firstLetter { get; set; }
     public char secondLetter { get; set; }
     //Todo remove all the positions

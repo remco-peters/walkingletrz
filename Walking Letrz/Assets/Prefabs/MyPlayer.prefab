@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoolDownTime: 10
-  CanMove: 1
   InfoText: 
   WriteBoard: {fileID: 7333138695347828264, guid: 40df59ee1256e3345a2d6b37ff878437,
     type: 3}

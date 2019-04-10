@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts;
 using UnityEngine;
-
+/*
 public class PlayerLetters : MyMonoBehaviour
 {    
     private char[] availableLetters = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -31,7 +31,7 @@ public class PlayerLetters : MyMonoBehaviour
     
     public void InitPlayerLetters()
     {
-        startingLetters = LetterManager.GetLetters(15);
+        startingLetters = TheLetterManager.GetLetters(15);
         for (int i = 0; i < startingLetters.Length; i++)
         {
             if(version == 2)
@@ -73,4 +73,4 @@ public class PlayerLetters : MyMonoBehaviour
         }
         pos.x += 0.80f;
     }
-}
+}*/
