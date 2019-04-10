@@ -59,6 +59,7 @@ namespace Assets.Scripts
         private void Start()
         {
             //InstantiatePlayerLetters();
+            InitStartingLetters();
             InitFirstLetters();
             InitPlacedLetterPositions();
             InstantiateTradeLetterBtn();
@@ -75,8 +76,8 @@ namespace Assets.Scripts
         
         private void InitStartingLetters()
         {
-            //FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, _firstLetterPosition, true, false, 0, 0);
-            //SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, _secondLetterPosition, false, true, 0, 1);
+            InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
+            InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);
         }
 
         public void InitFirstLetters()

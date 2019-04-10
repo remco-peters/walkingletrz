@@ -15,15 +15,12 @@ public class GameState : MyMonoBehaviour
     void Start()
     {
         Assert.IsNotNull(CameraClass, "Camera misses in GameState");
-        //AchievementManager achievementManager = Instantiate(AchievementManagerClass);
-        //MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; });
-        
-        //PlayerManagerClass.Players = new List<Player> {player, BotClass}; //todo add bots or other players
-        
+        Assert.IsNotNull(MediumGameBoard, "GameBoard misses in GameState");
+
+
         PlayerPrefs.DeleteKey("playerWordCount");
         PlayerPrefs.DeleteKey("playerPointsCount");
-        Assert.IsNotNull(MediumGameBoard, "GameBoard misses in GameState");
-        
+
         // If medium is chosen
         Instantiate(MediumGameBoard);
         Instantiate(CameraClass);

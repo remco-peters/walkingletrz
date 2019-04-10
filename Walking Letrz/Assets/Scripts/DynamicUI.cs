@@ -27,7 +27,8 @@ public class DynamicUI : MyMonoBehaviour
     public TheLetterManager TheLetterManagerClass;
     public GameObject GameBoardWordHolder;
     public GameObject GameBoardWordContainer;
-    
+    public AchievementManager AchievementManagerClass;
+
     void Awake()
     {
         TheLetterManagerClass = Spawn(TheLetterManagerClass, this);
@@ -42,7 +43,8 @@ public class DynamicUI : MyMonoBehaviour
         Assert.IsNotNull(PlayerManagerClass, "PlayerManagerClass misses in GameState");
         Assert.IsNotNull(TheLetterManagerClass, "TheLetterManagerClass misses in GameState");
 
-        MyPlayer player = Instantiate(PlayerClass);
+        AchievementManager achievementManager = Instantiate(AchievementManagerClass);
+        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; });
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
         
@@ -75,6 +77,7 @@ public class DynamicUI : MyMonoBehaviour
         });
 
         PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
+        PlayerManagerClass.Players = new List<Player> { player, BotClass }; //todo add bots or other players
         BotClass.playerManager = PlayerManagerClass;
     }
 }

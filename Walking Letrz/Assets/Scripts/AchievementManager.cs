@@ -29,19 +29,19 @@ public class AchievementManager : MyMonoBehaviour
     {
         string returnString = "";
         if (_points >= 25)
-            returnString = "25 point achievement get";
+            returnString += "25 points achievement get\n";
         if (_points >= 50)
-            returnString = "50 point achievement get";
+            returnString += "50 points achievement get\n";
         if (_points >= 100)
-            returnString = "100 point achievement get";
+            returnString += "100 points achievement get\n";
         if (_points >= 250)
-            returnString = "250 point achievement get";
-        if (_wordCount == 5)
-            returnString = "5 word achievement get";
-        if (_wordCount == 10)
-            returnString = "10 word achievement get";
-        if (_wordCount == 25)
-            returnString = "25 word achievement get";
+            returnString += "250 points achievement get\n";
+        if (_wordCount >= 5)
+            returnString += "5 words achievement get\n";
+        if (_wordCount >= 10)
+            returnString += "10 words achievement get\n";
+        if (_wordCount >= 25)
+            returnString += "25 words achievement get\n";
 
         return returnString;
     }
