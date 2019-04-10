@@ -25,6 +25,8 @@ public class DynamicUI : MyMonoBehaviour
     public LetterManager LetterManagerClass;
     public PlayerManager PlayerManagerClass;
     public TheLetterManager TheLetterManagerClass;
+    public GameObject GameBoardWordHolder;
+    public GameObject GameBoardWordContainer;
     
     void Awake()
     {
@@ -60,6 +62,8 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
             letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
             letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
+            letterManager.GameBoardWordHolder = GameBoardWordHolder;
+            letterManager.GameBoardWordContainer = GameBoardWordContainer;
         });
         
         PlayerManagerClass = Spawn(PlayerManagerClass, this);

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class LetterBlock : MyMonoBehaviour
 {
@@ -140,11 +141,11 @@ public class LetterBlock : MyMonoBehaviour
     internal bool IsWalkingLetter()
     {
         return IsFirstLetter || IsSecondLetter;
-    }
+    }*/
 
     internal char GetLetter()
     {
-        return GetComponentsInChildren<TextMesh>()[0].text[0];
+        return GetComponentInChildren<Text>().text[0];
     }
-    */
+    
 }
