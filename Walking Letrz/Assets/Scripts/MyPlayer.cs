@@ -45,12 +45,12 @@ public class MyPlayer : Player
 
         CanMove = true;
         CoolDownTime = 10;
-
     }
 
     public void IncreaseWordCount()
     {
         AchievementManager.SubmitWordCountToAchievements(++placedWordCount);
-        InfoText = AchievementManager.CheckWordCountAchievement();
+        AchievementManager.SubmitPointsToAchievements(EarnedPoints);
+        InfoText = AchievementManager.CheckIfAchievementIsGet();
     }
 }

@@ -48,6 +48,6 @@ public class GameState : MyMonoBehaviour
         BotClass.playerManager = PlayerManagerClass;
         
         PlayerPrefs.DeleteKey("playerWordCount");
-        achievementManager.CheckWordCountAchievement();
+        PlayerPrefs.DeleteKey("playerPointsCount");
     }
 }
