@@ -220,7 +220,7 @@ namespace Assets.Scripts
                     AddLetters(madeWord.Length - 2);
                     ChangeFixedLetters(madeWord);
                     _placeWordBtn.GetComponent<MeshRenderer>().material = PlaceButtonInactiveMaterial;
-                    GameState.PlayerManagerClass.NextTurn(Player);
+                    GameState.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                 } 
                 else
