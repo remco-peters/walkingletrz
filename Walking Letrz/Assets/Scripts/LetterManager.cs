@@ -491,7 +491,7 @@ namespace Assets.Scripts
             GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
             emptyBlock.transform.SetParent(WritingBoard.transform);
             emptyBlock.transform.SetSiblingIndex(currentIndex);
-            emptyBlock.transform.localScale = new Vector3(1, 1, 1);
+            emptyBlock.transform.localScale.Set(1, 1, 1);
 
             block.transform.SetParent(parentRow.transform);
             block.transform.SetSiblingIndex(oldIndex);
