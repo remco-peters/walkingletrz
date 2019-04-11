@@ -272,7 +272,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    Player.InfoText = "No letters placed yet";
+                    string noLetters = I2.Loc.LocalizationManager.GetTranslation("no_letters_placed");
+                    Player.InfoText = noLetters;
                     Debug.Log("No letters placed yet");
                 }
             }
@@ -491,7 +492,7 @@ namespace Assets.Scripts
             GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
             emptyBlock.transform.SetParent(WritingBoard.transform);
             emptyBlock.transform.SetSiblingIndex(currentIndex);
-            emptyBlock.transform.localScale = new Vector3(1, 1, 1);
+            emptyBlock.transform.localScale.Set(1, 1, 1);
 
             block.transform.SetParent(parentRow.transform);
             block.transform.SetSiblingIndex(oldIndex);
