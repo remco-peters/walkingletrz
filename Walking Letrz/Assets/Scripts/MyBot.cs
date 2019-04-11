@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -35,10 +37,13 @@ namespace Assets.Scripts
                     {
                         indexFirstLetter = word.IndexOf(firstLetter);
                         indexSecondLetter = word.LastIndexOf(secondLetter);
-                        if (indexFirstLetter == -1 || indexSecondLetter == -1 || indexFirstLetter >= indexSecondLetter || !CheckWord(word, indexFirstLetter, indexSecondLetter) || word.Length > 7) continue;
+                        if (indexFirstLetter == -1 || indexSecondLetter == -1 ||
+                            indexFirstLetter >= indexSecondLetter ||
+                            !CheckWord(word, indexFirstLetter, indexSecondLetter) || word.Length > 7) continue;
                         foundWord = word;
                         break;
                     }
+
                     playerManager.NextTurn();
                     timeRemaining = Random.Range(5, 12);
                     if (foundWord == "")
@@ -46,22 +51,25 @@ namespace Assets.Scripts
                         Letters = TheLetterManager.GetLetters(15).ToList();
                         return;
                     }
+
                     ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
                     EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
                     PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
                     LetterManager.ChangeFixedLetters(foundWord);
                 }
             }
-            base.Update(); 
+
+            base.Update();
         }
 
         private void ChangeLetters(string word, int firstLetterIndex, int secondLetterIndex)
         {
             for (int i = 0; i < word.Length; i++)
             {
-                if (i == firstLetterIndex || i == secondLetterIndex) continue;;
+                if (i == firstLetterIndex || i == secondLetterIndex) continue;
                 Letters.Remove(word[i]);
             }
+
             Letters.AddRange(TheLetterManager.GetLetters(word.Length));
         }
 
@@ -76,23 +84,49 @@ namespace Assets.Scripts
                 if (index == -1) return false;
                 availableLetters.RemoveAt(index);
             }
+
             return true;
         }
 
         public void PlacedInBoard(string word, int firstLetterIndex, int secondLetterIndex)
         {
+            // Insantiate wordHolder
+            GameObject wordHolder = Instantiate(LetterManager.GameBoardWordHolder);
             List<LetterBlock> blocks = new List<LetterBlock>();
             for (int i = 0; i < word.Length; i++)
-            {              
-                blocks.Add(TheLetterManager.InstantiateLetterButton(word[i], new Vector3(), i == firstLetterIndex, i == secondLetterIndex));
-            }
-            TheLetterManager.PlacedWords.Add(word);
-            TheLetterManager.PlaceWordInGameBoard(blocks);
-            foreach (var block in blocks)
             {
-                Destroy(block.gameObject);
-            }
-        }
+                if (i == firstLetterIndex)
+                {
+                    blocks.Add(LetterManager.FirstLetterBlock); 
+                    continue;
+                }
 
+                if (i == secondLetterIndex)
+                {
+                    blocks.Add(LetterManager.SecondLetterBlock); 
+                    continue;
+                }
+                blocks.Add(LetterManager.InstantiateLetterButton(word[i], new Vector3(), i == firstLetterIndex,i == secondLetterIndex));
+            }
+            while (blocks.Count < 12)
+            {
+                blocks.Add(null);
+            }
+            // Walk through all the letters placed
+            foreach (LetterBlock block in blocks)
+            {
+                if (block != null)
+                {
+                    block.transform.SetParent(wordHolder.transform);
+                    block.GetComponent<Button>().interactable = false;
+                }
+                else
+                {
+                    GameObject emptyPlaceHolder = Instantiate(LetterManager.PlaceHolderObject);
+                    emptyPlaceHolder.transform.SetParent(wordHolder.transform);
+                }
+            }
+            wordHolder.transform.SetParent(LetterManager.GameBoardWordContainer.transform);
+        }
     }
 }

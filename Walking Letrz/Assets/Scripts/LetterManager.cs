@@ -51,6 +51,9 @@ namespace Assets.Scripts
         public DynamicUI DynamicUi { get; set; }
         #endregion
 
+        public LetterBlock FirstLetterBlock { get;set; }
+        public LetterBlock SecondLetterBlock { get; set; }
+
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
@@ -76,8 +79,8 @@ namespace Assets.Scripts
         
         private void InitStartingLetters()
         {
-            InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
-            InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);
+            FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
+            SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);
         }
 
         public void InitFirstLetters()
@@ -262,7 +265,7 @@ namespace Assets.Scripts
                     RemoveAllLettersFromPlayerBoard();
                     //AddLetter(madeWord.Length - 2);
                     ChangeFixedLetters(madeWord);
-                    //GameState.PlayerManagerClass.NextTurn();
+                    DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);
                     //DynamicUi.PlayerManagerClass.NextTurn(Player);
@@ -353,7 +356,6 @@ namespace Assets.Scripts
                 {
                     block.transform.SetParent(wordHolder.transform);
                     block.GetComponent<Button>().interactable = false;
-
                     // Replace placeholder with letter on playerBoard
                     LetterPosition letterPos = PlacedLetters.FirstOrDefault(x => x.LetterBlock == block);
                     int row = letterPos.GetRow();
@@ -428,10 +430,8 @@ namespace Assets.Scripts
             TheLetterManager.SecondLetter = TheLetterManager.FirstLetter;
             var lastIndex = madeWord.Length;
             TheLetterManager.FirstLetter = madeWord[lastIndex - 1];
-
-            InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
-            InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);
-            
+            FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
+            SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);         
             }    
 
         private void RemoveAllLettersFromPlayerBoard()
