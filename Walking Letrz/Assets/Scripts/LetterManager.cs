@@ -269,7 +269,8 @@ namespace Assets.Scripts
                 }
                 else
                 {
-                    Player.InfoText = "No letters placed yet";
+                    string noLetters = I2.Loc.LocalizationManager.GetTranslation("no_letters_placed");
+                    Player.InfoText = noLetters;
                     Debug.Log("No letters placed yet");
                 }
             }

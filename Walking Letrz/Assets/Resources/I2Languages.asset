@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0b0c553be8edd4682e9180fdd13e37, type: 3}
+  m_Name: I2Languages
+  m_EditorClassIdentifier: 
+  mSource:
+    UserAgreesToHaveItOnTheScene: 0
+    UserAgreesToHaveItInsideThePluginsFolder: 0
+    GoogleLiveSyncIsUptoDate: 1
+    mTerms:
+    - Term: time_up
+      TermType: 0
+      Description: 
+      Languages:
+      - De tijd is op!
+      - Time's up!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: play_again
+      TermType: 0
+      Description: 
+      Languages:
+      - Speel opnieuw!
+      - Play again!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: points
+      TermType: 0
+      Description: 
+      Languages:
+      - 'Punten:'
+      - 'Points:'
+      Flags: 0000
+      Languages_Touch: []
+    - Term: no_letters_placed
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt nog geen letters neer gelegd
+      - You haven't placed any letters yet
+      Flags: 0000
+      Languages_Touch: []
+    - Term: play
+      TermType: 0
+      Description: 
+      Languages:
+      - Speel
+      - Play
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends
+      TermType: 0
+      Description: 
+      Languages:
+      - Vrienden
+      - Friends
+      Flags: 0000
+      Languages_Touch: []
+    - Term: turn
+      TermType: 0
+      Description: 
+      Languages:
+      - beurt
+      - turn
+      Flags: 0000
+      Languages_Touch: []
+    - Term: first_letter_after_second
+      TermType: 0
+      Description: 
+      Languages:
+      - De eerste vaste letter staat achter de vaste tweede letter
+      - The first fixed letter is after the fixed second letter
+      Flags: 0000
+      Languages_Touch: []
+    - Term: not_both_fixed_letters
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt nog niet de twee vaste letters geplaatst
+      - You haven't placed both fixed letters yet
+      Flags: 0000
+      Languages_Touch: []
+    - Term: points_earned
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt in totaal
+      - You've earned a total of
+      Flags: 0000
+      Languages_Touch: []
+    - Term: points_earned_suffix
+      TermType: 0
+      Description: 
+      Languages:
+      - punten verdiend
+      - points
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievement_words
+      TermType: 0
+      Description: 
+      Languages:
+      - woorden neergelegd
+      - words in total
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievement_words_prefix
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt in totaal
+      - You have placed
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievement_points
+      TermType: 0
+      Description: 
+      Languages:
+      - punten verdiend
+      - points earned
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievement_unlocked
+      TermType: 0
+      Description: 
+      Languages:
+      - Achievement behaald!
+      - Achievement unlocked!
+      Flags: 0000
+      Languages_Touch: []
+    CaseInsensitiveTerms: 0
+    OnMissingTranslation: 1
+    mTerm_AppName: 
+    mLanguages:
+    - Name: Dutch
+      Code: nl
+      Flags: 0
+    - Name: English
+      Code: en
+      Flags: 0
+    IgnoreDeviceLanguage: 1
+    _AllowUnloadingLanguages: 0
+    Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
+    Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
+    Google_SpreadsheetName: I2Loc Walking Letrz Localization
+    Google_LastUpdatedVersion: 1554972876198
+    Google_Password: 
+    GoogleUpdateFrequency: 3
+    GoogleInEditorCheckFrequency: 2
+    GoogleUpdateSynchronization: 1
+    GoogleUpdateDelay: 0
+    Assets: []
+    Spreadsheet_LocalFileName: 
+    Spreadsheet_LocalCSVSeparator: ','
+    Spreadsheet_LocalCSVEncoding: utf-8
+    Spreadsheet_SpecializationAsRows: 1

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using I2.Loc;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -40,8 +41,12 @@ public class UIPlayerPanel : UIBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        TimeRemainingText.text = "Time's up";
-        InfoText.text = $"Time's up. Play again! You've got a total of {Player.EarnedPoints} points!";
+        string timeUp = LocalizationManager.GetTranslation("time_up");
+        string playAgain = LocalizationManager.GetTranslation("play_again");
+        string pointsPre = LocalizationManager.GetTranslation("points_earned");
+        string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
+        TimeRemainingText.text = timeUp;
+        InfoText.text = $"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}";
         
         InfoText.enabled = true;
     }
@@ -49,7 +54,8 @@ public class UIPlayerPanel : UIBehaviour
     // Update is called once per frame
     void Update()
     {
-        PointText.text = $"Points: {Player.EarnedPoints}";
+        string pointString = I2.Loc.LocalizationManager.GetTranslation("points");
+        PointText.text = $"{pointString} {Player.EarnedPoints}";
 
         if(Player.CoolDownTime >= 0 && Player.CoolDownTime < 10)
         {
