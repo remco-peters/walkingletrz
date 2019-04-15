@@ -14,6 +14,13 @@ public class UIPlayerPanel : UIBehaviour
     public Text PlayerNameTxt;
     public Image PlayerImg;
 
+    public Text OpponentNameTxt;
+    public Text OpponentScoreTxt;
+    public Text OpponentNameTxtSecond;
+    public Text OpponentScoreTxtSecond;
+    public Text OpponentNameTxtThird;
+    public Text OpponentScoreTxtThird;
+
 
     public MyPlayer Player
     {
@@ -73,11 +80,70 @@ public class UIPlayerPanel : UIBehaviour
         {
             InfoText.enabled = false;
         }
+
+        if(Player.CanMove == false)
+        {
+            StartCoroutine(BlinkingTimerText());
+        } else
+        {
+            StopCoroutine(BlinkingTimerText());
+        }
+    }
+
+    IEnumerator BlinkingTimerText()
+    {
+        while (Player.CanMove == false)
+        {
+            TimeRemainingText.text = "";
+            yield return new WaitForSeconds(0.75f);
+            TimeRemainingText.text = TimeText(Player.TimeRemaining);
+            yield return new WaitForSeconds(0.75f);
+        }
     }
 
     private string TimeText(float seconds)
     {
         TimeSpan t = TimeSpan.FromSeconds(seconds);
         return t.ToString(@"mm\:ss");
+    }
+
+    // Nog bezig met de onderste 2
+    public void SetOpponentText(int which, int points, string playerName = "Robot")
+    {
+        switch(which)
+        {
+            case 1:
+                OpponentNameTxt.text = playerName;
+                OpponentScoreTxt.text = $"{points}";
+                break;
+            case 2:
+                OpponentNameTxtSecond.text = playerName;
+                OpponentScoreTxtSecond.text = $"{points}";
+                break;
+            case 3:
+                OpponentNameTxtThird.text = playerName;
+                OpponentScoreTxtThird.text = $"{points}";
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetOpponentPoints(int which, int points)
+    {
+        switch (which)
+        {
+            case 1:
+                OpponentScoreTxt.text = $"{points}";
+                break;
+            case 2:
+                OpponentScoreTxtSecond.text = $"{points}";
+                break;
+            case 3:
+                OpponentScoreTxtThird.text = $"{points}";
+                break;
+            default:
+                break;
+        }
     }
 }

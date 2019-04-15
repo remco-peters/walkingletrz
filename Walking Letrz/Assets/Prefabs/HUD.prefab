@@ -431,6 +431,12 @@ MonoBehaviour:
   InfoText: {fileID: 6467809566804667127}
   PlayerNameTxt: {fileID: 6126625042977411529}
   PlayerImg: {fileID: 8815870993059471706}
+  OpponentNameTxt: {fileID: 6161477334537563720}
+  OpponentScoreTxt: {fileID: 7575030870716824087}
+  OpponentNameTxtSecond: {fileID: 2843758621671538175}
+  OpponentScoreTxtSecond: {fileID: 803045062888962216}
+  OpponentNameTxtThird: {fileID: 2161260208602545033}
+  OpponentScoreTxtThird: {fileID: 5771110014141494972}
 --- !u!1 &3330742059613705264
 GameObject:
   m_ObjectHideFlags: 0

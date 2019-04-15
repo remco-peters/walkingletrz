@@ -61,7 +61,6 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            //InstantiatePlayerLetters();
             InitStartingLetters();
             InitFirstLetters();
             InitPlacedLetterPositions();
@@ -309,40 +308,6 @@ namespace Assets.Scripts
         {
             return TheLetterManager.AllWords.Contains(word);
         }
-
-        // TheLetterManager
-        /*public char[] GetLetters(int amount)
-        {
-            char[] startingLetters = new char[amount];
-            List<char> availableLetters = new List<char>
-            { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-              'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
-
-            List<char> lettersToChoseFrom = new List<char>();
-
-            foreach (char c in availableLetters)
-            {
-                // Todo: More than 2 of the same? Then the next!
-                bool isVowel = "aeiou".IndexOf(c) >= 0;
-                long val = TheLetterManager.CharactersValues[c];
-                if (isVowel) val -= 10;
-                for (int i = 0; i < 8 - val; i++)
-                {
-                    block.transform.position = _firstLetterPosition;
-                }
-                else if (block.IsSecondLetter)
-                {
-                    block.transform.position = _secondLetterPosition;
-                }
-            }
-
-            for (int i = 0; i < amount; i++)
-            {
-                startingLetters[i] = lettersToChoseFrom[Random.Range(0, lettersToChoseFrom.Count)];
-            }
-
-            return startingLetters;
-        }*/
 
         // TheLetterManager
         private void PlaceWordInGameBoard()
