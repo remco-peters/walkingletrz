@@ -21,6 +21,10 @@ public class UIPlayerPanel : UIBehaviour
     public Text OpponentNameTxtThird;
     public Text OpponentScoreTxtThird;
 
+    public Material TopBoardMaterial;
+    public Material TurnMaterial;
+    public GameObject PlayerBackground;
+    public GameObject OthersBackground;
 
     public MyPlayer Player
     {
@@ -84,9 +88,13 @@ public class UIPlayerPanel : UIBehaviour
         if(Player.CanMove == false)
         {
             StartCoroutine(BlinkingTimerText());
+            PlayerBackground.GetComponent<Image>().material = TopBoardMaterial;
+            OthersBackground.GetComponent<Image>().material = TurnMaterial;
         } else
         {
             StopCoroutine(BlinkingTimerText());
+            PlayerBackground.GetComponent<Image>().material = TurnMaterial;
+            OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
         }
     }
 
