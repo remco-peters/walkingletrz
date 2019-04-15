@@ -11,6 +11,9 @@ public class UIPlayerPanel : UIBehaviour
     public Text TimeRemainingText;
     public Text PointText;
     public Text InfoText;
+    public Text PlayerNameTxt;
+    public Image PlayerImg;
+
 
     public MyPlayer Player
     {
@@ -55,7 +58,7 @@ public class UIPlayerPanel : UIBehaviour
     void Update()
     {
         string pointString = I2.Loc.LocalizationManager.GetTranslation("points");
-        PointText.text = $"{pointString} {Player.EarnedPoints}";
+        PointText.text = $"{Player.EarnedPoints}"; // {pointString}
 
         if(Player.CoolDownTime >= 0 && Player.CoolDownTime < 10)
         {
