@@ -15,6 +15,7 @@ public class UIPlayerPanel : UIBehaviour
     public Text InfoText;
     public Text PlayerNameTxt;
     public Image PlayerImg;
+    public Image CrownImage;
 
     public Text OpponentNameTxt;
     public Text OpponentScoreTxt;
@@ -27,6 +28,10 @@ public class UIPlayerPanel : UIBehaviour
     public Material TurnMaterial;
     public GameObject PlayerBackground;
     public GameObject OthersBackground;
+
+    public Sprite crownBronze;
+    public Sprite crownSilver;
+    public Sprite crownGold;
 
     public MyPlayer Player
     {
@@ -88,6 +93,14 @@ public class UIPlayerPanel : UIBehaviour
             if (p != Player)
             {
                 SetOpponentPoints(index, p);
+                // Change this later on
+                if(Player.EarnedPoints > p.EarnedPoints || Player.EarnedPoints == p.EarnedPoints)
+                {
+                    CrownImage.sprite = crownGold;
+                } else
+                {
+                    CrownImage.sprite = crownSilver;
+                }
                 index++;
             }
         }
