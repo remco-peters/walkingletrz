@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using Assets.Scripts;
 using I2.Loc;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -38,39 +40,24 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
 
+    public List<Player> Players
+    {
+        get
+        {
+            HUD Hud = GetComponentInParent<HUD>();
+            Assert.IsNotNull(Hud, "Hud niet ingesteld in UIPayerPanel");
+            Assert.IsNotNull(Hud.PlayersList, "Geen playerslist in hud");
+
+            return Hud.PlayersList;
+        }
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         StartCoroutine(Timer());
-    }
-
-    IEnumerator Timer()
-    {
-        
-        while (Player.TimeRemaining >= 0)
-        {
-            if (Player.CanMove == false)
-            {
-                TimeRemainingText.text = "";
-                yield return new WaitForSeconds(0.75f);
-                TimeRemainingText.text = TimeText(Player.TimeRemaining);
-                yield return new WaitForSeconds(0.75f);
-            }
-
-            TimeRemainingText.text = TimeText(Player.TimeRemaining);
-
-            yield return new WaitForEndOfFrame();
-        }
-
-        string timeUp = LocalizationManager.GetTranslation("time_up");
-        string playAgain = LocalizationManager.GetTranslation("play_again");
-        string pointsPre = LocalizationManager.GetTranslation("points_earned");
-        string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
-        TimeRemainingText.text = timeUp;
-        InfoText.text = $"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}";
-        
-        InfoText.enabled = true;
+        InitOtherPlayers();
     }
 
     // Update is called once per frame
@@ -94,6 +81,64 @@ public class UIPlayerPanel : UIBehaviour
         }
 
         SetBackgroundPlayerColor();
+
+        int index = 0;
+        foreach (Player p in Players)
+        {
+            if (p != Player)
+            {
+                SetOpponentPoints(index, p);
+                index++;
+            }
+        }
+    }
+
+    void InitOtherPlayers()
+    {
+        OpponentNameTxt.text = "";
+        OpponentScoreTxt.text = "";
+        OpponentNameTxtSecond.text = "";
+        OpponentScoreTxtSecond.text = "";
+        OpponentNameTxtThird.text = "";
+        OpponentScoreTxtThird.text = "";
+
+        int index = 0;
+        foreach(Player p in Players)
+        {
+            if(p != Player)
+            {
+                SetOpponentText(index, p);
+                index++;
+            }
+        }
+    }
+
+    IEnumerator Timer()
+    {
+        while (Player.TimeRemaining >= 0)
+        {
+            // Make the text blinking when waiting for your turn
+            if (Player.CanMove == false)
+            {
+                TimeRemainingText.text = "";
+                yield return new WaitForSeconds(0.75f);
+                TimeRemainingText.text = TimeText(Player.TimeRemaining);
+                yield return new WaitForSeconds(0.75f);
+            }
+
+            TimeRemainingText.text = TimeText(Player.TimeRemaining);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        string timeUp = LocalizationManager.GetTranslation("time_up");
+        string playAgain = LocalizationManager.GetTranslation("play_again");
+        string pointsPre = LocalizationManager.GetTranslation("points_earned");
+        string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
+        TimeRemainingText.text = timeUp;
+        InfoText.text = $"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}";
+        
+        InfoText.enabled = true;
     }
 
     private string TimeText(float seconds)
@@ -116,39 +161,39 @@ public class UIPlayerPanel : UIBehaviour
     }
 
     // Nog bezig met de onderste 2
-    public void SetOpponentText(int which, int points, string playerName = "Robot")
+    public void SetOpponentText(int which, Player p)
     {
         switch(which)
         {
+            case 0:
+                OpponentNameTxt.text = p.name;
+                OpponentScoreTxt.text = $"{p.EarnedPoints}";
+                break;
             case 1:
-                OpponentNameTxt.text = playerName;
-                OpponentScoreTxt.text = $"{points}";
+                OpponentNameTxtSecond.text = p.name;
+                OpponentScoreTxtSecond.text = $"{p.EarnedPoints}";
                 break;
             case 2:
-                OpponentNameTxtSecond.text = playerName;
-                OpponentScoreTxtSecond.text = $"{points}";
-                break;
-            case 3:
-                OpponentNameTxtThird.text = playerName;
-                OpponentScoreTxtThird.text = $"{points}";
+                OpponentNameTxtThird.text = p.name;
+                OpponentScoreTxtThird.text = $"{p.EarnedPoints}";
                 break;
             default:
                 break;
         }
     }
 
-    public void SetOpponentPoints(int which, int points)
+    public void SetOpponentPoints(int which, Player p)
     {
         switch (which)
         {
+            case 0:
+                OpponentScoreTxt.text = $"{p.EarnedPoints}";
+                break;
             case 1:
-                OpponentScoreTxt.text = $"{points}";
+                OpponentScoreTxtSecond.text = $"{p.EarnedPoints}";
                 break;
             case 2:
-                OpponentScoreTxtSecond.text = $"{points}";
-                break;
-            case 3:
-                OpponentScoreTxtThird.text = $"{points}";
+                OpponentScoreTxtThird.text = $"{p.EarnedPoints}";
                 break;
             default:
                 break;

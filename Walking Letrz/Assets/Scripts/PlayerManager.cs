@@ -7,7 +7,7 @@ namespace Assets.Scripts
     public class PlayerManager : MyMonoBehaviour
     {
         public List<Player> Players { get; set; }
-
+        
         public void NextTurn()
         {
             int index = Players.IndexOf(GetCurrentActivePlayer());
