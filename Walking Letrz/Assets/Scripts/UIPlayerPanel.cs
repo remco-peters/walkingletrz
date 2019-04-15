@@ -50,6 +50,14 @@ public class UIPlayerPanel : UIBehaviour
         
         while (Player.TimeRemaining >= 0)
         {
+            if (Player.CanMove == false)
+            {
+                TimeRemainingText.text = "";
+                yield return new WaitForSeconds(0.75f);
+                TimeRemainingText.text = TimeText(Player.TimeRemaining);
+                yield return new WaitForSeconds(0.75f);
+            }
+
             TimeRemainingText.text = TimeText(Player.TimeRemaining);
 
             yield return new WaitForEndOfFrame();
@@ -68,7 +76,7 @@ public class UIPlayerPanel : UIBehaviour
     // Update is called once per frame
     void Update()
     {
-        string pointString = I2.Loc.LocalizationManager.GetTranslation("points");
+        string pointString = LocalizationManager.GetTranslation("points");
         PointText.text = $"{Player.EarnedPoints}"; // {pointString}
 
         if(Player.CoolDownTime >= 0 && Player.CoolDownTime < 10)
@@ -85,34 +93,26 @@ public class UIPlayerPanel : UIBehaviour
             InfoText.enabled = false;
         }
 
-        if(Player.CanMove == false)
-        {
-            StartCoroutine(BlinkingTimerText());
-            PlayerBackground.GetComponent<Image>().material = TopBoardMaterial;
-            OthersBackground.GetComponent<Image>().material = TurnMaterial;
-        } else
-        {
-            StopCoroutine(BlinkingTimerText());
-            PlayerBackground.GetComponent<Image>().material = TurnMaterial;
-            OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
-        }
-    }
-
-    IEnumerator BlinkingTimerText()
-    {
-        while (Player.CanMove == false)
-        {
-            TimeRemainingText.text = "";
-            yield return new WaitForSeconds(0.75f);
-            TimeRemainingText.text = TimeText(Player.TimeRemaining);
-            yield return new WaitForSeconds(0.75f);
-        }
+        SetBackgroundPlayerColor();
     }
 
     private string TimeText(float seconds)
     {
         TimeSpan t = TimeSpan.FromSeconds(seconds);
         return t.ToString(@"mm\:ss");
+    }
+
+    private void SetBackgroundPlayerColor()
+    {
+        if(Player.CanMove)
+        {
+            PlayerBackground.GetComponent<Image>().material = TurnMaterial;
+            OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
+        } else
+        {
+            PlayerBackground.GetComponent<Image>().material = TopBoardMaterial;
+            OthersBackground.GetComponent<Image>().material = TurnMaterial;
+        }
     }
 
     // Nog bezig met de onderste 2
