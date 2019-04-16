@@ -55,6 +55,7 @@ namespace Assets.Scripts
             EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
             PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
             LetterManager.ChangeFixedLetters(foundWord);
+            LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
             hasFoundWord = false;
                 
         }
@@ -143,7 +144,6 @@ namespace Assets.Scripts
                 }
             }
             wordHolder.transform.SetParent(LetterManager.GameBoardWordContainer.transform);
-            LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
         }
     }
 }
