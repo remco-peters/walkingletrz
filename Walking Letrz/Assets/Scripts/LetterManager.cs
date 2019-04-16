@@ -44,6 +44,7 @@ namespace Assets.Scripts
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
         public GameObject PointsGainedPanel { get; set; }
+        public Text PointsGainedText { get; set; }
 
         #endregion unity properties
 
@@ -57,8 +58,7 @@ namespace Assets.Scripts
 
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
-
-        private Text pointsGainedText;
+        private Image PointsGainedPanelImage;
 
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
@@ -67,8 +67,6 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            PointsGainedPanel.SetActive(false);
-            pointsGainedText = PointsGainedPanel.GetComponentInChildren<Text>();
         }
 
         private void Start()
@@ -82,6 +80,10 @@ namespace Assets.Scripts
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
             _shakeDetectionThreshold *= _shakeDetectionThreshold;
             _lowPassValue = Input.acceleration;
+
+            PointsGainedPanelImage = PointsGainedPanel.GetComponent<Image>();
+            PointsGainedPanelImage.color = new Color(1f,1f,1f,0f);
+            PointsGainedText.color = new Color(1f,1f,1f,0f);
         }               
         private void Update()
         {
@@ -506,16 +508,30 @@ namespace Assets.Scripts
 
         private void ShowScoreGainedText(long points)
         {
-            pointsGainedText.text = $"+{points.ToString()}";
+            PointsGainedText.text = $"+{points.ToString()}";
             StartCoroutine(PointsGainedTimer);
         }
 
         IEnumerator PointsGainedTimer()
         {
-            PointsGainedPanel.SetActive(true);
+            StartCoroutine(FadeTo(1f, 0.5f));
             yield return new WaitForSeconds(3);
-            PointsGainedPanel.SetActive(false);
+            StartCoroutine(FadeTo(0f, 0.5f));
             StopCoroutine(PointsGainedTimer());
         }
+        
+        IEnumerator FadeTo(float aValue, float aTime)
+        {
+            float alpha = PointsGainedPanelImage.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+            {
+                Color panelColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+                PointsGainedPanelImage.color = panelColor;
+                Color textColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue,t));
+                PointsGainedText.color = textColor;
+                yield return null;
+            }
+        }
+
     }
 }
