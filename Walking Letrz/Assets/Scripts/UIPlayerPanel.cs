@@ -223,8 +223,7 @@ public class UIPlayerPanel : UIBehaviour
         Debug.Log($"Index of player in list: {indexOfPlayer}");
         if (Players[0].EarnedPoints == Players[1].EarnedPoints)
             creditsToGive = 25;
-
-        if (indexOfPlayer == 0)
+        else if (indexOfPlayer == 0)
             creditsToGive = 50;
         else
             creditsToGive = 5;
