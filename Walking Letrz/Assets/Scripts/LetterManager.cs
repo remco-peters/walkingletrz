@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Internal.Experimental.UIElements;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -41,6 +43,8 @@ namespace Assets.Scripts
         public StartingLetters StartingLettersClass;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
+        public GameObject PointsGainedPanel { get; set; }
+
         #endregion unity properties
 
         #region 
@@ -54,10 +58,18 @@ namespace Assets.Scripts
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
 
+        private Text pointsGainedText;
+
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
         #endregion positions
+
+        private void Awake()
+        {
+            PointsGainedPanel.SetActive(false);
+            pointsGainedText = PointsGainedPanel.GetComponentInChildren<Text>();
+        }
 
         private void Start()
         {
@@ -259,6 +271,7 @@ namespace Assets.Scripts
                     }
                     if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters)) return;
                     Player.EarnedPoints += points;
+                    ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
                     PlaceWordInGameBoard();
                     RemoveAllLettersFromPlayerBoard();
@@ -489,6 +502,20 @@ namespace Assets.Scripts
                 PlaceBtn.GetComponent<Button>().interactable = false;
             }
             
+        }
+
+        private void ShowScoreGainedText(long points)
+        {
+            pointsGainedText.text = $"+{points.ToString()}";
+            StartCoroutine(PointsGainedTimer);
+        }
+
+        IEnumerator PointsGainedTimer()
+        {
+            PointsGainedPanel.SetActive(true);
+            yield return new WaitForSeconds(3);
+            PointsGainedPanel.SetActive(false);
+            StopCoroutine(PointsGainedTimer());
         }
     }
 }

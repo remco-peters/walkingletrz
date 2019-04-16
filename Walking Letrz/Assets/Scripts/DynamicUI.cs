@@ -27,6 +27,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject GameBoardWordHolder;
     public GameObject GameBoardWordContainer;
     public AchievementManager AchievementManagerClass;
+    public GameObject PointsGainedPanel;
 
     void Awake()
     {
@@ -65,6 +66,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
             letterManager.GameBoardWordHolder = GameBoardWordHolder;
             letterManager.GameBoardWordContainer = GameBoardWordContainer;
+            letterManager.PointsGainedPanel = PointsGainedPanel;
         });
         
         PlayerManagerClass = Spawn(PlayerManagerClass, this);
