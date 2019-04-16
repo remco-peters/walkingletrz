@@ -154,6 +154,8 @@ public class UIPlayerPanel : UIBehaviour
         WrapUpGame();
         InfoText.enabled = true;
         StopCoroutine(Timer());
+        gameObject.AddComponent<SceneSwitcher>();
+        gameObject.GetComponent<SceneSwitcher>().SwithSceneToMatchResult(Player, Players, "MatchResultScene");
     }
 
     private string TimeText(float seconds)
@@ -174,8 +176,7 @@ public class UIPlayerPanel : UIBehaviour
             OthersBackground.GetComponent<Image>().material = TurnMaterial;
         }
     }
-
-    // Nog bezig met de onderste 2
+    
     public void SetOpponentText(int which, Player p)
     {
         switch(which)
