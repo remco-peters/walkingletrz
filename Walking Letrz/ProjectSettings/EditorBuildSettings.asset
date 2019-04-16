@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: ac23acfbbeb65e54b9b3a31b9ba7905f
+  - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 879da574e5ee9a54abcabd49fc5d46b8
   - enabled: 1
     path: Assets/Scenes/DifficultyScene.unity
     guid: 9175fa0fd0df06c45a77da7ccd14a750
+  - enabled: 1
+    path: Assets/Scenes/ProfileScene.unity
+    guid: 281617c7519a66940ab2648e2f51e709
   m_configObjects: {}

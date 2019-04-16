@@ -138,7 +138,7 @@ namespace Assets.Scripts
                 }
                 //Todo remove all the positions
                 LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row);
-                PlayerLetters.Add(new LetterPosition(row, index, letterBlock));
+                //PlayerLetters.Add(new LetterPosition(row, index, letterBlock));
             }
             pos.x += 0.80f;
 
