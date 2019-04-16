@@ -86,7 +86,6 @@ namespace Assets.Scripts
                 if (i == firstLetterIndex || i == secondLetterIndex) continue;
                 Letters.Remove(word[i]);
             }
-
             Letters.AddRange(TheLetterManager.GetLetters(word.Length));
         }
 

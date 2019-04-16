@@ -14,6 +14,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject ThirdRow;
     public RemoveWordBtn DeleteBtn;
     public PlaceWordBtn PlaceBtn;
+    public TradeLettersBtn TradeLettersBtnClass;
     public GameObject EmptyLetterBlockObject;
     public LetterBlock FixedLetterBlockObject;
     public LetterBlock PlayerLetterBlockObject;
@@ -62,6 +63,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.WritingBoard = WritingBoard;
             letterManager.DeleteBtn = DeleteBtn;
             letterManager.PlaceBtn = PlaceBtn;
+            letterManager.TradeBtn = TradeLettersBtnClass;
             letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
             letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
             letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
@@ -70,12 +72,14 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.PointsGainedPanel = PointsGainedPanel;
             letterManager.PointsGainedText = PointsGainedText;
         });
+
+        LetterManager letterManagerBot = LetterManagerClass;
         
         PlayerManagerClass = Spawn(PlayerManagerClass, this);
 
         BotClass = Spawn(BotClass, this, bot =>
         {
-            bot.LetterManager = LetterManagerClass;
+            bot.LetterManager = letterManagerBot;
             bot.TheLetterManager = TheLetterManagerClass;
             bot.Name = "Medium bot";
         });

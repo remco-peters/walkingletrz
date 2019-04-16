@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5034761627507277537
+--- !u!1 &43
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6667349791601599351}
-  - component: {fileID: 5501810388853740986}
+  - component: {fileID: 102}
+  - component: {fileID: 216}
   m_Layer: 0
   m_Name: Letter Manager
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6667349791601599351
+--- !u!4 &102
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5034761627507277537}
+  m_GameObject: {fileID: 43}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.2857695, y: -0.38307965, z: 0.1077705}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,13 +31,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5501810388853740986
+--- !u!114 &216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5034761627507277537}
+  m_GameObject: {fileID: 43}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c4cd3c27d4ea44beb4f2a63ad09f45b, type: 3}
@@ -47,7 +47,6 @@ MonoBehaviour:
     type: 3}
   TheLetterManager: {fileID: 8869493955269307291, guid: 1e092641aa86d3f40b92fb92fe41038c,
     type: 3}
-  TradeLettersBtnClass: {fileID: 89, guid: 36b2323d2113b4c48aa74fda12d986e9, type: 3}
   StartingLettersClass: {fileID: 99, guid: 9000ed06ddc314d9abe1d5a5652174c3, type: 3}
   PlaceButtonInactiveMaterial: {fileID: 2100000, guid: 8819f91770eaa9c4791077b3cb9871fb,
     type: 2}
