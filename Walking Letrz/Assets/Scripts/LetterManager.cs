@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Internal.Experimental.UIElements;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -41,6 +43,9 @@ namespace Assets.Scripts
         public StartingLetters StartingLettersClass;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
+        public GameObject PointsGainedPanel { get; set; }
+        public Text PointsGainedText { get; set; }
+
         #endregion unity properties
 
         #region 
@@ -53,11 +58,16 @@ namespace Assets.Scripts
 
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
+        private Image PointsGainedPanelImage;
 
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
         #endregion positions
+
+        private void Awake()
+        {
+        }
 
         private void Start()
         {
@@ -69,6 +79,10 @@ namespace Assets.Scripts
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
             _shakeDetectionThreshold *= _shakeDetectionThreshold;
             _lowPassValue = Input.acceleration;
+
+            PointsGainedPanelImage = PointsGainedPanel.GetComponent<Image>();
+            PointsGainedPanelImage.color = new Color(1f,1f,1f,0f);
+            PointsGainedText.color = new Color(1f,1f,1f,0f);
         }               
         private void Update()
         {
@@ -243,6 +257,7 @@ namespace Assets.Scripts
                     }
                     if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters)) return;
                     Player.EarnedPoints += points;
+                    ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
                     PlaceWordInGameBoard();
                     RemoveAllLettersFromPlayerBoard();
@@ -474,5 +489,33 @@ namespace Assets.Scripts
             }
             
         }
+
+        private void ShowScoreGainedText(long points)
+        {
+            PointsGainedText.text = $"+{points.ToString()}";
+            StartCoroutine(PointsGainedTimer);
+        }
+
+        IEnumerator PointsGainedTimer()
+        {
+            StartCoroutine(FadeTo(1f, 0.5f));
+            yield return new WaitForSeconds(3);
+            StartCoroutine(FadeTo(0f, 0.5f));
+            StopCoroutine(PointsGainedTimer());
+        }
+        
+        IEnumerator FadeTo(float aValue, float aTime)
+        {
+            float alpha = PointsGainedPanelImage.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+            {
+                Color panelColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+                PointsGainedPanelImage.color = panelColor;
+                Color textColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue,t));
+                PointsGainedText.color = textColor;
+                yield return null;
+            }
+        }
+
     }
 }
