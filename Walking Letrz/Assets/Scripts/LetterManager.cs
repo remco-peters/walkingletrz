@@ -264,6 +264,7 @@ namespace Assets.Scripts
                     RemoveAllLettersFromPlayerBoard();
                     //AddLetter(madeWord.Length - 2);
                     ChangeFixedLetters(madeWord);
+                    GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
                     DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);

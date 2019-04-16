@@ -127,6 +127,7 @@ namespace Assets.Scripts
                 }
             }
             wordHolder.transform.SetParent(LetterManager.GameBoardWordContainer.transform);
+            LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
         }
     }
 }
