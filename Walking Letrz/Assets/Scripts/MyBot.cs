@@ -12,11 +12,16 @@ namespace Assets.Scripts
         public float timeRemaining;
         public PlayerManager playerManager;
         private List<char> Letters;
+        private bool hasFoundWord;
+        int indexFirstLetter = -1;
+        int indexSecondLetter = -1;
+        string foundWord = "";
+    
 
         new void Start()
         {
+            hasFoundWord = false;
             Letters = TheLetterManager.GetLetters(15).ToList();
-            timeRemaining = Random.Range(2, 10);
             base.Start();
         }
 
@@ -25,41 +30,52 @@ namespace Assets.Scripts
         {
             if (CanMove)
             {
+                if (!hasFoundWord)
+                {
+                    FindWord();
+                }
                 timeRemaining -= Time.deltaTime;
                 if (timeRemaining <= 0)
-                {
-                    char firstLetter = char.ToLower(TheLetterManager.FirstLetter);
-                    char secondLetter = char.ToLower(TheLetterManager.SecondLetter);
-                    int indexFirstLetter = -1;
-                    int indexSecondLetter = -1;
-                    string foundWord = "";
-                    foreach (var word in TheLetterManager.AllWords)
-                    {
-                        indexFirstLetter = word.IndexOf(firstLetter);
-                        indexSecondLetter = word.LastIndexOf(secondLetter);
-                        if (indexFirstLetter == -1 || indexSecondLetter == -1 ||
-                            indexFirstLetter >= indexSecondLetter ||
-                            !CheckWord(word, indexFirstLetter, indexSecondLetter) || word.Length > 7) continue;
-                        foundWord = word;
-                        break;
-                    }
-
-                    playerManager.NextTurn();
-                    timeRemaining = Random.Range(5, 12);
-                    if (foundWord == "")
-                    {
-                        Letters = TheLetterManager.GetLetters(15).ToList();
-                        return;
-                    }
-
-                    ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
-                    EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
-                    PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
-                    LetterManager.ChangeFixedLetters(foundWord);
+                {   
+                    PlaceWord();
                 }
             }
-
             base.Update();
+        }
+
+        private void PlaceWord()
+        {         
+            playerManager.NextTurn();
+            if (foundWord == "")
+            {
+                Letters = TheLetterManager.GetLetters(15).ToList();
+                return;
+            }
+            ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
+            EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
+            PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
+            LetterManager.ChangeFixedLetters(foundWord);
+            hasFoundWord = false;
+                
+        }
+
+        private void FindWord()
+        {
+            char firstLetter = char.ToLower(TheLetterManager.FirstLetter);
+            char secondLetter = char.ToLower(TheLetterManager.SecondLetter);
+            foundWord = "";
+            foreach (var word in TheLetterManager.AllWords)
+            {
+                indexFirstLetter = word.IndexOf(firstLetter);
+                indexSecondLetter = word.LastIndexOf(secondLetter);
+                if (indexFirstLetter == -1 || indexSecondLetter == -1 ||
+                    indexFirstLetter >= indexSecondLetter || word.Length > 7 ||
+                    !CheckWord(word, indexFirstLetter, indexSecondLetter)) continue;
+                foundWord = word;
+                break;
+            }
+            hasFoundWord = true;
+            timeRemaining = 5 + foundWord.Length;
         }
 
         private void ChangeLetters(string word, int firstLetterIndex, int secondLetterIndex)
@@ -75,6 +91,7 @@ namespace Assets.Scripts
 
         private bool CheckWord(string word, int firstLetterIndex, int secondLetterIndex)
         {
+            if (TheLetterManager.PlacedWords.Contains(word)) return false;
             List<char> availableLetters = Letters.ToList();
             if (TheLetterManager.PlacedWords.Contains(word)) return false;
             for (int i = 0; i < word.Length; i++)
@@ -84,7 +101,6 @@ namespace Assets.Scripts
                 if (index == -1) return false;
                 availableLetters.RemoveAt(index);
             }
-
             return true;
         }
 
