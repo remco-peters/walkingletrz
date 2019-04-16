@@ -531,6 +531,8 @@ MonoBehaviour:
     type: 3}
   PointsGainedPanel: {fileID: 9186916287150854654}
   PointsGainedText: {fileID: 5651292239223842393}
+  CreditClass: {fileID: 8410207124071376832, guid: 4e1fbbdee46be4d27ba38a4e0fe9f129,
+    type: 3}
 --- !u!1 &1635037848821936251
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,7 +1128,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.90892655}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

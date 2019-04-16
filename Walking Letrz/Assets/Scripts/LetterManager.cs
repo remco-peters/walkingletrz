@@ -97,17 +97,18 @@ namespace Assets.Scripts
 
         public List<LetterPosition> GetPlayerLetters()
         {
-            List<LetterPosition> PlayerLetters = new List<LetterPosition>();
+            List<LetterPosition> playerLetters = new List<LetterPosition>();
             for (int row = 1; row <= 3; row++)
             {
                 GameObject r = GetRightRow(row);
                 LetterBlock[] b = r.GetComponentsInChildren<LetterBlock>();
-                for (int index = 0; index < b.Length; index++)
+                foreach (LetterBlock block in b)
                 {
-                    PlayerLetters.Add(new LetterPosition(row, index, b[index]));
+                    LetterPosition pos = PlayerLetters.FirstOrDefault(p => p.LetterBlock == block);
+                    playerLetters.Add(new LetterPosition(pos.GetRow(), pos.GetOldIndex(), block));
                 }
             }
-            return PlayerLetters;           
+            return playerLetters;           
         }
 
         public void InitFirstLetters()
@@ -124,7 +125,7 @@ namespace Assets.Scripts
                     if(i < 5)
                     {
                         row = 1;
-                        index = i;
+                        index = i + 2;
                     }
                     else if(i < 12)
                     {
@@ -150,10 +151,8 @@ namespace Assets.Scripts
                     pos.x = -0.9f;
                     pos.y -= 0.75f;
                 }
-                index = index + 2;
                 //Todo remove all the positions
-
-                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[index], pos, false, false, row);
+                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row, index);
             }
             pos.x += 0.80f;
 
@@ -198,21 +197,17 @@ namespace Assets.Scripts
 
         private void TradeLetterBtnTouch()
         {
-            if (!Player.CanMove) return;
+            if (!Player.CanMove || Player.EarnedPoints < 20) return;
+            RemoveAllLetters();
             List<LetterPosition> letterPositions = GetPlayerLetters();
             foreach (LetterPosition letterPos in letterPositions)
             {
                 if (!letterPos.LetterBlock.IsFirstLetter && !letterPos.LetterBlock.IsSecondLetter)
                 {
-                    int row = letterPos.GetRow();
-                    int index = letterPos.GetCurrentIndex();
-
-                    GameObject parentRow = GetRightRow(row);
-                    Transform placeHolder = parentRow.transform.GetChild(index);
-                    Destroy(letterPos.LetterBlock.gameObject);
-                    letterPos.LetterBlock = AddLetter(row, index);   
+                    letterPos.LetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.GetLetters(1)[0].ToString().ToUpper();  
                 }
             }
+            Player.EarnedPoints -= 20;
             DynamicUi.PlayerManagerClass.NextTurn();
         }
         
@@ -222,7 +217,8 @@ namespace Assets.Scripts
             if(isFirstLetter || isSecondLetter)
             {
                 block = FixedLettersBlockObject;
-            } else
+            } 
+            else
             {
                 block = PlayerLetterBlockObject;
             }

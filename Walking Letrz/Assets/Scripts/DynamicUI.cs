@@ -1,4 +1,5 @@
-﻿using Assets.Scripts;
+﻿using System;
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class DynamicUI : MyMonoBehaviour
     public AchievementManager AchievementManagerClass;
     public GameObject PointsGainedPanel;
     public Text PointsGainedText;
+    public Credit CreditClass;
 
     void Awake()
     {
@@ -46,7 +48,7 @@ public class DynamicUI : MyMonoBehaviour
         Assert.IsNotNull(TheLetterManagerClass, "TheLetterManagerClass misses in GameState");
 
         AchievementManager achievementManager = Instantiate(AchievementManagerClass);
-        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; });
+        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
         
