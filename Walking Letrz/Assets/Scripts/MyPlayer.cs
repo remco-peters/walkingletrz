@@ -15,6 +15,7 @@ public class MyPlayer : Player
     new void Start()
     {
         base.Start();
+        AchievementManager.Player = this;
         CanMove = true;
         placedWordCount = 0;
         Instantiate(Credit);
