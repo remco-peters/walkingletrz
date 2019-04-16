@@ -21,7 +21,7 @@ namespace Assets.Scripts
         new void Start()
         {
             hasFoundWord = false;
-            Letters = TheLetterManager.GetLetters(15).ToList();
+            Letters = TheLetterManager.FirstPlayerLetters.ToList();
             base.Start();
         }
 

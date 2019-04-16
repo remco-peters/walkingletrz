@@ -179,7 +179,7 @@ public class UIPlayerPanel : UIBehaviour
         switch(which)
         {
             case 0:
-                OpponentNameTxt.text = p.name;
+                OpponentNameTxt.text = p.Name;
                 OpponentScoreTxt.text = $"{p.EarnedPoints}";
                 break;
             case 1:

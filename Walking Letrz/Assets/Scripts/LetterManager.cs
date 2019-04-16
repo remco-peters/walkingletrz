@@ -88,7 +88,7 @@ namespace Assets.Scripts
             int row = 0;
             int index = 0;
             Vector3 pos = new Vector3(-0.9f, -2.5f);
-            char[] startingLetters = TheLetterManager.GetLetters(15);
+            char[] startingLetters = TheLetterManager.FirstPlayerLetters;
             for (int i = 0; i < startingLetters.Length; i++)
             {
                 if(version == 2)

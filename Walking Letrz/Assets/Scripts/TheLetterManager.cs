@@ -18,6 +18,7 @@ namespace Assets.Scripts
         public Material WalkingLetrMaterial;
         public Material NormalLetrMaterial;
         public StartingLetters StartingLetters;
+        public char[] FirstPlayerLetters{get;set;}
 
         public void Start()
         {
@@ -28,6 +29,7 @@ namespace Assets.Scripts
 
         public void InitStartingLetters()
         {
+            FirstPlayerLetters = GetLetters(15);
             FirstLetter = GetLetters(1)[0];
             SecondLetter = GetLetters(1)[0];
         }
