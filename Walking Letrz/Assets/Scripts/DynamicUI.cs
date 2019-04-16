@@ -72,12 +72,14 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.PointsGainedPanel = PointsGainedPanel;
             letterManager.PointsGainedText = PointsGainedText;
         });
+
+        LetterManager letterManagerBot = LetterManagerClass;
         
         PlayerManagerClass = Spawn(PlayerManagerClass, this);
 
         BotClass = Spawn(BotClass, this, bot =>
         {
-            bot.LetterManager = LetterManagerClass;
+            bot.LetterManager = letterManagerBot;
             bot.TheLetterManager = TheLetterManagerClass;
             bot.Name = "Medium bot";
         });

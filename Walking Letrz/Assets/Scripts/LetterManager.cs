@@ -95,6 +95,21 @@ namespace Assets.Scripts
             SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);
         }
 
+        public List<LetterPosition> GetPlayerLetters()
+        {
+            List<LetterPosition> PlayerLetters = new List<LetterPosition>();
+            for (int row = 1; row <= 3; row++)
+            {
+                GameObject r = GetRightRow(row);
+                LetterBlock[] b = r.GetComponentsInChildren<LetterBlock>();
+                for (int index = 0; index < b.Length; index++)
+                {
+                    PlayerLetters.Add(new LetterPosition(row, index, b[index]));
+                }
+            }
+            return PlayerLetters;           
+        }
+
         public void InitFirstLetters()
         {
             int version = 2;
@@ -137,8 +152,8 @@ namespace Assets.Scripts
                 }
                 index = index + 2;
                 //Todo remove all the positions
-                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row);
-                PlayerLetters.Add(new LetterPosition(row, index, letterBlock));
+
+                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[index], pos, false, false, row);
             }
             pos.x += 0.80f;
 
@@ -184,7 +199,8 @@ namespace Assets.Scripts
         private void TradeLetterBtnTouch()
         {
             if (!Player.CanMove) return;
-            foreach (LetterPosition letterPos in PlayerLetters.ToList())
+            List<LetterPosition> letterPositions = GetPlayerLetters();
+            foreach (LetterPosition letterPos in letterPositions)
             {
                 if (!letterPos.LetterBlock.IsFirstLetter && !letterPos.LetterBlock.IsSecondLetter)
                 {
@@ -227,6 +243,7 @@ namespace Assets.Scripts
                 {
                     lttrBlock.transform.SetSiblingIndex((int)index);
                 }
+                PlayerLetters.Add(new LetterPosition(row, lttrBlock.transform.GetSiblingIndex(), lttrBlock));
             });
         }
         
@@ -285,8 +302,11 @@ namespace Assets.Scripts
         private LetterBlock AddLetter(int row, int index)
         {
             char[] letters = TheLetterManager.GetLetters(1);
-            return InstantiateLetterButton(letters[0], new Vector3(), false, false, row, index);
+            LetterBlock block = InstantiateLetterButton(letters[0], new Vector3(), false, false, row, index);
+            PlayerLetters.Add(new LetterPosition(row, index, block));
+            return block; 
         }
+
             
        // TheLetterManager
         public long CalculatePoints(string word)
@@ -398,7 +418,7 @@ namespace Assets.Scripts
             TheLetterManager.FirstLetter = madeWord[lastIndex - 1];
             FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
             SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);         
-            }    
+        }    
 
         private void RemoveAllLettersFromPlayerBoard()
         {
