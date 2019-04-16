@@ -5,15 +5,10 @@ using UnityEngine.UI;
 
 public class GameboardScroll : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void ScrollDownBar()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        Canvas.ForceUpdateCanvases();
         GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
+        Canvas.ForceUpdateCanvases();
     }
 }

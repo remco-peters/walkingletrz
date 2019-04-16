@@ -55,6 +55,7 @@ namespace Assets.Scripts
             EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
             PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
             LetterManager.ChangeFixedLetters(foundWord);
+            LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
             hasFoundWord = false;
                 
         }
