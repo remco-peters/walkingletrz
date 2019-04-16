@@ -25,6 +25,7 @@ namespace Assets.Scripts
         public GameObject ThirdRow { get; set; }
         public RemoveWordBtn DeleteBtn { get; set; }
         public PlaceWordBtn PlaceBtn { get; set; }
+        public TradeLettersBtn TradeBtn {get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
         public LetterBlock PlayerLetterBlockObject { get; set; }
@@ -37,7 +38,6 @@ namespace Assets.Scripts
         //public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
         public TheLetterManager TheLetterManager;
-        public TradeLettersBtn TradeLettersBtnClass;
         public StartingLetters StartingLettersClass;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
@@ -64,7 +64,6 @@ namespace Assets.Scripts
             InitStartingLetters();
             InitFirstLetters();
             InitPlacedLetterPositions();
-            InstantiateTradeLetterBtn();
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -122,6 +121,7 @@ namespace Assets.Scripts
                     pos.x = -0.9f;
                     pos.y -= 0.75f;
                 }
+                index = index + 2;
                 //Todo remove all the positions
                 LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row);
                 PlayerLetters.Add(new LetterPosition(row, index, letterBlock));
@@ -135,6 +135,8 @@ namespace Assets.Scripts
         {
             PlaceBtn.OnPlaceBtnTouched += PlaceWord;
             DeleteBtn.OnRemoveTouched += RemoveAllLetters;
+            TradeBtn.LetterManager = this;
+            TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
         }
 
         private void InitPlacedLetterPositions()
@@ -145,15 +147,6 @@ namespace Assets.Scripts
                 elbi.transform.SetParent(WritingBoard.transform);
                 PlacedLetters.Add(new LetterPosition(0, i, null));
             }
-        }
-        
-        private void InstantiateTradeLetterBtn()
-        {
-            Spawn(TradeLettersBtnClass, this, tradebtn =>
-            {
-                tradebtn.LetterManager = this;
-                tradebtn.OnTradeTouched += TradeLetterBtnTouch;
-            });
         }
 
         private void ShufflePlayerLetters()
@@ -177,26 +170,19 @@ namespace Assets.Scripts
         private void TradeLetterBtnTouch()
         {
             if (!Player.CanMove) return;
-            void ClearDictionary(IEnumerable<LetterPosition> letterPositions)
+            foreach (LetterPosition letterPos in PlayerLetters.ToList())
             {
-                foreach (var letterPosition in letterPositions)
+                if (!letterPos.LetterBlock.IsFirstLetter && !letterPos.LetterBlock.IsSecondLetter)
                 {
-                    //Todo
-                    //if (!letterPosition.ContainsLetter() || letterPosition.LetterBlock.IsWalkingLetter()) continue;
-                    Destroy(letterPosition.LetterBlock.gameObject);
-                    letterPosition.RemoveLetter();
+                    int row = letterPos.GetRow();
+                    int index = letterPos.GetCurrentIndex();
+
+                    GameObject parentRow = GetRightRow(row);
+                    Transform placeHolder = parentRow.transform.GetChild(index);
+                    Destroy(letterPos.LetterBlock.gameObject);
+                    letterPos.LetterBlock = AddLetter(row, index);   
                 }
             }
-            ClearDictionary(PlayerLetters);
-            ClearDictionary(PlacedLetters);
-            foreach (var t in TheLetterManager.GetLetters(15)) 
-            {
-                LetterPosition pos = PlayerLetters.FirstOrDefault(x => x.LetterBlock == null);
-                //Todo
-                //LetterBlock letterBlock = InstantiateLetterButton(t, pos.Position);
-                //pos.AddLetter(letterBlock);
-            }
-            Player.TimeRemaining -= 10;
             DynamicUi.PlayerManagerClass.NextTurn();
         }
         
@@ -227,8 +213,6 @@ namespace Assets.Scripts
                 {
                     lttrBlock.transform.SetSiblingIndex((int)index);
                 }
-
-                PlayerLetters.Add(new LetterPosition(row, lttrBlock.transform.GetSiblingIndex(), lttrBlock));
             });
         }
         
@@ -283,10 +267,10 @@ namespace Assets.Scripts
             }
         }
 
-        private void AddLetter(int row, int index)
+        private LetterBlock AddLetter(int row, int index)
         {
             char[] letters = TheLetterManager.GetLetters(1);
-            LetterBlock block = InstantiateLetterButton(letters[0], new Vector3(), false, false, row, index);
+            return InstantiateLetterButton(letters[0], new Vector3(), false, false, row, index);
         }
             
        // TheLetterManager

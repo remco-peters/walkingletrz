@@ -14,6 +14,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject ThirdRow;
     public RemoveWordBtn DeleteBtn;
     public PlaceWordBtn PlaceBtn;
+    public TradeLettersBtn TradeLettersBtnClass;
     public GameObject EmptyLetterBlockObject;
     public LetterBlock FixedLetterBlockObject;
     public LetterBlock PlayerLetterBlockObject;
@@ -60,6 +61,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.WritingBoard = WritingBoard;
             letterManager.DeleteBtn = DeleteBtn;
             letterManager.PlaceBtn = PlaceBtn;
+            letterManager.TradeBtn = TradeLettersBtnClass;
             letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
             letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
             letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
