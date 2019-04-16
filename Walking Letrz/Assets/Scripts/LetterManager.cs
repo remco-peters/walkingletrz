@@ -173,7 +173,7 @@ namespace Assets.Scripts
             for (int i = 0; i < 12; i++)
             {
                 GameObject elbi = Instantiate(EmptyLetterBlockObject);
-                elbi.transform.SetParent(WritingBoard.transform);
+                elbi.transform.SetParent(WritingBoard.transform, false);
                 PlacedLetters.Add(new LetterPosition(0, i, null));
             }
         }
@@ -238,7 +238,7 @@ namespace Assets.Scripts
                 // Todo
                 //lttrBlock.GetComponentsInChildren<TextMesh>()[1].text = TheLetterManager.CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
                 GameObject parentRow = GetRightRow(row);
-                lttrBlock.transform.SetParent(parentRow.transform);
+                lttrBlock.transform.SetParent(parentRow.transform, false);
                 if(index != null)
                 {
                     lttrBlock.transform.SetSiblingIndex((int)index);
@@ -278,13 +278,11 @@ namespace Assets.Scripts
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
                     PlaceWordInGameBoard();
                     RemoveAllLettersFromPlayerBoard();
-                    //AddLetter(madeWord.Length - 2);
                     ChangeFixedLetters(madeWord);
                     GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
                     DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);
-                    //DynamicUi.PlayerManagerClass.NextTurn(Player);
                 }
                 else
                 {
@@ -340,7 +338,7 @@ namespace Assets.Scripts
             {
                 if (block != null)
                 {
-                    block.transform.SetParent(wordHolder.transform);
+                    block.transform.SetParent(wordHolder.transform, false);
                     block.GetComponent<Button>().interactable = false;
                     // Replace placeholder with letter on playerBoard
                     LetterPosition letterPos = PlacedLetters.FirstOrDefault(x => x.LetterBlock == block);
@@ -356,7 +354,7 @@ namespace Assets.Scripts
 
                     // Lege gameobjecten toevoegen aan writeboard
                     GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
-                    emptyBlock.transform.SetParent(WritingBoard.transform);
+                    emptyBlock.transform.SetParent(WritingBoard.transform, false);
                     emptyBlock.transform.SetSiblingIndex(currentIndex);
 
                     // Nieuwe playerletters aanmaken
@@ -368,9 +366,9 @@ namespace Assets.Scripts
                 else
                 {
                     GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
-                    emptyPlaceHolder.transform.SetParent(wordHolder.transform);
+                    emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
                 }
-                wordHolder.transform.SetParent(GameBoardWordContainer.transform);
+                wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
             }
         }
 
@@ -399,13 +397,13 @@ namespace Assets.Scripts
                 Destroy(t.gameObject);
 
                 // Het geklikte blokje verplaatsen naar de plaats van het lege object
-                block.transform.SetParent(WritingBoard.transform);
+                block.transform.SetParent(WritingBoard.transform, false);
                 block.transform.SetSiblingIndex(EmptyLetterBlock.GetCurrentIndex());
                 
                 // Een lege placeholder plaatsen waar de letter vandaan is gehaald
                 GameObject ph = Instantiate(PlaceHolderObject);
                 GameObject parentRow = GetRightRow(letterBlock.GetRow());
-                ph.transform.SetParent(parentRow.transform);
+                ph.transform.SetParent(parentRow.transform, false);
                 ph.transform.SetSiblingIndex(letterBlock.GetCurrentIndex());
             }
             CheckWordAndSetSubmitButtonState();
@@ -475,11 +473,10 @@ namespace Assets.Scripts
 
             // Nieuw, leeg block toevoegen in writingBoard
             GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
-            emptyBlock.transform.SetParent(WritingBoard.transform);
+            emptyBlock.transform.SetParent(WritingBoard.transform, false);
             emptyBlock.transform.SetSiblingIndex(currentIndex);
-            emptyBlock.transform.localScale.Set(1, 1, 1);
 
-            block.transform.SetParent(parentRow.transform);
+            block.transform.SetParent(parentRow.transform, false);
             block.transform.SetSiblingIndex(oldIndex);
         }
 
@@ -515,6 +512,8 @@ namespace Assets.Scripts
             PointsGainedText.text = $"+{points.ToString()}";
             StartCoroutine(PointsGainedTimer);
         }
+
+
 
         IEnumerator PointsGainedTimer()
         {

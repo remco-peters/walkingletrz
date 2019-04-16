@@ -133,16 +133,16 @@ namespace Assets.Scripts
             {
                 if (block != null)
                 {
-                    block.transform.SetParent(wordHolder.transform);
+                    block.transform.SetParent(wordHolder.transform, false);
                     block.GetComponent<Button>().interactable = false;
                 }
                 else
                 {
                     GameObject emptyPlaceHolder = Instantiate(LetterManager.PlaceHolderObject);
-                    emptyPlaceHolder.transform.SetParent(wordHolder.transform);
+                    emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
                 }
             }
-            wordHolder.transform.SetParent(LetterManager.GameBoardWordContainer.transform);
+            wordHolder.transform.SetParent(LetterManager.GameBoardWordContainer.transform, false);
         }
     }
 }
