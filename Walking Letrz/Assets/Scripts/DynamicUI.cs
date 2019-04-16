@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class DynamicUI : MyMonoBehaviour
 {
-    public GameObject TopBoard;
     public GameObject GameBoardContent;
     public GameObject WritingBoard;
     public GameObject FirstRow;
@@ -78,6 +77,9 @@ public class DynamicUI : MyMonoBehaviour
 
         PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
         PlayerManagerClass.Players = new List<Player> { player, BotClass }; //todo add bots or other players
+
+        HUD.PlayersList = PlayerManagerClass.Players;
+
         BotClass.playerManager = PlayerManagerClass;
     }
 }
