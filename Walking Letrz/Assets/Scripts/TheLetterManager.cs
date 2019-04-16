@@ -19,9 +19,11 @@ namespace Assets.Scripts
         public Material NormalLetrMaterial;
         public StartingLetters StartingLetters;
         public char[] FirstPlayerLetters{get;set;}
+        private System.Random random;
 
         public void Start()
         {
+            random = new System.Random();
             InitCharactersValues();
             InitAllWords();
             InitStartingLetters();
@@ -36,7 +38,6 @@ namespace Assets.Scripts
 
         public char[] GetLetters(int amount)
         {
-            char[] startingLetters = new char[amount];
             List<char> availableLetters =new List<char>
             { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -53,9 +54,21 @@ namespace Assets.Scripts
                     lettersToChoseFrom.Add(c);
                 }
             }
+            char[] startingLetters = new char[amount];
             for (int i = 0; i < amount; i++)
             {
-                startingLetters[i] = lettersToChoseFrom[UnityEngine.Random.Range(0, lettersToChoseFrom.Count)];
+                while (startingLetters[i] == default(char))
+                {
+                    char letter = lettersToChoseFrom[random.Next(0, lettersToChoseFrom.Count)];
+                    int letterCount = 0;
+                    foreach(char c in startingLetters)
+                    {
+                        if (c == letter) letterCount++;
+                    }
+                    if (letterCount < 3){
+                        startingLetters[i] = letter;
+                    }
+                }
             }
             return startingLetters;
         }

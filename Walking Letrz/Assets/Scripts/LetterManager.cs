@@ -125,7 +125,7 @@ namespace Assets.Scripts
                     if(i < 5)
                     {
                         row = 1;
-                        index = i;
+                        index = i + 2;
                     }
                     else if(i < 12)
                     {
@@ -151,10 +151,8 @@ namespace Assets.Scripts
                     pos.x = -0.9f;
                     pos.y -= 0.75f;
                 }
-                index = index + 2;
                 //Todo remove all the positions
-
-                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[index], pos, false, false, row, index);
+                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row, index);
             }
             pos.x += 0.80f;
 
@@ -199,7 +197,7 @@ namespace Assets.Scripts
 
         private void TradeLetterBtnTouch()
         {
-            if (!Player.CanMove) return;
+            if (!Player.CanMove || Player.EarnedPoints < 20) return;
             RemoveAllLetters();
             List<LetterPosition> letterPositions = GetPlayerLetters();
             foreach (LetterPosition letterPos in letterPositions)
@@ -209,6 +207,7 @@ namespace Assets.Scripts
                     letterPos.LetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.GetLetters(1)[0].ToString().ToUpper();  
                 }
             }
+            Player.EarnedPoints -= 20;
             DynamicUi.PlayerManagerClass.NextTurn();
         }
         
