@@ -8,6 +8,7 @@ public class MyPlayer : Player
     public string InfoText;
     public GameObject WriteBoard, LetterBoardObject;
     public AchievementManager AchievementManager { private get; set; }
+    public Credit Credit { get; set; }
 
     private int placedWordCount;
     // Start is called before the first frame update
@@ -16,6 +17,7 @@ public class MyPlayer : Player
         base.Start();
         CanMove = true;
         placedWordCount = 0;
+        Instantiate(Credit);
         //Todo fix this
         //Instantiate(WriteBoard);
         //GameObject LetterBoard = Instantiate(LetterBoardObject);
