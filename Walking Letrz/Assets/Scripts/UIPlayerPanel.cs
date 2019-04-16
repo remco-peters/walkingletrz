@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using I2.Loc;
 using UnityEngine;
@@ -40,7 +41,6 @@ public class UIPlayerPanel : UIBehaviour
             HUD Hud = GetComponentInParent<HUD>();
             Assert.IsNotNull(Hud, "Hud niet ingesteld in UIPayerPanel");
             Assert.IsNotNull(Hud.Player, "Geen player in hud");
-
             return Hud.Player;
         }
     }
@@ -55,6 +55,7 @@ public class UIPlayerPanel : UIBehaviour
 
             return Hud.PlayersList;
         }
+        set { }
     }
 
     // Start is called before the first frame update
@@ -142,7 +143,7 @@ public class UIPlayerPanel : UIBehaviour
             TimeRemainingText.text = TimeText(Player.TimeRemaining);
 
             yield return new WaitForEndOfFrame();
-        }
+        } 
 
         string timeUp = LocalizationManager.GetTranslation("time_up");
         string playAgain = LocalizationManager.GetTranslation("play_again");
@@ -150,8 +151,9 @@ public class UIPlayerPanel : UIBehaviour
         string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
         TimeRemainingText.text = timeUp;
         InfoText.text = $"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}";
-        
+        WrapUpGame();
         InfoText.enabled = true;
+        StopCoroutine(Timer());
     }
 
     private string TimeText(float seconds)
@@ -211,5 +213,22 @@ public class UIPlayerPanel : UIBehaviour
             default:
                 break;
         }
+    }
+
+    private void WrapUpGame()
+    {
+        int creditsToGive = 0;
+        Players.Sort((p1, p2) => p2.EarnedPoints.CompareTo(p1.EarnedPoints));
+        var indexOfPlayer = Players.IndexOf(Player);
+        Debug.Log($"Index of player in list: {indexOfPlayer}");
+        if (Players[0].EarnedPoints == Players[1].EarnedPoints)
+            creditsToGive = 25;
+
+        if (indexOfPlayer == 0)
+            creditsToGive = 50;
+        else
+            creditsToGive = 5;
+        Debug.Log($"Credits to give: {creditsToGive}");
+        Player.Credit.AddCredits(creditsToGive);
     }
 }

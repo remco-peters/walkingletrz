@@ -10,11 +10,13 @@ namespace Assets.Scripts
         public LetterManager LetterManager { get; set; }
         public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
+        public Credit Credit;
 
         public void Start()
         {
-            TimeRemaining = 120;
+            TimeRemaining = 30;
             EarnedPoints = 0;
+            Instantiate(Credit);
         }
 
         public void Update()
