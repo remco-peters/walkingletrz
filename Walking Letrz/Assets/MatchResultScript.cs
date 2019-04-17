@@ -29,7 +29,6 @@ public class MatchResultScript : MonoBehaviour
         pp.GetComponent<PlayerPanel>().playerScore.text = p.Points.ToString();
         pp.GetComponent<PlayerPanel>().crownImg.sprite = GetRightImg(p.place);
         pp.transform.SetParent(PlayerPanelHolder.transform, false);
-        Debug.Log($"Name: {p.Name}, Place = {p.place}");
     }
 
     private Sprite GetRightImg(int place)
