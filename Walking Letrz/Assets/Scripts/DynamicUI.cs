@@ -82,7 +82,7 @@ public class DynamicUI : MyMonoBehaviour
 
         BotClass = Spawn(BotClass, this, bot =>
         {
-            bot.LetterManager = letterManagerBot;
+            bot.LetterManager = LetterManagerClass;
             bot.TheLetterManager = TheLetterManagerClass;
             bot.Name = "Medium bot";
         });

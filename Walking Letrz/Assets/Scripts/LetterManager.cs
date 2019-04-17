@@ -405,13 +405,21 @@ namespace Assets.Scripts
             CheckWordAndSetSubmitButtonState();
         }
 
-        public void ChangeFixedLetters(string madeWord)
+        public void ChangeFixedLetters(string madeWord, bool isBot = false)
         {
             TheLetterManager.SecondLetter = TheLetterManager.FirstLetter;
             var lastIndex = madeWord.Length;
             TheLetterManager.FirstLetter = madeWord[lastIndex - 1];
-            FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
-            SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);         
+            if (isBot)
+            {
+                FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
+                SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+            }
+            else
+            {
+                FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
+                SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);     
+            }
         }    
 
         private void RemoveAllLettersFromPlayerBoard()

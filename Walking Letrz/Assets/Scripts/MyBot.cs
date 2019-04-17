@@ -54,7 +54,7 @@ namespace Assets.Scripts
             ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
             EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
             PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
-            LetterManager.ChangeFixedLetters(foundWord);
+            LetterManager.ChangeFixedLetters(foundWord, true);
             TheLetterManager.PlacedWords.Add(foundWord);
             LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
             hasFoundWord = false;
@@ -112,18 +112,7 @@ namespace Assets.Scripts
             List<LetterBlock> blocks = new List<LetterBlock>();
             for (int i = 0; i < word.Length; i++)
             {
-                if (i == firstLetterIndex)
-                {
-                    blocks.Add(LetterManager.FirstLetterBlock); 
-                    continue;
-                }
-
-                if (i == secondLetterIndex)
-                {
-                    blocks.Add(LetterManager.SecondLetterBlock); 
-                    continue;
-                }
-                blocks.Add(LetterManager.InstantiateLetterButton(word[i], new Vector3(), i == firstLetterIndex,i == secondLetterIndex));
+                blocks.Add(LetterManager.InstantiateLetterButton(word[i], new Vector3(), i == firstLetterIndex, i == secondLetterIndex));
             }
             while (blocks.Count < 12)
             {
