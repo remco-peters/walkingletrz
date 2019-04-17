@@ -138,7 +138,6 @@ namespace Assets.Scripts
                     }
                 }
                 
-                //Todo remove all the positions
                 LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], false, false, row, index);
             }
             InitPlayerLetters();
@@ -215,9 +214,8 @@ namespace Assets.Scripts
                 lttrBlock.OnLetterTouched += LetterTouched;
                 //Todo
                 //lttrBlock.OnLetterDragged += LetterDragged;
-                lttrBlock.GetComponentInChildren<Text>().text = letter.ToString().ToUpper();
-                // Todo
-                //lttrBlock.GetComponentsInChildren<TextMesh>()[1].text = TheLetterManager.CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
+                lttrBlock.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+                lttrBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
                 GameObject parentRow = GetRightRow(row);
                 lttrBlock.transform.SetParent(parentRow.transform, false);
                 if(index != null)
