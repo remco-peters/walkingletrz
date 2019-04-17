@@ -257,7 +257,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Duur van het spel
+  m_Text: Duration of the game
 --- !u!222 &48405513
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1647,8 +1647,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -53.052, y: 0}
-  m_SizeDelta: {x: 4201.4, y: 348.3}
+  m_AnchoredPosition: {x: -30.552, y: 0}
+  m_SizeDelta: {x: 4849.9, y: 348.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &639874996
 MonoBehaviour:
@@ -1683,7 +1683,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Max. aantal letters per woord
+  m_Text: Max. number of letters per word
 --- !u!222 &639874997
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2298,7 +2298,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Speelwijze
+  m_Text: Gameplay
 --- !u!222 &898029171
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3129,7 +3129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332e36893e7cf4a49b3c1f72f76cd5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTarget: {fileID: 898029170}
+  mTarget: {fileID: 2119174019}
 --- !u!1 &1241512517
 GameObject:
   m_ObjectHideFlags: 0
@@ -4206,7 +4206,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Spel instellingen
+  m_Text: Game Settings
 --- !u!222 &1747616104
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5188,8 +5188,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 370.84, y: -12.8}
-  m_SizeDelta: {x: 107.92, y: 25.6}
+  m_AnchoredPosition: {x: 394.25, y: -12.8}
+  m_SizeDelta: {x: 61.11, y: 25.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2079748338
 MonoBehaviour:
@@ -5407,7 +5407,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Geluid
+  m_Text: Audio
 --- !u!222 &2119174020
 CanvasRenderer:
   m_ObjectHideFlags: 0
