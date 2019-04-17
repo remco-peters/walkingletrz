@@ -11,6 +11,7 @@ namespace Assets.Scripts
         public string Name;
         public bool localPlayer;
         public long Points;
+        public int place;
         public List<string> BestWords = null;
     }
 }
