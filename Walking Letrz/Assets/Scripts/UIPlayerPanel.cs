@@ -160,16 +160,22 @@ public class UIPlayerPanel : UIBehaviour
 
     private void PutAllDataInPlayerData()
     {
-        foreach(Player p in Players)
+        for(int i = 0; i < Players.Count; i++)
         {
+            Player p = Players[i];
             PlayerData pd = new PlayerData();
-            if(Player == p)
-            {
-                pd.localPlayer = true;
-            }
             pd.Name = p.Name;
             pd.Points = p.EarnedPoints;
-            GameInstance.instance.PlayerData.Add(pd);
+            pd.place = i + 1;
+            if (p == Player)
+            {
+                // Make sure you're thing is placed first
+                GameInstance.instance.PlayerData.Insert(0, pd);
+            }
+            else
+            {
+                GameInstance.instance.PlayerData.Add(pd);
+            }
         }
     }
 
