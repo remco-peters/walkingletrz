@@ -154,8 +154,23 @@ public class UIPlayerPanel : UIBehaviour
         WrapUpGame();
         InfoText.enabled = true;
         StopCoroutine(Timer());
-        gameObject.AddComponent<SceneSwitcher>();
-        gameObject.GetComponent<SceneSwitcher>().SwithSceneToMatchResult(Player, Players, "MatchResultScene");
+        PutAllDataInPlayerData();
+        SceneSwitcher.SwitchSceneStatic("MatchResultScene");
+    }
+
+    private void PutAllDataInPlayerData()
+    {
+        foreach(Player p in Players)
+        {
+            PlayerData pd = new PlayerData();
+            if(Player == p)
+            {
+                pd.localPlayer = true;
+            }
+            pd.Name = p.Name;
+            pd.Points = p.EarnedPoints;
+            GameInstance.instance.PlayerData.Add(pd);
+        }
     }
 
     private string TimeText(float seconds)

@@ -49,6 +49,7 @@ public class DynamicUI : MyMonoBehaviour
 
         AchievementManager achievementManager = Instantiate(AchievementManagerClass);
         MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
+         
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
         
@@ -85,12 +86,13 @@ public class DynamicUI : MyMonoBehaviour
             bot.TheLetterManager = TheLetterManagerClass;
             bot.Name = "Medium bot";
         });
-
-        PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
-        PlayerManagerClass.Players = new List<Player> { player, BotClass }; //todo add bots or other players
+        
+        //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
+        PlayerManagerClass.Players = new List<Player> { player, BotClass };//todo add bots or other players
 
         HUD.PlayersList = PlayerManagerClass.Players;
 
         BotClass.playerManager = PlayerManagerClass;
+
     }
 }
