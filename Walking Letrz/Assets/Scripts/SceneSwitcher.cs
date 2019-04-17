@@ -11,10 +11,8 @@ public class SceneSwitcher : MonoBehaviour
         SceneManager.LoadScene(SceneName);
     }
 
-    public void SwithSceneToMatchResult(Player player, List<Player> playerList, string SceneName)
+    public static void SwitchSceneStatic(string SceneName)
     {
-        MatchResultScript.MyPlayer = player;
-        MatchResultScript.PlayersList = playerList;
         SceneManager.LoadScene(SceneName);
     }
 }

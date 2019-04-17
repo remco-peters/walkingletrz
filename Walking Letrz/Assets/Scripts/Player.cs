@@ -13,7 +13,7 @@ namespace Assets.Scripts
 
         public void Start()
         {
-            TimeRemaining = 120;
+            TimeRemaining = 2;
             EarnedPoints = 0;
         }
 

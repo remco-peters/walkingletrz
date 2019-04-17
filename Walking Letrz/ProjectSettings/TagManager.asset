@@ -5,6 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlaceHolder
+  - PlayerNameTxt
+  - PlayerScoreTxt
+  - PlayerBestWord1
+  - PlayerBestWord2
+  - PlayerBestWord3
+  - PlayerImage
+  - crownImage
   layers:
   - Default
   - TransparentFX

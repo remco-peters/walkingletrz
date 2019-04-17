@@ -9,8 +9,17 @@ public class GameState : MyMonoBehaviour
     public Camera CameraClass;
     
     public AchievementManager AchievementManagerClass;
-
+    public GameObject gameInstance;
     
+    void Awake()
+    {
+        if (GameInstance.instance == null)
+        {
+            //Instantiate gameManager prefab
+            Instantiate(gameInstance);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

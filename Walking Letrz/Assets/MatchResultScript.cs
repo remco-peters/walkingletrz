@@ -5,34 +5,23 @@ using UnityEngine;
 
 public class MatchResultScript : MonoBehaviour
 {
-    public GameObject FirstPlayerPanel;
-    public GameObject SecondPlayerPanel;
-    public GameObject ThirdPlayerPanel;
-    public GameObject FourthPlayerPanel;
-    static public Player MyPlayer { get; set; }
-    static public List<Player> PlayersList { get; set; }
+    public GameObject PlayerPanelHolder;
+    public PlayerPanel PlayerPanelClass;
     
     void Awake()
     {
         // Put all the stuff nicely on their place!
-        switch(PlayersList.Count)
+        for (int i = 0; i < GameInstance.instance.PlayerData.Count; i++)
         {
-            case 1:
-                Destroy(SecondPlayerPanel);
-                Destroy(ThirdPlayerPanel);
-                Destroy(FourthPlayerPanel);
-                break;
-            case 2:
-                Destroy(ThirdPlayerPanel);
-                Destroy(FourthPlayerPanel);
-                break;
-            case 3:
-                Destroy(FourthPlayerPanel);
-                break;
-            default:
-                break;
+            SetUpInfo(GameInstance.instance.PlayerData[i]);
         }
-        Debug.Log(PlayersList.Count);
     }
     
+    private void SetUpInfo(PlayerData p)
+    {
+        PlayerPanel pp = Instantiate(PlayerPanelClass);
+        pp.GetComponent<PlayerPanel>().playerName.text = p.Name;
+        pp.GetComponent<PlayerPanel>().playerScore.text = p.Points.ToString();
+        pp.transform.SetParent(PlayerPanelHolder.transform, false);
+    }
 }
