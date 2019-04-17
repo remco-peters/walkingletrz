@@ -112,7 +112,7 @@ namespace Assets.Scripts
             List<LetterBlock> blocks = new List<LetterBlock>();
             for (int i = 0; i < word.Length; i++)
             {
-                blocks.Add(LetterManager.InstantiateLetterButton(word[i], new Vector3(), i == firstLetterIndex, i == secondLetterIndex));
+                blocks.Add(LetterManager.InstantiateLetterButton(word[i], i == firstLetterIndex, i == secondLetterIndex));
             }
             while (blocks.Count < 12)
             {

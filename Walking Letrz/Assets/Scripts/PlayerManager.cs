@@ -30,8 +30,8 @@ namespace Assets.Scripts
             foreach (Player player in Players)
             {
                 //todo somehow get the walkingletterz of the player
-                LetterBlock firstLetter = player.LetterManager.InstantiateLetterButton(FirstLetter, new Vector3(), true, false, 0, 0);
-                LetterBlock secondLetter = player.LetterManager.InstantiateLetterButton(SecondLetter, new Vector3(), false, true, 0, 1);
+                LetterBlock firstLetter = player.LetterManager.InstantiateLetterButton(FirstLetter, true, false, 0, 0);
+                LetterBlock secondLetter = player.LetterManager.InstantiateLetterButton(SecondLetter, false, true, 0, 1);
             }
         }
     }

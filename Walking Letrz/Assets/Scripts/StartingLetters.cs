@@ -23,17 +23,9 @@ public class StartingLetters : MyMonoBehaviour
         firstLetter = TheLetterManager.GetLetters(1)[0];
         secondLetter = TheLetterManager.GetLetters(1)[0];
 
-        LetterManager.InstantiateLetterButton(firstLetter, pos, true, false, row);
-        pos.x += 0.8f;
-        LetterManager.InstantiateLetterButton(secondLetter, pos, false, true, row);
-        pos.x += 0.8f;
+        LetterManager.InstantiateLetterButton(firstLetter, true, false, row);
+        LetterManager.InstantiateLetterButton(secondLetter, false, true, row);
         
         Debug.Log($"{firstLetter}, {secondLetter}");
-    }
-
-    // Todo remove this one or give back the index (0 or 1) and row (always 1)
-    public Vector3 GetLastLetterPosition()
-    {
-        return pos;
     }
 }

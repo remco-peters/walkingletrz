@@ -91,8 +91,8 @@ namespace Assets.Scripts
         
         private void InitStartingLetters()
         {
-            FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
-            SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);
+            FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
+            SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
         }
 
         public List<LetterPosition> GetPlayerLetters()
@@ -116,7 +116,6 @@ namespace Assets.Scripts
             int version = 2;
             int row = 0;
             int index = 0;
-            Vector3 pos = new Vector3(-0.9f, -2.5f);
             char[] startingLetters = TheLetterManager.FirstPlayerLetters;
             for (int i = 0; i < startingLetters.Length; i++)
             {
@@ -138,24 +137,10 @@ namespace Assets.Scripts
                         index = i - 12;
                     }
                 }
-                if (i > 0)
-                    pos.x += 0.80f;
-                if (i == 5)
-                {
-                    pos.x = -2.5f;
-                    pos.y -= 0.75f;
-                }
-
-                if (i == 12)
-                {
-                    pos.x = -0.9f;
-                    pos.y -= 0.75f;
-                }
+                
                 //Todo remove all the positions
-                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], pos, false, false, row, index);
+                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], false, false, row, index);
             }
-            pos.x += 0.80f;
-
             InitPlayerLetters();
         }
         
@@ -211,7 +196,7 @@ namespace Assets.Scripts
             DynamicUi.PlayerManagerClass.NextTurn();
         }
         
-        public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
+        public LetterBlock InstantiateLetterButton(char letter, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
         {
             LetterBlock block;
             if(isFirstLetter || isSecondLetter)
@@ -296,7 +281,7 @@ namespace Assets.Scripts
         private LetterBlock AddLetter(int row, int index)
         {
             char[] letters = TheLetterManager.GetLetters(1);
-            LetterBlock block = InstantiateLetterButton(letters[0], new Vector3(), false, false, row, index);
+            LetterBlock block = InstantiateLetterButton(letters[0], false, false, row, index);
             PlayerLetters.Add(new LetterPosition(row, index, block));
             return block; 
         }
@@ -417,8 +402,8 @@ namespace Assets.Scripts
             }
             else
             {
-                FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, new Vector3(), true, false, 1, 0);
-                SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, new Vector3(), false, true, 1, 1);     
+                FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
+                SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);     
             }
         }    
 
