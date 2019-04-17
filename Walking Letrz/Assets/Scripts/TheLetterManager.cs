@@ -88,7 +88,7 @@ namespace Assets.Scripts
         }
         private void InitAllWords()
         {
-            AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] { Environment.NewLine },StringSplitOptions.None));
+            AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] { "\r\n" },StringSplitOptions.None));
             Woordenlijst = null;
         }
 
