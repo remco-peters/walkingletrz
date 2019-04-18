@@ -280,7 +280,7 @@ namespace Assets.Scripts
 
         private LetterBlock AddLetter(int row, int index)
         {
-            char[] letters = TheLetterManager.GetLetters(1, PlayerLetters.Select(c => c?.LetterBlock?.GetLetter() ?? ' ').ToList());
+            char[] letters = TheLetterManager.GetLetters(1);
             LetterBlock block = InstantiateLetterButton(letters[0], false, false, row, index);
             PlayerLetters.Add(new LetterPosition(row, index, block));
             return block; 

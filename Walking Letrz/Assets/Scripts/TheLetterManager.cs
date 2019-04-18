@@ -64,8 +64,8 @@ namespace Assets.Scripts
                     int letterCount = 0;
                     foreach(char c in startingLetters)
                     {
-                        if (c == letter) letterCount++;
-                        if (currentLetters.Contains(c)) letterCount++;
+                        if (c == letter) letterCount+=1;
+                        if (currentLetters.Contains(c)) letterCount+=1;
                     }
                     if (letterCount < 3){
                         startingLetters[i] = letter;
