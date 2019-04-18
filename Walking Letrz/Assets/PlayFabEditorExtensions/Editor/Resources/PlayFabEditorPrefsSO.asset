@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
+  m_Name: PlayFabEditorPrefsSO
+  m_EditorClassIdentifier: 
+  DevAccountEmail: 561539@student.inholland.nl
+  DevAccountToken: 3kbwhyfmuq78oenhky3d1notgt8byiy4o6jr9p19wgx95pjz57nf1s8w3y3xaotinpun9freyiwbjtd9uhyzpesrau5yo1o1587eshk7sx19fix7rfomymnsdwgfcp8jna64cza5n4asb8etos8jbae1ipea38iaijg7n3j3oz1w4y3u44gpi996oaw9co39xwskguu5
+  SelectedStudio: Team RSW
+  SdkPath: Assets/PlayFabSdk
+  EdExPath: 
+  LocalCloudScriptPath: 
+  PanelIsShown: 0
+  curMainMenuIdx: 1
+  curSubMenuIdx: 0

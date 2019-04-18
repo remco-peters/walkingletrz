@@ -160,6 +160,7 @@ public class UIPlayerPanel : UIBehaviour
 
     private void PutAllDataInPlayerData()
     {
+        GameInstance.instance.PlayerData = new List<PlayerData>();
         for(int i = 0; i < Players.Count; i++)
         {
             Player p = Players[i];
@@ -167,9 +168,13 @@ public class UIPlayerPanel : UIBehaviour
             pd.Name = p.Name;
             pd.Points = p.EarnedPoints;
             pd.place = i + 1;
+            pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
             if (p == Player)
             {
+                var myPlayer = (MyPlayer) p;
                 // Make sure you're thing is placed first
+                pd.localPlayer = true;
+                pd.WordCount = myPlayer.GetPlacedWordCount();
                 GameInstance.instance.PlayerData.Insert(0, pd);
             }
             else

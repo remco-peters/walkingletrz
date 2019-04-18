@@ -36,8 +36,9 @@ namespace Assets.Scripts
             SecondLetter = GetLetters(1)[0];
         }
 
-        public char[] GetLetters(int amount)
+        public char[] GetLetters(int amount, List<char> currentLetters = null)
         {
+            currentLetters = currentLetters ?? new List<char>();
             List<char> availableLetters =new List<char>
             { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -63,7 +64,8 @@ namespace Assets.Scripts
                     int letterCount = 0;
                     foreach(char c in startingLetters)
                     {
-                        if (c == letter) letterCount++;
+                        if (c == letter) letterCount+=1;
+                        if (currentLetters.Contains(c)) letterCount+=1;
                     }
                     if (letterCount < 3){
                         startingLetters[i] = letter;
@@ -87,8 +89,11 @@ namespace Assets.Scripts
             }
         }
         private void InitAllWords()
-        {
-            AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] { "\r\n" },StringSplitOptions.None));
+        {            
+            if (Application.isMobilePlatform)
+                AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] {"\r\n"}, StringSplitOptions.None));
+            else
+                AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] {Environment.NewLine}, StringSplitOptions.None));
             Woordenlijst = null;
         }
 

@@ -52,13 +52,15 @@ namespace Assets.Scripts
                 return;
             }
             ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
-            EarnedPoints += TheLetterManager.CalculatePoints(foundWord);
+            long points = TheLetterManager.CalculatePoints(foundWord);
+            EarnedPoints += points;
             PlacedInBoard(foundWord, indexFirstLetter, indexSecondLetter);
             LetterManager.ChangeFixedLetters(foundWord, true);
             TheLetterManager.PlacedWords.Add(foundWord);
             LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
             hasFoundWord = false;
-                
+            int bestWordIndex = BestWordsThisGame.Count(word => word.points > points);
+            BestWordsThisGame.Insert(bestWordIndex, new Word(foundWord, points));   
         }
 
         private void FindWord()

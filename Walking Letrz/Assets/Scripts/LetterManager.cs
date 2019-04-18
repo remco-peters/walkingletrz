@@ -252,6 +252,8 @@ namespace Assets.Scripts
                         madeWord += block.GetLetter();
                     }
                     if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters)) return;
+                    int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
+                    Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
                     Player.EarnedPoints += points;
                     ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());

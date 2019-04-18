@@ -13,5 +13,6 @@ namespace Assets.Scripts
         public long Points;
         public int place;
         public List<string> BestWords = null;
+        public int WordCount = 0;
     }
 }
