@@ -297,6 +297,130 @@ MonoBehaviour:
       - Duration of the game
       Flags: 0000
       Languages_Touch: []
+    - Term: manual_gameplay
+      TermType: 0
+      Description: 
+      Languages:
+      - 'De spelers krijgen allemaal dezelfde letters waarmee zij beginnen. Van alle
+        letters zijn er 2 letters vaste letters die gebruikt moeten worden om woorden
+        te maken. De woorden die gemaakt worden moeten minimaal 2 letters en maximaal
+        12 letters bevatten. De 2 gegeven vaste letters en de volgorde daarvan kunnen
+        niet veranderen in het woord. Wel kunnen er letters voor-, tussen- en/of achter
+        de 2 gegeven letters worden geplaatst.
+
+
+        De speler maakt de woorden middels het typen van de letters van het toetsenbord.
+        Als een woord verkeerd gespeld wordt dan kan de speler een letter toevoegen
+        of weghlen door op de letters te tikken. Een woord kan ook in zijn geheel
+        verwijderd worden door op het kruisje te drukken. Als de speler het woord
+        af heeft, drukt hij/zij op het vinkje. Als het vinkje niet lichtgroen kleurt,
+        komt het woord niet voor in de LETRZ woordenlijst en kan het niet worden gespeeld.
+
+
+        Wanneer een woord gelegd is, "lopen" de 2 vaste letters. De letter die op
+        de eerste plaats stond, gaat door naar de tweede plaats en de laatste letter
+        van het gelegde woord, wordt een nieuwe eerste vaste letter. Zodoende zijn
+        het "Lopende Letters".
+
+
+        Uitgangspunt bij het goedkeuren van de woorden bij LETRZ is de voor die taal
+        specifieke officiele woordenlijst genoemd onder de kop "Gebruiksvoorwaarden/Intellectuele
+        eigendomsrechten".
+
+
+        De letters hebben verschillende waardes. De speler die met zijn/haar woorden
+        de meeste punten maakt wint het spel. Een woord wat al eerder is neergelegd
+        in een ronde, mag niet nogmaals neergelegd worden. Aan het einde van elk spel
+        kunnen alle spelers zien welke beste woorden ze gespeeld hebben van zichzelf
+        en elkaar.'
+      - 'The players will all get the same letters to start with. There are 2 letters
+        that are fixed letters. These must be used to make words. The words that are
+        made must contain a minimum of 2 letters and a maximum of 12 letters. The
+        2 given fixed letters and their order cannot change in the word. However,
+        letters can be placed before, between and / or after the 2 given letters.
+
+
+        The player makes the words by typing the letters from the keyboard. If a word
+        is spelled incorrectly, the player can add or remove a letter by tapping the
+        letters. A word can also be deleted entirety by pressing the cross. When the
+        player has finished, he / she presses the checkmark. If the checkmark is not
+        lit light green, the word does not appear in the LETRZ word list and cannot
+        be played.
+
+
+        When a word is placed, the 2 fixed letters "walk". The letter that was in
+        first place goes to the second place and the last letter of the laid word
+        becomes a new first fixed letter. That is why they are "Walking Letrz".
+
+
+        The starting point for approving the words at LETRZ is the official glossary
+        specific to that language mentioned under the heading "Terms of Use / Intellectual
+        Property Rights".
+
+
+        The letters have different values. The player who makes the most points with
+        his / her words wins the game. A word that has already been laid down in a
+        round may not be laid down again. At the end of each game, all players can
+        see their best played words in that round.
+
+
+'
+      Flags: 0000
+      Languages_Touch: []
+    - Term: manual_thegame
+      TermType: 0
+      Description: 
+      Languages:
+      - Het spel
+      - The game
+      Flags: 0000
+      Languages_Touch: []
+    - Term: manual_words_approved_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Woorden die WEL worden goedgekeurd
+      - Words that are approved
+      Flags: 0000
+      Languages_Touch: []
+    - Term: manual_words_approved
+      TermType: 0
+      Description: 
+      Languages:
+      - "Bij het opstellen van de LETRZ woordenlijst wordt uitgegaan van twee hoofdbegrippen:
+        het <b>lemma</b> (de basisvorm van een woord, ook wel trefwoord genoemd) en
+        de <b>flexies</b> (woordvormen) zoals deze vanuit de taalregels gevormd kunnen
+        worden door middel van verbuigingen, vervoegingen of afleidingen. Denk daarbij
+        aan werkwoorden (met alle vervoegingen, inclusief aanvoegende wijs*), zelfstandige
+        naamwoorden (inclusief het meervoud) en de verkleinwoorden, bijvoeglijke naamwoorden
+        (inclusief de trappen van vergelijking), telwoorden en overige woordsoorten.\n\nDelen
+        van scheidbare werkwoorden die in een hoofdzin los van elkaar voorkomen, worden
+        in een bijzin aan elkaar geschreven (ik speelde mee, maar: zij vroeg of ik
+        <b>meespeelde</b>).\n\nDe hoofdtelwoorden en de overeenkomstige rangtelwoorden
+        die aaneengeschreven worden, zijn toegelaten. Van twintig tot en met negenennegentig
+        wordt bovendien een verlenging toegelaten met \u2013en, er en \u2013ers (achttienen,
+        eenentwintigers, zesenzestigers). \n\nUitspraaktekens als een accent, trema,
+        umlaut, cedille of tile en spellingstekens als samentrekkings-, koppel- of
+        weglatingstekens (apostrof) worden verwaarloosd. Zo worden woorden als caf\xE9,
+        mee-eten, auto\u2019s en re\xFCnie aanvaard als respectievelijk cafe, meeeten,
+        autos en reunie.\n\n"
+      - 'The LETRZ glossary is based on two main concepts: the <b>lemma</b> (the basic
+        form of a word, also called keyword) and the <b>flexies</b> (word forms) as
+        they can be formed by the language rules, and by means of inflections, conjugations,
+        of derivations. Think of verbs (with all conjugations, including subjunctive
+        ways*), nouns (both singular and plurar) and diminutives, adjectives (including
+        comparative and superlative), numerals and other word types.
+
+
+        All words in the agreed-upon dictionary, including inflections, are acceptable.
+
+
+        Foreign words which have been incorporated into the language are valid (such
+        as ballet, croissant, cafe, genre, lingerie, etc.)
+
+'
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -312,7 +436,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1555529800680
+    Google_LastUpdatedVersion: 1555584347455
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
