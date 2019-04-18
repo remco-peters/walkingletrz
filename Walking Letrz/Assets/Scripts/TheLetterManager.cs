@@ -36,8 +36,9 @@ namespace Assets.Scripts
             SecondLetter = GetLetters(1)[0];
         }
 
-        public char[] GetLetters(int amount)
+        public char[] GetLetters(int amount, List<char> currentLetters = null)
         {
+            currentLetters = currentLetters ?? new List<char>();
             List<char> availableLetters =new List<char>
             { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
                 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
@@ -64,6 +65,7 @@ namespace Assets.Scripts
                     foreach(char c in startingLetters)
                     {
                         if (c == letter) letterCount++;
+                        if (currentLetters.Contains(c)) letterCount++;
                     }
                     if (letterCount < 3){
                         startingLetters[i] = letter;

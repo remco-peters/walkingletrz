@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -10,6 +11,7 @@ namespace Assets.Scripts
         public LetterManager LetterManager { get; set; }
         public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
+        public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
 
         public void Start()
         {

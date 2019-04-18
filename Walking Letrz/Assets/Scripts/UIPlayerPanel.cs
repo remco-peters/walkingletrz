@@ -167,6 +167,7 @@ public class UIPlayerPanel : UIBehaviour
             pd.Name = p.Name;
             pd.Points = p.EarnedPoints;
             pd.place = i + 1;
+            pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
             if (p == Player)
             {
                 // Make sure you're thing is placed first

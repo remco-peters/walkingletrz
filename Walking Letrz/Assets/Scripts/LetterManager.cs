@@ -252,6 +252,8 @@ namespace Assets.Scripts
                         madeWord += block.GetLetter();
                     }
                     if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters)) return;
+                    int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
+                    Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
                     Player.EarnedPoints += points;
                     ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
@@ -278,7 +280,7 @@ namespace Assets.Scripts
 
         private LetterBlock AddLetter(int row, int index)
         {
-            char[] letters = TheLetterManager.GetLetters(1);
+            char[] letters = TheLetterManager.GetLetters(1, PlayerLetters.Select(c => c?.LetterBlock?.GetLetter() ?? ' ').ToList());
             LetterBlock block = InstantiateLetterButton(letters[0], false, false, row, index);
             PlayerLetters.Add(new LetterPosition(row, index, block));
             return block; 
