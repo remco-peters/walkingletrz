@@ -293,23 +293,26 @@ namespace Assets.Scripts
             GameObject wordHolder = Instantiate(GameBoardWordHolder);
 
             // Walk through all the letters placed
-            foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
+            foreach (LetterPosition letterPos in PlacedLetters)
             {
+                LetterBlock block = letterPos.LetterBlock;
                 if (block != null)
                 {
                     block.transform.SetParent(wordHolder.transform, false);
                     block.GetComponent<Button>().interactable = false;
                     // Replace placeholder with letter on playerBoard
-                    LetterPosition letterPos = PlacedLetters.FirstOrDefault(x => x.LetterBlock == block);
                     int row = letterPos.GetRow();
                     int index = letterPos.GetOldIndex();
-                    int currentIndex = letterPos.GetOldIndex();
+                    int currentIndex = letterPos.GetCurrentIndex();
                     PlayerLetters.Remove(letterPos);
-
-                    // Placeholders verwijderen
-                    GameObject parentRow = GetRightRow(row);
-                    Transform placeHolder = parentRow.transform.GetChild(index);
-                    Destroy(placeHolder.gameObject);
+                    
+                    if (!block.IsFirstLetter && !block.IsSecondLetter)
+                    {
+                        // Placeholders verwijderen
+                        GameObject parentRow = GetRightRow(row);
+                        Transform placeHolder = parentRow.transform.GetChild(index);
+                        DestroyImmediate(placeHolder.gameObject);
+                    }
 
                     // Lege gameobjecten toevoegen aan writeboard
                     GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
@@ -380,7 +383,13 @@ namespace Assets.Scripts
             }
             else
             {
+                GameObject parentRow = GetRightRow(1);
+                Transform placeHolder = parentRow.transform.GetChild(0);
+                DestroyImmediate(placeHolder.gameObject);
                 FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
+                parentRow = GetRightRow(1);
+                placeHolder = parentRow.transform.GetChild(1);
+                DestroyImmediate(placeHolder.gameObject);
                 SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);     
             }
         }    
