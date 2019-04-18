@@ -301,28 +301,6 @@ namespace Assets.Scripts
             return block; 
         }
 
-            
-       // TheLetterManager
-        public long CalculatePoints(string word)
-        {
-            long value = 0;
-            foreach (var letter in word)
-            {
-                value += TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == letter).Value;
-            }
-            if (word.Length >= 5 && word.Length <= 7) value = (long)(value * 1.5);
-            else if (word.Length >= 8 && word.Length <= 10) value *= 2;
-            else if (word.Length == 11) value = (long)(value * 2.5);
-            else if (word.Length == 12) value *= 3;
-            return value;
-        }
-        
-        // TheLetterMananger
-        public bool Exists(string word)
-        {
-            return TheLetterManager.AllWords.Contains(word);
-        }
-
         // TheLetterManager
         private void PlaceWordInGameBoard()
         {
