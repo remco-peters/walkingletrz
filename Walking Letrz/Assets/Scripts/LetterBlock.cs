@@ -138,12 +138,12 @@ public class LetterBlock : MyMonoBehaviour
         else if (newLetter.IsSecondLetter) newLetter.transform.position = secondLetterPosition;
         else playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(newLetter);       
         newLetter.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-    }
+    }*/
 
     internal bool IsWalkingLetter()
     {
         return IsFirstLetter || IsSecondLetter;
-    }*/
+    }
 
     internal char GetLetter()
     {

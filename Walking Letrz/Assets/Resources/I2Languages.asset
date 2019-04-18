@@ -149,7 +149,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Easy (Binnenkort!)
+      - Makkelijk (Binnenkort!)
       - Easy (Coming soon!)
       Flags: 0000
       Languages_Touch: []
@@ -157,7 +157,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Medium
+      - Gemiddeld
       - Medium
       Flags: 0000
       Languages_Touch: []
@@ -165,7 +165,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Hard (Binnenkort!)
+      - Moeilijk (Binnenkort!)
       - Hard (Coming soon!)
       Flags: 0000
       Languages_Touch: []
@@ -257,6 +257,46 @@ MonoBehaviour:
       - Go further
       Flags: 0000
       Languages_Touch: []
+    - Term: settings_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Spel instellingen
+      - Game Settings
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_audio
+      TermType: 0
+      Description: 
+      Languages:
+      - Geluid
+      - Audio
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_gameplay
+      TermType: 0
+      Description: 
+      Languages:
+      - Speelwijze
+      - Gameplay
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_max_letters
+      TermType: 0
+      Description: 
+      Languages:
+      - Max. aantal letters per woord
+      - Max. number of letters per word
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_duration
+      TermType: 0
+      Description: 
+      Languages:
+      - Duur van het spel
+      - Duration of the game
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -272,7 +312,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1555448783462
+    Google_LastUpdatedVersion: 1555529800680
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

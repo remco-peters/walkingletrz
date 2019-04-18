@@ -12,7 +12,7 @@ public class GameInstance : MonoBehaviour
     void Awake()
     {
         // check if instance exists
-        if(instance == null)
+        if (instance == null)
         {
             instance = this;
         } else if(instance != this)
