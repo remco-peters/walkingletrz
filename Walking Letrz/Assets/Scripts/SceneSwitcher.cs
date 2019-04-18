@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using I2.Loc;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneSwitcher : MonoBehaviour
