@@ -51,6 +51,25 @@ public class AccountManager : MonoBehaviour
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
     {
         CurrentPlayer = result.PlayerProfile;
+        var getStatistics = new GetPlayerStatisticsRequest();
+        var statisticNames = new List<string>();
+        statisticNames.Add("Score");
+        getStatistics.StatisticNames = statisticNames;
+        PlayFabClientAPI.GetPlayerStatistics(getStatistics, OnStatisticsSuccess, OnFailure);
+    }
+
+    private void OnStatisticsSuccess(GetPlayerStatisticsResult result)
+    {
+        var statisticList = new List<StatisticModel>();
+        foreach (var statisticValue in result.Statistics)
+        {
+            var model = new StatisticModel();
+            model.Value = statisticValue.Value;
+            model.Name = statisticValue.StatisticName;
+            statisticList.Add(model);
+        }
+
+        CurrentPlayer.Statistics = statisticList;
     }
 
     private void OnFailure(PlayFabError error)

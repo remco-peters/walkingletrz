@@ -49,13 +49,16 @@ public class MatchResultScript : MonoBehaviour
                 },
                 result => Debug.Log("Success saving scores"),
                 error => Debug.LogError(error.GenerateErrorReport()));
+            if (p.Points > AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Score").Value)
+            {
+                var updateStatisticsRequest = new UpdatePlayerStatisticsRequest();
+                var statistics = new List<StatisticUpdate>();
+                var statistic = new StatisticUpdate {StatisticName = "Score", Value = (int) p.Points};
+                statistics.Add(statistic);
 
-            var updateStatisticsRequest = new UpdatePlayerStatisticsRequest();
-            var statistics = new List<StatisticUpdate>();
-            var statistic = new StatisticUpdate {StatisticName = "Score", Value = (int) p.Points};
-            statistics.Add(statistic);
-            updateStatisticsRequest.Statistics = statistics;
-            PlayFabClientAPI.UpdatePlayerStatistics(updateStatisticsRequest, OnSuccess, OnFailure);
+                updateStatisticsRequest.Statistics = statistics;
+                PlayFabClientAPI.UpdatePlayerStatistics(updateStatisticsRequest, OnSuccess, OnFailure);
+            }
         }
     }
 
