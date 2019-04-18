@@ -62,6 +62,8 @@ public class UIPlayerPanel : UIBehaviour
     protected override void Start()
     {
         base.Start();
+        if (AccountManager.CurrentPlayer.DisplayName.Length > 0)
+            PlayerNameTxt.text = AccountManager.CurrentPlayer.DisplayName;
         StartCoroutine(Timer());
         InitOtherPlayers();
     }
