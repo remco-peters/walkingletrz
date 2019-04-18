@@ -1,22 +1,22 @@
-﻿using UnityEngine;
+﻿using PlayFab;
+using PlayFab.ClientModels;
+using UnityEngine;
 
-public class Credit : MonoBehaviour
+public class Credit : MonoBehaviour 
 {
-        public int Count { get; set; }
-
-        private void Awake()
-        {
-            Count = PlayerPrefs.GetInt("numberOfCredits", 0);
-        }
-
         public void AddCredits(int amount)
         {
-            
-            Count = PlayerPrefs.GetInt("numberOfCredits", 0);
-            Debug.Log($"Credits before add: {Count}");
-            Count += amount;
-            Debug.Log($"Credits after add: {Count}");
-            PlayerPrefs.SetInt("numberOfCredits", Count);
-            PlayerPrefs.Save();
+            var currencyRequest = new AddUserVirtualCurrencyRequest {VirtualCurrency = "CR", Amount = amount};
+            PlayFabClientAPI.AddUserVirtualCurrency(currencyRequest, OnSuccess, OnFailure);
+        }
+
+        private void OnSuccess(ModifyUserVirtualCurrencyResult result)
+        {
+            Debug.Log($"Added currency, new balance: {result.Balance}");
+        }
+
+        private void OnFailure(PlayFabError error)
+        {
+            Debug.Log(error.GenerateErrorReport());
         }
 }

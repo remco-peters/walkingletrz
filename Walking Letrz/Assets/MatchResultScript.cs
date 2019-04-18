@@ -49,7 +49,24 @@ public class MatchResultScript : MonoBehaviour
                 },
                 result => Debug.Log("Success saving scores"),
                 error => Debug.LogError(error.GenerateErrorReport()));
+
+            var updateStatisticsRequest = new UpdatePlayerStatisticsRequest();
+            var statistics = new List<StatisticUpdate>();
+            var statistic = new StatisticUpdate {StatisticName = "Score", Value = (int) p.Points};
+            statistics.Add(statistic);
+            updateStatisticsRequest.Statistics = statistics;
+            PlayFabClientAPI.UpdatePlayerStatistics(updateStatisticsRequest, OnSuccess, OnFailure);
         }
+    }
+
+    private void OnSuccess(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("Statistic successfully updated");
+    }
+
+    private void OnFailure(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
     }
 
     private Sprite GetRightImg(int place)

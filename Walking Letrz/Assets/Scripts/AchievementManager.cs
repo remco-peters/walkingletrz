@@ -18,13 +18,11 @@ public class AchievementManager : MyMonoBehaviour
     
     public void SubmitWordCountToAchievements(int count)
     {
-        PlayerPrefs.SetInt("playerWordCount", count);
         _wordCount = count;
     }
 
     internal void SubmitPointsToAchievements(long points)
     {
-        PlayerPrefs.SetFloat("playerPointsCount", points);
         _points = points;
     }
 
