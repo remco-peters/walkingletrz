@@ -160,6 +160,7 @@ public class UIPlayerPanel : UIBehaviour
 
     private void PutAllDataInPlayerData()
     {
+        GameInstance.instance.PlayerData = new List<PlayerData>();
         for(int i = 0; i < Players.Count; i++)
         {
             Player p = Players[i];
