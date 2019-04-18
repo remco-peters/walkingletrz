@@ -5,6 +5,7 @@ using PlayFab.ClientModels;
 using PlayFab.PlayStreamModels;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.WSA.WebCam;
 
 public class AccountManager : MonoBehaviour
 
@@ -68,5 +69,7 @@ public class AccountManager : MonoBehaviour
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
     {
         Debug.Log($"New display name: {result.DisplayName}");
+        CurrentPlayer.DisplayName = result.DisplayName;
+
     }
 }
