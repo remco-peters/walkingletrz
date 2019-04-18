@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Assets.Scripts;
+using PlayFab;
 using UnityEngine;
 
 public class MyPlayer : Player
@@ -56,5 +57,10 @@ public class MyPlayer : Player
         AchievementManager.SubmitWordCountToAchievements(++placedWordCount);
         AchievementManager.SubmitPointsToAchievements(EarnedPoints);
         InfoText = AchievementManager.CheckIfAchievementIsGet();
+    }
+
+    public int GetPlacedWordCount()
+    {
+        return placedWordCount;
     }
 }

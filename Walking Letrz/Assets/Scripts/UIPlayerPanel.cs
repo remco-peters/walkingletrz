@@ -171,8 +171,10 @@ public class UIPlayerPanel : UIBehaviour
             pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
             if (p == Player)
             {
+                var myPlayer = (MyPlayer) p;
                 // Make sure you're thing is placed first
                 pd.localPlayer = true;
+                pd.WordCount = myPlayer.GetPlacedWordCount();
                 GameInstance.instance.PlayerData.Insert(0, pd);
             }
             else
