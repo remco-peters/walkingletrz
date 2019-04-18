@@ -89,8 +89,11 @@ namespace Assets.Scripts
             }
         }
         private void InitAllWords()
-        {
-            AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] { "\r\n" },StringSplitOptions.None));
+        {            
+            if (Application.isMobilePlatform)
+                AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] {"\r\n"}, StringSplitOptions.None));
+            else
+                AllWords = new HashSet<string>(Woordenlijst.text.Split(new[] {Environment.NewLine}, StringSplitOptions.None));
             Woordenlijst = null;
         }
 

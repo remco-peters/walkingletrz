@@ -171,6 +171,7 @@ public class UIPlayerPanel : UIBehaviour
             if (p == Player)
             {
                 // Make sure you're thing is placed first
+                pd.localPlayer = true;
                 GameInstance.instance.PlayerData.Insert(0, pd);
             }
             else
