@@ -380,6 +380,7 @@ namespace Assets.Scripts
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
                 SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+                RemoveAllLetters();
             }
             else
             {

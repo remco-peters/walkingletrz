@@ -5,7 +5,6 @@ using PlayFab.ClientModels;
 using PlayFab.PlayStreamModels;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.WSA.WebCam;
 
 public class AccountManager : MonoBehaviour
 

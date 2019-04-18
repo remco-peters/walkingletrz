@@ -68,12 +68,13 @@ namespace Assets.Scripts
             char firstLetter = char.ToLower(TheLetterManager.FirstLetter);
             char secondLetter = char.ToLower(TheLetterManager.SecondLetter);
             foundWord = "";
+            int prefferedWordLength = Random.Range(5, 7); //todo easy 2-5 medium 4-7 hard 6, 12
             foreach (var word in TheLetterManager.AllWords)
             {
                 indexFirstLetter = word.IndexOf(firstLetter);
                 indexSecondLetter = word.LastIndexOf(secondLetter);
                 if (indexFirstLetter == -1 || indexSecondLetter == -1 ||
-                    indexFirstLetter >= indexSecondLetter || word.Length > 7 ||
+                    indexFirstLetter >= indexSecondLetter || word.Length > prefferedWordLength ||
                     !CheckWord(word, indexFirstLetter, indexSecondLetter)) continue;
                 foundWord = word;
                 break;
