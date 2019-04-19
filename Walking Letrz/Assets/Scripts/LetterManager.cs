@@ -43,6 +43,7 @@ namespace Assets.Scripts
         public StartingLetters StartingLettersClass;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
+        public int RotateBy = 12;
         public GameObject PointsGainedPanel { get; set; }
         public Text PointsGainedText { get; set; }
 
@@ -182,6 +183,8 @@ namespace Assets.Scripts
         private void TradeLetterBtnTouch()
         {
             if (!Player.CanMove || Player.EarnedPoints < 20) return;
+            var buttonImage = TradeBtn.GetComponentsInChildren<RectTransform>().Where(img => img.name == "TradeBtnImg").ToList()[0];
+            StartCoroutine(RotateTradeButton(buttonImage, 1));
             RemoveAllLetters();
             List<LetterPosition> letterPositions = GetPlayerLetters();
             foreach (LetterPosition letterPos in letterPositions)
@@ -509,6 +512,22 @@ namespace Assets.Scripts
                 PointsGainedPanelImage.color = panelColor;
                 Color textColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue,t));
                 PointsGainedText.color = textColor;
+                yield return null;
+            }
+        }
+        
+        IEnumerator RotateTradeButton(RectTransform tradeButtonImage, float duration)
+        {
+            var eulerAngles = tradeButtonImage.transform.eulerAngles;
+            float startRotation = eulerAngles.z;
+            float endRotation = startRotation + 360.0f;
+            float t = 0.0f;
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                float zRotation = Mathf.Lerp(startRotation, endRotation, t / duration) % 360.0f;
+                eulerAngles = new Vector3(eulerAngles.x, eulerAngles.y, zRotation);
+                tradeButtonImage.transform.eulerAngles = eulerAngles;
                 yield return null;
             }
         }
