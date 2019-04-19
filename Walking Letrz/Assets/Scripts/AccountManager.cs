@@ -10,6 +10,7 @@ public class AccountManager : MonoBehaviour
 
 {
     public static PlayerProfileModel CurrentPlayer;
+    public static List<PlayerLeaderboardEntry> Leaderboard;
     private GetLeaderboardRequest leaderboardRequest;
     private void Awake()
     {
@@ -30,14 +31,13 @@ public class AccountManager : MonoBehaviour
                 CreateAccount = true
             };
             PlayFabClientAPI.LoginWithAndroidDeviceID(request, Success, OnFailure);
-            leaderboardRequest = new GetLeaderboardRequest {StatisticName = "Score", MaxResultsCount = 10};
+            leaderboardRequest = new GetLeaderboardRequest {StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10};
         }
     }
 
     private void LeaderboardSuccess(GetLeaderboardResult result)
     {
-        //TODO: Show list in UI
-        Debug.Log(result.Leaderboard);
+        Leaderboard = result.Leaderboard;
     }
 
     private void Success(LoginResult result)
@@ -88,6 +88,5 @@ public class AccountManager : MonoBehaviour
     {
         Debug.Log($"New display name: {result.DisplayName}");
         CurrentPlayer.DisplayName = result.DisplayName;
-
     }
 }
