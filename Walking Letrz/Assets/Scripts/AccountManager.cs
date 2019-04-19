@@ -28,7 +28,17 @@ public class AccountManager : MonoBehaviour
                 TitleId = "F537C",
                 AndroidDevice = SystemInfo.deviceModel,
                 AndroidDeviceId = SystemInfo.deviceUniqueIdentifier,
-                CreateAccount = true
+                CreateAccount = true,
+                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
+                {
+                    // And make sure PlayerProfile is included
+                    GetPlayerProfile = true,
+                    // Define rules for PlayerProfile request
+                    ProfileConstraints = new PlayerProfileViewConstraints()
+                    {
+                        ShowLinkedAccounts = true
+                    }
+                }
             };
             PlayFabClientAPI.LoginWithAndroidDeviceID(request, Success, OnFailure);
             leaderboardRequest = new GetLeaderboardRequest {StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10};
@@ -94,6 +104,18 @@ public class AccountManager : MonoBehaviour
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
     {
         Debug.Log($"New display name: {result.DisplayName}");
+        GameObject.FindGameObjectWithTag("SavedUsernameSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         CurrentPlayer.DisplayName = result.DisplayName;
+    }
+
+    public static void AddUsernameAndPassword(string email, string password)
+    {
+        var addUsernameAndPassword = new AddUsernamePasswordRequest { Email = email, Password = password, Username = CurrentPlayer.DisplayName };
+        PlayFabClientAPI.AddUsernamePassword(addUsernameAndPassword, AddUsernameSuccess, OnFailure);
+    }
+
+    private static void AddUsernameSuccess(AddUsernamePasswordResult result)
+    {
+        GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
     }
 }
