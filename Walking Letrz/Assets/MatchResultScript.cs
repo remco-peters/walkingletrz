@@ -49,15 +49,43 @@ public class MatchResultScript : MonoBehaviour
                 },
                 result => Debug.Log("Success saving scores"),
                 error => Debug.LogError(error.GenerateErrorReport()));
-            if (p.Points > AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Score").Value)
+
+            // Check if there are statistics present. If so, set previousScore & statisticsPresent to true
+            int previousScore = 0;
+            bool statisticsPresent = false;
+            if (AccountManager.CurrentPlayer.Statistics.Count > 0)
+            {
+                statisticsPresent = true;
+                previousScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Score").Value;
+            }
+
+            // if new points are more than other points, put the new points
+            if (p.Points > previousScore)
             {
                 var updateStatisticsRequest = new UpdatePlayerStatisticsRequest();
                 var statistics = new List<StatisticUpdate>();
-                var statistic = new StatisticUpdate {StatisticName = "Score", Value = (int) p.Points};
+                var statistic = new StatisticUpdate { StatisticName = "Score", Value = (int)p.Points };
                 statistics.Add(statistic);
 
                 updateStatisticsRequest.Statistics = statistics;
                 PlayFabClientAPI.UpdatePlayerStatistics(updateStatisticsRequest, OnSuccess, OnFailure);
+
+                // When statistics aren't present, set these to currentPlayer
+                if (!statisticsPresent)
+                {
+                    AccountManager.CurrentPlayer.Statistics = new List<StatisticModel> {
+                        new StatisticModel
+                        {
+                            Value = (int) p.Points,
+                            Name = "Score"
+                        }
+                    };
+                } else
+                {
+                    // If they are present, make sure the new score is added to currentPlayer
+                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Score").Value = (int) p.Points;
+                }
+                
             }
         }
     }

@@ -389,7 +389,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1435175022}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999998
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1204,6 +1204,8 @@ MonoBehaviour:
   PlayerPanelHolder: {fileID: 1822508467}
   PlayerPanelClass: {fileID: 174009243261879554, guid: c446b29a82ee6d64a96bd9ebe94cd77b,
     type: 3}
+  AccountManagerClass: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
+    type: 3}
   bronze: {fileID: 21300000, guid: 8936f7fa730242f41861a7a2951a42a5, type: 3}
   silver: {fileID: 21300000, guid: 92c417c30a297b745a54b1e9a2896de5, type: 3}
   gold: {fileID: 21300000, guid: c8fdc18828a977d4b91b89081918a983, type: 3}
@@ -1595,7 +1597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00000009102685}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: -585.1}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1822508469
