@@ -10,7 +10,8 @@ public class LeaderBoardScript : MonoBehaviour
     
     void Awake()
     {
-        foreach (PlayerLeaderboardEntry entry in AccountManager.Leaderboard)
+        
+        foreach (PlayerLeaderboardEntry entry in AccountManager.GetLeaderboard())
         {
             LeaderboardEntry newEntry = Instantiate(LeaderboardEntry);
             newEntry.SetName(entry.DisplayName);

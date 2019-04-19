@@ -35,7 +35,14 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    private void LeaderboardSuccess(GetLeaderboardResult result)
+    public static List<PlayerLeaderboardEntry> GetLeaderboard()
+    {
+        GetLeaderboardRequest glb = new GetLeaderboardRequest { StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10 };
+        PlayFabClientAPI.GetLeaderboard(glb, LeaderboardSuccess, OnFailure);
+        return Leaderboard;
+    }
+
+    private static void LeaderboardSuccess(GetLeaderboardResult result)
     {
         Leaderboard = result.Leaderboard;
     }
@@ -72,7 +79,7 @@ public class AccountManager : MonoBehaviour
         CurrentPlayer.Statistics = statisticList;
     }
 
-    private void OnFailure(PlayFabError error)
+    private static void OnFailure(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
     }
