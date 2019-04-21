@@ -243,11 +243,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 684526439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b92f32412a4ec7748b887b6d26adbf98, type: 3}
+  m_Script: {fileID: 11500000, guid: 3941fabfc16608443b40e5c7d077db42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ContentHolder: {fileID: 1737325771}
-  LeaderboardEntry: {fileID: 8365085599354887141, guid: 57fc7581f5410874a9d18eec846051a7,
+  LeaderboardEntry: {fileID: 4299233336703598225, guid: 57fc7581f5410874a9d18eec846051a7,
     type: 3}
 --- !u!114 &684526441
 MonoBehaviour:
@@ -497,8 +497,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2042823780}
   m_HandleRect: {fileID: 2042823779}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1154,7 +1154,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000000015296338}
+  m_AnchoredPosition: {x: 0, y: 0.00002911273}
   m_SizeDelta: {x: 0, y: -925.6}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1819703655

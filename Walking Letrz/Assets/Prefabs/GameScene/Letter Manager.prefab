@@ -52,3 +52,4 @@ MonoBehaviour:
     type: 2}
   PlaceButtonActiveMaterial: {fileID: 2100000, guid: 376dccee5ce9c134eadae69dcc5b01a4,
     type: 2}
+  RotateBy: 12
