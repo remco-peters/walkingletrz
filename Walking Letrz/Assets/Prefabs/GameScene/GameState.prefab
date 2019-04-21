@@ -46,4 +46,7 @@ MonoBehaviour:
   MediumGameBoard: {fileID: 1911638306418503643, guid: 38c79472598f46447967e4e41b5d09fa,
     type: 3}
   CameraClass: {fileID: 0}
-  AchievementManagerClass: {fileID: 0}
+  AchievementManagerClass: {fileID: 3347263276593153821, guid: 1daa07072f1794b4c8af5f4c505b01f7,
+    type: 3}
+  gameInstance: {fileID: 2259605226463836848, guid: b6b0d0fc2ddaf22448cec038f61c0ccd,
+    type: 3}
