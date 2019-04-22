@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 0
+  - '0994269827629998 '
   appLabels:
-  - App Name
+  - Walking Letrz
   cookie: 1
   logging: 1
   status: 1
