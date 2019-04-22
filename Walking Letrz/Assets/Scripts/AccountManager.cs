@@ -10,6 +10,7 @@ public class AccountManager : MonoBehaviour
 
 {
     public static PlayerProfileModel CurrentPlayer;
+    public static UserAccountInfo CurrentPlayerAccount;
     public static List<PlayerLeaderboardEntry> Leaderboard;
     private GetLeaderboardRequest leaderboardRequest;
     public DisplayNamePopup DisplayNamePopupClass;
@@ -32,17 +33,7 @@ public class AccountManager : MonoBehaviour
                 TitleId = "F537C",
                 AndroidDevice = SystemInfo.deviceModel,
                 AndroidDeviceId = SystemInfo.deviceUniqueIdentifier,
-                CreateAccount = true,
-                InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
-                {
-                    // And make sure PlayerProfile is included
-                    GetPlayerProfile = true,
-                    // Define rules for PlayerProfile request
-                    ProfileConstraints = new PlayerProfileViewConstraints()
-                    {
-                        ShowLinkedAccounts = true
-                    }
-                }
+                CreateAccount = true
             };
             PlayFabClientAPI.LoginWithAndroidDeviceID(request, Success, OnFailure);
             leaderboardRequest = new GetLeaderboardRequest {StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10};
@@ -67,6 +58,7 @@ public class AccountManager : MonoBehaviour
         playerRequest.PlayFabId = result.PlayFabId;
         PlayFabClientAPI.GetPlayerProfile(playerRequest, PlayerProfileSuccess, OnFailure);
         PlayFabClientAPI.GetLeaderboard(leaderboardRequest, LeaderboardSuccess, OnFailure);
+        PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), PlayerAccountSuccess, OnFailure);
     }
     
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
@@ -88,6 +80,11 @@ public class AccountManager : MonoBehaviour
         statisticNames.Add("WordCount");
         getStatistics.StatisticNames = statisticNames;
         PlayFabClientAPI.GetPlayerStatistics(getStatistics, OnStatisticsSuccess, OnFailure);
+    }
+
+    private void PlayerAccountSuccess(GetAccountInfoResult result)
+    {
+        CurrentPlayerAccount = result.AccountInfo;
     }
 
     private void OnStatisticsSuccess(GetPlayerStatisticsResult result)
