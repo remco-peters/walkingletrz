@@ -82,6 +82,10 @@ public class AccountManager : MonoBehaviour
         var getStatistics = new GetPlayerStatisticsRequest();
         var statisticNames = new List<string>();
         statisticNames.Add("Score");
+        statisticNames.Add("Wins");
+        statisticNames.Add("GamesPlayed");
+        statisticNames.Add("TotalScore");
+        statisticNames.Add("WordCount");
         getStatistics.StatisticNames = statisticNames;
         PlayFabClientAPI.GetPlayerStatistics(getStatistics, OnStatisticsSuccess, OnFailure);
     }
