@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class LetterBlock : MyMonoBehaviour
 {
+    public AudioSource audio;
     public event UnityAction<LetterBlock> OnLetterTouched;
     public event UnityAction<LetterBlock> OnLetterDragged;
     public bool IsFirstLetter { get; set; } = false;
@@ -14,6 +15,7 @@ public class LetterBlock : MyMonoBehaviour
 
     public void ButtonClicked()
     {
+        audio.Play();
         OnLetterTouched(this);
     }
 
