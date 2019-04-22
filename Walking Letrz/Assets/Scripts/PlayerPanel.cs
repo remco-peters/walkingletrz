@@ -7,6 +7,7 @@ public class PlayerPanel : MonoBehaviour
 {
     public Text playerName;
     public Text playerScore;
+    public Text playerTimeLeft;
     public Text firstWord;
     public Text secondWord;
     public Text thirdWord;

@@ -24,16 +24,38 @@ public class MatchResultScript : MonoBehaviour
         }
     }
     
+    private IEnumerator AddTimeToPlayerScore(PlayerData p, PlayerPanel pp)
+    {
+        while (true)
+        {
+            pp.playerTimeLeft.text = $" +{p.timeLeft.ToString()} sec";
+            pp.playerScore.text = p.Points.ToString();
+            if (p.timeLeft <= 0){
+                pp.playerTimeLeft.text = "";
+                yield return null;
+            }
+            else
+            {
+                p.timeLeft -= 1;
+                p.Points += 1;
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+    }
+
     private void SetUpInfo(PlayerData p)
     {
         PlayerPanel pp = Instantiate(PlayerPanelClass);
         pp.GetComponent<PlayerPanel>().playerName.text = p.Name;
-        pp.GetComponent<PlayerPanel>().playerScore.text = p.Points.ToString();
+       // pp.GetComponent<PlayerPanel>().playerScore.text = p.Points.ToString();
         pp.GetComponent<PlayerPanel>().crownImg.sprite = GetRightImg(p.place);
+        //pp.GetComponent<PlayerPanel>().playerTimeLeft.text = $"+ {p.timeLeft.ToString()}";
         if (p.BestWords.Count > 0) pp.GetComponent<PlayerPanel>().firstWord.text = p.BestWords[0].ToUpper();
         if (p.BestWords.Count > 1) pp.GetComponent<PlayerPanel>().secondWord.text = p.BestWords[1].ToUpper();
         if (p.BestWords.Count > 2)pp.GetComponent<PlayerPanel>().thirdWord.text = p.BestWords[2].ToUpper();
         pp.transform.SetParent(PlayerPanelHolder.transform, false);
+
+        StartCoroutine(AddTimeToPlayerScore(p, pp));
 
         if (p.localPlayer)
         {

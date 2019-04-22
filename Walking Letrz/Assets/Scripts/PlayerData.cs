@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
@@ -14,5 +10,6 @@ namespace Assets.Scripts
         public int place;
         public List<string> BestWords = null;
         public int WordCount = 0;
+        public float timeLeft;
     }
 }

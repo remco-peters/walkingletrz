@@ -66,6 +66,7 @@ public class UIPlayerPanel : UIBehaviour
             PlayerNameTxt.text = AccountManager.CurrentPlayer.DisplayName;
         StartCoroutine(Timer());
         InitOtherPlayers();
+        StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
     }
 
     // Update is called once per frame
@@ -146,7 +147,14 @@ public class UIPlayerPanel : UIBehaviour
 
             yield return new WaitForEndOfFrame();
         } 
+    }
 
+    IEnumerator CheckIfAllPlayersHaveTimeLeft()
+    {
+        while (Players.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
+        {
+            yield return new WaitForFixedUpdate();
+        }
         string timeUp = LocalizationManager.GetTranslation("time_up");
         string playAgain = LocalizationManager.GetTranslation("play_again");
         string pointsPre = LocalizationManager.GetTranslation("points_earned");
@@ -156,8 +164,9 @@ public class UIPlayerPanel : UIBehaviour
         WrapUpGame();
         InfoText.enabled = true;
         StopCoroutine(Timer());
+        StopCoroutine(CheckIfAllPlayersHaveTimeLeft());
         PutAllDataInPlayerData();
-        SceneSwitcher.SwitchSceneStatic("MatchResultScene");
+        SceneSwitcher.SwitchSceneStatic("MatchResultScene");            
     }
 
     private void PutAllDataInPlayerData()
@@ -170,6 +179,7 @@ public class UIPlayerPanel : UIBehaviour
             pd.Name = p.Name;
             pd.Points = p.EarnedPoints;
             pd.place = i + 1;
+            pd.timeLeft = p.TimeRemaining;
             pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
             if (p == Player)
             {
