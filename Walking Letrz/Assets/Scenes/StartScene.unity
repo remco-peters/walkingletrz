@@ -2269,6 +2269,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: AccountManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
+        type: 3}
+      propertyPath: DisplayNamePopup
+      value: 
+      objectReference: {fileID: 110659893}
+    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
+        type: 3}
+      propertyPath: DisplayNameInputField
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
+        type: 3}
+      propertyPath: DisplayNamePopupClass
+      value: 
+      objectReference: {fileID: 5450716301482713663, guid: 2653eeb84e83349f0a1ce3e33cc81f80,
+        type: 3}
+    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
+        type: 3}
+      propertyPath: StartSceneCanvas
+      value: 
+      objectReference: {fileID: 545161628}
     - target: {fileID: 2905114620304294840, guid: a65e78b9ace8a4c03a91817e0660d58b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2324,28 +2345,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
-        type: 3}
-      propertyPath: DisplayNamePopup
-      value: 
-      objectReference: {fileID: 5450716301482713663, guid: 2653eeb84e83349f0a1ce3e33cc81f80,
-        type: 3}
-    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
-        type: 3}
-      propertyPath: DisplayNameInputField
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
-        type: 3}
-      propertyPath: DisplayNamePopupClass
-      value: 
-      objectReference: {fileID: 5450716301482713663, guid: 2653eeb84e83349f0a1ce3e33cc81f80,
-        type: 3}
-    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
-        type: 3}
-      propertyPath: StartSceneCanvas
-      value: 
-      objectReference: {fileID: 545161628}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a65e78b9ace8a4c03a91817e0660d58b, type: 3}
 --- !u!1 &1546454050
