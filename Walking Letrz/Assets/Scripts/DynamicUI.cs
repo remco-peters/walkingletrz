@@ -13,8 +13,11 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject FirstRow;
     public GameObject SecondRow;
     public GameObject ThirdRow;
+    public GameObject BoosterBoard;
     public RemoveWordBtn DeleteBtn;
     public PlaceWordBtn PlaceBtn;
+    public BoosterBtn BoosterBtn;
+    public TradeFixedLetters TradeFixedLettersBtn;
     public TradeLettersBtn TradeLettersBtnClass;
     public GameObject EmptyLetterBlockObject;
     public LetterBlock FixedLetterBlockObject;
@@ -58,7 +61,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.DynamicUi = this;
             letterManager.TheLetterManager = TheLetterManagerClass;
             letterManager.Player = player;
-
+            letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
             letterManager.PlaceHolderObject = PlaceHolderObject;
             letterManager.FirstRow = FirstRow;
             letterManager.SecondRow = SecondRow;
@@ -67,6 +70,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.DeleteBtn = DeleteBtn;
             letterManager.PlaceBtn = PlaceBtn;
             letterManager.TradeBtn = TradeLettersBtnClass;
+            letterManager.BoosterBtn = BoosterBtn;
             letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
             letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
             letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
@@ -74,6 +78,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.GameBoardWordContainer = GameBoardWordContainer;
             letterManager.PointsGainedPanel = PointsGainedPanel;
             letterManager.PointsGainedText = PointsGainedText;
+            letterManager.BoosterBoard = BoosterBoard;
         });
 
         LetterManager letterManagerBot = LetterManagerClass;

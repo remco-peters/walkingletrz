@@ -28,12 +28,16 @@ namespace Assets.Scripts
         public RemoveWordBtn DeleteBtn { get; set; }
         public PlaceWordBtn PlaceBtn { get; set; }
         public TradeLettersBtn TradeBtn {get;set;}
+        public TradeFixedLetters TradeFixedLetterSBtn{get;set;}
+        public BoosterBtn BoosterBtn {get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
         public LetterBlock PlayerLetterBlockObject { get; set; }
         public GameObject PlaceHolderObject { get; set; }
         public GameObject GameBoardWordHolder { get; set; }
         public GameObject GameBoardWordContainer { get; set; }
+
+        public GameObject BoosterBoard{get;set;}
         #endregion UI
         
         #region unity properties
@@ -150,6 +154,23 @@ namespace Assets.Scripts
             DeleteBtn.OnRemoveTouched += RemoveAllLetters;
             TradeBtn.LetterManager = this;
             TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
+            BoosterBtn.OnBoosterTouched += BoosterBtnTouch;
+            TradeFixedLetterSBtn.OnTradeTouched += OnTradeFixedTouched;
+        }
+
+        private void OnTradeFixedTouched()
+        {
+            TheLetterManager.FirstLetter = TheLetterManager.GetLetters(1)[0];
+            TheLetterManager.SecondLetter = TheLetterManager.GetLetters(1)[0];
+            FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
+            SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+            TradeFixedLetterSBtn.gameObject.SetActive(false);
+            BoosterBoard.SetActive(false);
+        }
+
+        private void BoosterBtnTouch()
+        {
+            BoosterBoard.SetActive(!BoosterBoard.activeSelf);
         }
 
         private void InitPlacedLetterPositions()
