@@ -12,12 +12,13 @@ public class AccountManager : MonoBehaviour
     public static PlayerProfileModel CurrentPlayer;
     public static List<PlayerLeaderboardEntry> Leaderboard;
     private GetLeaderboardRequest leaderboardRequest;
-    public GameObject DisplayNamePopup;
+    public DisplayNamePopup DisplayNamePopupClass;
+    public GameObject StartSceneCanvas;
+    private DisplayNamePopup _displayNamePopup;
     private string _displayName;
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        DisplayNamePopup.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -74,7 +75,9 @@ public class AccountManager : MonoBehaviour
         if (string.IsNullOrEmpty(CurrentPlayer.DisplayName))
         {
             //Show popup for display name
-            DisplayNamePopup.SetActive(true);
+            _displayNamePopup = Instantiate(DisplayNamePopupClass);
+            _displayNamePopup.OnDisplayNameSave += SetDisplayName;
+           _displayNamePopup.transform.SetParent(StartSceneCanvas.transform, false);
         }
         var getStatistics = new GetPlayerStatisticsRequest();
         var statisticNames = new List<string>();
@@ -107,7 +110,6 @@ public class AccountManager : MonoBehaviour
     {
         var displayNameRequest = new UpdateUserTitleDisplayNameRequest {DisplayName = displayName};
         PlayFabClientAPI.UpdateUserTitleDisplayName(displayNameRequest, DisplayNameSuccess, OnFailure);
-       
     }
 
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
@@ -120,7 +122,7 @@ public class AccountManager : MonoBehaviour
 
     private void DestroyPopup()
     {
-        DisplayNamePopup.SetActive(false);
+        _displayNamePopup.DestroyPopup();
     }
 
     public static void AddUsernameAndPassword(string email, string password)
@@ -134,13 +136,5 @@ public class AccountManager : MonoBehaviour
         GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
     }
 
-    public void OnDisplayNameSaveTouched()
-    {
-        SetDisplayName(_displayName);
-    }
 
-    public void OnDisplayNameEditingEnded(string displayName)
-    {
-        _displayName = displayName;
-    }
 }
