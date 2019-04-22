@@ -17,12 +17,92 @@ MonoBehaviour:
     UserAgreesToHaveItInsideThePluginsFolder: 0
     GoogleLiveSyncIsUptoDate: 1
     mTerms:
-    - Term: achievement_points
+    - Term: time_up
+      TermType: 0
+      Description: 
+      Languages:
+      - De tijd is op!
+      - Time's up!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: play_again
+      TermType: 0
+      Description: 
+      Languages:
+      - Speel opnieuw!
+      - Play again!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: points
+      TermType: 0
+      Description: 
+      Languages:
+      - 'Punten:'
+      - 'Points:'
+      Flags: 0000
+      Languages_Touch: []
+    - Term: no_letters_placed
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt nog geen letters neer gelegd
+      - You haven't placed any letters yet
+      Flags: 0000
+      Languages_Touch: []
+    - Term: play
+      TermType: 0
+      Description: 
+      Languages:
+      - Speel
+      - Play
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends
+      TermType: 0
+      Description: 
+      Languages:
+      - Vrienden
+      - Friends
+      Flags: 0000
+      Languages_Touch: []
+    - Term: turn
+      TermType: 0
+      Description: 
+      Languages:
+      - beurt
+      - turn
+      Flags: 0000
+      Languages_Touch: []
+    - Term: first_letter_after_second
+      TermType: 0
+      Description: 
+      Languages:
+      - De eerste vaste letter staat achter de vaste tweede letter
+      - The first fixed letter is after the fixed second letter
+      Flags: 0000
+      Languages_Touch: []
+    - Term: not_both_fixed_letters
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt nog niet de twee vaste letters geplaatst
+      - You haven't placed both fixed letters yet
+      Flags: 0000
+      Languages_Touch: []
+    - Term: points_earned
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt in totaal
+      - You've earned a total of
+      Flags: 0000
+      Languages_Touch: []
+    - Term: points_earned_suffix
       TermType: 0
       Description: 
       Languages:
       - punten verdiend
-      - points earned
+      - points
       Flags: 0000
       Languages_Touch: []
     - Term: achievement_unlocked
@@ -33,6 +113,14 @@ MonoBehaviour:
       - Achievement unlocked!
       Flags: 0000
       Languages_Touch: []
+    - Term: achievement_words_prefix
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt in totaal
+      - You have placed
+      Flags: 0000
+      Languages_Touch: []
     - Term: achievement_words
       TermType: 0
       Description: 
@@ -41,12 +129,12 @@ MonoBehaviour:
       - words in total
       Flags: 0000
       Languages_Touch: []
-    - Term: achievement_words_prefix
+    - Term: achievement_points
       TermType: 0
       Description: 
       Languages:
-      - Je hebt in totaal
-      - You have placed
+      - punten verdiend
+      - points earned
       Flags: 0000
       Languages_Touch: []
     - Term: choose_difficulty
@@ -65,14 +153,6 @@ MonoBehaviour:
       - Easy (Coming soon!)
       Flags: 0000
       Languages_Touch: []
-    - Term: difficulty_hard
-      TermType: 0
-      Description: 
-      Languages:
-      - Moeilijk (Binnenkort!)
-      - Hard (Coming soon!)
-      Flags: 0000
-      Languages_Touch: []
     - Term: difficulty_medium
       TermType: 0
       Description: 
@@ -81,20 +161,20 @@ MonoBehaviour:
       - Medium
       Flags: 0000
       Languages_Touch: []
-    - Term: first_letter_after_second
+    - Term: difficulty_hard
       TermType: 0
       Description: 
       Languages:
-      - De eerste vaste letter staat achter de vaste tweede letter
-      - The first fixed letter is after the fixed second letter
+      - Moeilijk (Binnenkort!)
+      - Hard (Coming soon!)
       Flags: 0000
       Languages_Touch: []
-    - Term: friends
+    - Term: start_game_btn
       TermType: 0
       Description: 
       Languages:
-      - Vrienden
-      - Friends
+      - Start nieuw spel
+      - Start new game
       Flags: 0000
       Languages_Touch: []
     - Term: game_manual_btn
@@ -105,6 +185,70 @@ MonoBehaviour:
       - Game manual
       Flags: 0000
       Languages_Touch: []
+    - Term: profile_btn
+      TermType: 0
+      Description: 
+      Languages:
+      - Profielinstellingen
+      - Profile settings
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_btn
+      TermType: 0
+      Description: 
+      Languages:
+      - Spel instellingen
+      - Game settings
+      Flags: 0000
+      Languages_Touch: []
+    - Term: profile_header_txt
+      TermType: 0
+      Description: 
+      Languages:
+      - Profiel
+      - Profile
+      Flags: 0000
+      Languages_Touch: []
+    - Term: profile_name_txt_placeholder
+      TermType: 0
+      Description: 
+      Languages:
+      - Voer een gebruikersnaam in
+      - Enter username
+      Flags: 0000
+      Languages_Touch: []
+    - Term: profile_log_out
+      TermType: 0
+      Description: 
+      Languages:
+      - Uitloggen
+      - Log out
+      Flags: 0000
+      Languages_Touch: []
+    - Term: profile_add_email
+      TermType: 0
+      Description: 
+      Languages:
+      - Voeg je e-mailadres toe
+      - Add email
+      Flags: 0000
+      Languages_Touch: []
+    - Term: profile_add_facebook
+      TermType: 0
+      Description: 
+      Languages:
+      - Koppel facebook
+      - Add Facebook
+      Flags: 0000
+      Languages_Touch: []
+    - Term: profile_invite_friends
+      TermType: 0
+      Description: 
+      Languages:
+      - Nodig vrienden uit
+      - Invite friends
+      Flags: 0000
+      Languages_Touch: []
     - Term: go_further
       TermType: 0
       Description: 
@@ -113,12 +257,44 @@ MonoBehaviour:
       - Go further
       Flags: 0000
       Languages_Touch: []
-    - Term: leaderboard_title
+    - Term: settings_title
       TermType: 0
       Description: 
       Languages:
-      - Leaderboard
-      - Leaderboard
+      - Spel instellingen
+      - Game Settings
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_audio
+      TermType: 0
+      Description: 
+      Languages:
+      - Geluid
+      - Audio
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_gameplay
+      TermType: 0
+      Description: 
+      Languages:
+      - Speelwijze
+      - Gameplay
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_max_letters
+      TermType: 0
+      Description: 
+      Languages:
+      - Max. aantal letters per woord
+      - Max. number of letters per word
+      Flags: 0000
+      Languages_Touch: []
+    - Term: settings_duration
+      TermType: 0
+      Description: 
+      Languages:
+      - Duur van het spel
+      - Duration of the game
       Flags: 0000
       Languages_Touch: []
     - Term: manual_gameplay
@@ -199,6 +375,14 @@ MonoBehaviour:
       - The game
       Flags: 0000
       Languages_Touch: []
+    - Term: manual_words_approved_title
+      TermType: 0
+      Description: 
+      Languages:
+      - Woorden die WEL worden goedgekeurd
+      - Words that are approved
+      Flags: 0000
+      Languages_Touch: []
     - Term: manual_words_approved
       TermType: 0
       Description: 
@@ -237,204 +421,46 @@ MonoBehaviour:
 '
       Flags: 0000
       Languages_Touch: []
-    - Term: manual_words_approved_title
+    - Term: leaderboard_title
       TermType: 0
       Description: 
       Languages:
-      - Woorden die WEL worden goedgekeurd
-      - Words that are approved
-      Flags: 0000
-      Languages_Touch: []
-    - Term: no_letters_placed
-      TermType: 0
-      Description: 
-      Languages:
-      - Je hebt nog geen letters neer gelegd
-      - You haven't placed any letters yet
-      Flags: 0000
-      Languages_Touch: []
-    - Term: not_both_fixed_letters
-      TermType: 0
-      Description: 
-      Languages:
-      - Je hebt nog niet de twee vaste letters geplaatst
-      - You haven't placed both fixed letters yet
-      Flags: 0000
-      Languages_Touch: []
-    - Term: play
-      TermType: 0
-      Description: 
-      Languages:
-      - Speel
-      - Play
-      Flags: 0000
-      Languages_Touch: []
-    - Term: play_again
-      TermType: 0
-      Description: 
-      Languages:
-      - Speel opnieuw!
-      - Play again!
-      Flags: 0000
-      Languages_Touch: []
-    - Term: points
-      TermType: 0
-      Description: 
-      Languages:
-      - 'Punten:'
-      - 'Points:'
-      Flags: 0000
-      Languages_Touch: []
-    - Term: points_earned
-      TermType: 0
-      Description: 
-      Languages:
-      - Je hebt in totaal
-      - You've earned a total of
-      Flags: 0000
-      Languages_Touch: []
-    - Term: points_earned_suffix
-      TermType: 0
-      Description: 
-      Languages:
-      - punten verdiend
-      - points
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_add_email
-      TermType: 0
-      Description: 
-      Languages:
-      - Voeg je e-mailadres toe
-      - Add email
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_add_facebook
-      TermType: 0
-      Description: 
-      Languages:
-      - Koppel facebook
-      - Add Facebook
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_btn
-      TermType: 0
-      Description: 
-      Languages:
-      - Profielinstellingen
-      - Profile settings
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_header_txt
-      TermType: 0
-      Description: 
-      Languages:
-      - Profiel
-      - Profile
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_invite_friends
-      TermType: 0
-      Description: 
-      Languages:
-      - Nodig vrienden uit
-      - Invite friends
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_log_out
-      TermType: 0
-      Description: 
-      Languages:
-      - Uitloggen
-      - Log out
-      Flags: 0000
-      Languages_Touch: []
-    - Term: profile_name_txt_placeholder
-      TermType: 0
-      Description: 
-      Languages:
-      - Voer een gebruikersnaam in
-      - Enter username
+      - Leaderboard
+      - Leaderboard
       Flags: 0000
       Languages_Touch: []
     - Term: profile_success_name_edit
       TermType: 0
       Description: 
       Languages:
-      - Gebruikersnaam succesvol opgeslagen
-      - Username succesfully saved
+      - Gebruikersnaam succesvol opgeslagen!
+      - Username succesfully saved!
       Flags: 0000
       Languages_Touch: []
-    - Term: settings_audio
+    - Term: profile_fail_name_edit
       TermType: 0
       Description: 
       Languages:
-      - Geluid
-      - Audio
+      - Gebruikersnaam niet opgeslagen
+      - Username not saved
       Flags: 0000
       Languages_Touch: []
-    - Term: settings_btn
+    - Term: displayname_not_set
       TermType: 0
       Description: 
       Languages:
-      - Spel instellingen
-      - Game settings
+      - Je hebt nog geen gebruikersnaam ingesteld. Verzin een gebruikersnaam en vul
+        deze in in het tekstvak hieronder.
+      - You have not set a display name yet. Fill in your displayname in the text
+        field below.
       Flags: 0000
       Languages_Touch: []
-    - Term: settings_duration
+    - Term: displayname_save_btn
       TermType: 0
       Description: 
       Languages:
-      - Duur van het spel
-      - Duration of the game
-      Flags: 0000
-      Languages_Touch: []
-    - Term: settings_gameplay
-      TermType: 0
-      Description: 
-      Languages:
-      - Speelwijze
-      - Gameplay
-      Flags: 0000
-      Languages_Touch: []
-    - Term: settings_max_letters
-      TermType: 0
-      Description: 
-      Languages:
-      - Max. aantal letters per woord
-      - Max. number of letters per word
-      Flags: 0000
-      Languages_Touch: []
-    - Term: settings_title
-      TermType: 0
-      Description: 
-      Languages:
-      - Spel instellingen
-      - Game Settings
-      Flags: 0000
-      Languages_Touch: []
-    - Term: start_game_btn
-      TermType: 0
-      Description: 
-      Languages:
-      - Start nieuw spel
-      - Start new game
-      Flags: 0000
-      Languages_Touch: []
-    - Term: time_up
-      TermType: 0
-      Description: 
-      Languages:
-      - De tijd is op!
-      - Time's up!
-      Flags: 0000
-      Languages_Touch: []
-    - Term: turn
-      TermType: 0
-      Description: 
-      Languages:
-      - beurt
-      - turn
+      - Opslaan
+      - Save
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -450,9 +476,9 @@ MonoBehaviour:
     IgnoreDeviceLanguage: 1
     _AllowUnloadingLanguages: 0
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
-    Google_SpreadsheetKey: 1qWc8rCHrNX_4CKT04vQHzywFDeunjffq5e7kYrNL-Lw
+    Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1555703915826
+    Google_LastUpdatedVersion: 1555766518857
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

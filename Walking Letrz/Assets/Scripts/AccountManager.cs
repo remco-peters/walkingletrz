@@ -12,9 +12,12 @@ public class AccountManager : MonoBehaviour
     public static PlayerProfileModel CurrentPlayer;
     public static List<PlayerLeaderboardEntry> Leaderboard;
     private GetLeaderboardRequest leaderboardRequest;
+    public GameObject DisplayNamePopup;
+    private string _displayName;
     private void Awake()
     {
         DontDestroyOnLoad(this);
+        DisplayNamePopup.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -68,6 +71,11 @@ public class AccountManager : MonoBehaviour
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
     {
         CurrentPlayer = result.PlayerProfile;
+        if (string.IsNullOrEmpty(CurrentPlayer.DisplayName))
+        {
+            //Show popup for display name
+            DisplayNamePopup.SetActive(true);
+        }
         var getStatistics = new GetPlayerStatisticsRequest();
         var statisticNames = new List<string>();
         statisticNames.Add("Score");
@@ -99,13 +107,20 @@ public class AccountManager : MonoBehaviour
     {
         var displayNameRequest = new UpdateUserTitleDisplayNameRequest {DisplayName = displayName};
         PlayFabClientAPI.UpdateUserTitleDisplayName(displayNameRequest, DisplayNameSuccess, OnFailure);
+       
     }
 
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
     {
         Debug.Log($"New display name: {result.DisplayName}");
+        DestroyPopup();
         GameObject.FindGameObjectWithTag("SavedUsernameSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         CurrentPlayer.DisplayName = result.DisplayName;
+    }
+
+    private void DestroyPopup()
+    {
+        DisplayNamePopup.SetActive(false);
     }
 
     public static void AddUsernameAndPassword(string email, string password)
@@ -117,5 +132,15 @@ public class AccountManager : MonoBehaviour
     private static void AddUsernameSuccess(AddUsernamePasswordResult result)
     {
         GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
+    }
+
+    public void OnDisplayNameSaveTouched()
+    {
+        SetDisplayName(_displayName);
+    }
+
+    public void OnDisplayNameEditingEnded(string displayName)
+    {
+        _displayName = displayName;
     }
 }
