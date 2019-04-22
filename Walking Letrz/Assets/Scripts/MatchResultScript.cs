@@ -38,7 +38,7 @@ public class MatchResultScript : MonoBehaviour
             }
             else
             {
-                p.timeLeft -= 1;
+                p.timeLeft -= 2;
                 p.PointsWithoutTime += 1;
                 yield return new WaitForSeconds(0.2f);
             }

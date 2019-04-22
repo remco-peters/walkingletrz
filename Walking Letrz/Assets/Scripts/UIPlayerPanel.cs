@@ -177,7 +177,7 @@ public class UIPlayerPanel : UIBehaviour
             Player p = Players[i];
             PlayerData pd = new PlayerData();
             pd.Name = p.Name;
-            pd.Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining);
+            pd.Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / 2);
             pd.PointsWithoutTime = p.EarnedPoints;
             pd.place = i + 1;
             pd.timeLeft = p.TimeRemaining;
