@@ -36,6 +36,18 @@ namespace Assets.Scripts
             SecondLetter = GetLetters(1)[0];
         }
 
+        public char GetVowel()
+        {
+            string vowels = "aeiou";
+            return vowels[random.Next(0, vowels.Length)];
+        }
+
+        public char GetConsonant()
+        {
+            string consonants = "bcdfghjklmnpstvw";
+            return consonants[random.Next(0, consonants.Length)];
+        }
+
         public char[] GetLetters(int amount, List<char> currentLetters = null)
         {
             currentLetters = currentLetters ?? new List<char>();
@@ -60,14 +72,11 @@ namespace Assets.Scripts
             {
                 while (startingLetters[i] == default(char))
                 {
-                    char letter = lettersToChoseFrom[random.Next(0, lettersToChoseFrom.Count)];
                     int letterCount = 0;
-                    foreach(char c in startingLetters)
-                    {
-                        if (c == letter) letterCount+=1;
-                        if (currentLetters.Contains(c)) letterCount+=1;
-                    }
-                    if (letterCount < 3){
+                    char letter = lettersToChoseFrom[random.Next(0, lettersToChoseFrom.Count)];
+                    letterCount += startingLetters.Count(x => x == letter);
+                    letterCount += currentLetters.Count(x => x == letter);
+                    if (letterCount < 2){
                         startingLetters[i] = letter;
                     }
                 }

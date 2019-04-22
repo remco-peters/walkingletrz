@@ -258,7 +258,7 @@ public class UIPlayerPanel : UIBehaviour
     private void WrapUpGame()
     {
         int creditsToGive = 0;
-        Players.Sort((p1, p2) => (p2.EarnedPoints + p2.TimeRemaining).CompareTo(p1.EarnedPoints + p1.TimeRemaining));
+        Players.Sort((p1, p2) => (p2.EarnedPoints + (p2.TimeRemaining / 2)).CompareTo(p1.EarnedPoints + (p1.TimeRemaining / 2)));
         var indexOfPlayer = Players.IndexOf(Player);
         Debug.Log($"Index of player in list: {indexOfPlayer}");
         if (Players[0].EarnedPoints == Players[1].EarnedPoints)
