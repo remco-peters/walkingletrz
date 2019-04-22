@@ -20,6 +20,7 @@ public class SaveBtnScript : MonoBehaviour
     public void SaveEmail()
     {
         AccountManager.AddUsernameAndPassword(email, passwrd);
+        AccountManager.CurrentPlayerAccount.PrivateInfo.Email = email;
         gameObject.transform.parent.gameObject.SetActive(false);
     }
 }

@@ -21,7 +21,7 @@ public class ProfileScript : MonoBehaviour
 
     public void ReplaceAddEmailPanel()
     {
-        if(AccountManager.CurrentPlayerAccount.PrivateInfo.Email.Length > 0)
+        if(AccountManager.CurrentPlayerAccount.PrivateInfo.Email != null && AccountManager.CurrentPlayerAccount.PrivateInfo.Email.Length > 0)
         {
             AddEmailButton.SetActive(false);
             ShowEmailInfo.SetActive(true);
