@@ -7,6 +7,7 @@ namespace Assets.Scripts
         public string Name;
         public bool localPlayer;
         public long Points;
+        public long PointsWithoutTime;
         public int place;
         public List<string> BestWords = null;
         public int WordCount = 0;

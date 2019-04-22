@@ -177,7 +177,8 @@ public class UIPlayerPanel : UIBehaviour
             Player p = Players[i];
             PlayerData pd = new PlayerData();
             pd.Name = p.Name;
-            pd.Points = p.EarnedPoints;
+            pd.Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining);
+            pd.PointsWithoutTime = p.EarnedPoints;
             pd.place = i + 1;
             pd.timeLeft = p.TimeRemaining;
             pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
@@ -257,7 +258,7 @@ public class UIPlayerPanel : UIBehaviour
     private void WrapUpGame()
     {
         int creditsToGive = 0;
-        Players.Sort((p1, p2) => p2.EarnedPoints.CompareTo(p1.EarnedPoints));
+        Players.Sort((p1, p2) => (p2.EarnedPoints + p2.TimeRemaining).CompareTo(p1.EarnedPoints + p1.TimeRemaining));
         var indexOfPlayer = Players.IndexOf(Player);
         Debug.Log($"Index of player in list: {indexOfPlayer}");
         if (Players[0].EarnedPoints == Players[1].EarnedPoints)

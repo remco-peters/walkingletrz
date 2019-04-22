@@ -5,6 +5,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class MatchResultScript : MonoBehaviour
 {
@@ -28,8 +29,8 @@ public class MatchResultScript : MonoBehaviour
     {
         while (true)
         {
-            pp.playerTimeLeft.text = $" +{p.timeLeft.ToString()} sec";
-            pp.playerScore.text = p.Points.ToString();
+            pp.playerTimeLeft.text = $" +{(int)Math.Ceiling(p.timeLeft)} sec";
+            pp.playerScore.text = p.PointsWithoutTime.ToString();
             if (p.timeLeft <= 0)
             {
                 pp.playerTimeLeft.text = "";
@@ -38,7 +39,7 @@ public class MatchResultScript : MonoBehaviour
             else
             {
                 p.timeLeft -= 1;
-                p.Points += 1;
+                p.PointsWithoutTime += 1;
                 yield return new WaitForSeconds(0.2f);
             }
         }
