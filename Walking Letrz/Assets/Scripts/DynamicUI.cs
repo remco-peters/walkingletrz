@@ -17,7 +17,8 @@ public class DynamicUI : MyMonoBehaviour
     public RemoveWordBtn DeleteBtn;
     public PlaceWordBtn PlaceBtn;
     public BoosterBtn BoosterBtn;
-    public TradeFixedLetters TradeFixedLettersBtn;
+    public GenericButton TradeFixedLettersBtn;
+    public GenericButton DoubleWordValueBtn;
     public TradeLettersBtn TradeLettersBtnClass;
     public GameObject EmptyLetterBlockObject;
     public LetterBlock FixedLetterBlockObject;
@@ -79,6 +80,7 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.PointsGainedPanel = PointsGainedPanel;
             letterManager.PointsGainedText = PointsGainedText;
             letterManager.BoosterBoard = BoosterBoard;
+            letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
         });
 
         LetterManager letterManagerBot = LetterManagerClass;

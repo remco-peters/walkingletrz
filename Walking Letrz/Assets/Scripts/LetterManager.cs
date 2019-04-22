@@ -28,7 +28,9 @@ namespace Assets.Scripts
         public RemoveWordBtn DeleteBtn { get; set; }
         public PlaceWordBtn PlaceBtn { get; set; }
         public TradeLettersBtn TradeBtn {get;set;}
-        public TradeFixedLetters TradeFixedLetterSBtn{get;set;}
+        public GenericButton TradeFixedLetterSBtn{get;set;}
+
+        public GenericButton DoubleWordValueBtn{get;set;}
         public BoosterBtn BoosterBtn {get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
@@ -61,6 +63,7 @@ namespace Assets.Scripts
         public DynamicUI DynamicUi { get; set; }
         #endregion
 
+        private bool DoubleWordValue = false;
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
         private Image PointsGainedPanelImage;
@@ -155,7 +158,17 @@ namespace Assets.Scripts
             TradeBtn.LetterManager = this;
             TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
             BoosterBtn.OnBoosterTouched += BoosterBtnTouch;
-            TradeFixedLetterSBtn.OnTradeTouched += OnTradeFixedTouched;
+            TradeFixedLetterSBtn.OnTouched += OnTradeFixedTouched;
+            DoubleWordValueBtn.OnTouched += DoubleWordOnTouched;
+        }
+
+        public void DoubleWordOnTouched()
+        {
+            DoubleWordValueBtn.gameObject.SetActive(false);
+            BoosterBoard.SetActive(false);
+            DoubleWordValue = true;
+            GameObject placedHolder = Instantiate(PlaceHolderObject);
+            placedHolder.transform.SetParent(BoosterBoard.transform, false);
         }
 
         private void OnTradeFixedTouched()
@@ -164,8 +177,12 @@ namespace Assets.Scripts
             TheLetterManager.SecondLetter = TheLetterManager.GetLetters(1)[0];
             FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
             SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+            FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
+            SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
             TradeFixedLetterSBtn.gameObject.SetActive(false);
             BoosterBoard.SetActive(false);
+            GameObject placedHolder = Instantiate(PlaceHolderObject);
+            placedHolder.transform.SetParent(BoosterBoard.transform, false);
         }
 
         private void BoosterBtnTouch()
@@ -278,6 +295,8 @@ namespace Assets.Scripts
                     if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters)) return;
                     int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
                     Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
+                    if (DoubleWordValue) points *= 2;
+                    DoubleWordValue = false;
                     Player.EarnedPoints += points;
                     ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
