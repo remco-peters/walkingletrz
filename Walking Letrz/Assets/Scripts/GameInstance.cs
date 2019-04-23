@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class GameInstance : MonoBehaviour
 {
+    public static AudioSource PlopSound;
+    private static int gameTime;
+    private static int vibrationMode;
+    private static string language;
     public static GameInstance instance = null;
     private int level = 0;
     public List<PlayerData> PlayerData = new List<PlayerData>();
@@ -23,6 +27,77 @@ public class GameInstance : MonoBehaviour
 
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
+        PlopSound = GetComponent<AudioSource>();
+
+        InitPlayerPrefs();
     }
-    //public static int DifficultyOfGame { get; set; }
+
+    private void InitPlayerPrefs()
+    {
+        gameTime = PlayerPrefs.GetInt("GameTimePref", 0);
+
+        vibrationMode = PlayerPrefs.GetInt("GameVibrationPref", 0);
+
+        language = PlayerPrefs.GetString("GameLanguagePref", "NL");
+
+        PlopSound.volume = PlayerPrefs.GetFloat("GameButtonSounds", 1);
+    }
+
+    public static int GetGameTimeInSeconds()
+    {
+        switch(gameTime)
+        {
+            case 0:
+                return 120;
+            case 1:
+                return 150;
+            case 2:
+                return 180;
+            case 3:
+                return 210;
+            case 4:
+                return 240;
+            default:
+                return 120;
+        } 
+    }
+
+    public static int GetGameTimeForSlider()
+    {
+        return gameTime;
+    }
+
+    public static void SetGameTime(int value)
+    {
+        gameTime = value;
+        PlayerPrefs.SetInt("GameTimePref", value);
+    }
+
+    public static int GetVibrationMode()
+    {
+        return vibrationMode;
+    }
+
+    public static void SetVibrationMode(int value)
+    {
+        vibrationMode = value;
+        PlayerPrefs.SetInt("GameVibrationPref", value);
+    }
+
+    public static string GetLanguage()
+    {
+        return language;
+    }
+
+    public static void SetLanguage(string value)
+    {
+        language = value;
+        PlayerPrefs.SetString("GameLanguagePref", value);
+    }
+
+    public static void SetButtonSoundVolume(float value)
+    {
+        PlopSound.volume = value;
+        PlayerPrefs.SetFloat("GameButtonSounds", value);
+    }
 }

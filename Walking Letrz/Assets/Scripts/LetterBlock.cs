@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
@@ -7,7 +8,6 @@ using UnityEngine.UI;
 
 public class LetterBlock : MyMonoBehaviour
 {
-    public AudioSource audio;
     public event UnityAction<LetterBlock> OnLetterTouched;
     public event UnityAction<LetterBlock> OnLetterDragged;
     public bool IsFirstLetter { get; set; } = false;
@@ -15,9 +15,14 @@ public class LetterBlock : MyMonoBehaviour
 
     public void ButtonClicked()
     {
-        audio.Play();
+        GameInstance.PlopSound.Play();
+        if(GameInstance.GetVibrationMode() == 1)
+        {
+            Handheld.Vibrate();
+        }
         OnLetterTouched(this);
     }
+
 
     /*
     public event UnityAction<LetterBlock> OnLetterDragged;
@@ -141,7 +146,7 @@ public class LetterBlock : MyMonoBehaviour
         else playerLetterPositions.FirstOrDefault(x => x.LetterBlock == null)?.AddLetter(newLetter);       
         newLetter.transform.localScale = new Vector3(0.5f, 0.5f, 1);
     }*/
-
+    
     internal bool IsWalkingLetter()
     {
         return IsFirstLetter || IsSecondLetter;
