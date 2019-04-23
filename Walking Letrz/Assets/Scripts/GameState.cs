@@ -17,6 +17,15 @@ public class GameState : MyMonoBehaviour
         Assert.IsNotNull(CameraClass, "Camera misses in GameState");
         Assert.IsNotNull(MediumGameBoard, "GameBoard misses in GameState");
 
+        DeleteAchievements();
+
+        // If medium is chosen
+        Instantiate(MediumGameBoard);
+        Instantiate(CameraClass);
+    }
+
+    private void DeleteAchievements()
+    {
         PlayerPrefs.DeleteKey("25PointAchievement");
         PlayerPrefs.DeleteKey("50PointAchievement");
         PlayerPrefs.DeleteKey("100PointAchievement");
@@ -24,9 +33,5 @@ public class GameState : MyMonoBehaviour
         PlayerPrefs.DeleteKey("5WordAchievement");
         PlayerPrefs.DeleteKey("10WordAchievement");
         PlayerPrefs.DeleteKey("25WordAchievement");
-
-        // If medium is chosen
-        Instantiate(MediumGameBoard);
-        Instantiate(CameraClass);
     }
 }

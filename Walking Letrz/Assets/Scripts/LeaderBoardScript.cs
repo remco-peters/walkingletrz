@@ -8,7 +8,7 @@ public class LeaderBoardScript : MonoBehaviour
     public GameObject ContentHolder;
     public LeaderboardEntry LeaderboardEntry;
     
-    void Awake()
+    void Start()
     {
         foreach (PlayerLeaderboardEntry entry in AccountManager.GetLeaderboard())
         {

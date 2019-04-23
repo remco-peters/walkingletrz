@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LeaderboardEntry : MonoBehaviour
 {
-    public Text name;
+    public Text playerName;
     public Text score;
     public Text place;
     public Image crown;
@@ -16,7 +16,7 @@ public class LeaderboardEntry : MonoBehaviour
 
     public void SetName(string name)
     {
-        this.name.text = name;
+        this.playerName.text = name;
     }
 
     public void SetPlace(int place)

@@ -463,6 +463,30 @@ MonoBehaviour:
       - Save
       Flags: 0000
       Languages_Touch: []
+    - Term: achievements_btn
+      TermType: 0
+      Description: 
+      Languages:
+      - Achievements
+      - Achievements
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievements_words
+      TermType: 0
+      Description: 
+      Languages:
+      - Aantal woorden gelegd
+      - Number of words placed
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievements_points
+      TermType: 0
+      Description: 
+      Languages:
+      - Aantal punten verdiend
+      - Points earned
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -478,7 +502,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1555766518857
+    Google_LastUpdatedVersion: 1555988666087
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

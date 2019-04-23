@@ -125,18 +125,22 @@ public class MatchResultScript : MonoBehaviour
                 // if previousWins is not null, put previousWins + 1, else put 1
                 statistic = new StatisticUpdate {Value = previousWins + 1 ?? 1, StatisticName = "Wins"};
                 statistics.Add(statistic);
+                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Wins").Value++;
             }
 
             statistic = new StatisticUpdate {Value = gamesPlayed + 1 ?? 1, StatisticName = "GamesPlayed"};
             statistics.Add(statistic);
+            AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "GamesPlayed").Value++;
 
             statistic = new StatisticUpdate
                 {Value = totalScore + (int) p.Points ?? (int) p.Points, StatisticName = "TotalScore"};
             statistics.Add(statistic);
+            AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore").Value += (int)p.Points;
 
             statistic = new StatisticUpdate
                 {Value = wordCount + p.WordCount ?? p.WordCount, StatisticName = "WordCount"};
             statistics.Add(statistic);
+            AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordCount").Value += p.WordCount;
 
             if (statistics.Count <= 0) return;
             updateStatisticsRequest.Statistics = statistics;
