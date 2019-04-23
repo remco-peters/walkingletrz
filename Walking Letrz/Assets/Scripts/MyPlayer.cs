@@ -2,6 +2,7 @@
 using Assets.Scripts;
 using PlayFab;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MyPlayer : Player
 {
@@ -57,6 +58,10 @@ public class MyPlayer : Player
         AchievementManager.SubmitWordCountToAchievements(++placedWordCount);
         AchievementManager.SubmitPointsToAchievements(EarnedPoints);
         InfoText = AchievementManager.CheckIfAchievementIsGet();
+        Text infoTxt = GameObject.FindGameObjectWithTag("AchievementUnlockTxt").GetComponent<Text>();
+        infoTxt.text = InfoText;
+        GameObject.FindGameObjectWithTag("AchievementUnlockPanel").GetComponent<ShowInfoText>().ShowToastPanel(2);
+        infoTxt.GetComponent<ShowInfoText>().ShowToast(2);
     }
 
     public int GetPlacedWordCount()

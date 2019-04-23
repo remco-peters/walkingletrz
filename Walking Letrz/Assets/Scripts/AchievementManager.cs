@@ -80,7 +80,6 @@ public class AchievementManager : MyMonoBehaviour
             Player.Credit.AddCredits(50);
             returnString += $"{wordsPre} 25 {wordsSuf}\n";
         }
-
         return returnString;
     }
 }
