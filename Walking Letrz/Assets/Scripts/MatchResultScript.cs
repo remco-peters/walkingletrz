@@ -122,25 +122,77 @@ public class MatchResultScript : MonoBehaviour
 
             if (p.place == 1)
             {
+                StatisticModel newModel = new StatisticModel();
                 // if previousWins is not null, put previousWins + 1, else put 1
                 statistic = new StatisticUpdate {Value = previousWins + 1 ?? 1, StatisticName = "Wins"};
                 statistics.Add(statistic);
-                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Wins").Value++;
+                if(AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Wins") != null)
+                {
+                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Wins").Value++;
+                } else
+                {
+                    AccountManager.CurrentPlayer.Statistics.Add(
+                        new StatisticModel
+                        {
+                            Value = 1,
+                            Name = "Wins"
+                        }
+                    );
+                }
             }
 
             statistic = new StatisticUpdate {Value = gamesPlayed + 1 ?? 1, StatisticName = "GamesPlayed"};
             statistics.Add(statistic);
-            AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "GamesPlayed").Value++;
+            if (AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "GamesPlayed") != null)
+            {
+                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "GamesPlayed").Value++;
+            }
+            else
+            {
+                AccountManager.CurrentPlayer.Statistics.Add(
+                    new StatisticModel
+                    {
+                        Value = 1,
+                        Name = "GamesPlayed"
+                    }
+                );
+            }
 
             statistic = new StatisticUpdate
                 {Value = totalScore + (int) p.Points ?? (int) p.Points, StatisticName = "TotalScore"};
             statistics.Add(statistic);
-            AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore").Value += (int)p.Points;
+            if (AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore") != null)
+            {
+                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore").Value += (int)p.Points;
+            }
+            else
+            {
+                AccountManager.CurrentPlayer.Statistics.Add(
+                    new StatisticModel
+                    {
+                        Value = (int)p.Points,
+                        Name = "TotalScore"
+                    }
+                );
+            }
 
             statistic = new StatisticUpdate
                 {Value = wordCount + p.WordCount ?? p.WordCount, StatisticName = "WordCount"};
             statistics.Add(statistic);
-            AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordCount").Value += p.WordCount;
+            if (AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordCount") != null)
+            {
+                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordCount").Value += p.WordCount;
+            }
+            else
+            {
+                AccountManager.CurrentPlayer.Statistics.Add(
+                    new StatisticModel
+                    {
+                        Value = p.WordCount,
+                        Name = "WordCount"
+                    }
+                );
+            }
 
             if (statistics.Count <= 0) return;
             updateStatisticsRequest.Statistics = statistics;

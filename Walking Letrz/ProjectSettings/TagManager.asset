@@ -12,6 +12,8 @@ TagManager:
   - PlayerNameTxt
   - PlayerImage
   - SavedEmailAddressSuccess
+  - AchievementUnlockPanel
+  - AchievementUnlockTxt
   layers:
   - Default
   - TransparentFX

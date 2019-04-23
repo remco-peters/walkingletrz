@@ -17,8 +17,19 @@ public class AccountManager : MonoBehaviour
     public GameObject StartSceneCanvas;
     private DisplayNamePopup _displayNamePopup;
     private string _displayName;
+    public static AccountManager instance;
     private void Awake()
     {
+        // check if instance exists
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            // Then destroy  this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameInstance.
+            Destroy(gameObject);
+        }
         DontDestroyOnLoad(this);
     }
 

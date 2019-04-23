@@ -15,7 +15,7 @@ namespace Assets.Scripts
 
         public void Awake()
         {
-            TimeRemaining = 120;
+            TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
         }
 

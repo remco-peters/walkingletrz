@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StartScript : MonoBehaviour
 {
-    public GameObject gameInstance;
+    public GameInstance gameInstance;
 
     // Start is called before the first frame update
     void Awake()
