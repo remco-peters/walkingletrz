@@ -95,10 +95,9 @@ namespace Assets.Scripts
                 }
             }
             char[] startingLetters = new char[amount];
+            int vowelsCount = currentLetters.Count(x => vowels.IndexOf(x) != -1);
             for (int i = 0; i < amount; i++)
             {                         
-                int vowelsCount = startingLetters.Count(x => vowels.IndexOf(x) != -1);
-                vowelsCount += currentLetters.Count(x => vowels.IndexOf(x) != -1);
                 while (startingLetters[i] == default(char))
                 {
                     char letter;
@@ -109,8 +108,12 @@ namespace Assets.Scripts
                     } 
                     else if (vowelsCount > 5)       
                         letter = availableConsonants[random.Next(0, availableConsonants.Count)];
-                    else                            
+                    else
+                    {
                         letter = availableLetters[random.Next(0, availableLetters.Count)];
+                        if (vowels.IndexOf(letter) != -1) vowelsCount += 1;
+                    }                          
+
                     int letterCount = startingLetters.Count(x => x == letter);
                     letterCount += currentLetters.Count(x => x == letter);
                     if (letterCount >= 2) continue;
