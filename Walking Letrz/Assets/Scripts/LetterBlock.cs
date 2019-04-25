@@ -18,7 +18,7 @@ public class LetterBlock : MyMonoBehaviour
         GameInstance.PlopSound.Play();
         if(GameInstance.GetVibrationMode() == 1)
         {
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
         }
         OnLetterTouched(this);
     }

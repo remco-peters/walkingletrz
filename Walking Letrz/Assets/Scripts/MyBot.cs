@@ -68,19 +68,19 @@ namespace Assets.Scripts
             char firstLetter = char.ToLower(TheLetterManager.FirstLetter);
             char secondLetter = char.ToLower(TheLetterManager.SecondLetter);
             foundWord = "";
-            int prefferedWordLength = Random.Range(5, 7); //todo easy 2-5 medium 4-7 hard 6, 12
+            int prefferedMaxWordLength = Random.Range(5, 7); //todo easy 2-5 medium 4-7 hard 6, 12
             foreach (var word in TheLetterManager.AllWords)
             {
                 indexFirstLetter = word.IndexOf(firstLetter);
                 indexSecondLetter = word.LastIndexOf(secondLetter);
                 if (indexFirstLetter == -1 || indexSecondLetter == -1 ||
-                    indexFirstLetter >= indexSecondLetter || word.Length > prefferedWordLength ||
+                    indexFirstLetter >= indexSecondLetter || word.Length > prefferedMaxWordLength ||
                     !CheckWord(word, indexFirstLetter, indexSecondLetter)) continue;
                 foundWord = word;
                 break;
             }
             hasFoundWord = true;
-            timeRemaining = 5 + foundWord.Length;
+            timeRemaining = TheLetterManager.CalculatePoints(foundWord);
         }
 
         private void ChangeLetters(string word, int firstLetterIndex, int secondLetterIndex)
@@ -97,7 +97,6 @@ namespace Assets.Scripts
         {
             if (TheLetterManager.PlacedWords.Contains(word)) return false;
             List<char> availableLetters = Letters.ToList();
-            if (TheLetterManager.PlacedWords.Contains(word)) return false;
             for (int i = 0; i < word.Length; i++)
             {
                 if (i == firstLetterIndex || i == secondLetterIndex) continue;
