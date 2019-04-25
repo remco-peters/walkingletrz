@@ -5264,7 +5264,6 @@ bazooka
 bazuin
 bazuinen
 baal
-bbp
 beaarding
 beaat
 beachvolley
@@ -7393,7 +7392,6 @@ beinkten
 beinvloed
 beinvloeden
 beinvloedt
-bh
 bi
 biaisband
 biaislint
@@ -8665,7 +8663,6 @@ blutsen
 bleren
 blet
 bleten
-bnp
 boa
 board
 bob
@@ -9945,7 +9942,6 @@ boycotten
 boysband
 boze
 bozig
-bpm
 braadboter
 braadharing
 braadjus
@@ -10608,7 +10604,6 @@ bruusk
 bruuskeren
 bruut
 bruutheid
-btw
 bubbel
 bubbelbad
 bubbelden
@@ -11040,11 +11035,8 @@ buurtwinkel
 buurvrouw
 buut
 buxus
-bv
 bvba
 bye
-bypass
-byssus
 byte
 byzantijn
 byzantijns
@@ -11563,7 +11555,6 @@ cessie
 cessionaris
 cesuur
 cetaceeen
-cfk
 chablis
 chachacha
 chaconne
@@ -13039,7 +13030,6 @@ custode
 custos
 cutter
 cutteren
-cv
 cyaan
 cyaankali
 cyanide
@@ -13588,7 +13578,6 @@ davidster
 davit
 davylamp
 dazen
-dc
 de
 deactiveren
 deadline
@@ -16525,7 +16514,6 @@ druppen
 druus
 druide
 dryade
-dtp
 duaal
 dualis
 dualisering
@@ -20193,7 +20181,6 @@ frele
 frobelen
 ftaalzuur
 ftisis
-ftp
 fuchsia
 fuga
 fugatisch
@@ -22526,7 +22513,6 @@ geimponeerd
 geirriteerd
 geisoleerd
 geunieerd
-gft
 ghi
 ghostwriter
 gibbon
@@ -25240,7 +25226,6 @@ hazenvel
 hazenvlees
 hazewind
 hbo
-hbs
 headbangen
 headhunten
 headhunter
@@ -27216,13 +27201,7 @@ hovercraft
 hoving
 hozebek
 hozen
-hsl
 hso
-hst
-html
-hts
-http
-https
 hu
 hub
 hufter
@@ -29257,7 +29236,6 @@ ivoorwit
 ivoorzwart
 ivoren
 izabel
-j
 ja
 jaaglijn
 jaagpaard
@@ -31576,7 +31554,6 @@ keycard
 keynesiaan
 keynesiaans
 kezen
-kg
 ki
 kibbelaar
 kibbelarij
@@ -32699,7 +32676,6 @@ klutsen
 kluut
 kluwen
 klysma
-km
 kmo
 knaagdier
 knaagkever
@@ -35847,7 +35823,6 @@ lazuursteen
 laiciseren
 laicisme
 lbo
-lcd
 leader
 leadzanger
 leaflet
@@ -37797,12 +37772,8 @@ lozingseis
 lozingsnorm
 lozingspijp
 lozingspunt
-lp
-lpg
-lsd
 lso
 lto
-lts
 lubben
 lubberen
 lubberiaans
@@ -40700,7 +40671,6 @@ mixes
 mixtum
 mixture
 mixtuur
-mkb
 mobbing
 mobiel
 mobieltje
@@ -41461,8 +41431,6 @@ mozaiek
 mozaisch
 mozetta
 mozzarella
-mp
-mts
 mu
 mud
 mudvol
@@ -43260,7 +43228,6 @@ nuttig
 nuttigen
 nuttigheid
 nuttiging
-nv
 nylon
 nylonkous
 nymfomaan
@@ -48241,8 +48208,6 @@ pauzetoets
 pavane
 paviljoen
 pavoiseren
-pc
-pcb
 peauter
 peccadille
 pech
@@ -48808,7 +48773,6 @@ pezeweven
 pezewever
 pezig
 pfeiffer
-pg
 pi
 pianino
 pianissimo
@@ -49222,7 +49186,6 @@ pietisme
 pietist
 pietistisch
 piezometer
-pk
 plaag
 plaaggeest
 plaagstoot
@@ -50511,7 +50474,6 @@ poeziealbum
 poezieavond
 poezieprijs
 poeziezomer
-pr
 praaien
 praal
 praalbed
@@ -51657,7 +51619,6 @@ puzzelspel
 puzzeltocht
 puzzelvraag
 puzzelwerk
-pvc
 pygmee
 pyjama
 pyjamabroek
@@ -55023,7 +54984,6 @@ ruine
 ruineren
 ruinestad
 ruineus
-rvs
 regence
 reussite
 reverie
@@ -58005,7 +57965,6 @@ sluw
 sluwe
 sluwheid
 slojd
-sm
 smaad
 smaadproces
 smaadrede
@@ -63165,9 +63124,6 @@ taxus
 taxusboom
 taxushaag
 tael
-tb
-tbc
-tbs
 te
 teak
 teakhout
@@ -63926,7 +63882,6 @@ textielstad
 textuur
 tezamen
 tezen
-tgv
 thaiboksen
 thalidomide
 thallium
@@ -66263,7 +66218,6 @@ tuttig
 tuttigheid
 tutu
 tuut
-tv
 twaalf
 twaalfdaags
 twaalfde
@@ -70743,7 +70697,6 @@ vizier
 vizierhelm
 vizierklep
 vizierlijn
-vj
 vla
 vlaag
 vlaai
@@ -72223,7 +72176,6 @@ voyant
 voyeur
 voyeurisme
 vozen
-vp
 vraag
 vraagachtig
 vraagal
@@ -72690,7 +72642,6 @@ vuurwerker
 vuurzee
 vuurzuil
 vwo
-vzw
 waadbaar
 waadpoot
 waadvogel
@@ -77140,7 +77091,6 @@ zitvlak
 zitvlees
 zitzak
 zloty
-zmlk
 zo
 zoab
 zoal
@@ -79317,7 +79267,6 @@ bospolitie
 bosspin
 bosyaws
 boycotwet
-bps
 brandzwam
 brasa
 breakdansen
@@ -79573,7 +79522,6 @@ househit
 houtmaat
 houtmeel
 houtweefsel
-htm
 hudo
 huilkramp
 huiskraai
@@ -79639,7 +79587,6 @@ keltistiek
 keltologie
 kernhem
 kervelblad
-kgm
 khimar
 kidoesj
 kielboot
@@ -79689,7 +79636,6 @@ kroi
 kromhoorn
 kromsluiten
 kruidkers
-ktv
 kuiptent
 kunstenstad
 kunstparel
@@ -80187,7 +80133,6 @@ tussentint
 tuttut
 twatwa
 tweepoot
-twk
 uienmengsel
 uitfloepen
 uitkakken
@@ -80469,7 +80414,6 @@ welgemikt
 allerleukst
 adv
 naw
-pdf
 teststof
 vanop
 review
@@ -80489,7 +80433,6 @@ dataset
 leegstaand
 huurtoeslag
 spammen
-ms
 drugshol
 wifi
 habitattype
@@ -88227,7 +88170,6 @@ gameboy
 gender
 geslijm
 gezinscoach
-ggz
 godsnaam
 gogo
 grintweg
@@ -88277,7 +88219,6 @@ pingen
 platgebeld
 plichtig
 polstas
-ppm
 proeflezen
 prozac
 prudentieel
