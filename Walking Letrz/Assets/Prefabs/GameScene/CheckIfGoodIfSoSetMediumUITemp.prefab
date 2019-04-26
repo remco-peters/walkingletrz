@@ -205,18 +205,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3818083111555923606}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9128067340389394519}
-        m_MethodName: ButtonClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &9128067340389394519
@@ -231,6 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fbc7161d9de0846b86c3263cae8b7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!1 &1021604285423497896
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,7 +332,6 @@ RectTransform:
   m_Children:
   - {fileID: 1598463989279545101}
   - {fileID: 7398785630265299656}
-  - {fileID: 1943213714484371304}
   m_Father: {fileID: 402573124445437889}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -537,6 +527,8 @@ MonoBehaviour:
     type: 3}
   PointsGainedPanel: {fileID: 9186916287150854654}
   PointsGainedText: {fileID: 5651292239223842393}
+  PlayerInfoPanel: {fileID: 0}
+  PlayerInfoTxt: {fileID: 0}
   CreditClass: {fileID: 8410207124071376832, guid: 4e1fbbdee46be4d27ba38a4e0fe9f129,
     type: 3}
 --- !u!1 &2091316455561802235
@@ -971,94 +963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693ee52b89d1c704a93cea90870646c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &4254358330915728952
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1943213714484371304}
-  - component: {fileID: 704056330777802222}
-  - component: {fileID: 1028110955307573896}
-  - component: {fileID: 7537619111703434379}
-  m_Layer: 5
-  m_Name: AchievementUnlockPanel
-  m_TagString: AchievementUnlockPanel
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1943213714484371304
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4254358330915728952}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 6445643599291457783}
-  m_Father: {fileID: 8183711296684387517}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -47.564972, y: 42.099915}
-  m_SizeDelta: {x: -115.33, y: 62.7}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &704056330777802222
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4254358330915728952}
-  m_CullTransparentMesh: 0
---- !u!114 &1028110955307573896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4254358330915728952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!114 &7537619111703434379
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4254358330915728952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe3be1d47e5fedd4f8d84478f5cd5323, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4307555041889598363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,7 +997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -623, y: -0.000015091333}
+  m_AnchoredPosition: {x: -623, y: -0.000012422111}
   m_SizeDelta: {x: 623, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512
@@ -1951,98 +1855,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
---- !u!1 &6616169788801960591
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6445643599291457783}
-  - component: {fileID: 3302017669832661652}
-  - component: {fileID: 2986748259085360246}
-  - component: {fileID: 7178739394538991029}
-  m_Layer: 5
-  m_Name: AchievementUnlockTxt
-  m_TagString: AchievementUnlockTxt
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &6445643599291457783
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616169788801960591}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.07557007, y: 0.07557007, z: 0.07557007}
-  m_Children: []
-  m_Father: {fileID: 1943213714484371304}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0019684, y: -1.1868}
-  m_SizeDelta: {x: 6942.9, y: 763.5}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &3302017669832661652
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616169788801960591}
-  m_CullTransparentMesh: 1
---- !u!114 &2986748259085360246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616169788801960591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 96dfcaec077fd514191c72e300b7f0e6, type: 3}
-    m_FontSize: 300
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 3
-    m_MaxSize: 300
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 25 punten behaald!
---- !u!114 &7178739394538991029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6616169788801960591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe3be1d47e5fedd4f8d84478f5cd5323, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6642547217467090729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3297,7 +3109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 260.67, y: 42.1}
+  m_AnchoredPosition: {x: 260.67, y: 118}
   m_SizeDelta: {x: -548.2, y: 62.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &77998411343336857

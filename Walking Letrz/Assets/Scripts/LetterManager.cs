@@ -72,11 +72,7 @@ namespace Assets.Scripts
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
         #endregion positions
-
-        private void Awake()
-        {
-        }
-
+       
         private void Start()
         {
             InitStartingLetters();
@@ -88,10 +84,17 @@ namespace Assets.Scripts
             _shakeDetectionThreshold *= _shakeDetectionThreshold;
             _lowPassValue = Input.acceleration;
 
+            SetPanelsReady();
+            
+        }
+
+        private void SetPanelsReady()
+        {
             PointsGainedPanelImage = PointsGainedPanel.GetComponent<Image>();
-            PointsGainedPanelImage.color = new Color(1f,1f,1f,0f);
-            PointsGainedText.color = new Color(1f,1f,1f,0f);
-        }               
+            PointsGainedPanelImage.color = new Color(1f, 1f, 1f, 0f);
+            PointsGainedText.color = new Color(1f, 1f, 1f, 0f);
+        }
+
         private void Update()
         {
             ShufflePlayerLetters();
@@ -154,6 +157,7 @@ namespace Assets.Scripts
         private void InitPlayerLetters()
         {
             PlaceBtn.OnPlaceBtnTouched += PlaceWord;
+            PlaceBtn.OnPlaceBtnTouchedWhileInteractive += ShowPlayerWhyInactive;
             DeleteBtn.OnRemoveTouched += RemoveAllLetters;
             TradeBtn.LetterManager = this;
             TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
@@ -292,7 +296,7 @@ namespace Assets.Scripts
                         if (block == null) continue;
                         madeWord += block.GetLetter();
                     }
-                    if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters)) return;
+                    if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters, Player)) return;
                     int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
                     Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
                     if (DoubleWordValue) points *= 2;
@@ -308,17 +312,19 @@ namespace Assets.Scripts
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);
                 }
-                else
-                {
-                    string noLetters = I2.Loc.LocalizationManager.GetTranslation("no_letters_placed");
-                    Player.InfoText = noLetters;
-                    Debug.Log("No letters placed yet");
-                }
             }
-            else
+        }
+
+        private void ShowPlayerWhyInactive()
+        {
+            if(!Player.CanMove)
             {
-                if (Player.TimeRemaining <= 0) Debug.Log("Time's over. Play again!");
+                Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("info_not_your_turn");
+            } else
+            {
+                CheckWordAndSetSubmitButtonState(true);
             }
+
         }
 
         private LetterBlock AddLetter(int row, int index)
@@ -454,10 +460,17 @@ namespace Assets.Scripts
             //CheckWordAndSetSubmitButtonState();
         }
 
-        private void CheckWordAndSetSubmitButtonState()
+        private void CheckWordAndSetSubmitButtonState(bool placeBtnClick = false)
         {
             string madeWord = "";
-            if (PlacedLetters.All(x => x.LetterBlock == null)) return;        
+            if (PlacedLetters.All(x => x.LetterBlock == null))
+            {
+                if(placeBtnClick)
+                {   
+                    Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("no_letters_placed");
+                }
+                return;
+            }
             bool containsFirstLetter = false;
             bool containsSecondLetter = false;
             foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock))
@@ -467,12 +480,22 @@ namespace Assets.Scripts
                 if (block.IsFirstLetter) containsFirstLetter = true;
                 if (block.IsSecondLetter) containsSecondLetter = true;
             }
+            if(!containsFirstLetter || !containsSecondLetter) {
+                if (placeBtnClick)
+                {
+                    Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("not_both_fixed_letters");
+                }
+            }
             if (TheLetterManager.Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
             {
                 SetPlaceBtnActivity(true);
             }
             else
             {
+                if (placeBtnClick)
+                {
+                    Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("info_word_does_not_exists");
+                }
                 SetPlaceBtnActivity(false);
             }
 
@@ -531,28 +554,32 @@ namespace Assets.Scripts
         private void ShowScoreGainedText(long points)
         {
             PointsGainedText.text = $"+{points.ToString()}";
-            StartCoroutine(PointsGainedTimer);
+            StartCoroutine(ShowInfoTextTimer(PointsGainedPanelImage, PointsGainedText, 3));
         }
 
-
-
-        IEnumerator PointsGainedTimer()
+        private void ShowInfoText(string text)
         {
-            StartCoroutine(FadeTo(1f, 0.5f));
-            yield return new WaitForSeconds(3);
-            StartCoroutine(FadeTo(0f, 0.5f));
-            StopCoroutine(PointsGainedTimer());
+            //PlayerInfoTxt.text = text;
+            //StartCoroutine(ShowInfoTextTimer(PlayerInfoPanelImage, PlayerInfoTxt, 5));
+        }
+
+        IEnumerator ShowInfoTextTimer(Image imageObj, Text txtObj, float time)
+        {
+            StartCoroutine(FadeTo(1f, 0.5f, imageObj, txtObj));
+            yield return new WaitForSeconds(time);
+            StartCoroutine(FadeTo(0f, 0.5f, imageObj, txtObj));
+            StopCoroutine(ShowInfoTextTimer(imageObj, txtObj, time));
         }
         
-        IEnumerator FadeTo(float aValue, float aTime)
+        IEnumerator FadeTo(float aValue, float aTime, Image imageObj, Text txtObj)
         {
-            float alpha = PointsGainedPanelImage.color.a;
+            float alpha = imageObj.color.a;
             for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
             {
                 Color panelColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
-                PointsGainedPanelImage.color = panelColor;
+                imageObj.color = panelColor;
                 Color textColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue,t));
-                PointsGainedText.color = textColor;
+                txtObj.color = textColor;
                 yield return null;
             }
         }

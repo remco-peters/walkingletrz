@@ -35,6 +35,8 @@ public class DynamicUI : MyMonoBehaviour
     public AchievementManager AchievementManagerClass;
     public GameObject PointsGainedPanel;
     public Text PointsGainedText;
+    public GameObject PlayerInfoPanel;
+    public Text PlayerInfoTxt;
     public Credit CreditClass;
 
     void Awake()

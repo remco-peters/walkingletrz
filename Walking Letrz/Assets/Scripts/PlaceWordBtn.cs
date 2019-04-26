@@ -1,11 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PlaceWordBtn : MonoBehaviour
+public class PlaceWordBtn : EventTrigger
 {
     public event UnityAction OnPlaceBtnTouched;
-    public void ButtonClicked()
+    public event UnityAction OnPlaceBtnTouchedWhileInteractive;
+
+    public override void OnPointerClick(PointerEventData eventData)
     {
-        OnPlaceBtnTouched();
+        if (!GetComponent<Button>().interactable)
+        {
+            OnPlaceBtnTouchedWhileInteractive();
+        } else
+        {
+            OnPlaceBtnTouched();
+        }
     }
 }

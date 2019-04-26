@@ -6,8 +6,19 @@ using UnityEngine.UI;
 
 public class MyPlayer : Player
 {
-    public float CoolDownTime = 10;
-    public string InfoText;
+    public delegate void OnInfoTextChangeDelegate(string newInfo, int time);
+    public event OnInfoTextChangeDelegate OnInfoTextChange;
+
+    public string InfoText {
+        get { return InfoText; }
+        set
+        {
+            if(value.Length > 0)
+            {
+                OnInfoTextChange(value, 3);
+            }
+        }
+    }
     public GameObject WriteBoard, LetterBoardObject;
     public AchievementManager AchievementManager { private get; set; }
     public Credit Credit { get; set; }
@@ -31,41 +42,12 @@ public class MyPlayer : Player
     {
         base.Update();
     }
-
-    /* public void StartCooldown()
-     {
-         StartCoroutine(CoolDownTimer());
-     }*/
-
-    IEnumerator CoolDownTimer()
-    {
-        Debug.Log("Placed a word");
-        while (CoolDownTime >= 0)
-        {
-            CoolDownTime -= Time.deltaTime;
-            CanMove = false;
-            yield return new WaitForFixedUpdate();
-        }
-
-        Debug.Log("Can place again");
-
-        CanMove = true;
-        CoolDownTime = 10;
-    }
-
+    
     public void IncreaseWordCount()
     {
         AchievementManager.SubmitWordCountToAchievements(++placedWordCount);
         AchievementManager.SubmitPointsToAchievements(EarnedPoints);
         InfoText = AchievementManager.CheckIfAchievementIsGet();
-        if(AchievementManager.CheckIfAchievementIsGet().Length > 0)
-        {
-            Text infoTxt = GameObject.FindGameObjectWithTag("AchievementUnlockTxt").GetComponent<Text>();
-            infoTxt.text = InfoText;
-            GameObject.FindGameObjectWithTag("AchievementUnlockPanel").GetComponent<ShowInfoText>().ShowToastPanel(2);
-            infoTxt.GetComponent<ShowInfoText>().ShowToast(2);
-        }
-
     }
 
     public int GetPlacedWordCount()

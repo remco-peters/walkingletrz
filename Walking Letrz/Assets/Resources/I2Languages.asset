@@ -487,6 +487,30 @@ MonoBehaviour:
       - Points earned
       Flags: 0000
       Languages_Touch: []
+    - Term: info_not_your_turn
+      TermType: 0
+      Description: 
+      Languages:
+      - Je bent niet aan de beurt, even geduld
+      - It's not your turn, please wait
+      Flags: 0000
+      Languages_Touch: []
+    - Term: info_word_does_not_exists
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit woord bestaat niet
+      - The filled in word doesn't exists
+      Flags: 0000
+      Languages_Touch: []
+    - Term: info_word_already_placed
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit woord is al geplaatst
+      - This word is already on the board
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -502,7 +526,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1555988733123
+    Google_LastUpdatedVersion: 1556284417287
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

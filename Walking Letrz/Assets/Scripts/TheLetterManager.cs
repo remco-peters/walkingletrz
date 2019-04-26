@@ -145,7 +145,7 @@ namespace Assets.Scripts
             Woordenlijst = null;
         }
 
-        public bool CheckWord(string word, out long points, List<LetterPosition> placedLetters)
+        public bool CheckWord(string word, out long points, List<LetterPosition> placedLetters, MyPlayer p = null)
         {
             word = word.ToLower();
             int firstLetterIndex = -1;
@@ -161,20 +161,37 @@ namespace Assets.Scripts
                     secondLetterIndex = i;
                 i++;
             }
+            
             if (firstLetterIndex < 0 || secondLetterIndex < 0)
             {
+                if(p != null)
+                {
+                    p.InfoText = I2.Loc.LocalizationManager.GetTranslation("not_both_fixed_letters");
+                }
                 Debug.Log("Word does not contain the two letters");
             }
             else if(firstLetterIndex > secondLetterIndex)
             {
+                if (p != null)
+                {
+                    p.InfoText = I2.Loc.LocalizationManager.GetTranslation("first_letter_after_second");
+                }
                 Debug.Log("First letter is after second letter");
             }
             else if (!Exists(word))
             {
+                if (p != null)
+                {
+                    p.InfoText = I2.Loc.LocalizationManager.GetTranslation("info_word_does_not_exists");
+                }
                 Debug.Log($"Word does not exist. Word: {word}");
             }
             else if (PlacedWords.Contains(word))
             {
+                if (p != null)
+                {
+                    p.InfoText = I2.Loc.LocalizationManager.GetTranslation("info_word_already_placed");
+                }
                 Debug.Log("Word already placed");
             }
             else

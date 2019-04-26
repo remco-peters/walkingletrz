@@ -13,7 +13,6 @@ public class UIPlayerPanel : UIBehaviour
 {
     public Text TimeRemainingText;
     public Text PointText;
-    public Text InfoText;
     public Text PlayerNameTxt;
     public Image PlayerImg;
     public Image CrownImage;
@@ -36,6 +35,10 @@ public class UIPlayerPanel : UIBehaviour
     public Sprite crownBronze;
     public Sprite crownSilver;
     public Sprite crownGold;
+
+    public GameObject InfoTextPanel;
+    public Text InfoPanelText;
+    private Image InfoPanelImage;
 
     public MyPlayer Player
     {
@@ -65,6 +68,13 @@ public class UIPlayerPanel : UIBehaviour
     protected override void Start()
     {
         base.Start();
+
+        InfoPanelImage = InfoTextPanel.GetComponent<Image>();
+        InfoPanelImage.color = new Color(1f, 1f, 1f, 0f);
+        InfoPanelText.color = new Color(1f, 1f, 1f, 0f);
+
+        Player.OnInfoTextChange += ShowInfoText;
+
         if (AccountManager.CurrentPlayer != null && AccountManager.CurrentPlayer.DisplayName.Length > 0)
             PlayerNameTxt.text = AccountManager.CurrentPlayer.DisplayName;
         StartCoroutine(Timer());
@@ -77,21 +87,7 @@ public class UIPlayerPanel : UIBehaviour
     {
         string pointString = LocalizationManager.GetTranslation("points");
         PointText.text = $"{Player.EarnedPoints}"; // {pointString}
-
-        if(Player.CoolDownTime >= 0 && Player.CoolDownTime < 10)
-        {
-            InfoText.enabled = true;
-            InfoText.text = "Can't move yet: " + TimeText(Player.CoolDownTime) + " seconds remaining";
-        } 
-        else if(Player.InfoText.Length > 0)
-        {
-            InfoText.enabled = true;
-            InfoText.text = Player.InfoText;
-        }else
-        {
-            InfoText.enabled = false;
-        }
-
+        
         SetBackgroundPlayerColor();
 
         int index = 0;
@@ -164,9 +160,8 @@ public class UIPlayerPanel : UIBehaviour
         string pointsPre = LocalizationManager.GetTranslation("points_earned");
         string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
         TimeRemainingText.text = timeUp;
-        InfoText.text = $"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}";
+        ShowInfoText($"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}", 5);
         WrapUpGame();
-        InfoText.enabled = true;
         StopCoroutine(Timer());
         StopCoroutine(CheckIfAllPlayersHaveTimeLeft());
         PutAllDataInPlayerData();
@@ -301,5 +296,32 @@ public class UIPlayerPanel : UIBehaviour
             creditsToGive = 5;
         Debug.Log($"Credits to give: {creditsToGive}");
         Player.Credit.AddCredits(creditsToGive);
+    }
+
+    private void ShowInfoText(string text, int time)
+    {
+        InfoPanelText.text = text;
+        StartCoroutine(ShowInfoTextTimer(InfoPanelImage, InfoPanelText, time));
+    }
+
+    IEnumerator ShowInfoTextTimer(Image imageObj, Text txtObj, float time)
+    {
+        StartCoroutine(FadeTo(1f, 0.5f, imageObj, txtObj));
+        yield return new WaitForSeconds(time);
+        StartCoroutine(FadeTo(0f, 0.5f, imageObj, txtObj));
+        StopCoroutine(ShowInfoTextTimer(imageObj, txtObj, time));
+    }
+
+    IEnumerator FadeTo(float aValue, float aTime, Image imageObj, Text txtObj)
+    {
+        float alpha = imageObj.color.a;
+        for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
+        {
+            Color panelColor = new Color(1, 1, 1, Mathf.Lerp(alpha, aValue, t));
+            imageObj.color = panelColor;
+            Color textColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue, t));
+            txtObj.color = textColor;
+            yield return null;
+        }
     }
 }
