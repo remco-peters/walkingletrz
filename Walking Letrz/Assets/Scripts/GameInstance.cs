@@ -35,11 +35,8 @@ public class GameInstance : MonoBehaviour
     private void InitPlayerPrefs()
     {
         gameTime = PlayerPrefs.GetInt("GameTimePref", 0);
-
         vibrationMode = PlayerPrefs.GetInt("GameVibrationPref", 0);
-
         language = PlayerPrefs.GetString("GameLanguagePref", "NL");
-
         PlopSound.volume = PlayerPrefs.GetFloat("GameButtonSounds", 1);
     }
 

@@ -302,8 +302,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameInstance: {fileID: 2771667383580418590, guid: b6b0d0fc2ddaf22448cec038f61c0ccd,
     type: 3}
-  accManager: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
-    type: 3}
 --- !u!114 &545161630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2917,9 +2915,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '1000
-
-'
+  m_Text: 0
 --- !u!222 &1876824291
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2951,6 +2947,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2942960833851952442, guid: 85511387347cc420a995a431976b7985,
         type: 3}
+    - target: {fileID: 2502956799967912091, guid: a65e78b9ace8a4c03a91817e0660d58b,
+        type: 3}
+      propertyPath: amountOfCredits
+      value: 
+      objectReference: {fileID: 1876824290}
     - target: {fileID: 2905114620304294840, guid: a65e78b9ace8a4c03a91817e0660d58b,
         type: 3}
       propertyPath: m_LocalPosition.x

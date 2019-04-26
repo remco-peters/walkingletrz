@@ -7,10 +7,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class AccountManager : MonoBehaviour
-
 {
+    public Text amountOfCredits;
     public static PlayerProfileModel CurrentPlayer;
     public static UserAccountInfo CurrentPlayerAccount;
+    public static GetUserInventoryResult CurrentPlayerInventory;
     public static List<PlayerLeaderboardEntry> Leaderboard;
     private GetLeaderboardRequest leaderboardRequest;
     public DisplayNamePopup DisplayNamePopupClass;
@@ -70,6 +71,7 @@ public class AccountManager : MonoBehaviour
         PlayFabClientAPI.GetPlayerProfile(playerRequest, PlayerProfileSuccess, OnFailure);
         PlayFabClientAPI.GetLeaderboard(leaderboardRequest, LeaderboardSuccess, OnFailure);
         PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), PlayerAccountSuccess, OnFailure);
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), PlayerInventorySuccess, OnFailure);
     }
     
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
@@ -83,12 +85,14 @@ public class AccountManager : MonoBehaviour
            _displayNamePopup.transform.SetParent(StartSceneCanvas.transform, false);
         }
         var getStatistics = new GetPlayerStatisticsRequest();
-        var statisticNames = new List<string>();
-        statisticNames.Add("Score");
-        statisticNames.Add("Wins");
-        statisticNames.Add("GamesPlayed");
-        statisticNames.Add("TotalScore");
-        statisticNames.Add("WordCount");
+        var statisticNames = new List<string>
+        {
+            "Score",
+            "Wins",
+            "GamesPlayed",
+            "TotalScore",
+            "WordCount"
+        };
         getStatistics.StatisticNames = statisticNames;
         PlayFabClientAPI.GetPlayerStatistics(getStatistics, OnStatisticsSuccess, OnFailure);
     }
@@ -98,14 +102,27 @@ public class AccountManager : MonoBehaviour
         CurrentPlayerAccount = result.AccountInfo;
     }
 
+    private void PlayerInventorySuccess(GetUserInventoryResult result)
+    {
+        CurrentPlayerInventory = result;
+        if(result.VirtualCurrency.TryGetValue("CR", out int balance)) {
+            amountOfCredits.text = balance.ToString();
+        } else
+        {
+            amountOfCredits.text = "0";
+        }
+    }
+
     private void OnStatisticsSuccess(GetPlayerStatisticsResult result)
     {
         var statisticList = new List<StatisticModel>();
         foreach (var statisticValue in result.Statistics)
         {
-            var model = new StatisticModel();
-            model.Value = statisticValue.Value;
-            model.Name = statisticValue.StatisticName;
+            var model = new StatisticModel
+            {
+                Value = statisticValue.Value,
+                Name = statisticValue.StatisticName
+            };
             statisticList.Add(model);
         }
 
