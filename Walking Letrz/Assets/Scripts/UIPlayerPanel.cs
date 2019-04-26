@@ -20,10 +20,13 @@ public class UIPlayerPanel : UIBehaviour
 
     public Text OpponentNameTxt;
     public Text OpponentScoreTxt;
+    public Text OpponentTimeTxt;
     public Text OpponentNameTxtSecond;
     public Text OpponentScoreTxtSecond;
+    public Text OpponentTimeTxtSecond;
     public Text OpponentNameTxtThird;
     public Text OpponentScoreTxtThird;
+    public Text OpponentTimeTxtThird;
 
     public Material TopBoardMaterial;
     public Material TurnMaterial;
@@ -125,6 +128,7 @@ public class UIPlayerPanel : UIBehaviour
             if(p != Player)
             {
                 SetOpponentText(index, p);
+                StartCoroutine(SetOpponentTime(index, p));
                 index++;
             }
         }
@@ -203,6 +207,12 @@ public class UIPlayerPanel : UIBehaviour
         return t.ToString(@"mm\:ss");
     }
 
+    private string OpponentTimeText(float seconds)
+    {
+        TimeSpan t = TimeSpan.FromSeconds(seconds);
+        return t.ToString(@"m\:ss");
+    }
+
     private void SetBackgroundPlayerColor()
     {
         if(Player.CanMove)
@@ -213,6 +223,28 @@ public class UIPlayerPanel : UIBehaviour
         {
             PlayerBackground.GetComponent<Image>().material = TopBoardMaterial;
             OthersBackground.GetComponent<Image>().material = TurnMaterial;
+        }
+    }
+    
+    private IEnumerator SetOpponentTime(int which, Player p)
+    {
+        while (p.TimeRemaining > 0)
+        {
+            switch(which)
+            {
+                case 0:
+                   OpponentTimeTxt.text = OpponentTimeText(p.TimeRemaining);
+                    break;
+                case 1:
+                   OpponentTimeTxtSecond.text = OpponentTimeText(p.TimeRemaining);
+                    break;
+                case 2:
+                    OpponentTimeTxtThird.text = OpponentTimeText(p.TimeRemaining);           
+                    break;
+                default:
+                    break;
+            }
+            yield return new WaitForSeconds(1);
         }
     }
     

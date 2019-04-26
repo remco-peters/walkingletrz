@@ -10,6 +10,7 @@ namespace Assets.Scripts
         public char FirstLetter { get; set; }
         public char SecondLetter { get; set; }
         public Dictionary<char, long> CharactersValues { get; } = new Dictionary<char, long>();
+        private Dictionary<char, long> CharacterOcurences { get; } = new Dictionary<char, long>();
         public HashSet<string> AllWords {get; set; }
         public TextAsset JsonAsset;
         public TextAsset Woordenlijst;
@@ -25,6 +26,7 @@ namespace Assets.Scripts
         {
             random = new System.Random();
             InitCharactersValues();
+            InitCharactersOcurenaceDictionary();
             InitAllWords();
             InitStartingLetters();
         }
@@ -32,53 +34,90 @@ namespace Assets.Scripts
         public void InitStartingLetters()
         {
             FirstPlayerLetters = GetLetters(15);
-            FirstLetter = GetLetters(1)[0];
-            SecondLetter = GetLetters(1)[0];
+            char[] startingLetters = GetLetters(2);
+            FirstLetter = startingLetters[0];
+            SecondLetter =startingLetters[1];
         }
 
-        public char GetVowel()
+        private void InitCharactersOcurenaceDictionary()
         {
-            string vowels = "aeiou";
-            return vowels[random.Next(0, vowels.Length)];
+            string json = JsonAsset.text;
+            var items = (Dictionary<string, object>) MiniJSON.Json.Deserialize(json);
+            foreach (var item in items)
+            {
+                if (item.Key != "letterocurances") continue;
+                foreach (var val in item.Value as Dictionary<string, object> ?? new Dictionary<string, object>())
+                {
+                    CharacterOcurences[val.Key[0]] = (long)val.Value;
+                }
+            }
         }
 
-        public char GetConsonant()
+        public char GetVowelOrConsonant(bool? vowel)
         {
-            string consonants = "bcdfghjklmnpstvw";
-            return consonants[random.Next(0, consonants.Length)];
+            string availableLetters;
+            if (vowel != null)
+            {
+                availableLetters = (bool)vowel ? "aeiou" : "bcdfghjklmnpstvw";
+            }
+            else
+            {
+                availableLetters = "abcdefghijklmnopqrstuvwxyz";
+            }
+            List<char> lettersToChoseFrom = new List<char>();
+            foreach (var key in CharacterOcurences.Keys)
+            {
+                if (availableLetters.IndexOf(key) != -1)
+                    for (int i = 0; i < CharacterOcurences[key] * 3; i++)
+                    {
+                        lettersToChoseFrom.Add(key);
+                    }
+            }
+            return lettersToChoseFrom[random.Next(0, lettersToChoseFrom.Count)];
         }
 
         public char[] GetLetters(int amount, List<char> currentLetters = null)
         {
             currentLetters = currentLetters ?? new List<char>();
-            List<char> availableLetters =new List<char>
-            { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
-                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
-
-            List<char> lettersToChoseFrom = new List<char>();
-
-            foreach (char c in availableLetters)
+            List<char> availableLetters = new List<char>();
+            List<char> availableVowels = new List<char>();
+            List<char> availableConsonants = new List<char>();
+            string vowels = "aeiou";
+            foreach(char key in CharacterOcurences.Keys)
             {
-                bool isVowel = "aeiou".IndexOf(c) >= 0;
-                long val = CharactersValues[c];
-                if (isVowel) val -= 10;
-                for (int i = 0; i < 8 - val; i++)
+                for (int i = 0; i < CharacterOcurences[key]; i++)  
                 {
-                    lettersToChoseFrom.Add(c);
+                    if (vowels.IndexOf(key) != -1)
+                        availableVowels.Add(key);
+                    else 
+                        availableConsonants.Add(key);
+                    availableLetters.Add(key);
                 }
             }
             char[] startingLetters = new char[amount];
+            int vowelsCount = currentLetters.Count(x => vowels.IndexOf(x) != -1);
             for (int i = 0; i < amount; i++)
-            {
+            {                         
                 while (startingLetters[i] == default(char))
                 {
-                    int letterCount = 0;
-                    char letter = lettersToChoseFrom[random.Next(0, lettersToChoseFrom.Count)];
-                    letterCount += startingLetters.Count(x => x == letter);
+                    char letter;
+                    if (vowelsCount < 2 && i + currentLetters.Count() > 2)
+                    {
+                        letter = availableVowels[random.Next(0, availableVowels.Count)];
+                        vowelsCount += 1;
+                    } 
+                    else if (vowelsCount > 5)       
+                        letter = availableConsonants[random.Next(0, availableConsonants.Count)];
+                    else
+                    {
+                        letter = availableLetters[random.Next(0, availableLetters.Count)];
+                        if (vowels.IndexOf(letter) != -1) vowelsCount += 1;
+                    }                          
+
+                    int letterCount = startingLetters.Count(x => x == letter);
                     letterCount += currentLetters.Count(x => x == letter);
-                    if (letterCount < 2){
-                        startingLetters[i] = letter;
-                    }
+                    if (letterCount >= 2) continue;
+                    startingLetters[i] = letter;
                 }
             }
             return startingLetters;
