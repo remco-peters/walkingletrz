@@ -318,10 +318,15 @@ public class UIPlayerPanel : UIBehaviour
         for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime)
         {
             Color panelColor = new Color(1, 1, 1, Mathf.Lerp(alpha, aValue, t));
-            imageObj.color = panelColor;
             Color textColor = new Color(0, 0, 0, Mathf.Lerp(alpha, aValue, t));
+            imageObj.color = panelColor;
             txtObj.color = textColor;
             yield return null;
+        }
+        if(aValue == 0f)
+        {
+            imageObj.color = new Color(1, 1, 1, 0f);
+            txtObj.color = new Color(0, 0, 0, 0f);
         }
     }
 }
