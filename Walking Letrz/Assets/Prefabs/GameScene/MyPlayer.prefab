@@ -43,8 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7155bb213107db540bdae2068815c9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CoolDownTime: 10
-  InfoText: 
   WriteBoard: {fileID: 7333138695347828264, guid: 40df59ee1256e3345a2d6b37ff878437,
     type: 3}
   LetterBoardObject: {fileID: 1097105684312427122, guid: 39db8d240b4119b43a497239d660a8d8,

@@ -302,9 +302,9 @@ namespace Assets.Scripts
                     if (DoubleWordValue) points *= 2;
                     DoubleWordValue = false;
                     Player.EarnedPoints += points;
-                    ShowScoreGainedText(points);
+                    //ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
-                    PlaceWordInGameBoard();
+                    PlaceWordInGameBoard(points);
                     RemoveAllLettersFromPlayerBoard();
                     ChangeFixedLetters(madeWord);
                     GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
@@ -337,7 +337,7 @@ namespace Assets.Scripts
         }
 
         // TheLetterManager
-        private void PlaceWordInGameBoard()
+        private void PlaceWordInGameBoard(long points = 0)
         {
             // Insantiate wordHolder
             GameObject wordHolder = Instantiate(GameBoardWordHolder);
@@ -350,6 +350,11 @@ namespace Assets.Scripts
                 {
                     block.transform.SetParent(wordHolder.transform, false);
                     block.GetComponent<Button>().interactable = false;
+                   
+                    
+                    Vector3 pos = block.transform.position;
+                    ShowScoreGainedText(points, pos);
+
                     // Replace placeholder with letter on playerBoard
                     int row = letterPos.GetRow();
                     int index = letterPos.GetOldIndex();
@@ -551,18 +556,13 @@ namespace Assets.Scripts
             
         }
 
-        private void ShowScoreGainedText(long points)
+        private void ShowScoreGainedText(long points, Vector3 pos)
         {
+            PointsGainedPanel.transform.position = pos;
             PointsGainedText.text = $"+{points.ToString()}";
             StartCoroutine(ShowInfoTextTimer(PointsGainedPanelImage, PointsGainedText, 3));
         }
-
-        private void ShowInfoText(string text)
-        {
-            //PlayerInfoTxt.text = text;
-            //StartCoroutine(ShowInfoTextTimer(PlayerInfoPanelImage, PlayerInfoTxt, 5));
-        }
-
+        
         IEnumerator ShowInfoTextTimer(Image imageObj, Text txtObj, float time)
         {
             StartCoroutine(FadeTo(1f, 0.5f, imageObj, txtObj));
