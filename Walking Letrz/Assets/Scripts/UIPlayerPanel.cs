@@ -40,6 +40,23 @@ public class UIPlayerPanel : UIBehaviour
     public Text InfoPanelText;
     private Image InfoPanelImage;
 
+    #region tutorialImages
+    public GameObject AchievementInfoPanel;
+    public GameObject BoosterBtnInfoPanel;
+    public GameObject DeleteBtnInfoPanel;
+    public GameObject FixedLetterInfoPanel;
+    public GameObject OpponentInfoPanel;
+    public GameObject PlacedWordInfoPanel;
+    public GameObject PlayerBoardInfoPanel;
+    public GameObject PlayerLettersInfoPanel;
+    public GameObject SendBtnInfoPanel;
+    public GameObject SwapBtnInfoPanel;
+    public GameObject TimeInfoPanel;
+    public GameObject TurnInfoPanel;
+    public GameObject UserInfoPanel;
+    public GameObject WritingAreaInfoPanel;
+    #endregion
+
     public MyPlayer Player
     {
         get
@@ -63,7 +80,7 @@ public class UIPlayerPanel : UIBehaviour
         }
         set { }
     }
-
+    
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -77,9 +94,33 @@ public class UIPlayerPanel : UIBehaviour
 
         if (AccountManager.CurrentPlayer != null && AccountManager.CurrentPlayer.DisplayName.Length > 0)
             PlayerNameTxt.text = AccountManager.CurrentPlayer.DisplayName;
-        StartCoroutine(Timer());
+
+        
+        TimeRemainingText.text = TimeText(Player.TimeRemaining);
         InitOtherPlayers();
-        StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
+
+        if (Player.isInTutorial)
+        {
+            ShowTutorial();
+        } else
+        {
+            StartCoroutine(Timer());
+            StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
+        }
+    }
+
+    private void ShowTutorial()
+    {
+        GameObject turnInfoPanel = Instantiate(TurnInfoPanel);
+        turnInfoPanel.transform.SetParent(transform, false);
+    }
+
+    public void ShowNextStep()
+    {
+        //Destroy(TurnInfoPanel);
+        //GameObject userInfoPanel = Instantiate(UserInfoPanel);
+        //userInfoPanel.transform.SetParent(transform, false);
+        Debug.Log("CLICKED!");
     }
 
     // Update is called once per frame

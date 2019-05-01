@@ -991,7 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332e36893e7cf4a49b3c1f72f76cd5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTarget: {fileID: 1387794534}
+  mTarget: {fileID: 1689503153}
 --- !u!1 &796891845
 GameObject:
   m_ObjectHideFlags: 0
@@ -2064,7 +2064,7 @@ GameObject:
   - component: {fileID: 1221505187}
   - component: {fileID: 1221505186}
   m_Layer: 5
-  m_Name: Question_mark_img
+  m_Name: tutorial_img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2109,7 +2109,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 4ba1ef10fa666af4b9f220b20b811459, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5e93817ada3ebb04ebe63f393135efdf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2590,7 +2590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTerm: game_manual_btn
+  mTerm: tutorial_lvl
   mTermSecondary: 
   PrimaryTermModifier: 0
   SecondaryTermModifier: 0
@@ -2651,7 +2651,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Speluitleg
+  m_Text: Spel met uitleg
 --- !u!222 &1387794535
 CanvasRenderer:
   m_ObjectHideFlags: 0

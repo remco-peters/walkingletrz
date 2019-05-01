@@ -527,6 +527,189 @@ MonoBehaviour:
       - Boosters
       Flags: 0000
       Languages_Touch: []
+    - Term: tutorial_lvl
+      TermType: 0
+      Description: 
+      Languages:
+      - Spel met uitleg
+      - Tutorial game
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_userInfo
+      TermType: 0
+      Description: 
+      Languages:
+      - Hier kun je je eigen gegevens vinden. Je gebruikersnaam, profielafbeelding
+        en het aantal punten wat je in dit potje verdiend hebt! Aan de kleur van het
+        kroontje kun je zien op welke plaats je je bevindt.
+      - In this place you can find your own information, like your username, profilepicture
+        and the points you've earned so far in this game. The color of the crown tells
+        you which place you are at the moment.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_opponentInfo
+      TermType: 0
+      Description: 
+      Languages:
+      - Hier vind je de gegevens van je tegenstander(s). De gebruikersnaam, aantal
+        punten en de overgebleven tijd van de tegenstanders is hier te vinden.
+      - Here you can find the information, like username, earned points and time left,
+        from your opponents.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_clock
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit is de klok. Hierop is te zien hoeveel tijd je nog over hebt in dit potje.
+        Wanneer je niet aan de beurt bent, zal de tijd knipperen.
+      - This is the clock. The time shows how much time you have left. When it's not
+        your turn, the time will be blinking.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_achievement
+      TermType: 0
+      Description: 
+      Languages:
+      - Wanneer je een achievement behaald hebt, zul je dat hier zien. Er zal kort
+        in beeld komen welke achievement behaald is. In het overzicht "Achievements"
+        in het hoofdmenu zijn alle achievements te bekijken.
+      - When you've earned an achievement, you will see a text popup for a short time.
+        It shows you which achievement you've got. In the "Achievement" section in
+        the main menu, you can see all the achievements
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_turns
+      TermType: 0
+      Description: 
+      Languages:
+      - Aan de oranje kleur is te zien of je zelf aan de beurt bent of dat een tegenstander
+        aan de beurt is
+      - The orange color shows if it's your turn or the turn of an opponent.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_placedWord
+      TermType: 0
+      Description: 
+      Languages:
+      - Het geplaatste woord komt hier in het veld terecht. De vaste letters zijn
+        te zien door de oranje kleur. Het aantal verdiende punten voor dit woord zullen
+        kort zichtbaar zijn op het geplaatste woord.
+      - The word that has been played, will show up over here. The fixed letters are
+        visible because of the orange color. The earned points for this played word
+        will be visible for a short time on the word.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_playerBoard
+      TermType: 0
+      Description: 
+      Languages:
+      - Hier vind je onderdelen om het spel te spelen. Deze bestaan uit de letters,
+        een verzendknop, verwijderknop, boosterknop en wisselknop. We gaan ze 1 voor
+        1 langs.
+      - Here you can find all the parts to play the game. These are the letters, send
+        button, delete button, booster button and a swapbutton. We'll go through them
+        one by one.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_fixedLetters
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit zijn je vaste letters. Deze moeten gebruikt worden op de volgorde waarin
+        zij staan. Wel mogen er letters voor, tussen of na geplaatst worden. Na elke
+        beurt veranderen deze letters, dus let goed op!
+      - These are the fixed letters. These must be used in the listed order. However,
+        letters may be placed before, between or after these fixed letters. These
+        letters change after every turn, so pay attention!
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_playerLetters
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit zijn de "gewone" letters. Deze letters kunnen voor, tussen of na de vaste
+        letters geplaatst worden.
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_deleteBtn
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit is de verwijderknop. Wanneer je letters in het schrijfbord hebt geplaatst,
+        kun je deze met de knop in 1 keer allemaal terugplaatsen naar beneden.
+      - This is the delete button. When you've placed letters in the writingarea,
+        you can place them all back down in one go with a click on this button.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_placeBtn
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit is de verzendknop. Wanneer een woord voorkomt in de woordenlijst, zal
+        deze knop lichtgroen kleuren en kan het woord verzonden worden.
+      - This is the send button. When a word exists in our list of words, this button
+        will light up light green and the word can be sent.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_boosterBtn
+      TermType: 0
+      Description: 
+      Languages:
+      - Hier kun je de boosters vinden die je voor het potje begon hebt ingekocht.
+        De boosters kunnen vervolgens hier geactiveerd worden.
+      - Here you can find the boosters that you've purchased before the game started.
+        The boosters can be activated here.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_swapBtn
+      TermType: 0
+      Description: 
+      Languages:
+      - Hiermee kan je je "gewone" letters ruilen. Dit is 1x per spel gratis. Daarna
+        moet je er 20 punten voor inleveren.
+      - With this button you can swap your "normal" letters for new ones. Per game
+        you can swap them for free once, after that you have to pay for it with 20
+        earned points.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_writingArea
+      TermType: 0
+      Description: 
+      Languages:
+      - Dit is je schrijf-gebied. Hier kun je je woorden maken voor je ze verzend.
+        Letters die je plaatst zullen eerst hier verschijnen. Door op de letters te
+        drukken die hier staan, zullen ze weer terug naar onder gaan.
+      - This is your writing area. You can make your words here first before sending
+        them. Letters that you've clicked, will be placed over here. By pressing the
+        letters again over here, will put them back down again.
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_next
+      TermType: 0
+      Description: 
+      Languages:
+      - Volgende stap
+      - Next step
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_previous
+      TermType: 0
+      Description: 
+      Languages:
+      - Vorige stap
+      - Previous step
+      Flags: 0000
+      Languages_Touch: []
+    - Term: tutorial_end
+      TermType: 0
+      Description: 
+      Languages:
+      - Einde uitleg
+      - End tutorial
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -542,7 +725,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1556570236958
+    Google_LastUpdatedVersion: 1556719777687
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

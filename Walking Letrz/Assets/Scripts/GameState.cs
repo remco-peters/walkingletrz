@@ -7,8 +7,8 @@ public class GameState : MyMonoBehaviour
 {
     public DynamicUI MediumGameBoard;
     public Camera CameraClass;
-    
     public AchievementManager AchievementManagerClass;
+    private bool Tutorial;
     
 
     // Start is called before the first frame update
@@ -20,7 +20,8 @@ public class GameState : MyMonoBehaviour
         DeleteAchievements();
 
         // If medium is chosen
-        Instantiate(MediumGameBoard);
+        DynamicUI GBoard = Instantiate(MediumGameBoard);
+        GBoard.Tutorial = GetTutorial();
         Instantiate(CameraClass);
     }
 
@@ -33,5 +34,17 @@ public class GameState : MyMonoBehaviour
         PlayerPrefs.DeleteKey("5WordAchievement");
         PlayerPrefs.DeleteKey("10WordAchievement");
         PlayerPrefs.DeleteKey("25WordAchievement");
+    }
+
+    private bool GetTutorial()
+    {
+        if (PlayerPrefs.GetInt("HadTutorialGame") == 0)
+        {
+            //PlayerPrefs.SetInt("TutorialLevel", 1);
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 }

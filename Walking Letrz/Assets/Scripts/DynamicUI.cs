@@ -38,6 +38,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject PlayerInfoPanel;
     public Text PlayerInfoTxt;
     public Credit CreditClass;
+    public bool Tutorial { get; set; }
 
     void Awake()
     {
@@ -55,7 +56,7 @@ public class DynamicUI : MyMonoBehaviour
 
         AchievementManager achievementManager = Instantiate(AchievementManagerClass);
         MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
-         
+        player.isInTutorial = Tutorial;
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
         
