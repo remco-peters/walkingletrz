@@ -22,7 +22,7 @@ public class MyPlayer : Player
     public GameObject WriteBoard, LetterBoardObject;
     public AchievementManager AchievementManager { private get; set; }
     public Credit Credit { get; set; }
-    public bool isInTutorial { get; set; } = false;
+    public bool IsInTutorial { get; set; } = false;
 
     private int placedWordCount;
     // Start is called before the first frame update

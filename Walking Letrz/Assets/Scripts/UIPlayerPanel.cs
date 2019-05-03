@@ -55,8 +55,10 @@ public class UIPlayerPanel : UIBehaviour
     public GameObject TurnInfoPanel;
     public GameObject UserInfoPanel;
     public GameObject WritingAreaInfoPanel;
-    #endregion
 
+    private static List<GameObject> TutorialScreens = new List<GameObject>();
+    #endregion
+    
     public MyPlayer Player
     {
         get
@@ -67,6 +69,8 @@ public class UIPlayerPanel : UIBehaviour
             return Hud.Player;
         }
     }
+
+    
 
     public List<Player> Players
     {
@@ -80,7 +84,9 @@ public class UIPlayerPanel : UIBehaviour
         }
         set { }
     }
-    
+    private static MyPlayer staticPlayer;
+    private static List<Player> staticPlayers;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -94,33 +100,69 @@ public class UIPlayerPanel : UIBehaviour
 
         if (AccountManager.CurrentPlayer != null && AccountManager.CurrentPlayer.DisplayName.Length > 0)
             PlayerNameTxt.text = AccountManager.CurrentPlayer.DisplayName;
-
         
         TimeRemainingText.text = TimeText(Player.TimeRemaining);
         InitOtherPlayers();
 
-        if (Player.isInTutorial)
+        staticPlayer = Player;
+
+        if (Player.IsInTutorial)
         {
+            staticPlayer.CanMove = false;
             ShowTutorial();
-        } else
-        {
-            StartCoroutine(Timer());
-            StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
         }
+
+        StartCoroutine(Timer());
+        StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
     }
 
     private void ShowTutorial()
     {
-        GameObject turnInfoPanel = Instantiate(TurnInfoPanel);
-        turnInfoPanel.transform.SetParent(transform, false);
+        TutorialScreens.Add(Instantiate(TurnInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(UserInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(TimeInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(OpponentInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(PlayerBoardInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(FixedLetterInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(PlayerLettersInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(SendBtnInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(DeleteBtnInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(BoosterBtnInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(SwapBtnInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(WritingAreaInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(PlacedWordInfoPanel, transform, false));
+        TutorialScreens.Add(Instantiate(AchievementInfoPanel, transform, false));
+
+        foreach(GameObject obj in TutorialScreens)
+        {
+            obj.transform.SetParent(transform, false);
+            if(!TutorialScreens[0].Equals(obj))
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 
-    public void ShowNextStep()
+    public void ShowNextStep(int index)
     {
-        //Destroy(TurnInfoPanel);
-        //GameObject userInfoPanel = Instantiate(UserInfoPanel);
-        //userInfoPanel.transform.SetParent(transform, false);
-        Debug.Log("CLICKED!");
+        TutorialScreens[index].SetActive(false);
+        TutorialScreens[index + 1].SetActive(true);
+    }
+
+    public void ShowPreviousStep(int index)
+    {
+        TutorialScreens[index].SetActive(false);
+        TutorialScreens[index - 1].SetActive(true);
+    }
+
+    public void PlayGame()
+    {
+        foreach (GameObject obj in TutorialScreens)
+        {
+            Destroy(obj);
+        }
+        staticPlayer.IsInTutorial = false;
+        staticPlayer.CanMove = true;
     }
 
     // Update is called once per frame
@@ -173,26 +215,29 @@ public class UIPlayerPanel : UIBehaviour
 
     IEnumerator Timer()
     {
-        while (Player.TimeRemaining >= 0)
+        while (staticPlayer.TimeRemaining >= 0)
         {
             // Make the text blinking when waiting for your turn
-            if (Player.CanMove == false)
+            if (staticPlayer.CanMove == false && !staticPlayer.IsInTutorial)
             {
                 TimeRemainingText.text = "";
                 yield return new WaitForSeconds(0.75f);
-                TimeRemainingText.text = TimeText(Player.TimeRemaining);
+                TimeRemainingText.text = TimeText(staticPlayer.TimeRemaining);
                 yield return new WaitForSeconds(0.75f);
             }
 
-            TimeRemainingText.text = TimeText(Player.TimeRemaining);
-
+           if (!staticPlayer.IsInTutorial)
+           {
+                TimeRemainingText.text = TimeText(staticPlayer.TimeRemaining);
+           }
+            
             yield return new WaitForEndOfFrame();
         } 
     }
 
     IEnumerator CheckIfAllPlayersHaveTimeLeft()
     {
-        while (Players.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
+        while (staticPlayers.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
         {
             yield return new WaitForFixedUpdate();
         }

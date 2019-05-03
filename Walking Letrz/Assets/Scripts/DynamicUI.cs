@@ -56,7 +56,7 @@ public class DynamicUI : MyMonoBehaviour
 
         AchievementManager achievementManager = Instantiate(AchievementManagerClass);
         MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
-        player.isInTutorial = Tutorial;
+        player.IsInTutorial = Tutorial;
         HUD HUD = Instantiate(HUDClass);
         HUD.Player = player;
         

@@ -1193,72 +1193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3be1d47e5fedd4f8d84478f5cd5323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &6008361146036118359
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2204646464388433087}
-  - component: {fileID: 678343997421132644}
-  - component: {fileID: 6077891751468883984}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2204646464388433087
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6008361146036118359}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3861076618035199616}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &678343997421132644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6008361146036118359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!114 &6077891751468883984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6008361146036118359}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!1 &6466171449388263380
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1226,6 @@ RectTransform:
   - {fileID: 7481681916925638530}
   - {fileID: 359589906751535793}
   - {fileID: 4908600266986069526}
-  - {fileID: 2204646464388433087}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1363,7 +1296,7 @@ MonoBehaviour:
     type: 3}
   DeleteBtnInfoPanel: {fileID: 8089484613681356154, guid: e2707b41284f92743a0090a956b564ba,
     type: 3}
-  FixedLetterInfoPanel: {fileID: 1991615482878667401, guid: 5fd6e1072bdf2464db898bfd7dc2a394,
+  FixedLetterInfoPanel: {fileID: 2604156641502047241, guid: 78772e01c09c21f408e77bde419d97ae,
     type: 3}
   OpponentInfoPanel: {fileID: 2633206615687953440, guid: 332e36d67e0cfed48a8400b469bb05ee,
     type: 3}
@@ -1371,7 +1304,7 @@ MonoBehaviour:
     type: 3}
   PlayerBoardInfoPanel: {fileID: 1991615482878667401, guid: 3d6bfc1db5b3acf419276616e72f5cc8,
     type: 3}
-  PlayerLettersInfoPanel: {fileID: 1585726422566720401, guid: 2a770e441ec24984297a7ed8c1d80be7,
+  PlayerLettersInfoPanel: {fileID: 8530245685233348832, guid: 4bbb0177ea2209f49af0fc54cc50bd75,
     type: 3}
   SendBtnInfoPanel: {fileID: 4311253163865490813, guid: 33097ad4e6a1a2e4ca74887eaaad4baa,
     type: 3}
@@ -1385,6 +1318,10 @@ MonoBehaviour:
     type: 3}
   WritingAreaInfoPanel: {fileID: 2173170521852516639, guid: 154932d63d69e284f825709cb2b54adc,
     type: 3}
+  previousBtn: {fileID: 4412590443385563094, guid: fedcb40d76353e442aa19d81a79c2b68,
+    type: 3}
+  nextBtn: {fileID: 1317617564630405575, guid: 35f4f3a57d498d145bc5d5b3e05ba79c, type: 3}
+  skipBtn: {fileID: 6324497058716026410, guid: 4a86a8445b1f064429f8acc01d57864e, type: 3}
 --- !u!1 &6686021644752759633
 GameObject:
   m_ObjectHideFlags: 0
