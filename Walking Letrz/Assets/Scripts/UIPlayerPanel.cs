@@ -70,8 +70,6 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
 
-    
-
     public List<Player> Players
     {
         get
@@ -84,8 +82,7 @@ public class UIPlayerPanel : UIBehaviour
         }
         set { }
     }
-    private static MyPlayer staticPlayer;
-    private static List<Player> staticPlayers;
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -104,11 +101,8 @@ public class UIPlayerPanel : UIBehaviour
         TimeRemainingText.text = TimeText(Player.TimeRemaining);
         InitOtherPlayers();
 
-        staticPlayer = Player;
-
         if (Player.IsInTutorial)
         {
-            staticPlayer.CanMove = false;
             ShowTutorial();
         }
 
@@ -161,8 +155,7 @@ public class UIPlayerPanel : UIBehaviour
         {
             Destroy(obj);
         }
-        staticPlayer.IsInTutorial = false;
-        staticPlayer.CanMove = true;
+        //Debug.Log();
     }
 
     // Update is called once per frame
@@ -215,21 +208,21 @@ public class UIPlayerPanel : UIBehaviour
 
     IEnumerator Timer()
     {
-        while (staticPlayer.TimeRemaining >= 0)
+        while (Player.TimeRemaining >= 0)
         {
             // Make the text blinking when waiting for your turn
-            if (staticPlayer.CanMove == false && !staticPlayer.IsInTutorial)
+            if (Player.CanMove == false && !Player.IsInTutorial)
             {
                 TimeRemainingText.text = "";
                 yield return new WaitForSeconds(0.75f);
-                TimeRemainingText.text = TimeText(staticPlayer.TimeRemaining);
+                TimeRemainingText.text = TimeText(Player.TimeRemaining);
                 yield return new WaitForSeconds(0.75f);
             }
 
-           if (!staticPlayer.IsInTutorial)
-           {
-                TimeRemainingText.text = TimeText(staticPlayer.TimeRemaining);
-           }
+            //if (!Player.IsInTutorial)
+           // {
+                TimeRemainingText.text = TimeText(Player.TimeRemaining);
+           // }
             
             yield return new WaitForEndOfFrame();
         } 
@@ -237,7 +230,7 @@ public class UIPlayerPanel : UIBehaviour
 
     IEnumerator CheckIfAllPlayersHaveTimeLeft()
     {
-        while (staticPlayers.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
+        while (Players.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
         {
             yield return new WaitForFixedUpdate();
         }
