@@ -706,16 +706,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Einde uitleg
+      - Stop de uitleg
       - End tutorial
-      Flags: 0000
-      Languages_Touch: []
-    - Term: tutorial_skip
-      TermType: 0
-      Description: 
-      Languages:
-      - Overslaan
-      - Skip
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -733,7 +725,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1556795228191
+    Google_LastUpdatedVersion: 1556884720742
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

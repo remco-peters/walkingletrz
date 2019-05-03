@@ -40,8 +40,8 @@ public class GameState : MyMonoBehaviour
     {
         if (PlayerPrefs.GetInt("HadTutorialGame") == 0)
         {
-            //PlayerPrefs.SetInt("TutorialLevel", 1);
-            return false;
+            PlayerPrefs.SetInt("HadTutorialGame", 1);
+            return true;
         } else
         {
             return false;

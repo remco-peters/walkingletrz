@@ -1318,10 +1318,8 @@ MonoBehaviour:
     type: 3}
   WritingAreaInfoPanel: {fileID: 2173170521852516639, guid: 154932d63d69e284f825709cb2b54adc,
     type: 3}
-  previousBtn: {fileID: 4412590443385563094, guid: fedcb40d76353e442aa19d81a79c2b68,
+  skipTutorialBtnClass: {fileID: 1839550087040986961, guid: 4a86a8445b1f064429f8acc01d57864e,
     type: 3}
-  nextBtn: {fileID: 1317617564630405575, guid: 35f4f3a57d498d145bc5d5b3e05ba79c, type: 3}
-  skipBtn: {fileID: 6324497058716026410, guid: 4a86a8445b1f064429f8acc01d57864e, type: 3}
 --- !u!1 &6686021644752759633
 GameObject:
   m_ObjectHideFlags: 0

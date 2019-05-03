@@ -57,6 +57,10 @@ public class UIPlayerPanel : UIBehaviour
     public GameObject WritingAreaInfoPanel;
 
     private static List<GameObject> TutorialScreens = new List<GameObject>();
+
+    public Button skipTutorialBtnClass;
+    private Button skipTutorialBtn;
+
     #endregion
     
     public MyPlayer Player
@@ -103,11 +107,25 @@ public class UIPlayerPanel : UIBehaviour
 
         if (Player.IsInTutorial)
         {
+            skipTutorialBtn = Instantiate(skipTutorialBtnClass, transform, false);
+            skipTutorialBtn.GetComponent<TutSkipBtn>().OnPlaceBtnTouched += UIPlayerPanel_OnPlaceBtnTouched;
+            Player.CanMove = false;
             ShowTutorial();
         }
 
         StartCoroutine(Timer());
         StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
+    }
+
+    private void UIPlayerPanel_OnPlaceBtnTouched()
+    {
+        Destroy(skipTutorialBtn.gameObject);
+        foreach (GameObject obj in TutorialScreens)
+        {
+            Destroy(obj);
+        }
+        Player.CanMove = true;
+        Player.IsInTutorial = false;
     }
 
     private void ShowTutorial()
@@ -155,7 +173,7 @@ public class UIPlayerPanel : UIBehaviour
         {
             Destroy(obj);
         }
-        //Debug.Log();
+        Debug.Log("Clicked");
     }
 
     // Update is called once per frame
@@ -218,11 +236,8 @@ public class UIPlayerPanel : UIBehaviour
                 TimeRemainingText.text = TimeText(Player.TimeRemaining);
                 yield return new WaitForSeconds(0.75f);
             }
-
-            //if (!Player.IsInTutorial)
-           // {
-                TimeRemainingText.text = TimeText(Player.TimeRemaining);
-           // }
+            
+            TimeRemainingText.text = TimeText(Player.TimeRemaining);
             
             yield return new WaitForEndOfFrame();
         } 
