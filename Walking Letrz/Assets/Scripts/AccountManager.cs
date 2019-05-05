@@ -19,6 +19,8 @@ public class AccountManager : MonoBehaviour
     private DisplayNamePopup _displayNamePopup;
     private string _displayName;
     public static AccountManager instance;
+
+    public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
     {
         // check if instance exists
@@ -31,6 +33,7 @@ public class AccountManager : MonoBehaviour
             // Then destroy  this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameInstance.
             Destroy(gameObject);
         }
+        CreateListOfAchievements();
         DontDestroyOnLoad(this);
     }
 
@@ -50,6 +53,30 @@ public class AccountManager : MonoBehaviour
             PlayFabClientAPI.LoginWithAndroidDeviceID(request, Success, OnFailure);
             leaderboardRequest = new GetLeaderboardRequest {StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10};
         }
+    }
+
+    private void CreateListOfAchievements()
+    {
+        listOfAchievements.Add(new Achievement("AmountOfWordsPerMin", 3, 25, 1, "AmountOfWordsPerMin"));
+        listOfAchievements.Add(new Achievement("AmountOfWordsPerMin", 5, 50, 2, "AmountOfWordsPerMin"));
+        listOfAchievements.Add(new Achievement("AmountOfWordsPerMin", 10, 100, 3, "AmountOfWordsPerMin"));
+        listOfAchievements.Add(new Achievement("AmountOfWordsPerMin", 15, 150, 4, "AmountOfWordsPerMin"));
+        listOfAchievements.Add(new Achievement("PointsInGame", 50, 10, 1, "Score"));
+        listOfAchievements.Add(new Achievement("PointsInGame", 75, 25, 2, "Score"));
+        listOfAchievements.Add(new Achievement("PointsInGame", 100, 50, 3, "Score"));
+        listOfAchievements.Add(new Achievement("PointsInGame", 125, 100, 4, "Score"));
+        listOfAchievements.Add(new Achievement("PointsInGame", 150, 150, 5, "Score"));
+        listOfAchievements.Add(new Achievement("PointsInGame", 200, 250, 6, "Score"));
+        listOfAchievements.Add(new Achievement("PointsTotal", 1000, 10, 1, "TotalScore"));
+        listOfAchievements.Add(new Achievement("PointsTotal", 2500, 25, 2, "TotalScore"));
+        listOfAchievements.Add(new Achievement("PointsTotal", 5000, 50, 3, "TotalScore"));
+        listOfAchievements.Add(new Achievement("PointsTotal", 10000, 100, 4, "TotalScore"));
+        listOfAchievements.Add(new Achievement("PointsTotal", 25000, 150, 5, "TotalScore"));
+        listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 1, 10, 1, "WordLengthOfTwelve"));
+        listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 3, 25, 2, "WordLengthOfTwelve"));
+        listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 5, 50, 3, "WordLengthOfTwelve"));
+        listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 10, 100, 4, "WordLengthOfTwelve"));
+        listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 15, 150, 5, "WordLengthOfTwelve"));
     }
 
     public static List<PlayerLeaderboardEntry> GetLeaderboard()

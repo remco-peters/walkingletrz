@@ -479,6 +479,38 @@ MonoBehaviour:
       - Number of words placed
       Flags: 0000
       Languages_Touch: []
+    - Term: AmountOfWordsPerMin
+      TermType: 0
+      Description: 
+      Languages:
+      - Aantal woorden per minuut
+      - Amount of words per minute
+      Flags: 0000
+      Languages_Touch: []
+    - Term: PointsInGame
+      TermType: 0
+      Description: 
+      Languages:
+      - Hoogst aantal punten in 1 spel
+      - Highest amount of points earned in 1 game
+      Flags: 0000
+      Languages_Touch: []
+    - Term: PointsTotal
+      TermType: 0
+      Description: 
+      Languages:
+      - Punten totaal verdient
+      - Total points earned
+      Flags: 0000
+      Languages_Touch: []
+    - Term: WordLengthOfTwelve
+      TermType: 0
+      Description: 
+      Languages:
+      - Aantal keer een woord van 12 neergelegd
+      - Amount of times 12-length word placed
+      Flags: 0000
+      Languages_Touch: []
     - Term: achievements_points
       TermType: 0
       Description: 
@@ -725,7 +757,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1556884720742
+    Google_LastUpdatedVersion: 1557089646451
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

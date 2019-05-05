@@ -45,7 +45,7 @@ public class AchievementItem : MonoBehaviour
             credits.text = $"+{amount} credits";
         }
     }
-
+    
     private void SetAchievementBar(decimal value)
     {
         achievementBar.fillAmount = (float)value;
