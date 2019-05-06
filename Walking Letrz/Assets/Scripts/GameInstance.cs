@@ -12,6 +12,7 @@ public class GameInstance : MonoBehaviour
     public static GameInstance instance = null;
     private int level = 0;
     public List<PlayerData> PlayerData = new List<PlayerData>();
+    public Difficulty difficulty;
 
     void Awake()
     {

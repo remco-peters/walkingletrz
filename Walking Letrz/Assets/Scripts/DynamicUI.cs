@@ -48,6 +48,8 @@ public class DynamicUI : MyMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Difficulty difficulty = GameInstance.instance.difficulty;
+        Debug.Log(difficulty.ToString());
         Assert.IsNotNull(PlayerClass, "Player misses in GameState");
         Assert.IsNotNull(HUDClass, "HUD misses in GameState");
         Assert.IsNotNull(LetterManagerClass, "LetterManagerClass misses in GameState");
@@ -94,7 +96,8 @@ public class DynamicUI : MyMonoBehaviour
         {
             bot.LetterManager = LetterManagerClass;
             bot.TheLetterManager = TheLetterManagerClass;
-            bot.Name = "Medium bot";
+            bot.Name = $"{difficulty.ToString()} bot";
+            bot.difficulty = difficulty;
         });
         
         //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players

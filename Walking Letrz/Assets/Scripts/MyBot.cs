@@ -11,11 +11,13 @@ namespace Assets.Scripts
         // Start is called before the first frame update
         public float timeRemaining;
         public PlayerManager playerManager;
+        public Difficulty difficulty;
         private List<char> Letters;
         private bool hasFoundWord;
         int indexFirstLetter = -1;
         int indexSecondLetter = -1;
         string foundWord = "";
+
     
 
         new void Start()
@@ -46,6 +48,7 @@ namespace Assets.Scripts
         private void PlaceWord()
         {         
             playerManager.NextTurn();
+            hasFoundWord = false;
             if (foundWord == "")
             {
                 Letters = TheLetterManager.GetLetters(15).ToList();
@@ -58,7 +61,6 @@ namespace Assets.Scripts
             LetterManager.ChangeFixedLetters(foundWord, true);
             TheLetterManager.PlacedWords.Add(foundWord);
             LetterManager.GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
-            hasFoundWord = false;
             int bestWordIndex = BestWordsThisGame.Count(word => word.points > points);
             BestWordsThisGame.Insert(bestWordIndex, new Word(foundWord, points));   
         }
@@ -68,7 +70,10 @@ namespace Assets.Scripts
             char firstLetter = char.ToLower(TheLetterManager.FirstLetter);
             char secondLetter = char.ToLower(TheLetterManager.SecondLetter);
             foundWord = "";
-            int prefferedMaxWordLength = Random.Range(5, 7); //todo easy 2-5 medium 4-7 hard 6, 12
+            int prefferedMaxWordLength;
+            if (difficulty == Difficulty.Easy) prefferedMaxWordLength = Random.Range(4, 5);
+            else if (difficulty == Difficulty.Medium) prefferedMaxWordLength = Random.Range(4, 7);
+            else prefferedMaxWordLength = Random.Range(6, 12);
             foreach (var word in TheLetterManager.AllWords)
             {
                 indexFirstLetter = word.IndexOf(firstLetter);
@@ -80,7 +85,9 @@ namespace Assets.Scripts
                 break;
             }
             hasFoundWord = true;
-            timeRemaining = TheLetterManager.CalculatePoints(foundWord);
+            if (difficulty == Difficulty.Easy) timeRemaining = TheLetterManager.CalculatePoints(foundWord) + 5;
+            else if (difficulty == Difficulty.Medium) timeRemaining = TheLetterManager.CalculatePoints(foundWord);
+            else timeRemaining = TheLetterManager.CalculatePoints(foundWord) - 5;
         }
 
         private void ChangeLetters(string word, int firstLetterIndex, int secondLetterIndex)

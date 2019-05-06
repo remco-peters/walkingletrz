@@ -33,7 +33,10 @@ namespace Assets.Scripts
 
         public void InitStartingLetters()
         {
-            FirstPlayerLetters = GetLetters(15);
+            Difficulty difficulty = GameInstance.instance.difficulty;
+            if (difficulty == Difficulty.Easy) FirstPlayerLetters = GetLetters(19);
+            else if (difficulty == Difficulty.Medium) FirstPlayerLetters = GetLetters(15);
+            else FirstPlayerLetters = GetLetters(12);
             char[] startingLetters = GetLetters(2);
             FirstLetter = startingLetters[0];
             SecondLetter =startingLetters[1];

@@ -86,6 +86,11 @@ namespace Assets.Scripts
 
             SetPanelsReady();
             
+            if (GameInstance.instance.difficulty == Difficulty.Easy)
+            {
+                ThirdRow.GetComponent<HorizontalLayoutGroup>().padding.left = 20;
+                ThirdRow.GetComponent<HorizontalLayoutGroup>().padding.right = 20;
+            }
         }
 
         private void SetPanelsReady()

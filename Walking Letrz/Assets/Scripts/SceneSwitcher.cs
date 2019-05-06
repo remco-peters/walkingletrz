@@ -1,4 +1,6 @@
-﻿using I2.Loc;
+﻿using Assets.Scripts;
+using I2.Loc;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,5 +21,23 @@ public class SceneSwitcher : MonoBehaviour
     public static void SwitchSceneStatic(string SceneName)
     {
         SceneManager.LoadScene(SceneName);
+    }
+
+    public void MakeEasyGame()
+    {
+        GameInstance.instance.difficulty = Difficulty.Easy;
+        SwitchScene("GameScene");
+    }
+
+    public void MakeMediumGame()
+    {
+        GameInstance.instance.difficulty = Difficulty.Medium;
+        SwitchScene("GameScene");
+    }
+
+    public void MakeHardGame()
+    {
+        GameInstance.instance.difficulty = Difficulty.Hard;
+        SwitchScene("GameScene");
     }
 }
