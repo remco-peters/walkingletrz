@@ -149,8 +149,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Makkelijk (Binnenkort!)
-      - Easy (Coming soon!)
+      - Makkelijk
+      - Easy
       Flags: 0000
       Languages_Touch: []
     - Term: difficulty_medium
@@ -165,8 +165,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Moeilijk (Binnenkort!)
-      - Hard (Coming soon!)
+      - Moeilijk
+      - Hard
       Flags: 0000
       Languages_Touch: []
     - Term: start_game_btn
@@ -757,7 +757,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1557089646451
+    Google_LastUpdatedVersion: 1557172587215
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
