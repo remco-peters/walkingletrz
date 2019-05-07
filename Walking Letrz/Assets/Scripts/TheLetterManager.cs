@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -40,6 +41,7 @@ namespace Assets.Scripts
             char[] startingLetters = GetLetters(2);
             FirstLetter = startingLetters[0];
             SecondLetter =startingLetters[1];
+            
         }
 
         private void InitCharactersOcurenaceDictionary()
@@ -200,6 +202,7 @@ namespace Assets.Scripts
             else
             {               
                 PlacedWords.Add(word);
+                
                 return true;
             }
             return false;
