@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using I2.Loc;
+using Photon.Pun;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
@@ -84,7 +87,6 @@ public class UIPlayerPanel : UIBehaviour
 
             return Hud.PlayersList;
         }
-        set { }
     }
 
 
@@ -92,6 +94,13 @@ public class UIPlayerPanel : UIBehaviour
     protected override void Start()
     {
         base.Start();
+
+        PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
+        {
+            player.NickName = "PIETJE";
+            OpponentNameTxt.text = player.NickName;
+            OpponentScoreTxt.text = "37";
+        };
 
         InfoPanelImage = InfoTextPanel.GetComponent<Image>();
         InfoPanelImage.color = new Color(1f, 1f, 1f, 0f);
@@ -346,7 +355,7 @@ public class UIPlayerPanel : UIBehaviour
                 OpponentScoreTxt.text = $"{p.EarnedPoints}";
                 break;
             case 1:
-                OpponentNameTxtSecond.text = p.name;
+                OpponentNameTxtSecond.text = p.Name;
                 OpponentScoreTxtSecond.text = $"{p.EarnedPoints}";
                 break;
             case 2:

@@ -12,6 +12,8 @@ namespace Assets.Scripts
         public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
+        public int WordsWithTwelveLetters { get; set; }
+        public int AmountOfWordsPerMinute { get; set; }
 
         public static bool joinedRoom = false;
 

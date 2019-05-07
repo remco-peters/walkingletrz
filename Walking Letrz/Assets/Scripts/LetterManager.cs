@@ -76,23 +76,16 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-               
-            PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
-            {
-                
-                if (PhotonNetwork.CountOfPlayers > 1) return;
-                InitStartingLetters();
-                InitFirstLetters();
-                InitPlacedLetterPositions();
-                PhotonManager.PhotonInstance.OnJoinedRoomDelegate = null;
-            };
+//            InitStartingLetters();
+//            InitFirstLetters();
+//            InitPlacedLetterPositions();
         }
 
         private void Start()
         {
-//            InitStartingLetters();
-//            InitFirstLetters();
-//            InitPlacedLetterPositions();
+            InitStartingLetters();
+            InitFirstLetters();
+            InitPlacedLetterPositions();
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -326,6 +319,10 @@ namespace Assets.Scripts
                     if (DoubleWordValue) points *= 2;
                     DoubleWordValue = false;
                     Player.EarnedPoints += points;
+                    if(madeWord.Count() == 12)
+                    {
+                        Player.WordsWithTwelveLetters++;
+                    }
                     //ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
                     PlaceWordInGameBoard(points);

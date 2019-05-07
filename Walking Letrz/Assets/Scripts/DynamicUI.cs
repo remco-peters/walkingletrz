@@ -2,6 +2,7 @@
 using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -43,6 +44,7 @@ public class DynamicUI : MyMonoBehaviour
     void Awake()
     {
         TheLetterManagerClass = Spawn(TheLetterManagerClass, this);
+        
     }
 
     // Start is called before the first frame update
@@ -57,16 +59,20 @@ public class DynamicUI : MyMonoBehaviour
         Assert.IsNotNull(TheLetterManagerClass, "TheLetterManagerClass misses in GameState");
 
         AchievementManager achievementManager = Instantiate(AchievementManagerClass);
-        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
-        player.IsInTutorial = Tutorial;
+        MyPlayer localPlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion()).GetComponent<MyPlayer>();
+        localPlayer.AchievementManager = achievementManager;
+        localPlayer.name = "Ik";
+        localPlayer.Credit = CreditClass;
+//        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
+        localPlayer.IsInTutorial = Tutorial;
         HUD HUD = Instantiate(HUDClass);
-        HUD.Player = player;
+        HUD.Player = localPlayer;
         
         LetterManagerClass = Spawn(LetterManagerClass, this, letterManager =>
         {
             letterManager.DynamicUi = this;
             letterManager.TheLetterManager = TheLetterManagerClass;
-            letterManager.Player = player;
+            letterManager.Player = localPlayer;
             letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
             letterManager.PlaceHolderObject = PlaceHolderObject;
             letterManager.FirstRow = FirstRow;
@@ -101,7 +107,7 @@ public class DynamicUI : MyMonoBehaviour
         });
         
         //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
-        PlayerManagerClass.Players = new List<Player> { player, BotClass };//todo add bots or other players
+        PlayerManagerClass.Players = new List<Player> { localPlayer/*, BotClass */};//todo add bots or other players
 
         HUD.PlayersList = PlayerManagerClass.Players;
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -10,7 +11,15 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate = (player) => { };
+            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
+            {
+
+                Player remotePlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion())
+                    .GetComponent<Player>();
+//                remotePlayer.Name = "Jantje";
+                remotePlayer.Name = "Peter";
+                    Players.Add(remotePlayer);
+            };
         }
 
         public void NextTurn()
