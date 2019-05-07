@@ -27,23 +27,24 @@ public class SceneSwitcher : MonoBehaviour
     public void MakeEasyGame()
     {
         GameInstance.instance.difficulty = Difficulty.Easy;
-        SwitchScene("GameScene");
+        SwitchScene("BoosterScene");
     }
 
     public void MakeMediumGame()
     {
-        GameInstance.instance.difficulty = Difficulty.Medium;
         PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
         {
             PhotonNetwork.LoadLevel("GameScene");
         };
 //        SwitchScene("GameScene");
         
+        //Todo: fixen
+//        SwitchScene("BoosterScene");
     }
 
     public void MakeHardGame()
     {
         GameInstance.instance.difficulty = Difficulty.Hard;
-        SwitchScene("GameScene");
+        SwitchScene("BoosterScene");
     }
 }
