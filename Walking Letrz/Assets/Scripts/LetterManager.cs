@@ -129,32 +129,21 @@ namespace Assets.Scripts
 
         public void InitFirstLetters()
         {
-            int version = 2;
-            int row = 0;
-            int index = 0;
             char[] startingLetters = TheLetterManager.FirstPlayerLetters;
             for (int i = 0; i < startingLetters.Length; i++)
             {
-                if(version == 2)
+                if(i < 5)
                 {
-                    if(i < 5)
-                    {
-                        row = 1;
-                        index = i + 2;
-                    }
-                    else if(i < 12)
-                    {
-                        row = 2;
-                        index = i - 5;
-                    }
-                    else
-                    {
-                        row = 3;
-                        index = i - 12;
-                    }
+                    InstantiateLetterButton(startingLetters[i], false, false, 1, i + 2);
                 }
-                
-                LetterBlock letterBlock = InstantiateLetterButton(startingLetters[i], false, false, row, index);
+                else if(i < 12)
+                {
+                    InstantiateLetterButton(startingLetters[i], false, false, 2, i - 5);
+                }
+                else
+                {
+                    InstantiateLetterButton(startingLetters[i], false, false, 3, i - 12);
+                }                                           
             }
             InitPlayerLetters();
         }
