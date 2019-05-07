@@ -118,7 +118,9 @@ public class AccountManager : MonoBehaviour
             "Wins",
             "GamesPlayed",
             "TotalScore",
-            "WordCount"
+            "WordCount",
+            "AmountOfWordsPerMin",
+            "WordLengthOfTwelve"
         };
         getStatistics.StatisticNames = statisticNames;
         PlayFabClientAPI.GetPlayerStatistics(getStatistics, OnStatisticsSuccess, OnFailure);

@@ -296,6 +296,10 @@ namespace Assets.Scripts
                     if (DoubleWordValue) points *= 2;
                     DoubleWordValue = false;
                     Player.EarnedPoints += points;
+                    if(madeWord.Count() == 12)
+                    {
+                        Player.WordsWithTwelveLetters++;
+                    }
                     //ShowScoreGainedText(points);
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
                     PlaceWordInGameBoard(points);

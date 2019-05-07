@@ -13,6 +13,7 @@ public class AchievementOverviewScript : MonoBehaviour
 
     void Start()
     {
+        #region oldStuff
         /*
         if(AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordCount") != null)
         {
@@ -102,6 +103,7 @@ public class AchievementOverviewScript : MonoBehaviour
         }
         newItem2.transform.SetParent(ContentHolder.transform, false);
         */
+        #endregion oldStuff
 
         var achievements = AccountManager.instance.listOfAchievements.GroupBy(item => item.Name).OrderBy(item => item.Key);
 
@@ -128,7 +130,7 @@ public class AchievementOverviewScript : MonoBehaviour
                 at = achievement.Last();
             }
 
-            item.SetAchievementTitle(LocalizationManager.GetTranslation(achievement.Key) + " (level " + at.Level + " van " + lastAchievement.Level + ")");
+            item.SetAchievementTitle($"{LocalizationManager.GetTranslation(achievement.Key)} ({LocalizationManager.GetTranslation("achievement_level")} {at.Level} {LocalizationManager.GetTranslation("achievement_of")} {lastAchievement.Level})");
             item.SetStartPointTxt(earnedPoints.ToString());
             item.SetEndPointTxt(at.Amount.ToString());
             decimal percentage = System.Math.Round((decimal)earnedPoints / at.Amount, 2);

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts;
 using I2.Loc;
 using UnityEngine;
@@ -8,7 +9,10 @@ public class AchievementManager : MyMonoBehaviour
 {
     private int _wordCount;
     private long _points;
+    private int _wordPerMinute;
+    private int _wordOfTwelve;
     public MyPlayer Player { get; set; }
+    private Achievement TotalPointsAchievement;
 
     private void Awake()
     {
@@ -32,7 +36,9 @@ public class AchievementManager : MyMonoBehaviour
         string wordsPre = LocalizationManager.GetTranslation("achievement_words_prefix");
         string wordsSuf = LocalizationManager.GetTranslation("achievement_words");
         string returnString = "";
-        if (PlayerPrefs.GetInt("25PointAchievement") == 0 && _points >= 25)
+
+        #region oldStuff
+        /*if (PlayerPrefs.GetInt("25PointAchievement") == 0 && _points >= 25)
         {
             PlayerPrefs.SetInt("25PointAchievement", 1);
             Player.Credit.AddCredits(10);
@@ -79,6 +85,122 @@ public class AchievementManager : MyMonoBehaviour
             PlayerPrefs.SetInt("25WordAchievement", 1);
             Player.Credit.AddCredits(50);
             returnString = $"{achievement} {wordsPre} 25 {wordsSuf}";
+        }
+        //return returnString;
+        */
+        #endregion oldStuff
+
+        var achievements = AccountManager.instance.listOfAchievements.GroupBy(item => item.Name).OrderBy(item => item.Key);
+        // Lijst van achievements per naam gesorteerd, key = Name
+        foreach (var achievementGroup in achievements)
+        {
+            // De laatste achievement ophalen voor gegevens (naam in playfab)
+            Achievement lastAchievement = achievementGroup.Last();
+            bool doesStatExists = false;
+            // Het aantal verdiende punten / gelegde woorden die tot nu toe behaald is ophalen
+            int earnedPoints = 0;
+            if (AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab) != null)
+            {
+                earnedPoints = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value;
+                doesStatExists = true;
+            }
+            
+            switch(achievementGroup.Key)
+            {
+                case "AmountOfWordsPerMin":
+                    // Checken of het behaald aantal woorden per minuut hoger is dan de woorden per minuut tot nu toe
+                    if (_wordPerMinute > earnedPoints)
+                    {
+                        // Achievement ophalen waar hij/zij op dit moment mee bezig is
+                        Achievement currentAchievement = achievementGroup.FirstOrDefault(x => earnedPoints < x.Amount && x.Name == "AmountOfWordsPerMin");
+                        if (currentAchievement == null)
+                        {
+                            currentAchievement = achievementGroup.Last();
+                        }
+                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _wordPerMinute < x.Amount && x.Name == "AmountOfWordsPerMin");
+                        if (checkAchievement.Level > currentAchievement.Level)
+                        {
+                            // Set value in statistics
+                            if(doesStatExists)
+                            {
+                                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = _wordPerMinute;
+                            }
+                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                        }
+                    }
+                    break;
+                case "PointsInGame":
+                    {
+                        // Checken of het behaald aantal punten hoger is dan de punten tot nu toe
+                        if(_points > earnedPoints)
+                        {
+                            // Achievement ophalen waar hij/zij op dit moment mee bezig is
+                            Achievement currentAchievement = achievementGroup.FirstOrDefault(x => earnedPoints < x.Amount && x.Name == "PointsInGame");
+                            if (currentAchievement == null)
+                            {
+                                currentAchievement = achievementGroup.Last();
+                            }
+                            Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _points < x.Amount && x.Name == "PointsInGame");
+                            if (checkAchievement.Level > currentAchievement.Level)
+                            {
+                                if(doesStatExists)
+                                {
+                                    // Set value in statistics
+                                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = (int)_points;
+                                }
+                                returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                            }
+                        }
+                        break;
+                    }
+                case "PointsTotal":
+                    {
+                        // Achievement ophalen waar hij/zij op dit moment mee bezig is
+                        Achievement currentAchievement = achievementGroup.FirstOrDefault(x => earnedPoints < x.Amount && x.Name == "PointsTotal");
+                        if (currentAchievement == null)
+                        {
+                            currentAchievement = achievementGroup.Last();
+                        }
+                        
+                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => earnedPoints + _points < x.Amount && x.Name == "PointsTotal");
+
+                        if (checkAchievement.Level > currentAchievement.Level && TotalPointsAchievement != checkAchievement)
+                        {
+                            if (doesStatExists)
+                            {
+                                // Set value in statistics
+                                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = earnedPoints;
+                                TotalPointsAchievement = checkAchievement;
+                            }
+                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                        }
+                        break;
+                    }
+                case "WordLengthOfTwelve":
+                    // Checken of het behaald aantal woorden per minuut hoger is dan de woorden per minuut tot nu toe
+                    if (_wordOfTwelve > earnedPoints)
+                    {
+                        // Achievement ophalen waar hij/zij op dit moment mee bezig is
+                        Achievement currentAchievement = achievementGroup.FirstOrDefault(x => earnedPoints < x.Amount && x.Name == "WordLengthOfTwelve");
+                        if (currentAchievement == null)
+                        {
+                            currentAchievement = achievementGroup.Last();
+                        }
+                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _points < x.Amount && x.Name == "WordLengthOfTwelve");
+                        if (checkAchievement.Level > currentAchievement.Level)
+                        {
+                            if(doesStatExists)
+                            {
+                                // Set value in statistics
+                                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = _wordOfTwelve;
+                            }
+                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
         return returnString;
     }

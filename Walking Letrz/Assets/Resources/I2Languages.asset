@@ -129,6 +129,22 @@ MonoBehaviour:
       - words in total
       Flags: 0000
       Languages_Touch: []
+    - Term: achievement_of
+      TermType: 0
+      Description: 
+      Languages:
+      - van
+      - of
+      Flags: 0000
+      Languages_Touch: []
+    - Term: achievement_level
+      TermType: 0
+      Description: 
+      Languages:
+      - level
+      - level
+      Flags: 0000
+      Languages_Touch: []
     - Term: achievement_points
       TermType: 0
       Description: 
@@ -615,8 +631,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Aan de oranje kleur is te zien of je zelf aan de beurt bent of dat een tegenstander
-        aan de beurt is
+      - Aan de oranje kleur is te zien of jij aan de beurt bent of dat een tegenstander
+        aan de beurt is.
       - The orange color shows if it's your turn or the turn of an opponent.
       Flags: 0000
       Languages_Touch: []
@@ -757,7 +773,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1557172587215
+    Google_LastUpdatedVersion: 1557230096992
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

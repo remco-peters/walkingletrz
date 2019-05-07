@@ -96,7 +96,7 @@ public class MatchResultScript : MonoBehaviour
             var statistic = new StatisticUpdate();
 
             // if new points are more than other points, put the new points
-            if (p.Points > previousScore)
+            if (p.Points > previousScore || p.Points == previousScore)
             {
                 statistic = new StatisticUpdate {StatisticName = "Score", Value = (int) p.Points};
                 statistics.Add(statistic);
@@ -161,11 +161,7 @@ public class MatchResultScript : MonoBehaviour
             statistic = new StatisticUpdate
                 {Value = totalScore + (int) p.Points ?? (int) p.Points, StatisticName = "TotalScore"};
             statistics.Add(statistic);
-            if (AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore") != null)
-            {
-                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore").Value += (int)p.Points;
-            }
-            else
+            if (AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore") == null)
             {
                 AccountManager.CurrentPlayer.Statistics.Add(
                     new StatisticModel
