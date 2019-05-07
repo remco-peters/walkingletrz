@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Internal.Experimental.UIElements;
@@ -72,12 +73,26 @@ namespace Assets.Scripts
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
         #endregion positions
-       
+
+        private void Awake()
+        {
+               
+            PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
+            {
+                
+                if (PhotonNetwork.CountOfPlayers > 1) return;
+                InitStartingLetters();
+                InitFirstLetters();
+                InitPlacedLetterPositions();
+                PhotonManager.PhotonInstance.OnJoinedRoomDelegate = null;
+            };
+        }
+
         private void Start()
         {
-            InitStartingLetters();
-            InitFirstLetters();
-            InitPlacedLetterPositions();
+//            InitStartingLetters();
+//            InitFirstLetters();
+//            InitPlacedLetterPositions();
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -97,6 +112,7 @@ namespace Assets.Scripts
         {
             PointsGainedPanelImage = PointsGainedPanel.GetComponent<Image>();
             PointsGainedPanelImage.color = new Color(1f, 1f, 1f, 0f);
+            PointsGainedText = PointsGainedPanel.GetComponentInChildren<Text>();
             PointsGainedText.color = new Color(1f, 1f, 1f, 0f);
         }
 
@@ -240,12 +256,26 @@ namespace Assets.Scripts
             if(isFirstLetter || isSecondLetter)
             {
                 block = FixedLettersBlockObject;
+                block = PhotonNetwork.Instantiate("FixedLetterBlock", new Vector3(), new Quaternion(), 1, new object[] { letter.ToString()})
+                    .GetComponent<LetterBlock>();
+                block.IsFirstLetter = isFirstLetter;
+                block.IsSecondLetter = isSecondLetter;
+                block.OnLetterTouched += LetterTouched;
+                //Todo
+                //lttrBlock.OnLetterDragged += LetterDragged;
+                block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+                block.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
+                GameObject parentRow = GetRightRow(row);
+                block.transform.SetParent(parentRow.transform, false);
+                if(index != null)
+                {
+                    block.transform.SetSiblingIndex((int)index);
+                }
+                PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+                return block;
             } 
-            else
-            {
-                block = PlayerLetterBlockObject;
-            }
-
+            
+            block = PlayerLetterBlockObject;
             return Spawn(block, this, lttrBlock =>
             {
                 lttrBlock.IsFirstLetter = isFirstLetter;
@@ -306,6 +336,7 @@ namespace Assets.Scripts
                     RemoveAllLettersFromPlayerBoard();
                     ChangeFixedLetters(madeWord);
                     GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
+//                    GameBoardWordContainer.GetComponentInChildren<GameboardScroll>().ScrollDownBar();
                     DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);

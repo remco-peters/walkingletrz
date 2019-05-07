@@ -1,16 +1,24 @@
 using System.Collections.Generic;
 using Assets.Scripts;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 
-public class GameState : MyMonoBehaviour
+public class GameState : MonoBehaviourPunCallbacks
 {
     public DynamicUI MediumGameBoard;
     public Camera CameraClass;
     public AchievementManager AchievementManagerClass;
     private bool Tutorial;
     
-
+    public UnityAction OnJoinedLobbyDelegate;
+    public UnityAction OnJoinedRoomDelegate;
+    
+    private UnityAction OnCreatedRoomDelegate;
+    private UnityAction<short, string> OnCreateRoomFailedDelegate;
+    
     // Start is called before the first frame update
     void Start()
     {

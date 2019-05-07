@@ -15,10 +15,13 @@ namespace Assets.Scripts
         public int WordsWithTwelveLetters { get; set; }
         public int AmountOfWordsPerMinute { get; set; }
 
+        public static bool joinedRoom = false;
+
         public void Awake()
         {
             TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
+            
         }
 
         public void Start()
@@ -28,6 +31,7 @@ namespace Assets.Scripts
 
         public void Update()
         {
+            if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
             if (TimeRemaining <= 0)

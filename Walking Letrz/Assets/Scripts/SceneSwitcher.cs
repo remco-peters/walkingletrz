@@ -26,18 +26,18 @@ public class SceneSwitcher : MonoBehaviour
     public void MakeEasyGame()
     {
         GameInstance.instance.difficulty = Difficulty.Easy;
-        SwitchScene("GameScene");
+        SwitchScene("BoosterScene");
     }
 
     public void MakeMediumGame()
     {
         GameInstance.instance.difficulty = Difficulty.Medium;
-        SwitchScene("GameScene");
+        SwitchScene("BoosterScene");
     }
 
     public void MakeHardGame()
     {
         GameInstance.instance.difficulty = Difficulty.Hard;
-        SwitchScene("GameScene");
+        SwitchScene("BoosterScene");
     }
 }

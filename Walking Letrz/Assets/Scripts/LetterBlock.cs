@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class LetterBlock : MyMonoBehaviour
+public class LetterBlock : MyMonoBehaviour, IPunObservable
 {
     public event UnityAction<LetterBlock> OnLetterTouched;
     public event UnityAction<LetterBlock> OnLetterDragged;
@@ -157,4 +158,20 @@ public class LetterBlock : MyMonoBehaviour
         return GetComponentInChildren<Text>().text[0];
     }
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        Debug.Log("Onphotonserializeview");
+        if (stream.IsWriting)
+        {
+            stream.SendNext(GetComponentInChildren<Text>().text);
+            Debug.Log("Onphoton send next");
+        }
+        else
+        {
+            var next = stream.ReceiveNext();
+            Debug.Log(next.ToString());
+            GetComponentInChildren<Text>().text = (string) next;
+            Debug.Log("Onphoton receive next");
+        }
+    }
 }

@@ -7,7 +7,12 @@ namespace Assets.Scripts
     public class PlayerManager : MyMonoBehaviour
     {
         public List<Player> Players { get; set; }
-        
+
+        private void Awake()
+        {
+            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate = (player) => { };
+        }
+
         public void NextTurn()
         {
             int index = Players.IndexOf(GetCurrentActivePlayer());
@@ -32,6 +37,14 @@ namespace Assets.Scripts
                 //todo somehow get the walkingletterz of the player
                 LetterBlock firstLetter = player.LetterManager.InstantiateLetterButton(FirstLetter, true, false, 0, 0);
                 LetterBlock secondLetter = player.LetterManager.InstantiateLetterButton(SecondLetter, false, true, 0, 1);
+            }
+        }
+
+        private void AddNewPlayer(Photon.Realtime.Player player)
+        {
+            if (Players != null)
+            {
+//                Players.Add(player);
             }
         }
     }
