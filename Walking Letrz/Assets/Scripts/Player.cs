@@ -13,10 +13,13 @@ namespace Assets.Scripts
         public TheLetterManager TheLetterManager { get; set; }
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
 
+        public static bool joinedRoom = false;
+
         public void Awake()
         {
             TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
+            
         }
 
         public void Start()
@@ -26,6 +29,7 @@ namespace Assets.Scripts
 
         public void Update()
         {
+            if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
             if (TimeRemaining <= 0)
