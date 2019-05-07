@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts;
 using I2.Loc;
 using System.Collections;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,7 +33,12 @@ public class SceneSwitcher : MonoBehaviour
     public void MakeMediumGame()
     {
         GameInstance.instance.difficulty = Difficulty.Medium;
-        SwitchScene("GameScene");
+        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
+        {
+            PhotonNetwork.LoadLevel("GameScene");
+        };
+//        SwitchScene("GameScene");
+        
     }
 
     public void MakeHardGame()

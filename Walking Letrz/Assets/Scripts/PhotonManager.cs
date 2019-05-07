@@ -13,6 +13,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public UnityAction OnJoinedLobbyDelegate;
     public UnityAction OnJoinedRoomDelegate;
     public UnityAction<Photon.Realtime.Player> OnPlayerJoinedDelegate;
+    public UnityAction<Photon.Realtime.Player> OnPlayerLeftDelegate;
     
     private UnityAction OnCreatedRoomDelegate;
     private UnityAction<short, string> OnCreateRoomFailedDelegate;
@@ -21,6 +22,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();
 
         if (!success)
@@ -130,6 +132,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         Debug.Log("doei doei");
+        OnPlayerLeftDelegate(otherPlayer);
     }
 
     #region PhotonManager singleton thingy
@@ -143,6 +146,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 GameObject GameObject = new GameObject("PhotonManager");
 
                 _photonManager = GameObject.AddComponent<PhotonManager>();
+                DontDestroyOnLoad(_photonManager);
             }
 
             return _photonManager;
