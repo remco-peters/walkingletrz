@@ -31,6 +31,8 @@ public class GameState : MonoBehaviourPunCallbacks
         DynamicUI GBoard = Instantiate(MediumGameBoard);
         GBoard.Tutorial = GetTutorial();
         Instantiate(CameraClass);
+
+//        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () => { };
     }
 
     private void DeleteAchievements()
