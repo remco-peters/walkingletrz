@@ -14,6 +14,8 @@ namespace Assets.Scripts
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
         public int WordsWithTwelveLetters { get; set; }
         public int AmountOfWordsPerMinute { get; set; }
+        public int AmountOfWordsPerMinuteFinal { get; set; }
+        private float Seconds = 0;
 
         public static bool joinedRoom = false;
 
@@ -21,7 +23,6 @@ namespace Assets.Scripts
         {
             TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
-            
         }
 
         public void Start()
@@ -34,6 +35,12 @@ namespace Assets.Scripts
             if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
+            Seconds += Time.deltaTime;
+            if(Seconds >= 60)
+            {
+                AmountOfWordsPerMinute = 0;
+                Seconds = 0;
+            }
             if (TimeRemaining <= 0)
             {
                 //CanMove = false;

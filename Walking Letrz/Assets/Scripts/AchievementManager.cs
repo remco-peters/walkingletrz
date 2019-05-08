@@ -13,6 +13,7 @@ public class AchievementManager : MyMonoBehaviour
     private int _wordOfTwelve;
     public MyPlayer Player { get; set; }
     private Achievement TotalPointsAchievement;
+    private Achievement WordsPerMinteAchievement;
 
     private void Awake()
     {
@@ -27,6 +28,16 @@ public class AchievementManager : MyMonoBehaviour
     internal void SubmitPointsToAchievements(long points)
     {
         _points = points;
+    }
+
+    public void SubmitTwelveCharWordToAchievements(int amount)
+    {
+        _wordOfTwelve = amount;
+    }
+
+    public void SubmitWordCountPerMinuteToAchievements(int amount)
+    {
+        _wordPerMinute = amount;
     }
 
     internal string CheckIfAchievementIsGet()
@@ -118,14 +129,19 @@ public class AchievementManager : MyMonoBehaviour
                             currentAchievement = achievementGroup.Last();
                         }
                         Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _wordPerMinute < x.Amount && x.Name == "AmountOfWordsPerMin");
-                        if (checkAchievement.Level > currentAchievement.Level)
+                        if (checkAchievement.Level > currentAchievement.Level && WordsPerMinteAchievement != checkAchievement)
                         {
                             // Set value in statistics
                             if(doesStatExists)
                             {
                                 AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = _wordPerMinute;
+                            } else
+                            {
+                                Player.AmountOfWordsPerMinuteFinal = _wordPerMinute;
                             }
-                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                            WordsPerMinteAchievement = checkAchievement;
+                            Player.Credit.AddCredits(checkAchievement.Credits);
+                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Credits} {points})";
                         }
                     }
                     break;
@@ -148,7 +164,8 @@ public class AchievementManager : MyMonoBehaviour
                                     // Set value in statistics
                                     AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = (int)_points;
                                 }
-                                returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                                Player.Credit.AddCredits(checkAchievement.Credits);
+                                returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Credits} {points})";
                             }
                         }
                         break;
@@ -172,7 +189,8 @@ public class AchievementManager : MyMonoBehaviour
                                 AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = earnedPoints;
                                 TotalPointsAchievement = checkAchievement;
                             }
-                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                            Player.Credit.AddCredits(checkAchievement.Credits);
+                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Credits} {points})";
                         }
                         break;
                     }
@@ -186,7 +204,7 @@ public class AchievementManager : MyMonoBehaviour
                         {
                             currentAchievement = achievementGroup.Last();
                         }
-                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _points < x.Amount && x.Name == "WordLengthOfTwelve");
+                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _wordOfTwelve < x.Amount && x.Name == "WordLengthOfTwelve");
                         if (checkAchievement.Level > currentAchievement.Level)
                         {
                             if(doesStatExists)
@@ -194,7 +212,8 @@ public class AchievementManager : MyMonoBehaviour
                                 // Set value in statistics
                                 AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = _wordOfTwelve;
                             }
-                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Amount} {points})";
+                            Player.Credit.AddCredits(checkAchievement.Credits);
+                            returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Credits} {points})";
                         }
                     }
                     break;

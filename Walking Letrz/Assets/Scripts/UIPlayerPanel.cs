@@ -284,6 +284,8 @@ public class UIPlayerPanel : UIBehaviour
             pd.place = i + 1;
             pd.timeLeft = p.TimeRemaining;
             pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
+            pd.WordCountTwelveLetters = p.WordsWithTwelveLetters;
+            pd.FinalWordCountPerMinute = p.AmountOfWordsPerMinuteFinal;
             if (p == Player)
             {
                 var myPlayer = (MyPlayer) p;

@@ -46,8 +46,11 @@ public class MyPlayer : Player
     
     public void IncreaseWordCount()
     {
+        AmountOfWordsPerMinute++;
+        AchievementManager.SubmitWordCountPerMinuteToAchievements(AmountOfWordsPerMinute);
         AchievementManager.SubmitWordCountToAchievements(++placedWordCount);
         AchievementManager.SubmitPointsToAchievements(EarnedPoints);
+        AchievementManager.SubmitTwelveCharWordToAchievements(WordsWithTwelveLetters);
         InfoText = AchievementManager.CheckIfAchievementIsGet();
     }
 

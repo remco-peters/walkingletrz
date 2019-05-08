@@ -12,5 +12,7 @@ namespace Assets.Scripts
         public List<string> BestWords = null;
         public int WordCount = 0;
         public float timeLeft;
+        public int WordCountTwelveLetters = 0;
+        public int FinalWordCountPerMinute = 0;
     }
 }

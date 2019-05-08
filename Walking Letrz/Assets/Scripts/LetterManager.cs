@@ -319,17 +319,17 @@ namespace Assets.Scripts
                     if (DoubleWordValue) points *= 2;
                     DoubleWordValue = false;
                     Player.EarnedPoints += points;
+                    
                     if(madeWord.Count() == 12)
                     {
                         Player.WordsWithTwelveLetters++;
                     }
-                    //ShowScoreGainedText(points);
-                    //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList());
+
+                    //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList()); Verplaatsen naar TheLetterManager
                     PlaceWordInGameBoard(points);
                     RemoveAllLettersFromPlayerBoard();
                     ChangeFixedLetters(madeWord);
                     GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
-//                    GameBoardWordContainer.GetComponentInChildren<GameboardScroll>().ScrollDownBar();
                     DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);

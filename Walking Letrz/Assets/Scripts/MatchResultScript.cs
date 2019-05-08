@@ -80,6 +80,8 @@ public class MatchResultScript : MonoBehaviour
             int? gamesPlayed = 0;
             int? totalScore = 0;
             int? wordCount = 0;
+            int? AmountOfWordsPerMin = 0;
+            int? AmountOfWordLenghtOfTwelve = 0;
             bool statisticsPresent = false;
             if (AccountManager.CurrentPlayer.Statistics.Count > 0)
             {
@@ -89,6 +91,8 @@ public class MatchResultScript : MonoBehaviour
                 gamesPlayed = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "GamesPlayed")?.Value;
                 totalScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore")?.Value;
                 wordCount = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordCount")?.Value;
+                AmountOfWordsPerMin = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "AmountOfWordsPerMin")?.Value;
+                AmountOfWordLenghtOfTwelve = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve")?.Value;
             }
 
             var updateStatisticsRequest = new UpdatePlayerStatisticsRequest();
@@ -189,6 +193,47 @@ public class MatchResultScript : MonoBehaviour
                     }
                 );
             }
+
+            if (p.WordCountTwelveLetters > AmountOfWordLenghtOfTwelve)
+            {
+                statistic = new StatisticUpdate { StatisticName = "WordLengthOfTwelve", Value = (int)p.WordCountTwelveLetters };
+                statistics.Add(statistic);
+
+                // When statistics aren't present, set these to currentPlayer
+                if (!statisticsPresent)
+                {
+                    AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
+                    {
+                        new StatisticModel
+                        {
+                            Value = (int) p.WordCountTwelveLetters,
+                            Name = "WordLengthOfTwelve"
+                        }
+                    };
+                }
+                else
+                {
+                    // If they are present, make sure the new score is added to currentPlayer
+                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve").Value = (int)p.WordCountTwelveLetters;
+                }
+            }
+            
+            statistic = new StatisticUpdate { StatisticName = "AmountOfWordsPerMin", Value = AmountOfWordsPerMin ?? p.FinalWordCountPerMinute };
+            statistics.Add(statistic);
+
+            // When statistics aren't present, set these to currentPlayer
+            if (!statisticsPresent)
+            {
+                AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
+                {
+                    new StatisticModel
+                    {
+                        Value = p.FinalWordCountPerMinute,
+                        Name = "AmountOfWordsPerMin"
+                    }
+                };
+            }
+            
 
             if (statistics.Count <= 0) return;
             updateStatisticsRequest.Statistics = statistics;
