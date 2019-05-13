@@ -86,6 +86,7 @@ namespace Assets.Scripts
             InitStartingLetters();
             InitFirstLetters();
             InitPlacedLetterPositions();
+            InitBoosterButtons();
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -118,6 +119,34 @@ namespace Assets.Scripts
         {
             FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
             SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
+        }
+
+        private void InitBoosterButtons()
+        {
+            List<GameObject> boosters = new List<GameObject>
+            {
+                BoosterBtn.gameObject,
+                TradeFixedLetterSBtn.gameObject
+            };
+            List<string> selectedBoosters = GameInstance.instance.selectedBoosters;
+            for (int i = 0; i < 3; i++)
+            {
+                string boosterName = i < selectedBoosters.Count ? selectedBoosters[i] : "";
+                GameObject p;
+                switch (boosterName)
+                {
+                    case "BoosterBtn1":
+                        p = Instantiate(DoubleWordValueBtn).gameObject;
+                        break;
+                    case "BoosterBtn2":
+                        p = Instantiate(TradeFixedLetterSBtn).gameObject;
+                        break;
+                    default:
+                        p = Instantiate(PlaceHolderObject);
+                        break;
+                }           
+                p.transform.SetParent(BoosterBoard.transform);
+            }
         }
 
         public List<LetterPosition> GetPlayerLetters()
