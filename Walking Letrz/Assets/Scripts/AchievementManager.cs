@@ -14,6 +14,7 @@ public class AchievementManager : MyMonoBehaviour
     public MyPlayer Player { get; set; }
     private Achievement TotalPointsAchievement;
     private Achievement WordsPerMinteAchievement;
+    private Achievement TwelveLengthWordAchievement;
 
     private void Awake()
     {
@@ -205,13 +206,15 @@ public class AchievementManager : MyMonoBehaviour
                             currentAchievement = achievementGroup.Last();
                         }
                         Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _wordOfTwelve < x.Amount && x.Name == "WordLengthOfTwelve");
-                        if (checkAchievement.Level > currentAchievement.Level)
+                        if (checkAchievement.Level > currentAchievement.Level && TwelveLengthWordAchievement != checkAchievement)
                         {
                             if(doesStatExists)
                             {
                                 // Set value in statistics
                                 AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = _wordOfTwelve;
                             }
+                            Debug.Log(_wordOfTwelve + " Achievement");
+                            TwelveLengthWordAchievement = checkAchievement;
                             Player.Credit.AddCredits(checkAchievement.Credits);
                             returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Credits} {points})";
                         }

@@ -196,7 +196,7 @@ public class MatchResultScript : MonoBehaviour
 
             if (p.WordCountTwelveLetters > AmountOfWordLenghtOfTwelve)
             {
-                statistic = new StatisticUpdate { StatisticName = "WordLengthOfTwelve", Value = (int)p.WordCountTwelveLetters };
+                statistic = new StatisticUpdate { StatisticName = "WordLengthOfTwelve", Value = p.WordCountTwelveLetters };
                 statistics.Add(statistic);
 
                 // When statistics aren't present, set these to currentPlayer
@@ -206,7 +206,7 @@ public class MatchResultScript : MonoBehaviour
                     {
                         new StatisticModel
                         {
-                            Value = (int) p.WordCountTwelveLetters,
+                            Value = p.WordCountTwelveLetters,
                             Name = "WordLengthOfTwelve"
                         }
                     };
@@ -214,11 +214,20 @@ public class MatchResultScript : MonoBehaviour
                 else
                 {
                     // If they are present, make sure the new score is added to currentPlayer
-                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve").Value = (int)p.WordCountTwelveLetters;
+                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve").Value = p.WordCountTwelveLetters;
                 }
+                Debug.Log(p.WordCountTwelveLetters + " MatchResult");
             }
-            
-            statistic = new StatisticUpdate { StatisticName = "AmountOfWordsPerMin", Value = AmountOfWordsPerMin ?? p.FinalWordCountPerMinute };
+
+            int finalAmount;
+            if(p.FinalWordCountPerMinute > AmountOfWordsPerMin)
+            {
+                finalAmount = p.FinalWordCountPerMinute;
+            } else
+            {
+                finalAmount = AmountOfWordsPerMin ?? 0;
+            }
+            statistic = new StatisticUpdate { StatisticName = "AmountOfWordsPerMin", Value = finalAmount };
             statistics.Add(statistic);
 
             // When statistics aren't present, set these to currentPlayer
