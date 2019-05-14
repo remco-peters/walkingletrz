@@ -507,6 +507,8 @@ MonoBehaviour:
     type: 3}
   DoubleWordValueBtn: {fileID: 7561267214987859657, guid: 1412513efd075134a8f6249fa540f5ca,
     type: 3}
+  TripleWordValueBtn: {fileID: 7200069135207676780, guid: 02443617fc5ac22458c37b0db1a2797c,
+    type: 3}
   TradeLettersBtnClass: {fileID: 8983268765662499214}
   EmptyLetterBlockObject: {fileID: 4388394497308393125, guid: 3f4f02693b3ecb842ba3181e3439b5dd,
     type: 3}
