@@ -32,6 +32,7 @@ namespace Assets.Scripts
         public GenericButton TradeFixedLetterSBtn{get;set;}
 
         public GenericButton DoubleWordValueBtn{get;set;}
+        public GenericButton TripleWordValueBtn {get;set;}
         public BoosterBtn BoosterBtn {get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
@@ -65,6 +66,7 @@ namespace Assets.Scripts
         #endregion
 
         private bool DoubleWordValue = false;
+        private bool TripleWordValue = false;
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
         private Image PointsGainedPanelImage;
@@ -84,9 +86,9 @@ namespace Assets.Scripts
         private void Start()
         {
             InitStartingLetters();
+            InitBoosterButtons();
             InitFirstLetters();
             InitPlacedLetterPositions();
-            InitBoosterButtons();
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -123,11 +125,6 @@ namespace Assets.Scripts
 
         private void InitBoosterButtons()
         {
-            List<GameObject> boosters = new List<GameObject>
-            {
-                BoosterBtn.gameObject,
-                TradeFixedLetterSBtn.gameObject
-            };
             List<string> selectedBoosters = GameInstance.instance.selectedBoosters;
             for (int i = 0; i < 3; i++)
             {
@@ -135,10 +132,22 @@ namespace Assets.Scripts
                 GameObject p;
                 switch (boosterName)
                 {
-                    case "BoosterBtn1":
-                        p = Instantiate(DoubleWordValueBtn).gameObject;
+                    case "DoubleWordValue":
+                        DoubleWordValueBtn = Instantiate(DoubleWordValueBtn);
+                        p = DoubleWordValueBtn.gameObject;
                         break;
-                    case "BoosterBtn2":
+                    case "TradeFixedLetters":
+                        TradeFixedLetterSBtn = Instantiate(TradeFixedLetterSBtn);
+                        p = TradeFixedLetterSBtn.gameObject;
+                        break;
+                    case "TripleWordValue":
+                        TripleWordValueBtn = Instantiate(TripleWordValueBtn);
+                        p = TripleWordValueBtn.gameObject;
+                        break;
+                    case "PickFixedLetter":
+                        p = Instantiate(TradeFixedLetterSBtn).gameObject;
+                        break;
+                    case "ExtraTime":
                         p = Instantiate(TradeFixedLetterSBtn).gameObject;
                         break;
                     default:
@@ -196,6 +205,7 @@ namespace Assets.Scripts
             BoosterBtn.OnBoosterTouched += BoosterBtnTouch;
             TradeFixedLetterSBtn.OnTouched += OnTradeFixedTouched;
             DoubleWordValueBtn.OnTouched += DoubleWordOnTouched;
+            TripleWordValueBtn.OnTouched += TripleWordOnTouched;
         }
 
         public void DoubleWordOnTouched()
@@ -203,6 +213,15 @@ namespace Assets.Scripts
             DoubleWordValueBtn.gameObject.SetActive(false);
             BoosterBoard.SetActive(false);
             DoubleWordValue = true;
+            GameObject placedHolder = Instantiate(PlaceHolderObject);
+            placedHolder.transform.SetParent(BoosterBoard.transform, false);
+        }
+
+        public void TripleWordOnTouched()
+        {
+            TripleWordValueBtn.gameObject.SetActive(false);
+            BoosterBoard.SetActive(false);
+            TripleWordValue = true;
             GameObject placedHolder = Instantiate(PlaceHolderObject);
             placedHolder.transform.SetParent(BoosterBoard.transform, false);
         }
@@ -346,7 +365,9 @@ namespace Assets.Scripts
                     int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
                     Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
                     if (DoubleWordValue) points *= 2;
+                    if (TripleWordValue) points *= 3;
                     DoubleWordValue = false;
+                    TripleWordValue = false;
                     Player.EarnedPoints += points;
                     
                     if(madeWord.Count() == 12)
