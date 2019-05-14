@@ -758,6 +758,94 @@ MonoBehaviour:
       - End tutorial
       Flags: 0000
       Languages_Touch: []
+    - Term: shop_credits
+      TermType: 0
+      Description: 
+      Languages:
+      - Credits
+      - Credits
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_boosters
+      TermType: 0
+      Description: 
+      Languages:
+      - Boosters
+      - Boosters
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_sluiten
+      TermType: 0
+      Description: 
+      Languages:
+      - Sluiten
+      - Close
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_small
+      TermType: 0
+      Description: 
+      Languages:
+      - Small Coin Pack (500)
+      - Small Coin Pack (500)
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_medium
+      TermType: 0
+      Description: 
+      Languages:
+      - Medium Coin Pack (1000)
+      - Medium Coin Pack (1000)
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_big
+      TermType: 0
+      Description: 
+      Languages:
+      - Big Coin Pack (5000)
+      - Big Coin Pack (5000)
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_mega
+      TermType: 0
+      Description: 
+      Languages:
+      - Mega Coin Pack (10000)
+      - Mega Coin Pack (10000)
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_small_price
+      TermType: 0
+      Description: 
+      Languages:
+      - "\u20AC 2,39"
+      - "\u20AC 2,39"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_medium_price
+      TermType: 0
+      Description: 
+      Languages:
+      - "\u20AC 3,99"
+      - "\u20AC 3,99"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_big_price
+      TermType: 0
+      Description: 
+      Languages:
+      - "\u20AC 9,99"
+      - "\u20AC 9,99"
+      Flags: 0000
+      Languages_Touch: []
+    - Term: shop_mega_price
+      TermType: 0
+      Description: 
+      Languages:
+      - "\u20AC 14,99"
+      - "\u20AC 14,99"
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -773,7 +861,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1557230096992
+    Google_LastUpdatedVersion: 1557865193102
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
