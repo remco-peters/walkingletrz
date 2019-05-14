@@ -6,13 +6,15 @@ public class ShopButtonHandler : MonoBehaviour
 {
     public GameObject ShopPanel;
 
-    public void OpenShop()
+    public void OpenCloseShop()
     {
-        ShopPanel.SetActive(true);
-    }
-
-    public void CloseShop()
-    {
-        ShopPanel.SetActive(false);
+        if (!ShopPanel.activeInHierarchy)
+        {
+            ShopPanel.SetActive(true);
+        }
+        else
+        {
+            ShopPanel.SetActive(false);
+        }
     }
 }
