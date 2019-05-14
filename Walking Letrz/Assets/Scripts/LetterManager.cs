@@ -134,26 +134,33 @@ namespace Assets.Scripts
                 {
                     case "DoubleWordValue":
                         DoubleWordValueBtn = Instantiate(DoubleWordValueBtn);
+                        Player.Credit.RemoveCredits(40);
                         p = DoubleWordValueBtn.gameObject;
                         break;
                     case "TradeFixedLetters":
                         TradeFixedLetterSBtn = Instantiate(TradeFixedLetterSBtn);
+                        Player.Credit.RemoveCredits(20);
                         p = TradeFixedLetterSBtn.gameObject;
                         break;
                     case "TripleWordValue":
                         TripleWordValueBtn = Instantiate(TripleWordValueBtn);
+                        Player.Credit.RemoveCredits(60);
                         p = TripleWordValueBtn.gameObject;
                         break;
                     case "PickFixedLetter":
+                        Player.Credit.RemoveCredits(35);
                         p = Instantiate(TradeFixedLetterSBtn).gameObject;
                         break;
                     case "ExtraTime":
-                        p = Instantiate(TradeFixedLetterSBtn).gameObject;
+                        Player.TimeRemaining += 30f;
+                        Player.Credit.RemoveCredits(50);
+                        p = Instantiate(PlaceHolderObject);
                         break;
                     default:
                         p = Instantiate(PlaceHolderObject);
                         break;
-                }           
+                }     
+                GameInstance.instance.selectedBoosters = new List<string>();
                 p.transform.SetParent(BoosterBoard.transform);
             }
         }

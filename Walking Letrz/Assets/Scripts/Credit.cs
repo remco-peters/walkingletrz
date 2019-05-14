@@ -11,6 +11,12 @@ public class Credit : MonoBehaviour
         PlayFabClientAPI.AddUserVirtualCurrency(currencyRequest, OnSuccess, OnFailure);
     }
 
+    public void RemoveCredits(int amount)
+    {
+        var currencyRequest = new SubtractUserVirtualCurrencyRequest {VirtualCurrency = "CR", Amount = amount};
+        PlayFabClientAPI.SubtractUserVirtualCurrency(currencyRequest, OnSuccess, OnFailure);
+    }
+
     private void OnSuccess(ModifyUserVirtualCurrencyResult result)
     {
         Debug.Log($"Added currency, new balance: {result.Balance}");
