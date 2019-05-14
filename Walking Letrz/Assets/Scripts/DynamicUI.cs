@@ -107,7 +107,7 @@ public class DynamicUI : MyMonoBehaviour
         });
         
         //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
-        PlayerManagerClass.Players = new List<Player> { localPlayer/*, BotClass */};//todo add bots or other players
+        PlayerManagerClass.Players = new List<Player> { localPlayer, BotClass };//todo add bots or other players
 
         HUD.PlayersList = PlayerManagerClass.Players;
 
