@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -12,10 +13,24 @@ namespace Assets.Scripts
         public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
-        public int WordsWithTwelveLetters { get; set; }
-        public int AmountOfWordsPerMinute { get; set; }
-        public int AmountOfWordsPerMinuteFinal { get; set; }
         private float Seconds = 0;
+        public int WordsWithTwelveLetters { get; set; }
+        private int _amountOfWordsPerMinute;
+        public int AmountOfWordsPerMinute { 
+            get {
+                return _amountOfWordsPerMinute;
+            }
+            set
+            {
+                if (value == 1)
+                {
+                    Seconds = 60;
+                    StartCoroutine(TimerForSeconds());
+                }
+                _amountOfWordsPerMinute = value;
+            }
+        }
+        public int AmountOfWordsPerMinuteFinal { get; set; }
 
         public static bool joinedRoom = false;
 
@@ -27,7 +42,7 @@ namespace Assets.Scripts
 
         public void Start()
         {
-            
+            StartCoroutine(TimerForSeconds());
         }
 
         public void Update()
@@ -35,16 +50,25 @@ namespace Assets.Scripts
             if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
-            Seconds += Time.deltaTime;
-            if(Seconds >= 60)
-            {
-                AmountOfWordsPerMinute = 0;
-                Seconds = 0;
-            }
             if (TimeRemaining <= 0)
             {
                 //CanMove = false;
             }
+        }
+
+        IEnumerator TimerForSeconds()
+        {
+            while(Seconds >= 0)
+            {
+                if (CanMove)
+                {
+                    Seconds--;
+                    yield return new WaitForSeconds(1.0f);
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            Seconds = 0;
+            AmountOfWordsPerMinute = 0;
         }
     }
 }
