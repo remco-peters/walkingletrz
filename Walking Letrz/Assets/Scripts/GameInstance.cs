@@ -13,6 +13,7 @@ public class GameInstance : MonoBehaviour
     private int level = 0;
     public List<PlayerData> PlayerData = new List<PlayerData>();
     public Difficulty difficulty;
+    public long credits{get;set;}
     public List<string> selectedBoosters = new List<string>();
 
     void Awake()

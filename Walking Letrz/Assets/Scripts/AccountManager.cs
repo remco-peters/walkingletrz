@@ -135,9 +135,11 @@ public class AccountManager : MonoBehaviour
     {
         CurrentPlayerInventory = result;
         if(result.VirtualCurrency.TryGetValue("CR", out int balance)) {
+            GameInstance.instance.credits = balance;
             amountOfCredits.text = balance.ToString();
         } else
         {
+            GameInstance.instance.credits = 0;
             amountOfCredits.text = "0";
         }
     }

@@ -160,9 +160,9 @@ namespace Assets.Scripts
                         p = Instantiate(PlaceHolderObject);
                         break;
                 }     
-                GameInstance.instance.selectedBoosters = new List<string>();
                 p.transform.SetParent(BoosterBoard.transform);
             }
+            GameInstance.instance.selectedBoosters = new List<string>();
         }
 
         public List<LetterPosition> GetPlayerLetters()

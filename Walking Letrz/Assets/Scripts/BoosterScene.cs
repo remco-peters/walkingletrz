@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class BoosterScene : MonoBehaviour
 {
     // Start is called before the first frame update
+    private long credits;
     void Start()
     {
-        
+        credits = GameInstance.instance.credits;
     }
 
     // Update is called once per frame
@@ -38,16 +39,26 @@ public class BoosterScene : MonoBehaviour
 
     public void BoosterBtnClick(Toggle toggle)
     {
-        if (GetActiveToggles(toggle.transform.parent.gameObject).Count() > 3)
+        long.TryParse(toggle.transform.Find("Credits")?.GetComponent<Text>()?.text, out long toggleCredits);
+        if (toggleCredits > credits)
+        {
+            toggle.isOn = false;
+            Debug.Log("Not enough credits");
+            return;
+        }
+        else if (GetActiveToggles(toggle.transform.parent.gameObject).Count() > 3)
         {
             toggle.isOn = false;
             Debug.Log("Max 3 boosters");
             return;
         }
-        ColorBlock cb = toggle.colors;
-        cb.normalColor = toggle.isOn ? new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 1) : new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 0.5f);
-        cb.highlightedColor = toggle.isOn ? new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 1) : new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 0.5f);
-        toggle.colors = cb;
-        
+        else
+        {
+            credits += toggle.isOn ? toggleCredits * -1: toggleCredits;
+            ColorBlock cb = toggle.colors;
+            cb.normalColor = toggle.isOn ? new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 1) : new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 0.5f);
+            cb.highlightedColor = toggle.isOn ? new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 1) : new Color(cb.normalColor.r, cb.normalColor.g, cb.normalColor.b, 0.5f);
+            toggle.colors = cb;
+        }      
     }
 }
