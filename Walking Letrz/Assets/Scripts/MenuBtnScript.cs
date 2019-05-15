@@ -8,6 +8,7 @@ public class MenuBtnScript : MonoBehaviour
     public GameObject menuPanel;
     public Sprite arrowLeft;
     private Sprite hamburgerImg;
+    public GameObject ShopPanel;
 
     void Start()
     {
@@ -20,6 +21,8 @@ public class MenuBtnScript : MonoBehaviour
         {
             menuPanel.SetActive(true);
             GetComponent<Image>().sprite = arrowLeft;
+            if (ShopPanel.activeInHierarchy)
+                ShopPanel.SetActive(false);
         } else
         {
             menuPanel.SetActive(false);
