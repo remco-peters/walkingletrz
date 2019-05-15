@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class AccountManager : MonoBehaviour
 {
     public Text amountOfCredits;
+    public GameObject LoadImage;
     public static PlayerProfileModel CurrentPlayer;
     public static UserAccountInfo CurrentPlayerAccount;
     public static GetUserInventoryResult CurrentPlayerInventory;
@@ -19,6 +20,8 @@ public class AccountManager : MonoBehaviour
     private DisplayNamePopup _displayNamePopup;
     private string _displayName;
     public static AccountManager instance;
+    public string Credits {get;set; } = "0";
+    public bool fullyLoaded = false;
 
     public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
@@ -109,7 +112,7 @@ public class AccountManager : MonoBehaviour
             //Show popup for display name
             _displayNamePopup = Instantiate(DisplayNamePopupClass);
             _displayNamePopup.OnDisplayNameSave += SetDisplayName;
-           _displayNamePopup.transform.SetParent(StartSceneCanvas.transform, false);
+            _displayNamePopup.transform.SetParent(StartSceneCanvas.transform, false);
         }
         var getStatistics = new GetPlayerStatisticsRequest();
         var statisticNames = new List<string>
@@ -136,12 +139,13 @@ public class AccountManager : MonoBehaviour
         CurrentPlayerInventory = result;
         if(result.VirtualCurrency.TryGetValue("CR", out int balance)) {
             GameInstance.instance.credits = balance;
-            amountOfCredits.text = balance.ToString();
+            Credits = balance.ToString();
         } else
         {
             GameInstance.instance.credits = 0;
-            amountOfCredits.text = "0";
+            Credits = "0";
         }
+        fullyLoaded = true;
     }
 
     private void OnStatisticsSuccess(GetPlayerStatisticsResult result)
