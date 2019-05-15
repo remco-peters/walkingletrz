@@ -22,6 +22,7 @@ public class AccountManager : MonoBehaviour
     public static AccountManager instance;
     public string Credits {get;set; } = "0";
     public bool fullyLoaded = false;
+    public string playerName {get;set;}
 
     public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
@@ -107,13 +108,9 @@ public class AccountManager : MonoBehaviour
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
     {
         CurrentPlayer = result.PlayerProfile;
-        if (string.IsNullOrEmpty(CurrentPlayer.DisplayName))
-        {
-            //Show popup for display name
-            _displayNamePopup = Instantiate(DisplayNamePopupClass);
-            _displayNamePopup.OnDisplayNameSave += SetDisplayName;
-            _displayNamePopup.transform.SetParent(StartSceneCanvas.transform, false);
-        }
+        if (!string.IsNullOrEmpty(CurrentPlayer.DisplayName))
+            playerName = CurrentPlayer.DisplayName;
+
         var getStatistics = new GetPlayerStatisticsRequest();
         var statisticNames = new List<string>
         {
@@ -189,7 +186,7 @@ public class AccountManager : MonoBehaviour
         _displayNamePopup.DestroyPopup();
     }
 
-    public static void AddUsernameAndPassword(string email, string password)
+    public void AddUsernameAndPassword(string email, string password)
     {
         var addUsernameAndPassword = new AddUsernamePasswordRequest { Email = email, Password = password, Username = CurrentPlayer.DisplayName };
         PlayFabClientAPI.AddUsernamePassword(addUsernameAndPassword, AddUsernameSuccess, OnFailure);
@@ -199,6 +196,4 @@ public class AccountManager : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
     }
-
-
 }

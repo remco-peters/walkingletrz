@@ -429,8 +429,7 @@ namespace Assets.Scripts
                 {
                     j+=1;
                     block.transform.SetParent(wordHolder.transform, false);
-                    block.GetComponent<Button>().interactable = false;
-                   
+                    block.GetComponent<Button>().interactable = false;                  
                     
                     Vector3 pos = block.transform.position;
                     ShowScoreGainedText(points, pos);
