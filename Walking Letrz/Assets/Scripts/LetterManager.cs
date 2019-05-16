@@ -160,9 +160,9 @@ namespace Assets.Scripts
                         p = Instantiate(PlaceHolderObject);
                         break;
                 }     
-                GameInstance.instance.selectedBoosters = new List<string>();
                 p.transform.SetParent(BoosterBoard.transform);
             }
+            GameInstance.instance.selectedBoosters = new List<string>();
         }
 
         public List<LetterPosition> GetPlayerLetters()
@@ -420,16 +420,16 @@ namespace Assets.Scripts
         {
             // Insantiate wordHolder
             GameObject wordHolder = Instantiate(GameBoardWordHolder);
-
+            int j = 0;
             // Walk through all the letters placed
             foreach (LetterPosition letterPos in PlacedLetters)
             {
                 LetterBlock block = letterPos.LetterBlock;
                 if (block != null)
                 {
+                    j+=1;
                     block.transform.SetParent(wordHolder.transform, false);
-                    block.GetComponent<Button>().interactable = false;
-                   
+                    block.GetComponent<Button>().interactable = false;                  
                     
                     Vector3 pos = block.transform.position;
                     ShowScoreGainedText(points, pos);
@@ -459,12 +459,17 @@ namespace Assets.Scripts
                         AddLetter(row, index);
                     }
                 }
-                else
+               /* else
                 {
                     GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
                     emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
-                }
+                }*/
                 wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
+            }
+            for (;j < 12; j++)
+            {
+                GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
+                emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
             }
         }
 
@@ -570,7 +575,7 @@ namespace Assets.Scripts
                     Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("not_both_fixed_letters");
                 }
             }
-            if (TheLetterManager.Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
+            else if (TheLetterManager.Exists(madeWord.ToLower()) && containsFirstLetter && containsSecondLetter)
             {
                 SetPlaceBtnActivity(true);
             }
