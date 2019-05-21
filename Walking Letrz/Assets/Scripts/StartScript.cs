@@ -24,6 +24,7 @@ public class StartScript : MonoBehaviour
             DisplayNamePopupClass = Instantiate(DisplayNamePopupClass);
             DisplayNamePopupClass.OnDisplayNameSave += AccountManager.instance.SetDisplayName;
             DisplayNamePopupClass.transform.SetParent(StartSceneCanvas.transform, false);
+            AccountManager.instance.DisplayNamePopupClass = DisplayNamePopupClass;
         }
     }
 }

@@ -17,7 +17,6 @@ public class AccountManager : MonoBehaviour
     private GetLeaderboardRequest leaderboardRequest;
     public DisplayNamePopup DisplayNamePopupClass;
     public GameObject StartSceneCanvas;
-    private DisplayNamePopup _displayNamePopup;
     private string _displayName;
     public static AccountManager instance;
     public string Credits {get;set; } = "0";
@@ -223,7 +222,7 @@ public class AccountManager : MonoBehaviour
 
     private void DestroyPopup()
     {
-        _displayNamePopup.DestroyPopup();
+        DisplayNamePopupClass.DestroyPopup();
     }
 
     public void AddUsernameAndPassword(string email, string password)
@@ -236,6 +235,7 @@ public class AccountManager : MonoBehaviour
     {
         GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         creditClass.AddCredits(100);
+        RefreshAccountStats();
     }
 
     public void AddFacebookLink(string facebookToken)
