@@ -96,6 +96,45 @@ public class AccountManager : MonoBehaviour
         Leaderboard = result.Leaderboard;
     }
 
+    public void RefreshAccountStats()
+    {
+        fullyLoaded = false;
+        var combinedReq = new GetPlayerCombinedInfoRequest();
+        combinedReq.PlayFabId = CurrentPlayer.PlayerId;
+        combinedReq.InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
+        {
+            GetUserAccountInfo = true,
+            GetUserInventory = false,
+            GetUserVirtualCurrency = true,
+            GetUserData = false,
+            GetUserReadOnlyData = false,
+            GetCharacterInventories = false,
+            GetCharacterList = false,
+            GetTitleData = false,
+            GetPlayerStatistics = true,
+            GetPlayerProfile = true
+        };
+        PlayFabClientAPI.GetPlayerCombinedInfo(combinedReq, instance.CombinedInfoSuccess, OnFailure);
+    }
+
+    public void CombinedInfoSuccess(GetPlayerCombinedInfoResult result)
+    {
+        CurrentPlayer = result.InfoResultPayload.PlayerProfile;
+        CurrentPlayerAccount = result.InfoResultPayload.AccountInfo;
+        
+        if (result.InfoResultPayload.UserVirtualCurrency.TryGetValue("CR", out int balance))
+        {
+            GameInstance.instance.credits = balance;
+            Credits = balance.ToString();
+        }
+        else
+        {
+            GameInstance.instance.credits = 0;
+            Credits = "0";
+        }
+        fullyLoaded = true;
+    }
+
     private void Success(LoginResult result)
     {
         var playerRequest = new GetPlayerProfileRequest();
@@ -207,7 +246,7 @@ public class AccountManager : MonoBehaviour
 
     private void AddFacebookSuccess(LinkFacebookAccountResult result)
     {
-        Debug.Log(result);
         creditClass.AddCredits(100);
+        RefreshAccountStats();
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using Facebook.Unity;
 using UnityEngine.UI;
 using PlayFab;
+using System.Collections;
 
 public class PlayfabFacebookAuthExample : MonoBehaviour
 {
@@ -16,13 +17,20 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
         {
             FB.Init(() =>
             {
-                if(FB.IsInitialized)
+                if (FB.IsInitialized)
                 {
                     FB.ActivateApp();
                 } else
                 {
                     Debug.LogError("Couldnt initialize");
                 }
+            },
+            isGameShown =>
+            {
+                if (!isGameShown)
+                    Time.timeScale = 0; // pause game
+                else
+                    Time.timeScale = 1; // Continue game
             }
             );
         }
@@ -35,7 +43,7 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
     #region Login / Logout
     public void FacebookLogin()
     {
-        FB.LogInWithReadPermissions(null, OnFacebookLoggedIn);
+        FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends" }, OnFacebookLoggedIn);
         AddFacebookButton.SetActive(false);
         ShowFacebookInfo.SetActive(true);
     }
@@ -45,7 +53,6 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
         if (result == null || string.IsNullOrEmpty(result.Error))
         {
             AccountManager.instance.AddFacebookLink(AccessToken.CurrentAccessToken.TokenString);
-            AccountManager.CurrentPlayerAccount.FacebookInfo.FacebookId = AccessToken.CurrentAccessToken.TokenString;
         }
     }
 
@@ -68,7 +75,16 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
 
     public void FacebookInvite()
     {
-        //FB.Mobile.AppInvite(new System.Uri())
+        FB.AppRequest(
+    "Come play this great game!",
+    null, null, null, null, null, null,
+    delegate (IAppRequestResult result) {
+        if (result == null || string.IsNullOrEmpty(result.Error))
+        {
+            AccountManager.instance.creditClass.AddCredits(10);
+        }
+    }
+);
     }
     #endregion
 
