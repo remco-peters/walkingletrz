@@ -207,6 +207,7 @@ public class AccountManager : MonoBehaviour
 
     private void AddFacebookSuccess(LinkFacebookAccountResult result)
     {
+        Debug.Log(result);
         creditClass.AddCredits(100);
     }
 }

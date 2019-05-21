@@ -44,8 +44,8 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
     {
         if (result == null || string.IsNullOrEmpty(result.Error))
         {
-            AccountManager.instance.AddFacebookLink(FB.ClientToken);
-            AccountManager.CurrentPlayerAccount.FacebookInfo.FacebookId = FB.ClientToken;
+            AccountManager.instance.AddFacebookLink(AccessToken.CurrentAccessToken.TokenString);
+            AccountManager.CurrentPlayerAccount.FacebookInfo.FacebookId = AccessToken.CurrentAccessToken.TokenString;
         }
     }
 
