@@ -8,10 +8,13 @@ public class ProfileScript : MonoBehaviour
     public GameObject AddEmailPanel;
     public GameObject AddEmailButton;
     public GameObject ShowEmailInfo;
+    public GameObject AddFacebookButton;
+    public GameObject ShowFacebookInfo;
 
     void Awake()
     {
         ReplaceAddEmailPanel();
+        ReplaceAddFacebookPanel();
     }
 
     public void ShowAddEmailPanel()
@@ -26,6 +29,15 @@ public class ProfileScript : MonoBehaviour
             AddEmailButton.SetActive(false);
             ShowEmailInfo.SetActive(true);
             ShowEmailInfo.GetComponentInChildren<Text>().text = AccountManager.CurrentPlayerAccount.PrivateInfo.Email;
+        }
+    }
+
+    public void ReplaceAddFacebookPanel()
+    {
+        if (AccountManager.CurrentPlayerAccount.FacebookInfo != null && AccountManager.CurrentPlayerAccount.FacebookInfo.FacebookId.Length > 0)
+        {
+            AddFacebookButton.SetActive(false);
+            ShowFacebookInfo.SetActive(true);
         }
     }
 }

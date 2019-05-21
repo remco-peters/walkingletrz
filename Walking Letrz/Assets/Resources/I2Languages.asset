@@ -249,6 +249,14 @@ MonoBehaviour:
       - Add email
       Flags: 0000
       Languages_Touch: []
+    - Term: profile_added_facebook
+      TermType: 0
+      Description: 
+      Languages:
+      - Facebook al gekoppeld
+      - Already added Facebook
+      Flags: 0000
+      Languages_Touch: []
     - Term: profile_add_facebook
       TermType: 0
       Description: 
@@ -861,7 +869,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1557865193102
+    Google_LastUpdatedVersion: 1558441993762
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

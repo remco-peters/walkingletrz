@@ -23,6 +23,7 @@ public class AccountManager : MonoBehaviour
     public string Credits {get;set; } = "0";
     public bool fullyLoaded = false;
     public string playerName {get;set;}
+    public Credit creditClass;
 
     public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
@@ -192,8 +193,20 @@ public class AccountManager : MonoBehaviour
         PlayFabClientAPI.AddUsernamePassword(addUsernameAndPassword, AddUsernameSuccess, OnFailure);
     }
 
-    private static void AddUsernameSuccess(AddUsernamePasswordResult result)
+    private void AddUsernameSuccess(AddUsernamePasswordResult result)
     {
         GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
+        creditClass.AddCredits(100);
+    }
+
+    public void AddFacebookLink(string facebookToken)
+    {
+        var request = new LinkFacebookAccountRequest { AccessToken = facebookToken };
+        PlayFabClientAPI.LinkFacebookAccount(request, AddFacebookSuccess, OnFailure);
+    }
+
+    private void AddFacebookSuccess(LinkFacebookAccountResult result)
+    {
+        creditClass.AddCredits(100);
     }
 }
