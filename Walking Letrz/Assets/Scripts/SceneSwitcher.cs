@@ -36,6 +36,8 @@ public class SceneSwitcher : MonoBehaviour
 //        {
 //            PhotonNetwork.LoadLevel("GameScene");
 //        };
+
+        GameInstance.instance.difficulty = Difficulty.Medium;
         SwitchScene("LobbyScene");
         
         
@@ -48,6 +50,7 @@ public class SceneSwitcher : MonoBehaviour
     {
         PhotonManager.PhotonInstance.LeaveLobby();
         SwitchScene("StartScene");
+        Destroy(PhotonManager.PhotonInstance.gameObject);
     }
 
     public void MakeHardGame()
