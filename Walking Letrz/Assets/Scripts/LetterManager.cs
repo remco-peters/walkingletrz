@@ -72,7 +72,7 @@ namespace Assets.Scripts
         private Image PointsGainedPanelImage;
 
         private GameBoard _gameBoard;
-        public UnityAction<long> OnWordPlaced;
+        public UnityAction<long, List<LetterPosition>> OnWordPlaced;
 
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);

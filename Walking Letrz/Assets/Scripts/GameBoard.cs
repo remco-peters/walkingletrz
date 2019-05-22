@@ -31,7 +31,7 @@ public class GameBoard : MonoBehaviour
         _photonView.ViewID = 1337;
     }
 
-    public void CallRPC(long points = 0, List<LetterPosition> placedLetters)
+    public void CallRPC(long points, List<LetterPosition> placedLetters)
     {
         Debug.Log("RPC called");
 //        if (PhotonNetwork.PlayerList.Length == 1)
