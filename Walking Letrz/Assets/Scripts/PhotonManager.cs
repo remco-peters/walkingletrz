@@ -142,6 +142,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         OnPlayerLeftDelegate(otherPlayer);
     }
 
+    public void LeaveLobby()
+    {
+        PhotonNetwork.Disconnect();
+    }
+
     #region PhotonManager singleton thingy
     protected static PhotonManager _photonManager;
 

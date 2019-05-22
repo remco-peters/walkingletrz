@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviour
 {
-
     public GameObject usernamePlaceHolder;
     public GameObject UsernameClass;
     public Button StartGame;
@@ -17,6 +16,7 @@ public class LobbyManager : MonoBehaviour
     {
         PhotonManager.PhotonInstance.OnJoinedRoomDelegate += JoinedRoom;
         PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += PlayerJoined;
+        PhotonManager.PhotonInstance.OnPlayerLeftDelegate += PlayerLeft;
     }
 
     void JoinedRoom()
@@ -30,6 +30,15 @@ public class LobbyManager : MonoBehaviour
             $"Player joined: local: {player.IsLocal}, name: {player.NickName}, actornumber: {player.ActorNumber}");
 
         CreatePlayerNameText(player);
+    }
+
+    void PlayerLeft(Player player)
+    {
+        foreach(Transform child in usernamePlaceHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        ShowAllPlayers();
     }
     
     void ShowAllPlayers()
@@ -49,7 +58,7 @@ public class LobbyManager : MonoBehaviour
 
     void Update()
     {
-        if(PhotonManager.PhotonInstance.GetOtherPlayersList().Length > 1)
+        if(PhotonManager.PhotonInstance.GetOtherPlayersList().Length > 0)
         {
             if(!StartGame.gameObject.activeInHierarchy)
             {

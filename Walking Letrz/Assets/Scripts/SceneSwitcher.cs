@@ -42,6 +42,12 @@ public class SceneSwitcher : MonoBehaviour
 //        SwitchScene("BoosterScene");
     }
 
+    public void LeaveLobby()
+    {
+        PhotonManager.PhotonInstance.LeaveLobby();
+        SwitchScene("StartScene");
+    }
+
     public void MakeHardGame()
     {
         GameInstance.instance.difficulty = Difficulty.Hard;
