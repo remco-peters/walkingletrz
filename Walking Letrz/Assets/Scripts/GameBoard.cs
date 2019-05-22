@@ -14,6 +14,8 @@ public class GameBoard : MonoBehaviour
     public GameObject GameBoardWordHolder { get; set; }
     public GameObject PlaceHolderObject { get; set; }
     public TheLetterManager TheLM { get; set; }
+    public LetterBlock PlayerLettersBlockObject { get; set; }
+    public LetterBlock FixedLettersBlockObject { get; set; }
 
 
     public LetterBlock FixedLettersBlockObjectGameBoard;
@@ -69,6 +71,66 @@ public class GameBoard : MonoBehaviour
         _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second);
         RemoveAndChangeLetters(placedLetters, points);
         GameState.PlacedWordsInThisGame.Add(word);
+
+    }
+
+    public void CallRPCPlaceLtrz(string letter, bool isFirst, bool isSecond, int row, int index)
+    {
+        _photonView.RPC(nameof(PlaceLetters), RpcTarget.Others, letter, isFirst, isSecond, row, index);
+    }
+
+    public void CallRPCInitPlayerLetters()
+    {
+        _photonView.RPC(nameof(InitPlayerLetters), RpcTarget.Others);
+    }
+
+    [PunRPC]
+    private void InitPlayerLetters()
+    {
+        _letterManager.InitPlayerLetters();
+    }
+
+    [PunRPC]
+    private void PlaceLetters(string letter, bool isFirstLetter, bool isSecondLetter, int row, int index)
+    {
+        LetterBlock block;
+        if (isFirstLetter || isSecondLetter)
+        {
+            block = FixedLettersBlockObject;
+            block = Instantiate(block);
+            block.IsFirstLetter = isFirstLetter;
+            block.IsSecondLetter = isSecondLetter;
+            block.OnLetterTouched += _letterManager.LetterTouched;
+            //Todo
+            //lttrBlock.OnLetterDragged += LetterDragged;
+            block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+            block.GetComponentsInChildren<Text>()[1].text = TheLM.CharactersValues
+                .First(x => x.Key == char.ToLower(letter[0])).Value.ToString();
+            GameObject parentRow = _letterManager.GetRightRow(row);
+            block.transform.SetParent(parentRow.transform, false);
+                block.transform.SetSiblingIndex((int)index);
+            
+
+            _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+        } else
+        {
+            block = PlayerLettersBlockObject;
+            block = Instantiate(block);
+            block.IsFirstLetter = isFirstLetter;
+            block.IsSecondLetter = isSecondLetter;
+            block.OnLetterTouched += _letterManager.LetterTouched;
+
+            block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+            block.GetComponentsInChildren<Text>()[1].text = TheLM.CharactersValues.First(x => x.Key == char.ToLower(letter[0])).Value.ToString();
+            GameObject parentRow = _letterManager.GetRightRow(row);
+            block.transform.SetParent(parentRow.transform, false);
+        
+            block.transform.SetSiblingIndex((int)index);
+        
+            _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+        }
+
+        
 
     }
 

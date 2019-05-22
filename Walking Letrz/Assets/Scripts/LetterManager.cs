@@ -88,6 +88,14 @@ namespace Assets.Scripts
 
         private void Start()
         {
+            _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
+            _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
+            _gameBoard.LetterManager = this;
+            _gameBoard.PlaceHolderObject = PlaceHolderObject;
+            _gameBoard.TheLM = TheLetterManager;
+            _gameBoard.FixedLettersBlockObject = FixedLettersBlockObject;
+            _gameBoard.PlayerLettersBlockObject = PlayerLetterBlockObject;
+
             if (PhotonNetwork.IsMasterClient)
             {
                 InitStartingLetters();
@@ -97,11 +105,6 @@ namespace Assets.Scripts
             InitBoosterButtons();
             InitPlacedLetterPositions();
 
-            _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
-            _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
-            _gameBoard.LetterManager = this;
-            _gameBoard.PlaceHolderObject = PlaceHolderObject;
-            _gameBoard.TheLM = TheLetterManager;
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -133,7 +136,9 @@ namespace Assets.Scripts
         private void InitStartingLetters()
         {
             FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
+            _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0);
             SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
+            _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1);
         }
 
         private void InitBoosterButtons()
@@ -202,20 +207,24 @@ namespace Assets.Scripts
                 if(i < 5)
                 {
                     InstantiateLetterButton(startingLetters[i], false, false, 1, i + 2);
+                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 1, i + 2);
                 }
                 else if(i < 12)
                 {
                     InstantiateLetterButton(startingLetters[i], false, false, 2, i - 5);
+                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 2, i - 5);
                 }
                 else
                 {
                     InstantiateLetterButton(startingLetters[i], false, false, 3, i - 12);
+                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 3, i -12);
                 }                                           
             }
             InitPlayerLetters();
+            _gameBoard.CallRPCInitPlayerLetters();
         }
         
-        private void InitPlayerLetters()
+        public void InitPlayerLetters()
         {
             PlaceBtn.OnPlaceBtnTouched += PlaceWord;
             PlaceBtn.OnPlaceBtnTouchedWhileInteractive += ShowPlayerWhyInactive;
@@ -319,9 +328,7 @@ namespace Assets.Scripts
                 if (isFirstLetter || isSecondLetter)
                 {
                     block = FixedLettersBlockObject;
-                    block = PhotonNetwork.InstantiateSceneObject("FixedLetterBlock", new Vector3(), new Quaternion(), 1,
-                            new object[] {letter.ToString()})
-                        .GetComponent<LetterBlock>();
+                    block = Instantiate(block);
                     block.IsFirstLetter = isFirstLetter;
                     block.IsSecondLetter = isSecondLetter;
                     block.OnLetterTouched += LetterTouched;
