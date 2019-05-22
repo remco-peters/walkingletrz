@@ -36,6 +36,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Debug.LogError("Failed connecting to Photon");
         }
 
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.SendRate = 1;
         PhotonNetwork.SerializationRate = 1;
     }

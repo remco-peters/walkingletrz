@@ -61,6 +61,7 @@ public class SceneSwitcher : MonoBehaviour
 
     public void LoadPhotonBoosterScene()
     {
+//        if (!PhotonNetwork.IsMasterClient) return;
         PhotonNetwork.LoadLevel("BoosterScene");
     }
 }
