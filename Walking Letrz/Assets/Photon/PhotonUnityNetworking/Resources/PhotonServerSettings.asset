@@ -30,5 +30,7 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - PlaceWordInGameBoard
+  - CheckDing
+  - CheckDing2
   DisableAutoOpenWizard: 1
   ShowSettings: 1

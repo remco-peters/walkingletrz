@@ -18,6 +18,8 @@ public class GameState : MonoBehaviourPunCallbacks
     
     private UnityAction OnCreatedRoomDelegate;
     private UnityAction<short, string> OnCreateRoomFailedDelegate;
+
+    public static List<string> PlacedWordsInThisGame = new List<string>();
     
     // Start is called before the first frame update
     void Start()

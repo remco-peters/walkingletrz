@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Assets.Scripts;
 using Photon.Pun;
@@ -10,6 +12,10 @@ using UnityEngine.UI;
 public class GameBoard : MonoBehaviour
 {
     public GameObject GameBoardWordHolder { get; set; }
+    public LetterBlock FixedLettersBlockObject { get; set; }
+    public LetterBlock PlayerLetterBlockObject { get; set; }
+    public GameObject PlaceHolderObject { get; set; }
+    public TheLetterManager TheLM { get; set; }
 
     private LetterManager _letterManager;
     private PhotonView _photonView;
@@ -25,50 +31,92 @@ public class GameBoard : MonoBehaviour
             Debug.Log("RPC Set");
         }
     }
-
+    
     private void Start()
     {
         _photonView = PhotonView.Get(this);
         _photonView.ViewID = 1337;
+
     }
 
     public void CallRPC(long points, List<LetterPosition> placedLetters)
     {
         Debug.Log("RPC called");
-//        if (PhotonNetwork.PlayerList.Length == 1)
-//        {
-//            PlaceWordInGameBoard(points);
-//            Debug.Log("RPC 1 player");
-//        }
-//        else
-//        {
-//        PlacedLetters = placedLetters;
-            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points, placedLetters.ToArray());
-//            Debug.Log("RPC >1 players");
-//        }
+        
+        string word = "";
+        int first = 0, 
+            second = 0;
+        foreach (LetterPosition let in placedLetters)
+        {
+            LetterBlock block = let.LetterBlock;
+            if(block != null)
+            {
+                if(block.IsFirstLetter)
+                {
+                    first = let.GetCurrentIndex();
+                }
+                if (block.IsSecondLetter)
+                {
+                    second = let.GetCurrentIndex();
+                }
+
+                word += block.GetLetter();
+            }
+        }
+
+        _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second);
+        RemoveAndChangeLetters(placedLetters, points);
+        GameState.PlacedWordsInThisGame.Add(word);
+
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(long points, LetterPosition[] placedLetters)
+    private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex)
     {
-        foreach (var let in placedLetters)
-        {
-            Debug.Log($"{let.LetterBlock.GetLetter()}");
-        }
-        Debug.Log("Placewordingameboard");
-        // Insantiate wordHolder
         GameObject wordHolder = Instantiate(GameBoardWordHolder);
+        int i = 0;
+        foreach (char letter in word)
+        {
+            LetterBlock block;
+            if(i == firstIndex || i == secondIndex)
+            {
+                block = _letterManager.FixedLettersBlockObject;
 
-        // Walk through all the letters placed
+            } else
+            {
+                block = _letterManager.PlayerLetterBlockObject;
+            }
+
+            block = Instantiate(block);
+            block.GetComponent<Button>().interactable = false;
+            block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+            block.GetComponentsInChildren<Text>()[1].text = TheLM.CharactersValues.
+                First(x => x.Key == char.ToLower(letter)).Value.ToString();
+
+            block.transform.SetParent(wordHolder.transform, false);
+            
+            block.GetComponent<Button>().interactable = false;
+            i++;
+        }
+
+        Debug.Log($"{word}, fixedFirst = {firstIndex} fixedSecond: {secondIndex}");
+
+        for(int j = word.Length; j <= 12; j++)
+        {
+            GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
+            emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
+        }
+
+        wordHolder.transform.SetParent(transform, false);
+    }
+
+    private void RemoveAndChangeLetters(List<LetterPosition> placedLetters, long points)
+    {
         foreach (LetterPosition letterPos in placedLetters)
         {
             LetterBlock block = letterPos.LetterBlock;
             if (block != null)
             {
-                block.transform.SetParent(wordHolder.transform, false);
-                block.GetComponent<Button>().interactable = false;
-
-
                 Vector3 pos = block.transform.position;
                 _letterManager.ShowScoreGainedText(points, pos);
 
@@ -86,23 +134,18 @@ public class GameBoard : MonoBehaviour
                     DestroyImmediate(placeHolder.gameObject);
                 }
 
-                // Lege gameobjecten toevoegen aan writeboard
-                GameObject emptyBlock = Instantiate(_letterManager.EmptyLetterBlockObject, _letterManager.WritingBoard.transform, false);
-                emptyBlock.transform.SetSiblingIndex(currentIndex);
-
                 // Nieuwe playerletters aanmaken
                 if (!block.IsFirstLetter && !block.IsSecondLetter)
                 {
                     _letterManager.AddLetter(row, index);
                 }
-            }
-            else
-            {
-                GameObject emptyPlaceHolder = Instantiate(_letterManager.PlaceHolderObject);
-                emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
-            }
 
-            wordHolder.transform.SetParent(transform, false);
+                // Lege gameobjecten toevoegen aan writeboard
+                DestroyImmediate(block.gameObject);
+                GameObject emptyBlock = Instantiate(_letterManager.EmptyLetterBlockObject, _letterManager.WritingBoard.transform, false);
+                emptyBlock.transform.SetSiblingIndex(currentIndex);
+            }
+            
         }
     }
 }

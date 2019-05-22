@@ -100,6 +100,10 @@ namespace Assets.Scripts
             _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
             _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
             _gameBoard.LetterManager = this;
+            _gameBoard.PlayerLetterBlockObject = PlayerLetterBlockObject;
+            _gameBoard.PlaceHolderObject = PlaceHolderObject;
+            _gameBoard.FixedLettersBlockObject = FixedLettersBlockObject;
+            _gameBoard.TheLM = TheLetterManager;
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
