@@ -100,9 +100,7 @@ namespace Assets.Scripts
             _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
             _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
             _gameBoard.LetterManager = this;
-            _gameBoard.PlayerLetterBlockObject = PlayerLetterBlockObject;
             _gameBoard.PlaceHolderObject = PlaceHolderObject;
-            _gameBoard.FixedLettersBlockObject = FixedLettersBlockObject;
             _gameBoard.TheLM = TheLetterManager;
 
             _shuffleTimeRemaining = 1;
@@ -439,55 +437,6 @@ namespace Assets.Scripts
         // TheLetterManager
         private void PlaceWordInGameBoard(long points = 0)
         {
-            // Insantiate wordHolder
-//            GameObject wordHolder = Instantiate(GameBoardWordHolder);
-//
-//            // Walk through all the letters placed
-//            foreach (LetterPosition letterPos in PlacedLetters)
-//            {
-//                LetterBlock block = letterPos.LetterBlock;
-//                if (block != null)
-//                {
-//                    block.transform.SetParent(wordHolder.transform, false);
-//                    block.GetComponent<Button>().interactable = false;
-//                   
-//                    
-//                    Vector3 pos = block.transform.position;
-//                    ShowScoreGainedText(points, pos);
-//
-//                    // Replace placeholder with letter on playerBoard
-//                    int row = letterPos.GetRow();
-//                    int index = letterPos.GetOldIndex();
-//                    int currentIndex = letterPos.GetCurrentIndex();
-//                    PlayerLetters.Remove(letterPos);
-//                    
-//                    if (!block.IsFirstLetter && !block.IsSecondLetter)
-//                    {
-//                        // Placeholders verwijderen
-//                        GameObject parentRow = GetRightRow(row);
-//                        Transform placeHolder = parentRow.transform.GetChild(index);
-//                        DestroyImmediate(placeHolder.gameObject);
-//                    }
-//
-//                    // Lege gameobjecten toevoegen aan writeboard
-//                    GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
-//                    emptyBlock.transform.SetParent(WritingBoard.transform, false);
-//                    emptyBlock.transform.SetSiblingIndex(currentIndex);
-//
-//                    // Nieuwe playerletters aanmaken
-//                    if (!block.IsFirstLetter && !block.IsSecondLetter)
-//                    {
-//                        AddLetter(row, index);
-//                    }
-//                }
-//                else
-//                {
-//                    GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
-//                    emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
-//                }
-//                wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
-//            }
-//            OnWordPlaced(points);
             _gameBoard.CallRPC(points, PlacedLetters);
         }
 

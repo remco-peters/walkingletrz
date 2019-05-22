@@ -817,6 +817,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 540a68809f5bb4e238335a635d5f6cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FixedLettersBlockObjectGameBoard: {fileID: 3814339391922283384, guid: deb3a7ae20cde0b409864560e8c8582d,
+    type: 3}
+  PlayerLetterBlockObjectGameBoard: {fileID: 148769063733298645, guid: fceb3bcd306e10a429587ff8189a6852,
+    type: 3}
 --- !u!114 &5496269054740555658
 MonoBehaviour:
   m_ObjectHideFlags: 0

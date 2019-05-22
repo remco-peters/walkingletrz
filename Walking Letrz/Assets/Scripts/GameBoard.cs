@@ -12,11 +12,14 @@ using UnityEngine.UI;
 public class GameBoard : MonoBehaviour
 {
     public GameObject GameBoardWordHolder { get; set; }
-    public LetterBlock FixedLettersBlockObject { get; set; }
-    public LetterBlock PlayerLetterBlockObject { get; set; }
     public GameObject PlaceHolderObject { get; set; }
     public TheLetterManager TheLM { get; set; }
 
+
+    public LetterBlock FixedLettersBlockObjectGameBoard;
+    public LetterBlock PlayerLetterBlockObjectGameBoard;
+
+    private Vector3 _pos;
     private LetterManager _letterManager;
     private PhotonView _photonView;
 //    private List<LetterPosition> PlacedLetters;
@@ -59,7 +62,6 @@ public class GameBoard : MonoBehaviour
                 {
                     second = let.GetCurrentIndex();
                 }
-
                 word += block.GetLetter();
             }
         }
@@ -80,11 +82,11 @@ public class GameBoard : MonoBehaviour
             LetterBlock block;
             if(i == firstIndex || i == secondIndex)
             {
-                block = _letterManager.FixedLettersBlockObject;
+                block = FixedLettersBlockObjectGameBoard;
 
             } else
             {
-                block = _letterManager.PlayerLetterBlockObject;
+                block = PlayerLetterBlockObjectGameBoard;
             }
 
             block = Instantiate(block);
@@ -108,6 +110,7 @@ public class GameBoard : MonoBehaviour
         }
 
         wordHolder.transform.SetParent(transform, false);
+        _pos = wordHolder.transform.position;
     }
 
     private void RemoveAndChangeLetters(List<LetterPosition> placedLetters, long points)
@@ -117,8 +120,7 @@ public class GameBoard : MonoBehaviour
             LetterBlock block = letterPos.LetterBlock;
             if (block != null)
             {
-                Vector3 pos = block.transform.position;
-                _letterManager.ShowScoreGainedText(points, pos);
+                _letterManager.ShowScoreGainedText(points, _pos);
 
                 // Replace placeholder with letter on playerBoard
                 int row = letterPos.GetRow();
