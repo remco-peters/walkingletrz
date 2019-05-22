@@ -49,14 +49,18 @@ public class GameBoard : MonoBehaviour
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(long points, LetterPosition[] PlacedLetters)
+    private void PlaceWordInGameBoard(long points, LetterPosition[] placedLetters)
     {
+        foreach (var let in placedLetters)
+        {
+            Debug.Log($"{let.LetterBlock.GetLetter()}");
+        }
         Debug.Log("Placewordingameboard");
         // Insantiate wordHolder
         GameObject wordHolder = Instantiate(GameBoardWordHolder);
 
         // Walk through all the letters placed
-        foreach (LetterPosition letterPos in PlacedLetters)
+        foreach (LetterPosition letterPos in placedLetters)
         {
             LetterBlock block = letterPos.LetterBlock;
             if (block != null)

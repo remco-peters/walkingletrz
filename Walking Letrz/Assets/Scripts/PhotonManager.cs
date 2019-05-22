@@ -29,7 +29,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected) return;
         PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
-        if (PhotonPeer.RegisterType(typeof(LetterPosition), 1, LetterPosition.Serialize, LetterPosition.Deserialize))
+        if (PhotonPeer.RegisterType(typeof(LetterPosition), (byte) 'L', LetterPosition.Serialize, LetterPosition.Deserialize))
         {
             Debug.Log("LetPos registered");
         } else

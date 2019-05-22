@@ -2,6 +2,7 @@
 using System.Data.Common;
 using UnityEngine;
 
+[Serializable]
 public class LetterPosition
 {
     
@@ -21,7 +22,14 @@ public class LetterPosition
     public static byte[] Serialize(object letterPosition)
     {
         var lp = (LetterPosition) letterPosition;
-        return new byte[] {lp.Id, (byte) lp.Row, (byte) lp.OldIndex, (byte) lp.CurrentIndex};
+        if (lp.LetterBlock == null)
+        {
+            return new byte[] {lp.Id, (byte) lp.Row, (byte) lp.OldIndex, (byte) lp.CurrentIndex};
+        }
+        else
+        {
+            return new byte[] {lp.Id, (byte) lp.Row, (byte) lp.OldIndex, (byte) lp.CurrentIndex};
+        }
     }
 
     internal LetterPosition()
