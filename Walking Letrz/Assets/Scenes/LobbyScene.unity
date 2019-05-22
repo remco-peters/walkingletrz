@@ -1422,7 +1422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usernamePlaceHolder: {fileID: 1734880606}
-  UsernameClass: {fileID: 3857494244830485352, guid: f12517aa4be5b92409224165dc93c6d4,
+  UsernameClass: {fileID: 9064440647453951668, guid: 19888042873580c4a83a7c9868d8fa52,
     type: 3}
 --- !u!4 &1765144027
 Transform:
