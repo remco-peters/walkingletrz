@@ -22,7 +22,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-
     }
 
     public void ConnectToPhoton()
