@@ -27,8 +27,8 @@ public class GameBoard : MonoBehaviour
 
     private void Start()
     {
-//        _photonView = PhotonView.Get(this);
-//        _photonView.ViewID = 1337;
+        _photonView = PhotonView.Get(this);
+        _photonView.ViewID = 1337;
     }
 
     public void CallRPC(long points = 0)
