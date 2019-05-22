@@ -43,13 +43,13 @@ public class GameBoard : MonoBehaviour
 //        else
 //        {
 //        PlacedLetters = placedLetters;
-            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points, placedLetters);
+            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points, placedLetters.ToArray());
 //            Debug.Log("RPC >1 players");
 //        }
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(long points, List<LetterPosition> PlacedLetters)
+    private void PlaceWordInGameBoard(long points, LetterPosition[] PlacedLetters)
     {
         Debug.Log("Placewordingameboard");
         // Insantiate wordHolder
