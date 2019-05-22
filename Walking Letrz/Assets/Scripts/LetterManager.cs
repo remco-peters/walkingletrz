@@ -4,7 +4,7 @@ using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Internal.Experimental.UIElements;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -58,7 +58,7 @@ namespace Assets.Scripts
         #endregion unity properties
 
         #region 
-        private List<LetterPosition> PlacedLetters { get; } = new List<LetterPosition>();
+        public List<LetterPosition> PlacedLetters { get; } = new List<LetterPosition>();
         public List<LetterPosition> PlayerLetters { get; } = new List<LetterPosition>();
         private StartingLetters StartLetters { get; set; }
         public MyPlayer Player { get; set; }
@@ -70,6 +70,9 @@ namespace Assets.Scripts
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
         private Image PointsGainedPanelImage;
+
+        private GameBoard _gameBoard;
+        public UnityAction<long> OnWordPlaced;
 
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
@@ -89,6 +92,10 @@ namespace Assets.Scripts
             InitBoosterButtons();
             InitFirstLetters();
             InitPlacedLetterPositions();
+
+            _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
+            _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
+            _gameBoard.LetterManager = this;
 
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
@@ -301,28 +308,34 @@ namespace Assets.Scripts
         public LetterBlock InstantiateLetterButton(char letter, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
         {
             LetterBlock block;
-            if(isFirstLetter || isSecondLetter)
-            {
-                block = FixedLettersBlockObject;
-                block = PhotonNetwork.Instantiate("FixedLetterBlock", new Vector3(), new Quaternion(), 1, new object[] { letter.ToString()})
-                    .GetComponent<LetterBlock>();
-                block.IsFirstLetter = isFirstLetter;
-                block.IsSecondLetter = isSecondLetter;
-                block.OnLetterTouched += LetterTouched;
-                //Todo
-                //lttrBlock.OnLetterDragged += LetterDragged;
-                block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
-                block.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
-                GameObject parentRow = GetRightRow(row);
-                block.transform.SetParent(parentRow.transform, false);
-                if(index != null)
+//            if (PhotonNetwork.CountOfPlayers <= 1)
+//            {
+                if (isFirstLetter || isSecondLetter)
                 {
-                    block.transform.SetSiblingIndex((int)index);
+                    block = FixedLettersBlockObject;
+                    block = PhotonNetwork.InstantiateSceneObject("FixedLetterBlock", new Vector3(), new Quaternion(), 1,
+                            new object[] {letter.ToString()})
+                        .GetComponent<LetterBlock>();
+                    block.IsFirstLetter = isFirstLetter;
+                    block.IsSecondLetter = isSecondLetter;
+                    block.OnLetterTouched += LetterTouched;
+                    //Todo
+                    //lttrBlock.OnLetterDragged += LetterDragged;
+                    block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+                    block.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues
+                        .First(x => x.Key == char.ToLower(letter)).Value.ToString();
+                    GameObject parentRow = GetRightRow(row);
+                    block.transform.SetParent(parentRow.transform, false);
+                    if (index != null)
+                    {
+                        block.transform.SetSiblingIndex((int) index);
+                    }
+
+                    PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+                    return block;
                 }
-                PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
-                return block;
-            } 
-            
+//            }
+
             block = PlayerLetterBlockObject;
             return Spawn(block, this, lttrBlock =>
             {
@@ -406,7 +419,7 @@ namespace Assets.Scripts
 
         }
 
-        private LetterBlock AddLetter(int row, int index)
+        public LetterBlock AddLetter(int row, int index)
         {
             List<char> myLetters = GetPlayerLetters().Select(p => char.ToLower(p?.LetterBlock?.GetLetter() ?? default)).ToList();
             char[] letters = TheLetterManager.GetLetters(1, myLetters);
@@ -419,58 +432,55 @@ namespace Assets.Scripts
         private void PlaceWordInGameBoard(long points = 0)
         {
             // Insantiate wordHolder
-            GameObject wordHolder = Instantiate(GameBoardWordHolder);
-            int j = 0;
-            // Walk through all the letters placed
-            foreach (LetterPosition letterPos in PlacedLetters)
-            {
-                LetterBlock block = letterPos.LetterBlock;
-                if (block != null)
-                {
-                    j+=1;
-                    block.transform.SetParent(wordHolder.transform, false);
-                    block.GetComponent<Button>().interactable = false;                  
-                    
-                    Vector3 pos = block.transform.position;
-                    ShowScoreGainedText(points, pos);
-
-                    // Replace placeholder with letter on playerBoard
-                    int row = letterPos.GetRow();
-                    int index = letterPos.GetOldIndex();
-                    int currentIndex = letterPos.GetCurrentIndex();
-                    PlayerLetters.Remove(letterPos);
-                    
-                    if (!block.IsFirstLetter && !block.IsSecondLetter)
-                    {
-                        // Placeholders verwijderen
-                        GameObject parentRow = GetRightRow(row);
-                        Transform placeHolder = parentRow.transform.GetChild(index);
-                        DestroyImmediate(placeHolder.gameObject);
-                    }
-
-                    // Lege gameobjecten toevoegen aan writeboard
-                    GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
-                    emptyBlock.transform.SetParent(WritingBoard.transform, false);
-                    emptyBlock.transform.SetSiblingIndex(currentIndex);
-
-                    // Nieuwe playerletters aanmaken
-                    if (!block.IsFirstLetter && !block.IsSecondLetter)
-                    {
-                        AddLetter(row, index);
-                    }
-                }
-               /* else
-                {
-                    GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
-                    emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
-                }*/
-                wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
-            }
-            for (;j < 12; j++)
-            {
-                GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
-                emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
-            }
+//            GameObject wordHolder = Instantiate(GameBoardWordHolder);
+//
+//            // Walk through all the letters placed
+//            foreach (LetterPosition letterPos in PlacedLetters)
+//            {
+//                LetterBlock block = letterPos.LetterBlock;
+//                if (block != null)
+//                {
+//                    block.transform.SetParent(wordHolder.transform, false);
+//                    block.GetComponent<Button>().interactable = false;
+//                   
+//                    
+//                    Vector3 pos = block.transform.position;
+//                    ShowScoreGainedText(points, pos);
+//
+//                    // Replace placeholder with letter on playerBoard
+//                    int row = letterPos.GetRow();
+//                    int index = letterPos.GetOldIndex();
+//                    int currentIndex = letterPos.GetCurrentIndex();
+//                    PlayerLetters.Remove(letterPos);
+//                    
+//                    if (!block.IsFirstLetter && !block.IsSecondLetter)
+//                    {
+//                        // Placeholders verwijderen
+//                        GameObject parentRow = GetRightRow(row);
+//                        Transform placeHolder = parentRow.transform.GetChild(index);
+//                        DestroyImmediate(placeHolder.gameObject);
+//                    }
+//
+//                    // Lege gameobjecten toevoegen aan writeboard
+//                    GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
+//                    emptyBlock.transform.SetParent(WritingBoard.transform, false);
+//                    emptyBlock.transform.SetSiblingIndex(currentIndex);
+//
+//                    // Nieuwe playerletters aanmaken
+//                    if (!block.IsFirstLetter && !block.IsSecondLetter)
+//                    {
+//                        AddLetter(row, index);
+//                    }
+//                }
+//                else
+//                {
+//                    GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
+//                    emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
+//                }
+//                wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
+//            }
+//            OnWordPlaced(points);
+            _gameBoard.CallRPC(points);
         }
 
         public void LetterTouched(LetterBlock block)
@@ -613,7 +623,7 @@ namespace Assets.Scripts
             block.transform.SetSiblingIndex(oldIndex);
         }
 
-        private GameObject GetRightRow(int row)
+        public GameObject GetRightRow(int row)
         {
             switch(row)
             {
@@ -640,7 +650,7 @@ namespace Assets.Scripts
             
         }
 
-        private void ShowScoreGainedText(long points, Vector3 pos)
+        public void ShowScoreGainedText(long points, Vector3 pos)
         {
             PointsGainedPanel.transform.position = pos;
             PointsGainedText.text = $"+{points.ToString()}";

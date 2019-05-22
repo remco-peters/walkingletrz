@@ -11,15 +11,15 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
-            {
-
-                Player remotePlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion())
-                    .GetComponent<Player>();
-//                remotePlayer.Name = "Jantje";
-                remotePlayer.Name = "Peter";
-                    Players.Add(remotePlayer);
-            };
+//            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
+//            {
+//
+//                Player remotePlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion())
+//                    .GetComponent<Player>();
+////                remotePlayer.Name = "Jantje";
+//                remotePlayer.Name = "Peter";
+//                    Players.Add(remotePlayer);
+//            };
         }
 
         public void NextTurn()

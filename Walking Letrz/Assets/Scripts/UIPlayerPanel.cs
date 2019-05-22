@@ -95,12 +95,12 @@ public class UIPlayerPanel : UIBehaviour
     {
         base.Start();
 
-        PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
-        {
-            player.NickName = "PIETJE";
-            OpponentNameTxt.text = player.NickName;
-            OpponentScoreTxt.text = "37";
-        };
+//        PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
+//        {
+//            player.NickName = "PIETJE";
+//            OpponentNameTxt.text = player.NickName;
+//            OpponentScoreTxt.text = "37";
+//        };
 
         InfoPanelImage = InfoTextPanel.GetComponent<Image>();
         InfoPanelImage.color = new Color(1f, 1f, 1f, 0f);
@@ -221,13 +221,24 @@ public class UIPlayerPanel : UIBehaviour
         OpponentNameTxtThird.text = "";
         OpponentScoreTxtThird.text = "";
 
+//        int index = 0;
+//        foreach(Player p in Players)
+//        {
+//            if(p != Player)
+//            {
+//                SetOpponentText(index, p);
+//                StartCoroutine(SetOpponentTime(index, p));
+//                index++;
+//            }
+//        }
         int index = 0;
-        foreach(Player p in Players)
+        foreach(Photon.Realtime.Player p in PhotonNetwork.PlayerList)
         {
-            if(p != Player)
+            if(!p.IsLocal)
             {
-                SetOpponentText(index, p);
-                StartCoroutine(SetOpponentTime(index, p));
+                OpponentNameTxt.text = p.NickName;
+                OpponentScoreTxt.text = "0";
+                StartCoroutine(SetOpponentTime(index, Player));
                 index++;
             }
         }

@@ -124,8 +124,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (!newPlayer.IsLocal)
         {
+            newPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
             Debug.Log("3rd partied");
-            OnPlayerJoinedDelegate(newPlayer);
+//            OnPlayerJoinedDelegate(newPlayer);
         }
     }
 

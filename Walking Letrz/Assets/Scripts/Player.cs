@@ -13,7 +13,6 @@ namespace Assets.Scripts
         public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
-        private float Seconds = 0;
         public int WordsWithTwelveLetters { get; set; }
         private int _amountOfWordsPerMinute;
         public int AmountOfWordsPerMinute { 
@@ -31,6 +30,8 @@ namespace Assets.Scripts
             }
         }
         public int AmountOfWordsPerMinuteFinal { get; set; }
+        public int PlayerIndex { get; set; }
+        private float Seconds = 0;
 
         public static bool joinedRoom = false;
 

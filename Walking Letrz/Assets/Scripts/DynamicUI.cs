@@ -66,8 +66,14 @@ public class DynamicUI : MyMonoBehaviour
         localPlayer.Credit = CreditClass;
 //        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
         localPlayer.IsInTutorial = Tutorial;
-        HUD HUD = Instantiate(HUDClass);
-        HUD.Player = localPlayer;
+        HUD HUD = Spawn(HUDClass, hud => { hud.Player = localPlayer; });
+//
+//        GameBoardWordContainer =
+//            PhotonNetwork.InstantiateSceneObject("Content", new Vector3(0, 0, 0), new Quaternion());
+//        GameBoardWordContainer.transform.SetParent(GameBoard.transform);
+//        GameBoard gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
+//        gameBoard.GameBoardWordHolder = GameBoardWordHolder;
+//        ScrollRect.content = GameBoardWordContainer.GetComponent<RectTransform>();
         
         LetterManagerClass = Spawn(LetterManagerClass, this, letterManager =>
         {
@@ -96,6 +102,8 @@ public class DynamicUI : MyMonoBehaviour
             letterManager.TripleWordValueBtn = TripleWordValueBtn;
         });
 
+//        gameBoard.LetterManager = LetterManagerClass;
+
         LetterManager letterManagerBot = LetterManagerClass;
         
         PlayerManagerClass = Spawn(PlayerManagerClass, this);
@@ -109,7 +117,7 @@ public class DynamicUI : MyMonoBehaviour
         });
         
         //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
-        PlayerManagerClass.Players = new List<Player> { localPlayer, BotClass };//todo add bots or other players
+        PlayerManagerClass.Players = new List<Player> { localPlayer/*, BotClass*/ };//todo add bots or other players
 
         HUD.PlayersList = PlayerManagerClass.Players;
 
