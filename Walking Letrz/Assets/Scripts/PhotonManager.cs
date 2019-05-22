@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayFab.ClientModels;
@@ -28,6 +29,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected) return;
         PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
+        PhotonPeer.RegisterType(typeof(LetterPosition), 1, LetterPosition.Serialize, LetterPosition.Deserialize);
+        
         Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();
 
