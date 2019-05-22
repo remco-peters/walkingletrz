@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviour
 
     void Update()
     {
-        if(PhotonManager.PhotonInstance.GetOtherPlayersList().Length > 0)
+        if(PhotonManager.PhotonInstance.GetOtherPlayersList().Length > 0 && PhotonNetwork.IsMasterClient)
         {
             if(!StartGame.gameObject.activeInHierarchy)
             {
