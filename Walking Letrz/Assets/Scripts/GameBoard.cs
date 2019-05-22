@@ -13,7 +13,7 @@ public class GameBoard : MonoBehaviour
 
     private LetterManager _letterManager;
     private PhotonView _photonView;
-    private List<LetterPosition> PlacedLetters;
+//    private List<LetterPosition> PlacedLetters;
     
     public LetterManager LetterManager
     {
@@ -42,14 +42,14 @@ public class GameBoard : MonoBehaviour
 //        }
 //        else
 //        {
-        PlacedLetters = placedLetters;
-            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points);
+//        PlacedLetters = placedLetters;
+            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points, placedLetters);
 //            Debug.Log("RPC >1 players");
 //        }
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(long points)
+    private void PlaceWordInGameBoard(long points, List<LetterPosition> PlacedLetters)
     {
         Debug.Log("Placewordingameboard");
         // Insantiate wordHolder
