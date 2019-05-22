@@ -484,7 +484,7 @@ namespace Assets.Scripts
 //                wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
 //            }
 //            OnWordPlaced(points);
-            _gameBoard.CallRPC(points);
+            _gameBoard.CallRPC(points, PlacedLetters);
         }
 
         public void LetterTouched(LetterBlock block)

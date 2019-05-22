@@ -31,7 +31,7 @@ public class GameBoard : MonoBehaviour
         _photonView.ViewID = 1337;
     }
 
-    public void CallRPC(long points = 0)
+    public void CallRPC(long points = 0, List<LetterPosition> placedLetters)
     {
         Debug.Log("RPC called");
 //        if (PhotonNetwork.PlayerList.Length == 1)
@@ -42,20 +42,20 @@ public class GameBoard : MonoBehaviour
 //        else
 //        {
 //            
-            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points);
+            _photonView.RPC("PlaceWordInGameBoard", RpcTarget.All, points, placedLetters);
 //            Debug.Log("RPC >1 players");
 //        }
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(long points = 0)
+    private void PlaceWordInGameBoard(long points, List<LetterPosition> placedLetters)
     {
         Debug.Log("Placewordingameboard");
         // Insantiate wordHolder
         GameObject wordHolder = Instantiate(GameBoardWordHolder);
 
         // Walk through all the letters placed
-        foreach (LetterPosition letterPos in _letterManager.PlacedLetters)
+        foreach (LetterPosition letterPos in placedLetters)
         {
             LetterBlock block = letterPos.LetterBlock;
             if (block != null)
