@@ -240,7 +240,7 @@ public class UIPlayerPanel : UIBehaviour
             p.SetCustomProperties(hash);
             OpponentNameTxt.text = p.NickName;
             OpponentScoreTxt.text = $"{p.CustomProperties["Points"]}";
-            StartCoroutine(SetOpponentTime(index, Player));
+            StartCoroutine(SetOpponentTime(index, p));
             index++;
         }
     }
