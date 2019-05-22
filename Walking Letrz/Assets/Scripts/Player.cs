@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+ using Photon.Pun;
+ using UnityEngine;
+ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace Assets.Scripts
+ namespace Assets.Scripts
 {
     public class Player : MyMonoBehaviour
     {
@@ -51,6 +53,8 @@ namespace Assets.Scripts
             if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
+            Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
             if (TimeRemaining <= 0)
             {
                 //CanMove = false;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
+using ExitGames.Client.Photon;
 using I2.Loc;
 using Photon.Pun;
 using PlayFab;
@@ -11,6 +12,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class UIPlayerPanel : UIBehaviour
 {
@@ -232,15 +234,14 @@ public class UIPlayerPanel : UIBehaviour
 //            }
 //        }
         int index = 0;
-        foreach(Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+        foreach(Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
         {
-            if(!p.IsLocal)
-            {
-                OpponentNameTxt.text = p.NickName;
-                OpponentScoreTxt.text = "0";
-                StartCoroutine(SetOpponentTime(index, Player));
-                index++;
-            }
+            Hashtable hash = new Hashtable {{"Points", 0}, {"TimeRemaining", Player.TimeRemaining}};
+            p.SetCustomProperties(hash);
+            OpponentNameTxt.text = p.NickName;
+            OpponentScoreTxt.text = $"{p.CustomProperties["Points"]}";
+            StartCoroutine(SetOpponentTime(index, Player));
+            index++;
         }
     }
 
@@ -338,20 +339,22 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
     
-    private IEnumerator SetOpponentTime(int which, Player p)
+    private IEnumerator SetOpponentTime(int which, Photon.Realtime.Player p)
     {
-        while (p.TimeRemaining > 0)
+        while ((float) p.CustomProperties["TimeRemaining"] > 0)
         {
+            
+            float timeRemaining = (float) p.CustomProperties["TimeRemaining"];
             switch(which)
             {
                 case 0:
-                   OpponentTimeTxt.text = OpponentTimeText(p.TimeRemaining);
+                   OpponentTimeTxt.text = OpponentTimeText(timeRemaining);
                     break;
                 case 1:
-                   OpponentTimeTxtSecond.text = OpponentTimeText(p.TimeRemaining);
+                   OpponentTimeTxtSecond.text = OpponentTimeText(timeRemaining);
                     break;
                 case 2:
-                    OpponentTimeTxtThird.text = OpponentTimeText(p.TimeRemaining);           
+                    OpponentTimeTxtThird.text = OpponentTimeText(timeRemaining);           
                     break;
                 default:
                     break;
