@@ -102,6 +102,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void Begin()
+    {
+        Debug.Log("Begin photonmanager");
+    }
+
     public override void OnCreatedRoom()
     {
         OnCreatedRoomDelegate();
@@ -126,7 +131,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             newPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
             Debug.Log("3rd partied");
-//            OnPlayerJoinedDelegate(newPlayer);
+            OnPlayerJoinedDelegate(newPlayer);
         }
     }
 
