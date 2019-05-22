@@ -52,15 +52,15 @@ public class LobbyManager : MonoBehaviour
     {
         if(PhotonManager.PhotonInstance.GetOtherPlayersList().Length > 1)
         {
-            if(!StartGame.enabled)
+            if(!StartGame.gameObject.activeInHierarchy)
             {
-                StartGame.enabled = true;
+                StartGame.gameObject.SetActive(true);
             }
         } else
         {
-            if (StartGame.enabled)
+            if (StartGame.gameObject.activeInHierarchy)
             {
-                StartGame.enabled = false;
+                StartGame.gameObject.SetActive(false);
             }
         }
     }
