@@ -22,6 +22,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        ConnectToPhoton();
+    }
+
+    public void ConnectToPhoton()
+    {
+        if (PhotonNetwork.IsConnected) return;
         PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
         Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();

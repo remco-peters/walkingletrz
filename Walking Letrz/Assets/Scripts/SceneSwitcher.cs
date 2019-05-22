@@ -38,6 +38,8 @@ public class SceneSwitcher : MonoBehaviour
 //        };
         SwitchScene("LobbyScene");
         
+        
+        
         //Todo: fixen
 //        SwitchScene("BoosterScene");
     }

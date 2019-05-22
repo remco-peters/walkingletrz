@@ -14,6 +14,7 @@ public class LobbyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PhotonManager.PhotonInstance.ConnectToPhoton();
         PhotonManager.PhotonInstance.OnJoinedRoomDelegate += JoinedRoom;
         PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += PlayerJoined;
         PhotonManager.PhotonInstance.OnPlayerLeftDelegate += PlayerLeft;
