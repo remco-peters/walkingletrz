@@ -35,10 +35,10 @@ public class LobbyManager : MonoBehaviour
 
     void PlayerLeft(Player player)
     {
-//        foreach(Transform child in usernamePlaceHolder.transform)
-//        {
-//            Destroy(child.gameObject);
-//        }
+        foreach(Transform child in usernamePlaceHolder.transform)
+        {
+            Destroy(child.gameObject);
+        }
         ShowAllPlayers();
     }
     
