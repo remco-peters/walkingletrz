@@ -32,11 +32,11 @@ public class SceneSwitcher : MonoBehaviour
 
     public void MakeMediumGame()
     {
-        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
-        {
-            PhotonNetwork.LoadLevel("GameScene");
-        };
-//        SwitchScene("GameScene");
+//        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
+//        {
+//            PhotonNetwork.LoadLevel("GameScene");
+//        };
+        SwitchScene("LobbyScene");
         
         //Todo: fixen
 //        SwitchScene("BoosterScene");
