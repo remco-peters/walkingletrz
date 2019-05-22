@@ -22,6 +22,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
         Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();
 
@@ -129,7 +130,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (!newPlayer.IsLocal)
         {
-            newPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
+//            newPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
             Debug.Log("3rd partied");
             OnPlayerJoinedDelegate(newPlayer);
         }
