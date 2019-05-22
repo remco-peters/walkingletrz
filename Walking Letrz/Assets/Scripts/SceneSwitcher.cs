@@ -58,4 +58,9 @@ public class SceneSwitcher : MonoBehaviour
         GameInstance.instance.difficulty = Difficulty.Hard;
         SwitchScene("BoosterScene");
     }
+
+    public void LoadPhotonBoosterScene()
+    {
+        PhotonNetwork.LoadLevel("BoosterScene");
+    }
 }

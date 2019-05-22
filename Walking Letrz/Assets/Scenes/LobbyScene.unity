@@ -702,7 +702,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1321961156}
-        m_MethodName: LoadPhotonGameScene
+        m_MethodName: LoadPhotonBoosterScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
