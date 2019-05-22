@@ -43,9 +43,8 @@ public class LobbyManager : MonoBehaviour
 
     void CreatePlayerNameText(Player player)
     {
-        GameObject txtHolder = Instantiate(UsernameClass);
+        GameObject txtHolder = Instantiate(UsernameClass, usernamePlaceHolder.transform, false);
         txtHolder.GetComponentInChildren<Text>().text = player.NickName;
-        txtHolder.transform.SetParent(usernamePlaceHolder.transform, false);
     }
 
     void Update()
