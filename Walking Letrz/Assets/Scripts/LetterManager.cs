@@ -88,9 +88,13 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            InitStartingLetters();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                InitStartingLetters();
+                InitFirstLetters();
+            }
+
             InitBoosterButtons();
-            InitFirstLetters();
             InitPlacedLetterPositions();
 
             _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
