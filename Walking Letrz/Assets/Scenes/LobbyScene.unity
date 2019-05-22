@@ -628,7 +628,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1321961155
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1356,6 +1356,7 @@ MonoBehaviour:
   usernamePlaceHolder: {fileID: 1734880606}
   UsernameClass: {fileID: 9064440647453951668, guid: 19888042873580c4a83a7c9868d8fa52,
     type: 3}
+  StartGame: {fileID: 1321961157}
 --- !u!4 &1765144027
 Transform:
   m_ObjectHideFlags: 0

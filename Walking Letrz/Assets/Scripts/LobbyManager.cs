@@ -10,6 +10,7 @@ public class LobbyManager : MonoBehaviour
 
     public GameObject usernamePlaceHolder;
     public GameObject UsernameClass;
+    public Button StartGame;
 
     // Start is called before the first frame update
     void Start()
@@ -45,5 +46,22 @@ public class LobbyManager : MonoBehaviour
         GameObject txtHolder = Instantiate(UsernameClass);
         txtHolder.GetComponentInChildren<Text>().text = player.NickName;
         txtHolder.transform.SetParent(usernamePlaceHolder.transform, false);
+    }
+
+    void Update()
+    {
+        if(PhotonManager.PhotonInstance.GetOtherPlayersList().Length > 1)
+        {
+            if(!StartGame.enabled)
+            {
+                StartGame.enabled = true;
+            }
+        } else
+        {
+            if (StartGame.enabled)
+            {
+                StartGame.enabled = false;
+            }
+        }
     }
 }
