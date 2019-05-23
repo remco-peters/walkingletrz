@@ -524,7 +524,7 @@ MonoBehaviour:
     type: 3}
   LetterManagerClass: {fileID: 216, guid: b97e240c5575c4448848b8372db08d08, type: 3}
   PlayerManagerClass: {fileID: 210, guid: 1458a9102cb20b4459db46f7fca066a5, type: 3}
-  TheLetterManagerClass: {fileID: 218, guid: 5fc2cc7054a1cd844af7b14d0cde86f1, type: 3}
+  TheLetterManagerClass: {fileID: 563, guid: 5fc2cc7054a1cd844af7b14d0cde86f1, type: 3}
   GameBoardWordHolder: {fileID: 3702057771136107137, guid: 4e1cf4f576963954eabddeee29c61e62,
     type: 3}
   GameBoardWordContainer: {fileID: 4307555041889598363}
@@ -821,8 +821,8 @@ GameObject:
   - component: {fileID: 6955175067535979674}
   - component: {fileID: 3062068981218959512}
   - component: {fileID: 6155554539147797688}
-  - component: {fileID: 2922731675262735838}
-  - component: {fileID: 2478147771999907269}
+  - component: {fileID: 1898968148284969517}
+  - component: {fileID: 5496269054740555658}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -886,7 +886,23 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
   m_ChildControlHeight: 0
---- !u!114 &2922731675262735838
+--- !u!114 &1898968148284969517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4307555041889598363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540a68809f5bb4e238335a635d5f6cd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FixedLettersBlockObjectGameBoard: {fileID: 3814339391922283384, guid: deb3a7ae20cde0b409864560e8c8582d,
+    type: 3}
+  PlayerLetterBlockObjectGameBoard: {fileID: 148769063733298645, guid: fceb3bcd306e10a429587ff8189a6852,
+    type: 3}
+--- !u!114 &5496269054740555658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -901,25 +917,13 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 0
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 2478147771999907269}
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &2478147771999907269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4307555041889598363}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fca1e19f80d6243af81b36f6584f7b79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4563660508826952171
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,19 +32,36 @@ public class SceneSwitcher : MonoBehaviour
 
     public void MakeMediumGame()
     {
-        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
-        {
-            PhotonNetwork.LoadLevel("GameScene");
-        };
-//        SwitchScene("GameScene");
+//        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
+//        {
+//            PhotonNetwork.LoadLevel("GameScene");
+//        };
+
+        GameInstance.instance.difficulty = Difficulty.Medium;
+        SwitchScene("LobbyScene");
+        
+        
         
         //Todo: fixen
 //        SwitchScene("BoosterScene");
     }
 
+    public void LeaveLobby()
+    {
+        PhotonManager.PhotonInstance.LeaveLobby();
+        SwitchScene("StartScene");
+        Destroy(PhotonManager.PhotonInstance.gameObject);
+    }
+
     public void MakeHardGame()
     {
         GameInstance.instance.difficulty = Difficulty.Hard;
+        SwitchScene("BoosterScene");
+    }
+
+    public void LoadPhotonBoosterScene()
+    {
+//        if (!PhotonNetwork.IsMasterClient) return;
         SwitchScene("BoosterScene");
     }
 }

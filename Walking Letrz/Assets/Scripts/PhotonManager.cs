@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
 using PlayFab.ClientModels;
@@ -22,6 +23,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+    }
+
+    public void ConnectToPhoton()
+    {
+        if (PhotonNetwork.IsConnected) return;
+        PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
+        PhotonPeer.RegisterType(typeof(LetterPosition), (byte) 'L', LetterPosition.Serialize,
+            LetterPosition.Deserialize);
+        
+        
         Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();
 
@@ -30,6 +41,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Debug.LogError("Failed connecting to Photon");
         }
 
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.SendRate = 1;
         PhotonNetwork.SerializationRate = 1;
     }
@@ -102,6 +114,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void Begin()
+    {
+        Debug.Log("Begin photonmanager");
+    }
+
     public override void OnCreatedRoom()
     {
         OnCreatedRoomDelegate();
@@ -124,6 +141,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (!newPlayer.IsLocal)
         {
+//            newPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
             Debug.Log("3rd partied");
             OnPlayerJoinedDelegate(newPlayer);
         }
@@ -133,6 +151,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("doei doei");
         OnPlayerLeftDelegate(otherPlayer);
+    }
+
+    public void LeaveLobby()
+    {
+        PhotonNetwork.Disconnect();
     }
 
     #region PhotonManager singleton thingy
@@ -151,6 +174,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
             return _photonManager;
         }
+    }
+
+    public Photon.Realtime.Player[] GetOtherPlayersList()
+    {
+        return PhotonNetwork.PlayerListOthers;
     }
     #endregion
 }

@@ -28,6 +28,11 @@ MonoBehaviour:
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
-  RpcList: []
+  RpcList:
+  - PlaceWordInGameBoard
+  - CheckDing
+  - CheckDing2
+  - PlaceLetters
+  - InitPlayerLetters
   DisableAutoOpenWizard: 1
   ShowSettings: 1

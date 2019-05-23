@@ -160,18 +160,6 @@ public class LetterBlock : MyMonoBehaviour, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        Debug.Log("Onphotonserializeview");
-        if (stream.IsWriting)
-        {
-            stream.SendNext(GetComponentInChildren<Text>().text);
-            Debug.Log("Onphoton send next");
-        }
-        else
-        {
-            var next = stream.ReceiveNext();
-            Debug.Log(next.ToString());
-            GetComponentInChildren<Text>().text = (string) next;
-            Debug.Log("Onphoton receive next");
-        }
+        
     }
 }

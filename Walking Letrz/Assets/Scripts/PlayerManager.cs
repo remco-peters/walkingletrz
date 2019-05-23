@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using UnityEngine;
 
@@ -11,32 +14,43 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
-            {
-
-                Player remotePlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion())
-                    .GetComponent<Player>();
-//                remotePlayer.Name = "Jantje";
-                remotePlayer.Name = "Peter";
-                    Players.Add(remotePlayer);
-            };
+//            PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
+//            {
+//
+//                Player remotePlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion())
+//                    .GetComponent<Player>();
+////                remotePlayer.Name = "Jantje";
+//                remotePlayer.Name = "Peter";
+//                    Players.Add(remotePlayer);
+//            };
         }
 
         public void NextTurn()
         {
-            int index = Players.IndexOf(GetCurrentActivePlayer());
+            var currentPlayer = GetCurrentActivePlayer();
+            int index = Array.IndexOf(PhotonNetwork.PlayerList, currentPlayer);
             if (index == -1) return;
             index += 1;
-            if (index >= Players.Count)
+            if (index == PhotonNetwork.PlayerList.Length)
                 index = 0;
-            Player newPlayer = Players[index];
-            GetCurrentActivePlayer().CanMove = false;
-            newPlayer.CanMove = true;
+//            Player newPlayer = Players[index];
+            Photon.Realtime.Player newPlayer = PhotonNetwork.PlayerList[index];
+            Debug.Log($"{newPlayer.NickName}");
+            Debug.Log($"index: {index}");
+            Debug.Log($"count: {PhotonNetwork.PlayerList.Length}");
+            Hashtable hash = new Hashtable {{"CanMove", true}};
+            newPlayer.SetCustomProperties(hash);
+            Hashtable hashh = new Hashtable {{"CanMove", false}};
+            currentPlayer.SetCustomProperties(hashh);
+            Debug.Log($"{currentPlayer.NickName} {currentPlayer.CustomProperties["CanMove"]}");
+//            GetCurrentActivePlayer().CanMove = false;
+//            newPlayer.CanMove = true;
         }
 
-        public Player GetCurrentActivePlayer()
+        public Photon.Realtime.Player GetCurrentActivePlayer()
         {
-            return Players.FirstOrDefault(x => x.CanMove);
+            return PhotonNetwork.PlayerList.FirstOrDefault(x => (bool) x.CustomProperties["CanMove"]);
+//            return Players.FirstOrDefault(x => x.CanMove);
         }
 
         public void ChangeWalkingLetters(char FirstLetter, char SecondLetter)

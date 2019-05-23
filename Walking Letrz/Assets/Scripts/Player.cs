@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+ using Photon.Pun;
+ using UnityEngine;
+ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace Assets.Scripts
+ namespace Assets.Scripts
 {
     public class Player : MyMonoBehaviour
     {
@@ -13,7 +15,6 @@ namespace Assets.Scripts
         public string Name { get; set; }
         public TheLetterManager TheLetterManager { get; set; }
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
-        private float Seconds = 0;
         public int WordsWithTwelveLetters { get; set; }
         private int _amountOfWordsPerMinute;
         public int AmountOfWordsPerMinute { 
@@ -31,6 +32,8 @@ namespace Assets.Scripts
             }
         }
         public int AmountOfWordsPerMinuteFinal { get; set; }
+        public int PlayerIndex { get; set; }
+        private float Seconds = 0;
 
         public static bool joinedRoom = false;
 
@@ -47,9 +50,12 @@ namespace Assets.Scripts
 
         public void Update()
         {
+            CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
             if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
+            Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
             if (TimeRemaining <= 0)
             {
                 //CanMove = false;
@@ -60,6 +66,7 @@ namespace Assets.Scripts
         {
             while(Seconds >= 0)
             {
+                CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
                 if (CanMove)
                 {
                     Seconds--;
