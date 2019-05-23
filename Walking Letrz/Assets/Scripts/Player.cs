@@ -43,7 +43,6 @@ using System.Collections.Generic;
         {
             StartTime = Time.realtimeSinceStartup;
             TotalTime = GameInstance.GetGameTimeInSeconds();
-            TimeRemaining = TotalTime;
             EarnedPoints = 0;
         }
 
