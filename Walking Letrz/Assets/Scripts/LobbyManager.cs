@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,9 @@ public class LobbyManager : MonoBehaviour
 
     void JoinedRoom()
     {
+        Hashtable hash = PhotonNetwork.IsMasterClient ? new Hashtable {{"CanMove", true} } : new Hashtable {{"CanMove", false}};
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        
         ShowAllPlayers();
     }
 

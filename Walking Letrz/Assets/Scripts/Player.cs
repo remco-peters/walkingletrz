@@ -50,6 +50,7 @@ using System.Collections.Generic;
 
         public void Update()
         {
+            CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
             if (!joinedRoom) return;
             if (!CanMove) return;
             TimeRemaining -= Time.deltaTime;
@@ -65,6 +66,7 @@ using System.Collections.Generic;
         {
             while(Seconds >= 0)
             {
+                CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
                 if (CanMove)
                 {
                     Seconds--;

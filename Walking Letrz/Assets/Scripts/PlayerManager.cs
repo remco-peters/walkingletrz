@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using UnityEngine;
 
@@ -24,19 +26,25 @@ namespace Assets.Scripts
 
         public void NextTurn()
         {
-            int index = Players.IndexOf(GetCurrentActivePlayer());
+            int index = Array.IndexOf(PhotonNetwork.PlayerList, GetCurrentActivePlayer());
             if (index == -1) return;
             index += 1;
-            if (index >= Players.Count)
+            if (index >= PhotonNetwork.CountOfPlayers)
                 index = 0;
-            Player newPlayer = Players[index];
-            GetCurrentActivePlayer().CanMove = false;
-            newPlayer.CanMove = true;
+//            Player newPlayer = Players[index];
+            Photon.Realtime.Player newPlayer = PhotonNetwork.PlayerList[index];
+            Hashtable hash = new Hashtable {{"CanMove", true}};
+            newPlayer.SetCustomProperties(hash);
+            hash = new Hashtable {{"CanMove", false}};
+            GetCurrentActivePlayer().SetCustomProperties(hash);
+//            GetCurrentActivePlayer().CanMove = false;
+//            newPlayer.CanMove = true;
         }
 
-        public Player GetCurrentActivePlayer()
+        public Photon.Realtime.Player GetCurrentActivePlayer()
         {
-            return Players.FirstOrDefault(x => x.CanMove);
+            return PhotonNetwork.PlayerList.FirstOrDefault(x => (bool) x.CustomProperties["CanMove"]);
+//            return Players.FirstOrDefault(x => x.CanMove);
         }
 
         public void ChangeWalkingLetters(char FirstLetter, char SecondLetter)
