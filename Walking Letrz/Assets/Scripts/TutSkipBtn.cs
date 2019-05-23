@@ -6,11 +6,11 @@ using UnityEngine.EventSystems;
 
 public class TutSkipBtn : EventTrigger
 {
-    public event UnityAction OnPlaceBtnTouched;
+    public event UnityAction OnSkipTutorialBtnTouched;
 
     public override void OnPointerClick(PointerEventData eventData)
     {
         
-            OnPlaceBtnTouched();
+            OnSkipTutorialBtnTouched();
     }
 }
