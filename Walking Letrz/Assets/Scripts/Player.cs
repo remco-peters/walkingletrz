@@ -35,13 +35,14 @@ using System.Collections.Generic;
         public int AmountOfWordsPerMinuteFinal { get; set; }
         public int PlayerIndex { get; set; }
         private float Seconds = 0;
+        private float TotalTime;
 
         public static bool joinedRoom = false;
 
         public void Awake()
         {
             StartTime = Time.realtimeSinceStartup;
-            TimeRemaining = GameInstance.GetGameTimeInSeconds();
+            TotalTime = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
         }
 
@@ -56,7 +57,7 @@ using System.Collections.Generic;
             if (!joinedRoom) return;
             if (!CanMove) return;
 //            TimeRemaining -= Time.deltaTime;
-            TimeRemaining = Time.realtimeSinceStartup - StartTime;
+            TimeRemaining = TotalTime - (Time.realtimeSinceStartup - StartTime);
             Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
             if (TimeRemaining <= 0)
