@@ -215,7 +215,7 @@ public class UIPlayerPanel : UIBehaviour
         foreach (Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
         {
             long points = (long) p.CustomProperties["Points"];
-            SetOpponentPoints(index, p);
+            SetOpponentPoints(index, points);
             if (Player.EarnedPoints > points || Player.EarnedPoints == points)
             {
                 CrownImage.sprite = crownGold;
@@ -398,18 +398,19 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
 
-    public void SetOpponentPoints(int which, Photon.Realtime.Player p)
+    public void SetOpponentPoints(int which, long points)
     {
+        
         switch (which)
         {
             case 0:
-                OpponentScoreTxt.text = $"{p.EarnedPoints}";
+                OpponentScoreTxt.text = $"{points}";
                 break;
             case 1:
-                OpponentScoreTxtSecond.text = $"{p.EarnedPoints}";
+                OpponentScoreTxtSecond.text = $"{points}";
                 break;
             case 2:
-                OpponentScoreTxtThird.text = $"{p.EarnedPoints}";
+                OpponentScoreTxtThird.text = $"{points}";
                 break;
             default:
                 break;
