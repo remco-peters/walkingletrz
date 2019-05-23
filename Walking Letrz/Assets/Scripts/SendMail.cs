@@ -1,6 +1,7 @@
 ﻿using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.ServerModels;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,12 +32,11 @@ namespace Assets.Scripts
                 CreateAccount = true // otherwise this will create an account with that ID
             };
             var emailAddress = emailaddress.text; // Set this to your own email
-
             PlayFabClientAPI.LoginWithCustomID(loginReq, loginRes =>
             {
                 Debug.Log("Successfully logged in player with PlayFabId: " + loginRes.PlayFabId);
                 AddOrUpdateContactEmail(loginRes.PlayFabId, emailAddress);
-            }, FailureCallback);
+            }, FailureCallback, null, new Dictionary<string,string>{["X-SecretKey"] = "GX7ZFEH4AXZSHQGNSOKSJHCIKH73ONA5NAJG1QJO9GHYSIEIJ7" });
         }
 
         private static System.Random random = new System.Random();
@@ -56,7 +56,7 @@ namespace Assets.Scripts
             PlayFabClientAPI.AddOrUpdateContactEmail(request, result =>
             {
                 Debug.Log("The player's account has been updated with a contact email");
-            }, FailureCallback);
+            }, FailureCallback, null, new Dictionary<string,string>{["X-SecretKey"] = "GX7ZFEH4AXZSHQGNSOKSJHCIKH73ONA5NAJG1QJO9GHYSIEIJ7" });
             SendTemplateMail(playFabId);
         }
 
@@ -66,7 +66,7 @@ namespace Assets.Scripts
             {
                 PlayFabId = playFabId
             };
-            PlayFabServerAPI.DeletePlayer(r, SuccesDelete, FailureCallback);
+            PlayFabServerAPI.DeletePlayer(r, SuccesDelete, FailureCallback, null, new Dictionary<string,string>{["X-SecretKey"] = "GX7ZFEH4AXZSHQGNSOKSJHCIKH73ONA5NAJG1QJO9GHYSIEIJ7" });
         }
 
         public void SuccesDelete(DeletePlayerResult d)
@@ -82,7 +82,7 @@ namespace Assets.Scripts
             };
             r.EmailTemplateId = templateId;
             PlayFabId = playFabId;
-            PlayFabServerAPI.SendEmailFromTemplate(r, Succes, FailureCallback);
+            PlayFabServerAPI.SendEmailFromTemplate(r, Succes, FailureCallback, null, new Dictionary<string,string>{["X-SecretKey"] = "GX7ZFEH4AXZSHQGNSOKSJHCIKH73ONA5NAJG1QJO9GHYSIEIJ7" });
         }
 
         void FailureCallback(PlayFabError error)
