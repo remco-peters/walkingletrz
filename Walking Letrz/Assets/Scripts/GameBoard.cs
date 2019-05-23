@@ -177,7 +177,7 @@ public class GameBoard : MonoBehaviour
 
         Debug.Log($"{word}, fixedFirst = {firstIndex} fixedSecond: {secondIndex}");
 
-        for(int j = word.Length; j <= 12; j++)
+        for (int j = word.Length; j <= 12; j++)
         {
             GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
             emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
