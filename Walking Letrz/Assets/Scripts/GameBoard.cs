@@ -97,7 +97,12 @@ public class GameBoard : MonoBehaviour
         {
             GameObject parentRow = _letterManager.GetRightRow(row);
 
-            if (parentRow.transform.GetChild(index) != null && newLetrz == 1)
+            if (isFirstLetter)
+                TheLM.FirstLetter = letter[0];
+            if (isSecondLetter)
+                TheLM.SecondLetter = letter[0];
+            
+            if (newLetrz == 1)
             {
                 DestroyImmediate(parentRow.transform.GetChild(index).gameObject);
             }

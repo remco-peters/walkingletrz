@@ -493,6 +493,7 @@ namespace Assets.Scripts
             TheLetterManager.SecondLetter = TheLetterManager.FirstLetter;
             var lastIndex = madeWord.Length;
             TheLetterManager.FirstLetter = madeWord[lastIndex - 1];
+            
             if (isBot)
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
