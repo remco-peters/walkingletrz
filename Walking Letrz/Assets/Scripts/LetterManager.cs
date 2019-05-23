@@ -504,7 +504,10 @@ namespace Assets.Scripts
                 parentRow = GetRightRow(1);
                 placeHolder = parentRow.transform.GetChild(1);
                 DestroyImmediate(placeHolder.gameObject);
-                SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);     
+                SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
+
+                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0);
+                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1);
             }
         }    
 
