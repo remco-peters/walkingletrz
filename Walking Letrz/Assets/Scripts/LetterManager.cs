@@ -305,7 +305,8 @@ namespace Assets.Scripts
 
         private void TradeLetterBtnTouch()
         {
-            if (!Player.CanMove || Player.EarnedPoints < 20) return;
+            bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            if (!canMove || Player.EarnedPoints < 20) return;
             var buttonImage = TradeBtn.GetComponentsInChildren<RectTransform>().Where(img => img.name == "TradeBtnImg").ToList()[0];
             StartCoroutine(RotateTradeButton(buttonImage, 1));
             RemoveAllLetters();
@@ -385,7 +386,9 @@ namespace Assets.Scripts
         private void PlaceWord()
         {
             // Alleen wanneer mag versturen
-            if (Player.CanMove)
+            
+            bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            if (canMove)
             {
                 if (PlacedLetters.Any(x => x.LetterBlock != null))
                 {
@@ -423,7 +426,8 @@ namespace Assets.Scripts
 
         private void ShowPlayerWhyInactive()
         {
-            if(!Player.CanMove)
+            bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            if(!canMove)
             {
                 Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("info_not_your_turn");
             } else

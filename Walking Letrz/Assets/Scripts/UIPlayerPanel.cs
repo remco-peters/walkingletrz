@@ -119,7 +119,8 @@ public class UIPlayerPanel : UIBehaviour
         if (Player.IsInTutorial)
         {
             skipTutorialBtn = Instantiate(skipTutorialBtnClass, transform, false);
-            skipTutorialBtn.GetComponent<TutSkipBtn>().OnPlaceBtnTouched += UIPlayerPanel_OnPlaceBtnTouched;
+            skipTutorialBtn.GetComponent<TutSkipBtn>().OnSkipTutorialBtnTouched += UiPlayerPanelOnSkipTutorialBtnTouched;
+            //TOdo: niet met photon
             Player.CanMove = false;
             ShowTutorial();
         }
@@ -128,7 +129,7 @@ public class UIPlayerPanel : UIBehaviour
         StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
     }
 
-    private void UIPlayerPanel_OnPlaceBtnTouched()
+    private void UiPlayerPanelOnSkipTutorialBtnTouched()
     {
         Destroy(skipTutorialBtn.gameObject);
         foreach (GameObject obj in TutorialScreens)
@@ -342,7 +343,8 @@ public class UIPlayerPanel : UIBehaviour
 
     private void SetBackgroundPlayerColor()
     {
-        if(Player.CanMove)
+        bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+        if(canMove)
         {
             PlayerBackground.GetComponent<Image>().material = TurnMaterial;
             OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
