@@ -2,7 +2,8 @@
 ﻿using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.ServerModels;
-using System.Linq;
+using System;
+using System.Text.RegularExpressions;
 using UnityEngine;
 =======
 ﻿using UnityEngine;
@@ -32,24 +33,34 @@ namespace Assets.Scripts
             }
             var loginReq = new LoginWithCustomIDRequest
             {
-                CustomId = RandomString(8), // replace with your own Custom ID
+                CustomId = "SomeCustomID", // replace with your own Custom ID
                 CreateAccount = true // otherwise this will create an account with that ID
             };
+
+            var username = "dummyaccount"; // Set this to your username
+            var password = "boeitnietechtnatuurlijk"; // Set this to your password
             var emailAddress = emailaddress.text; // Set this to your own email
 
             PlayFabClientAPI.LoginWithCustomID(loginReq, loginRes =>
             {
                 Debug.Log("Successfully logged in player with PlayFabId: " + loginRes.PlayFabId);
+                AddUserNamePassword(username, password, emailAddress); // Add a username and password
                 AddOrUpdateContactEmail(loginRes.PlayFabId, emailAddress);
             }, FailureCallback);
         }
 
-        private static System.Random random = new System.Random();
-        public static string RandomString(int length)
+        void AddUserNamePassword(string username, string password, string emailAddress)
         {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+            var request = new AddUsernamePasswordRequest
+            {
+                Username = username,
+                Password = password,
+                Email = emailAddress // Login email
+            };
+            PlayFabClientAPI.AddUsernamePassword(request, result =>
+            {
+                Debug.Log("The player's account now has username and password");
+            }, FailureCallback);
         }
 
         void AddOrUpdateContactEmail(string playFabId, string emailAddress)
