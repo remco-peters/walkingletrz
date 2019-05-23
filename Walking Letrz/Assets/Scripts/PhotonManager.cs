@@ -29,9 +29,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected) return;
         PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
-        PhotonPeer.RegisterType(typeof(LetterPosition), (byte) 'L', LetterPosition.Serialize,
-            LetterPosition.Deserialize);
-        
+          
         
         Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();
@@ -42,8 +40,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
 
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.SendRate = 1;
-        PhotonNetwork.SerializationRate = 1;
+        //PhotonNetwork.SendRate = 1;
+        //PhotonNetwork.SerializationRate = 1;
     }
     
     public override void OnConnectedToMaster()
