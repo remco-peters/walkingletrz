@@ -17,12 +17,10 @@ namespace Assets.Scripts
 <<<<<<< HEAD
         public Text emailaddress;
         private const string templateId = "520D981132030A3";
-        string PlayFabId {get;set; }
 
         public void Succes(SendEmailFromTemplateResult r)
         {
             Debug.Log("Succesfully send mail");
-            DeleteDummyAccount(PlayFabId);
         }
 
         public void SendEmail()
@@ -74,6 +72,7 @@ namespace Assets.Scripts
                 Debug.Log("The player's account has been updated with a contact email");
             }, FailureCallback);
             SendTemplateMail(playFabId);
+            DeleteDummyAccount(playFabId);
         }
 
         private void DeleteDummyAccount(string playFabId)
@@ -97,7 +96,6 @@ namespace Assets.Scripts
                 PlayFabId = playFabId
             };
             r.EmailTemplateId = templateId;
-            PlayFabId = playFabId;
             PlayFabServerAPI.SendEmailFromTemplate(r, Succes, FailureCallback);
         }
 
