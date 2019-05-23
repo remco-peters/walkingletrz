@@ -70,7 +70,6 @@ public class GameBoard : MonoBehaviour
 
         _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second);
         RemoveAndChangeLetters(placedLetters, points);
-        GameState.PlacedWordsInThisGame.Add(word);
 
     }
 
@@ -137,6 +136,7 @@ public class GameBoard : MonoBehaviour
     [PunRPC]
     private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex)
     {
+        GameState.PlacedWordsInThisGame.Add(word);
         GameObject wordHolder = Instantiate(GameBoardWordHolder);
         int i = 0;
         foreach (char letter in word)
