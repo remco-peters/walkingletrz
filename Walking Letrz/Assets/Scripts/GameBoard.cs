@@ -95,6 +95,13 @@ public class GameBoard : MonoBehaviour
         LetterBlock block;
         if (isFirstLetter || isSecondLetter)
         {
+            GameObject parentRow = _letterManager.GetRightRow(row);
+
+            if (parentRow.transform.GetChild(index) != null && newLetrz == 1)
+            {
+                DestroyImmediate(parentRow.transform.GetChild(index).gameObject);
+            }
+
             block = FixedLettersBlockObject;
             block = Instantiate(block);
             block.IsFirstLetter = isFirstLetter;
@@ -105,14 +112,10 @@ public class GameBoard : MonoBehaviour
             block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
             block.GetComponentsInChildren<Text>()[1].text = TheLM.CharactersValues
                 .First(x => x.Key == char.ToLower(letter[0])).Value.ToString();
-            GameObject parentRow = _letterManager.GetRightRow(row);
             block.transform.SetParent(parentRow.transform, false);
                 block.transform.SetSiblingIndex((int)index);
             
-            if(parentRow.transform.GetChild(index) != null && newLetrz == 1)
-            {
-                DestroyImmediate(parentRow.transform.GetChild(index).gameObject);
-            }
+            
 
             _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
         } else
