@@ -27,10 +27,11 @@ namespace Assets.Scripts
 
         public void NextTurn()
         {
-            int index = Array.IndexOf(PhotonNetwork.PlayerList, GetCurrentActivePlayer());
+            var currentPlayer = GetCurrentActivePlayer();
+            int index = Array.IndexOf(PhotonNetwork.PlayerList, currentPlayer);
             if (index == -1) return;
             index += 1;
-            if (index >= PhotonNetwork.PlayerList.Length)
+            if (index == PhotonNetwork.PlayerList.Length)
                 index = 0;
 //            Player newPlayer = Players[index];
             Photon.Realtime.Player newPlayer = PhotonNetwork.PlayerList[index];
@@ -39,8 +40,9 @@ namespace Assets.Scripts
             Debug.Log($"count: {PhotonNetwork.PlayerList.Length}");
             Hashtable hash = new Hashtable {{"CanMove", true}};
             newPlayer.SetCustomProperties(hash);
-            hash = new Hashtable {{"CanMove", false}};
-            GetCurrentActivePlayer().SetCustomProperties(hash);
+            Hashtable hashh = new Hashtable {{"CanMove", false}};
+            currentPlayer.SetCustomProperties(hashh);
+            Debug.Log($"{currentPlayer.NickName} {currentPlayer.CustomProperties["CanMove"]}");
 //            GetCurrentActivePlayer().CanMove = false;
 //            newPlayer.CanMove = true;
         }
