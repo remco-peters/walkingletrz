@@ -108,13 +108,13 @@ public class DynamicUI : MyMonoBehaviour
         
         PlayerManagerClass = Spawn(PlayerManagerClass, this);
 
-        BotClass = Spawn(BotClass, this, bot =>
+        /*BotClass = Spawn(BotClass, this, bot =>
         {
             bot.LetterManager = LetterManagerClass;
             bot.TheLetterManager = TheLetterManagerClass;
             bot.Name = $"{difficulty.ToString()} bot";
             bot.difficulty = difficulty;
-        });
+        });*/
         
         //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
         PlayerManagerClass.Players = new List<Player> { localPlayer/*, BotClass*/ };//todo add bots or other players
