@@ -13,10 +13,10 @@ namespace Assets.Scripts
         public GameObject Counter;
         public void Start()
         {
-            StartCoroutine(AnimateFixedLettersScreen(Time.fixedTime));
+            StartCoroutine(AnimateFixedLettersScreen());
         }
 
-        private IEnumerator AnimateFixedLettersScreen(float timeStart)
+        private IEnumerator AnimateFixedLettersScreen()
         {
             float rotate = 0;
             int timeleft = 3;
