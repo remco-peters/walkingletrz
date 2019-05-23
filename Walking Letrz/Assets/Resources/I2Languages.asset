@@ -185,6 +185,14 @@ MonoBehaviour:
       - Hard
       Flags: 0000
       Languages_Touch: []
+    - Term: start_game_btn_mp
+      TermType: 0
+      Description: 
+      Languages:
+      - Start nieuw multiplayer spel
+      - Start new multiplayer game
+      Flags: 0000
+      Languages_Touch: []
     - Term: start_game_btn
       TermType: 0
       Description: 
@@ -885,7 +893,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1558523364491
+    Google_LastUpdatedVersion: 1558646177527
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
