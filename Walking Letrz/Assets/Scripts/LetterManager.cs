@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
@@ -444,6 +445,9 @@ namespace Assets.Scripts
         // TheLetterManager
         private void PlaceWordInGameBoard(long points = 0)
         {
+            long playerPoints = (long) PhotonNetwork.LocalPlayer.CustomProperties["Points"];
+            Hashtable hash = new Hashtable {{"Points", playerPoints + points}};
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
             _gameBoard.CallRPC(points, PlacedLetters);
         }
 

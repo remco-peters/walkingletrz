@@ -196,21 +196,35 @@ public class UIPlayerPanel : UIBehaviour
         SetBackgroundPlayerColor();
 
         int index = 0;
-        foreach (Player p in Players)
+//        foreach (Player p in Players)
+//        {
+//            if (p != Player)
+//            {
+//                SetOpponentPoints(index, p);
+//                // Change this later on
+//                if(Player.EarnedPoints > p.EarnedPoints || Player.EarnedPoints == p.EarnedPoints)
+//                {
+//                    CrownImage.sprite = crownGold;
+//                } else
+//                {
+//                    CrownImage.sprite = crownSilver;
+//                }
+//                index++;
+//            }
+//        }
+        foreach (Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
         {
-            if (p != Player)
+            long points = (long) p.CustomProperties["Points"];
+            SetOpponentPoints(index, p);
+            if (Player.EarnedPoints > points || Player.EarnedPoints == points)
             {
-                SetOpponentPoints(index, p);
-                // Change this later on
-                if(Player.EarnedPoints > p.EarnedPoints || Player.EarnedPoints == p.EarnedPoints)
-                {
-                    CrownImage.sprite = crownGold;
-                } else
-                {
-                    CrownImage.sprite = crownSilver;
-                }
-                index++;
+                CrownImage.sprite = crownGold;
             }
+            else
+            {
+                CrownImage.sprite = crownSilver;
+            }
+            index++;
         }
     }
 
@@ -384,7 +398,7 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
 
-    public void SetOpponentPoints(int which, Player p)
+    public void SetOpponentPoints(int which, Photon.Realtime.Player p)
     {
         switch (which)
         {
