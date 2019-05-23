@@ -73,9 +73,9 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    public void CallRPCPlaceLtrz(string letter, bool isFirst, bool isSecond, int row, int index)
+    public void CallRPCPlaceLtrz(string letter, bool isFirst, bool isSecond, int row, int index, int newLetrz = 0)
     {
-        _photonView.RPC(nameof(PlaceLetters), RpcTarget.Others, letter, isFirst, isSecond, row, index);
+        _photonView.RPC(nameof(PlaceLetters), RpcTarget.Others, letter, isFirst, isSecond, row, index, newLetrz);
     }
 
     public void CallRPCInitPlayerLetters()
@@ -90,7 +90,7 @@ public class GameBoard : MonoBehaviour
     }
 
     [PunRPC]
-    private void PlaceLetters(string letter, bool isFirstLetter, bool isSecondLetter, int row, int index)
+    private void PlaceLetters(string letter, bool isFirstLetter, bool isSecondLetter, int row, int index, int newLetrz = 0)
     {
         LetterBlock block;
         if (isFirstLetter || isSecondLetter)
@@ -109,7 +109,7 @@ public class GameBoard : MonoBehaviour
             block.transform.SetParent(parentRow.transform, false);
                 block.transform.SetSiblingIndex((int)index);
             
-            if(parentRow.transform.GetChild(0) != null)
+            if(parentRow.transform.GetChild(index) != null && newLetrz == 1)
             {
                 DestroyImmediate(parentRow.transform.GetChild(index).gameObject);
             }
