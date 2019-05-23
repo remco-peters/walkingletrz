@@ -7,6 +7,8 @@ public class BoosterScene : MonoBehaviour
 {
     // Start is called before the first frame update
     private long credits;
+    public ScrollRect MainScroll;
+
     void Start()
     {
         credits = GameInstance.instance.credits;
@@ -39,6 +41,11 @@ public class BoosterScene : MonoBehaviour
 
     public void BoosterBtnClick(Toggle toggle)
     {
+        if (MainScroll.velocity.magnitude > 0f)
+        {
+            toggle.isOn = !toggle.isOn;
+            return;
+        }
         long.TryParse(toggle.transform.Find("Credits")?.GetComponent<Text>()?.text, out long toggleCredits);
         if (toggleCredits > credits)
         {

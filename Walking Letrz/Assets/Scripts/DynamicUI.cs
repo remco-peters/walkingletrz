@@ -40,6 +40,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject PlayerInfoPanel;
     public Text PlayerInfoTxt;
     public Credit CreditClass;
+    public GameObject FixedLetterOverlay;
     public bool Tutorial { get; set; }
 
     void Awake()
