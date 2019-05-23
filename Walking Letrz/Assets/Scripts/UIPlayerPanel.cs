@@ -250,7 +250,7 @@ public class UIPlayerPanel : UIBehaviour
         int index = 0;
         foreach(Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
         {
-            Hashtable hash = new Hashtable {{"Points", 0}, {"TimeRemaining", Player.TimeRemaining}};
+            Hashtable hash = new Hashtable {{"Points", (long) 0}, {"TimeRemaining", Player.TimeRemaining}};
             p.SetCustomProperties(hash);
             OpponentNameTxt.text = p.NickName;
             OpponentScoreTxt.text = $"{p.CustomProperties["Points"]}";
