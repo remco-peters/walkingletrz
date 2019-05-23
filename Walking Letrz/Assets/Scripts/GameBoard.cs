@@ -109,6 +109,10 @@ public class GameBoard : MonoBehaviour
             block.transform.SetParent(parentRow.transform, false);
                 block.transform.SetSiblingIndex((int)index);
             
+            if(parentRow.transform.GetChild(0) != null)
+            {
+                DestroyImmediate(parentRow.transform.GetChild(index).gameObject);
+            }
 
             _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
         } else
