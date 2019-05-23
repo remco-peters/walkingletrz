@@ -17,6 +17,7 @@ using System.Collections.Generic;
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
         public int WordsWithTwelveLetters { get; set; }
         private int _amountOfWordsPerMinute;
+        private float StartTime;
         public int AmountOfWordsPerMinute { 
             get {
                 return _amountOfWordsPerMinute;
@@ -39,6 +40,7 @@ using System.Collections.Generic;
 
         public void Awake()
         {
+            StartTime = Time.realtimeSinceStartup;
             TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
         }
@@ -53,7 +55,8 @@ using System.Collections.Generic;
             CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
             if (!joinedRoom) return;
             if (!CanMove) return;
-            TimeRemaining -= Time.deltaTime;
+//            TimeRemaining -= Time.deltaTime;
+            TimeRemaining = Time.realtimeSinceStartup - StartTime;
             Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
             PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
             if (TimeRemaining <= 0)
