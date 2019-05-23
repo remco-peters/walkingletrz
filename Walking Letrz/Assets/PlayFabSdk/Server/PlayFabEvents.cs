@@ -1,4 +1,4 @@
-
+#if ENABLE_PLAYFABSERVER_API
 using PlayFab.ServerModels;
 
 namespace PlayFab.Events
@@ -247,4 +247,4 @@ namespace PlayFab.Events
         public event PlayFabResultEvent<WriteEventResponse> OnServerWriteTitleEventResultEvent;
     }
 }
-
+#endif

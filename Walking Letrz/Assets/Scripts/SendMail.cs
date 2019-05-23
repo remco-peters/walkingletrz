@@ -1,14 +1,19 @@
+<<<<<<< HEAD
 ﻿using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.ServerModels;
 using System.Linq;
 using UnityEngine;
+=======
+﻿using UnityEngine;
+>>>>>>> parent of 3bfd46a... Email shit
 using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    class SendMail : MyMonoBehaviour
+    class SendMail
     {
+<<<<<<< HEAD
         public Text emailaddress;
         private const string templateId = "520D981132030A3";
         string PlayFabId {get;set; }
@@ -100,5 +105,19 @@ namespace Assets.Scripts
                 return false;
             }
         }
+=======
+        Text emailaddress;
+        void SendEmail ()
+         {
+              string email = emailaddress.text;
+              string subject = MyEscapeURL("Invite Walking Letrz");
+              string body = MyEscapeURL("My Body\r\nFull of non-escaped chars");
+              Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+         }
+         string MyEscapeURL (string url)
+         {
+               return WWW.EscapeURL(url).Replace("+","%20");
+         }
+>>>>>>> parent of 3bfd46a... Email shit
     }
 }
