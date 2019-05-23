@@ -103,7 +103,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
             Failed(Error, Message);
         };
-        RoomOptions options = new RoomOptions {MaxPlayers = 2};
+        RoomOptions options = new RoomOptions {MaxPlayers = 4};
         bool Result = PhotonNetwork.CreateRoom(Name, options);
 
         if (!Result) {
