@@ -1,8 +1,7 @@
 ﻿using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.ServerModels;
-using System;
-using System.Text.RegularExpressions;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,34 +25,24 @@ namespace Assets.Scripts
             }
             var loginReq = new LoginWithCustomIDRequest
             {
-                CustomId = "SomeCustomID", // replace with your own Custom ID
+                CustomId = RandomString(8), // replace with your own Custom ID
                 CreateAccount = true // otherwise this will create an account with that ID
             };
-
-            var username = "dummyaccount"; // Set this to your username
-            var password = "boeitnietechtnatuurlijk"; // Set this to your password
             var emailAddress = emailaddress.text; // Set this to your own email
 
             PlayFabClientAPI.LoginWithCustomID(loginReq, loginRes =>
             {
                 Debug.Log("Successfully logged in player with PlayFabId: " + loginRes.PlayFabId);
-                AddUserNamePassword(username, password, emailAddress); // Add a username and password
                 AddOrUpdateContactEmail(loginRes.PlayFabId, emailAddress);
             }, FailureCallback);
         }
 
-        void AddUserNamePassword(string username, string password, string emailAddress)
+        private static System.Random random = new System.Random();
+        public static string RandomString(int length)
         {
-            var request = new AddUsernamePasswordRequest
-            {
-                Username = username,
-                Password = password,
-                Email = emailAddress // Login email
-            };
-            PlayFabClientAPI.AddUsernamePassword(request, result =>
-            {
-                Debug.Log("The player's account now has username and password");
-            }, FailureCallback);
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
         void AddOrUpdateContactEmail(string playFabId, string emailAddress)
