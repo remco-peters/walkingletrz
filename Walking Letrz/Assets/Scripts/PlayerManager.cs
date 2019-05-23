@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -29,10 +30,13 @@ namespace Assets.Scripts
             int index = Array.IndexOf(PhotonNetwork.PlayerList, GetCurrentActivePlayer());
             if (index == -1) return;
             index += 1;
-            if (index >= PhotonNetwork.CountOfPlayers)
+            if (index >= PhotonNetwork.PlayerList.Length)
                 index = 0;
 //            Player newPlayer = Players[index];
             Photon.Realtime.Player newPlayer = PhotonNetwork.PlayerList[index];
+            Debug.Log($"{newPlayer.NickName}");
+            Debug.Log($"index: {index}");
+            Debug.Log($"count: {PhotonNetwork.PlayerList.Length}");
             Hashtable hash = new Hashtable {{"CanMove", true}};
             newPlayer.SetCustomProperties(hash);
             hash = new Hashtable {{"CanMove", false}};
