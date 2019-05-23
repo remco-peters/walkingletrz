@@ -1,4 +1,4 @@
-#if ENABLE_PLAYFABSERVER_API
+
 
 using System;
 using System.Collections.Generic;
@@ -1417,5 +1417,3 @@ namespace PlayFab
 
     }
 }
-
-#endif
