@@ -191,7 +191,7 @@ namespace Assets.Scripts
                 }
                 Debug.Log($"Word does not exist. Word: {word}");
             }
-            else if (PlacedWords.Contains(word))
+            else if (PlacedWords.Contains(word) || GameState.PlacedWordsInThisGame.Contains(word))
             {
                 if (p != null)
                 {
