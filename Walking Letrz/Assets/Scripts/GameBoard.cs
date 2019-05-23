@@ -136,7 +136,7 @@ public class GameBoard : MonoBehaviour
     [PunRPC]
     private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex)
     {
-        GameState.PlacedWordsInThisGame.Add(word);
+        GameState.PlacedWordsInThisGame.Add(word.ToLower());
         GameObject wordHolder = Instantiate(GameBoardWordHolder);
         int i = 0;
         foreach (char letter in word)
