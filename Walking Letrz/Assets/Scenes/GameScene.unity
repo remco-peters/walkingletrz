@@ -231,6 +231,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2259605226463836848, guid: b6b0d0fc2ddaf22448cec038f61c0ccd,
         type: 3}
+    - target: {fileID: 7894821349571393290, guid: 8d04773724aa046d98ddfb51db478e9b,
+        type: 3}
+      propertyPath: DynamicGameBoard
+      value: 
+      objectReference: {fileID: 1911638306418503643, guid: 38c79472598f46447967e4e41b5d09fa,
+        type: 3}
     - target: {fileID: 8343792749724170992, guid: 8d04773724aa046d98ddfb51db478e9b,
         type: 3}
       propertyPath: m_LocalScale.x

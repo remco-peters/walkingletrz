@@ -54,6 +54,7 @@ public class DynamicUI : MyMonoBehaviour
     {
         Difficulty difficulty = GameInstance.instance.difficulty;
         Debug.Log(difficulty.ToString());
+
         Assert.IsNotNull(PlayerClass, "Player misses in GameState");
         Assert.IsNotNull(HUDClass, "HUD misses in GameState");
         Assert.IsNotNull(LetterManagerClass, "LetterManagerClass misses in GameState");
@@ -61,68 +62,104 @@ public class DynamicUI : MyMonoBehaviour
         Assert.IsNotNull(TheLetterManagerClass, "TheLetterManagerClass misses in GameState");
 
         AchievementManager achievementManager = Instantiate(AchievementManagerClass);
-        MyPlayer localPlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion()).GetComponent<MyPlayer>();
-        localPlayer.AchievementManager = achievementManager;
-        localPlayer.name = "Ik";
-        localPlayer.Credit = CreditClass;
-//        MyPlayer player = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass;});
-        localPlayer.IsInTutorial = Tutorial;
-        HUD HUD = Spawn(HUDClass, hud => { hud.Player = localPlayer; });
-//
-//        GameBoardWordContainer =
-//            PhotonNetwork.InstantiateSceneObject("Content", new Vector3(0, 0, 0), new Quaternion());
-//        GameBoardWordContainer.transform.SetParent(GameBoard.transform);
-//        GameBoard gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
-//        gameBoard.GameBoardWordHolder = GameBoardWordHolder;
-//        ScrollRect.content = GameBoardWordContainer.GetComponent<RectTransform>();
-        
-        LetterManagerClass = Spawn(LetterManagerClass, this, letterManager =>
+        MyPlayer localPlayer;
+        if(GameInstance.instance.IsMultiplayer)
         {
-            letterManager.DynamicUi = this;
-            letterManager.TheLetterManager = TheLetterManagerClass;
-            letterManager.Player = localPlayer;
-            letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
-            letterManager.PlaceHolderObject = PlaceHolderObject;
-            letterManager.FirstRow = FirstRow;
-            letterManager.SecondRow = SecondRow;
-            letterManager.ThirdRow = ThirdRow;
-            letterManager.WritingBoard = WritingBoard;
-            letterManager.DeleteBtn = DeleteBtn;
-            letterManager.PlaceBtn = PlaceBtn;
-            letterManager.TradeBtn = TradeLettersBtnClass;
-            letterManager.BoosterBtn = BoosterBtn;
-            letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
-            letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
-            letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
-            letterManager.GameBoardWordHolder = GameBoardWordHolder;
-            letterManager.GameBoardWordContainer = GameBoardWordContainer;
-            letterManager.PointsGainedPanel = PointsGainedPanel;
-            letterManager.PointsGainedText = PointsGainedText;
-            letterManager.BoosterBoard = BoosterBoard;
-            letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
-            letterManager.TripleWordValueBtn = TripleWordValueBtn;
-        });
+            localPlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion()).GetComponent<MyPlayer>();
+            localPlayer.AchievementManager = achievementManager;
+            localPlayer.name = PhotonNetwork.LocalPlayer.NickName;
+            localPlayer.Credit = CreditClass;
+            localPlayer.IsInTutorial = Tutorial;
+            HUD HUD = Spawn(HUDClass, hud => { hud.Player = localPlayer; });
 
-//        gameBoard.LetterManager = LetterManagerClass;
+            LetterManagerClass = Spawn(LetterManagerClass, this, letterManager =>
+            {
+                letterManager.DynamicUi = this;
+                letterManager.TheLetterManager = TheLetterManagerClass;
+                letterManager.Player = localPlayer;
+                letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
+                letterManager.PlaceHolderObject = PlaceHolderObject;
+                letterManager.FirstRow = FirstRow;
+                letterManager.SecondRow = SecondRow;
+                letterManager.ThirdRow = ThirdRow;
+                letterManager.WritingBoard = WritingBoard;
+                letterManager.DeleteBtn = DeleteBtn;
+                letterManager.PlaceBtn = PlaceBtn;
+                letterManager.TradeBtn = TradeLettersBtnClass;
+                letterManager.BoosterBtn = BoosterBtn;
+                letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
+                letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
+                letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
+                letterManager.GameBoardWordHolder = GameBoardWordHolder;
+                letterManager.GameBoardWordContainer = GameBoardWordContainer;
+                letterManager.PointsGainedPanel = PointsGainedPanel;
+                letterManager.PointsGainedText = PointsGainedText;
+                letterManager.BoosterBoard = BoosterBoard;
+                letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
+                letterManager.TripleWordValueBtn = TripleWordValueBtn;
+            });
 
-        LetterManager letterManagerBot = LetterManagerClass;
-        
-        PlayerManagerClass = Spawn(PlayerManagerClass, this);
+            LetterManager letterManagerBot = LetterManagerClass;
 
-        /*BotClass = Spawn(BotClass, this, bot =>
+            PlayerManagerClass = Spawn(PlayerManagerClass, this);
+            PlayerManagerClass.Players = new List<Player> { localPlayer };
+
+            Debug.Log(PlayerManagerClass.Players.Count);
+
+            HUD.PlayersList = PlayerManagerClass.Players;
+            BotClass.playerManager = PlayerManagerClass;
+
+        } else
         {
-            bot.LetterManager = LetterManagerClass;
-            bot.TheLetterManager = TheLetterManagerClass;
-            bot.Name = $"{difficulty.ToString()} bot";
-            bot.difficulty = difficulty;
-        });*/
-        
-        //PlayerManagerClass.Players = new List<Player> { player }; // Todo add bots or other players
-        PlayerManagerClass.Players = new List<Player> { localPlayer/*, BotClass*/ };//todo add bots or other players
+            localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass; });
+            localPlayer.AchievementManager = achievementManager;
+            localPlayer.Credit = CreditClass;
+            localPlayer.IsInTutorial = Tutorial;
+            HUD HUD = Spawn(HUDClass, hud => { hud.Player = localPlayer; });
+            
+            LetterManagerClass = Spawn(LetterManagerClass, this, letterManager =>
+            {
+                letterManager.DynamicUi = this;
+                letterManager.TheLetterManager = TheLetterManagerClass;
+                letterManager.Player = localPlayer;
+                letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
+                letterManager.PlaceHolderObject = PlaceHolderObject;
+                letterManager.FirstRow = FirstRow;
+                letterManager.SecondRow = SecondRow;
+                letterManager.ThirdRow = ThirdRow;
+                letterManager.WritingBoard = WritingBoard;
+                letterManager.DeleteBtn = DeleteBtn;
+                letterManager.PlaceBtn = PlaceBtn;
+                letterManager.TradeBtn = TradeLettersBtnClass;
+                letterManager.BoosterBtn = BoosterBtn;
+                letterManager.EmptyLetterBlockObject = EmptyLetterBlockObject;
+                letterManager.FixedLettersBlockObject = FixedLetterBlockObject;
+                letterManager.PlayerLetterBlockObject = PlayerLetterBlockObject;
+                letterManager.GameBoardWordHolder = GameBoardWordHolder;
+                letterManager.GameBoardWordContainer = GameBoardWordContainer;
+                letterManager.PointsGainedPanel = PointsGainedPanel;
+                letterManager.PointsGainedText = PointsGainedText;
+                letterManager.BoosterBoard = BoosterBoard;
+                letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
+                letterManager.TripleWordValueBtn = TripleWordValueBtn;
+            });
 
-        HUD.PlayersList = PlayerManagerClass.Players;
+            LetterManager letterManagerBot = LetterManagerClass;
 
-        BotClass.playerManager = PlayerManagerClass;
+            BotClass = Spawn(BotClass, this, bot =>
+            {
+                bot.LetterManager = LetterManagerClass;
+                bot.TheLetterManager = TheLetterManagerClass;
+                bot.Name = $"{difficulty.ToString()} bot";
+                bot.difficulty = difficulty;
+            });
 
+            PlayerManagerClass = Spawn(PlayerManagerClass, this);
+            PlayerManagerClass.Players = new List<Player> { localPlayer, BotClass };
+            
+            HUD.PlayersList = PlayerManagerClass.Players;
+            BotClass.playerManager = PlayerManagerClass;
+            
+        }
     }
 }

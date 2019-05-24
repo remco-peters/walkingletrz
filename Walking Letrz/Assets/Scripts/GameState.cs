@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 public class GameState : MonoBehaviourPunCallbacks
 {
-    public DynamicUI MediumGameBoard;
+    public DynamicUI DynamicGameBoard;
     public Camera CameraClass;
     public AchievementManager AchievementManagerClass;
     private bool Tutorial;
@@ -25,31 +25,20 @@ public class GameState : MonoBehaviourPunCallbacks
     void Start()
     {
         Assert.IsNotNull(CameraClass, "Camera misses in GameState");
-        Assert.IsNotNull(MediumGameBoard, "GameBoard misses in GameState");
-
-        DeleteAchievements();
-
+        Assert.IsNotNull(DynamicGameBoard, "GameBoard misses in GameState");
+        
         // If medium is chosen
-        DynamicUI GBoard = Instantiate(MediumGameBoard);
+        DynamicUI GBoard = Instantiate(DynamicGameBoard);
         GBoard.Tutorial = GetTutorial();
         Instantiate(CameraClass);
 
 //        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () => { };
     }
-
-    private void DeleteAchievements()
-    {
-        PlayerPrefs.DeleteKey("25PointAchievement");
-        PlayerPrefs.DeleteKey("50PointAchievement");
-        PlayerPrefs.DeleteKey("100PointAchievement");
-        PlayerPrefs.DeleteKey("250PointAchievement");
-        PlayerPrefs.DeleteKey("5WordAchievement");
-        PlayerPrefs.DeleteKey("10WordAchievement");
-        PlayerPrefs.DeleteKey("25WordAchievement");
-    }
-
+    
     private bool GetTutorial()
     {
+        if (GameInstance.instance.IsMultiplayer) return false;
+
         if (PlayerPrefs.GetInt("HadTutorialGame") == 0)
         {
             PlayerPrefs.SetInt("HadTutorialGame", 1);
