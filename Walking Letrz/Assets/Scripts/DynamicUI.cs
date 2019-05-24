@@ -6,6 +6,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class DynamicUI : MyMonoBehaviour
 {
@@ -52,6 +53,7 @@ public class DynamicUI : MyMonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+   
         Difficulty difficulty = GameInstance.instance.difficulty;
         Debug.Log(difficulty.ToString());
 
@@ -108,7 +110,14 @@ public class DynamicUI : MyMonoBehaviour
 
             HUD.PlayersList = PlayerManagerClass.Players;
             BotClass.playerManager = PlayerManagerClass;
-
+            if (PhotonNetwork.IsMasterClient)
+            {
+                FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
+                {
+                    Hashtable hash = new Hashtable {{"CanMove", true}};
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                };
+            }
         } else
         {
             localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass; });
@@ -159,7 +168,10 @@ public class DynamicUI : MyMonoBehaviour
             
             HUD.PlayersList = PlayerManagerClass.Players;
             BotClass.playerManager = PlayerManagerClass;
-            
+            FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
+                {
+                    localPlayer.CanMove = true;
+                };
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
@@ -11,6 +12,7 @@ namespace Assets.Scripts
         public Text CounterText;
         public GameObject FixedLetterOverlay;
         public GameObject Counter;
+        public UnityAction OnCountDownFinished;
         public void Start()
         {
             StartCoroutine(AnimateFixedLettersScreen());
@@ -32,6 +34,7 @@ namespace Assets.Scripts
                 yield return new WaitForSeconds(1);
             }
             FixedLetterOverlay.SetActive(false);
+            OnCountDownFinished();
         }
 
         private IEnumerator AnimateBlock(float rotate)

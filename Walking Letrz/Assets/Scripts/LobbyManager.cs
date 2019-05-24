@@ -21,7 +21,7 @@ public class LobbyManager : MonoBehaviour
 
     void JoinedRoom()
     {
-        Hashtable hash = PhotonNetwork.IsMasterClient ? new Hashtable {{"CanMove", true} } : new Hashtable {{"CanMove", false}};
+        Hashtable hash = new Hashtable {{"CanMove", false}};
         PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         
         ShowAllPlayers();
