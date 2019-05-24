@@ -9,7 +9,6 @@ public class SceneSwitcher : MonoBehaviour
 {
     public void SwitchScene(string SceneName)
     {
-        //Debug.Log(SceneName);
         SceneManager.LoadScene(SceneName);
     }
 
@@ -27,23 +26,42 @@ public class SceneSwitcher : MonoBehaviour
     public void MakeEasyGame()
     {
         GameInstance.instance.difficulty = Difficulty.Easy;
-        SwitchScene("BoosterScene");
+        if (GameInstance.instance.IsMultiplayer)
+        {
+            SwitchScene("LobbyScene");
+        }
+        else
+        {
+            SwitchScene("BoosterScene");
+        }
     }
 
     public void MakeMediumGame()
     {
-//        PhotonManager.PhotonInstance.OnJoinedRoomDelegate += () =>
-//        {
-//            PhotonNetwork.LoadLevel("GameScene");
-//        };
-
         GameInstance.instance.difficulty = Difficulty.Medium;
-        SwitchScene("LobbyScene");
-        
-        
-        
+        if (GameInstance.instance.IsMultiplayer)
+        {
+            SwitchScene("LobbyScene");
+        } else
+        {
+            SwitchScene("BoosterScene");
+        }
+            
         //Todo: fixen
 //        SwitchScene("BoosterScene");
+    }
+
+    public void MakeHardGame()
+    {
+        GameInstance.instance.difficulty = Difficulty.Hard;
+        if (GameInstance.instance.IsMultiplayer)
+        {
+            SwitchScene("LobbyScene");
+        }
+        else
+        {
+            SwitchScene("BoosterScene");
+        }
     }
 
     public void LeaveLobby()
@@ -52,16 +70,9 @@ public class SceneSwitcher : MonoBehaviour
         SwitchScene("StartScene");
         Destroy(PhotonManager.PhotonInstance.gameObject);
     }
-
-    public void MakeHardGame()
-    {
-        GameInstance.instance.difficulty = Difficulty.Hard;
-        SwitchScene("BoosterScene");
-    }
-
+    
     public void LoadPhotonBoosterScene()
     {
-//        if (!PhotonNetwork.IsMasterClient) return;
         SwitchScene("BoosterScene");
     }
 }

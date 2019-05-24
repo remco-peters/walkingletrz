@@ -96,14 +96,7 @@ public class UIPlayerPanel : UIBehaviour
     protected override void Start()
     {
         base.Start();
-
-//        PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += (player) =>
-//        {
-//            player.NickName = "PIETJE";
-//            OpponentNameTxt.text = player.NickName;
-//            OpponentScoreTxt.text = "37";
-//        };
-
+        
         InfoPanelImage = InfoTextPanel.GetComponent<Image>();
         InfoPanelImage.color = new Color(1f, 1f, 1f, 0f);
         InfoPanelText.color = new Color(1f, 1f, 1f, 0f);
@@ -120,7 +113,6 @@ public class UIPlayerPanel : UIBehaviour
         {
             skipTutorialBtn = Instantiate(skipTutorialBtnClass, transform, false);
             skipTutorialBtn.GetComponent<TutSkipBtn>().OnSkipTutorialBtnTouched += UiPlayerPanelOnSkipTutorialBtnTouched;
-            //TOdo: niet met photon
             Player.CanMove = false;
             ShowTutorial();
         }
@@ -185,79 +177,90 @@ public class UIPlayerPanel : UIBehaviour
         {
             Destroy(obj);
         }
-        Debug.Log("Clicked");
     }
 
     // Update is called once per frame
     void Update()
     {
         string pointString = LocalizationManager.GetTranslation("points");
-        PointText.text = $"{Player.EarnedPoints}"; // {pointString}
+        PointText.text = $"{Player.EarnedPoints}";
         
         SetBackgroundPlayerColor();
 
         int index = 0;
-//        foreach (Player p in Players)
-//        {
-//            if (p != Player)
-//            {
-//                SetOpponentPoints(index, p);
-//                // Change this later on
-//                if(Player.EarnedPoints > p.EarnedPoints || Player.EarnedPoints == p.EarnedPoints)
-//                {
-//                    CrownImage.sprite = crownGold;
-//                } else
-//                {
-//                    CrownImage.sprite = crownSilver;
-//                }
-//                index++;
-//            }
-//        }
-        foreach (Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
+        if (GameInstance.instance.IsMultiplayer)
         {
-            long points = (long) p.CustomProperties["Points"];
-            SetOpponentPoints(index, points);
-            if (Player.EarnedPoints > points || Player.EarnedPoints == points)
+            foreach (Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
             {
-                CrownImage.sprite = crownGold;
+                long points = (long)p.CustomProperties["Points"];
+                SetOpponentPoints(index, points);
+                if (Player.EarnedPoints > points || Player.EarnedPoints == points)
+                {
+                    CrownImage.sprite = crownGold;
+                }
+                else
+                {
+                    CrownImage.sprite = crownSilver;
+                }
+                index++;
             }
-            else
+        } else
+        {
+            foreach (Player p in Players)
             {
-                CrownImage.sprite = crownSilver;
+                if (p != Player)
+                {
+                    SetOpponentPoints(index, p.EarnedPoints);
+                    // change this later on
+                    if(Player.EarnedPoints > p.EarnedPoints || Player.EarnedPoints == p.EarnedPoints)
+                    {
+                        CrownImage.sprite = crownGold;
+                    } else
+                    {
+                        CrownImage.sprite = crownSilver;
+                    }
+                    index++;
+                }
             }
-            index++;
         }
     }
 
     void InitOtherPlayers()
     {
-        OpponentNameTxt.text = "";
-        OpponentScoreTxt.text = "";
-        OpponentNameTxtSecond.text = "";
-        OpponentScoreTxtSecond.text = "";
-        OpponentNameTxtThird.text = "";
-        OpponentScoreTxtThird.text = "";
-
-//        int index = 0;
-//        foreach(Player p in Players)
-//        {
-//            if(p != Player)
-//            {
-//                SetOpponentText(index, p);
-//                StartCoroutine(SetOpponentTime(index, p));
-//                index++;
-//            }
-//        }
-        int index = 0;
-        foreach(Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
+        if (GameInstance.instance.IsMultiplayer)
         {
-            Hashtable hash = new Hashtable {{"Points", (long) 0}, {"TimeRemaining", Player.TimeRemaining}};
-            p.SetCustomProperties(hash);
-            OpponentNameTxt.text = p.NickName;
-            OpponentScoreTxt.text = $"{p.CustomProperties["Points"]}";
-            StartCoroutine(SetOpponentTime(index, p));
-            index++;
+            OpponentNameTxt.text = "";
+            OpponentScoreTxt.text = "";
+            OpponentNameTxtSecond.text = "";
+            OpponentScoreTxtSecond.text = "";
+            OpponentNameTxtThird.text = "";
+            OpponentScoreTxtThird.text = "";
+
+            int index = 0;
+            foreach(Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
+            {
+                Hashtable hash = new Hashtable {{"Points", (long) 0}, {"TimeRemaining", Player.TimeRemaining}};
+                p.SetCustomProperties(hash);
+                OpponentNameTxt.text = p.NickName;
+                OpponentScoreTxt.text = $"{p.CustomProperties["Points"]}";
+                StartCoroutine(SetOpponentTime(index, null, p));
+                index++;
+            }
+        } else
+        {
+            int index = 0;
+            foreach (Player p in Players)
+            {
+                if (p != Player)
+                {
+                    SetOpponentText(index, p);
+                    StartCoroutine(SetOpponentTime(index, p));
+                    index++;
+                }
+            }
         }
+
+        
     }
 
     IEnumerator Timer()
@@ -285,6 +288,7 @@ public class UIPlayerPanel : UIBehaviour
         {
             yield return new WaitForFixedUpdate();
         }
+
         string timeUp = LocalizationManager.GetTranslation("time_up");
         string playAgain = LocalizationManager.GetTranslation("play_again");
         string pointsPre = LocalizationManager.GetTranslation("points_earned");
@@ -343,8 +347,12 @@ public class UIPlayerPanel : UIBehaviour
 
     private void SetBackgroundPlayerColor()
     {
-        bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-        if(canMove)
+        if (GameInstance.instance.IsMultiplayer)
+        {
+            Player.CanMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+        }
+
+        if(Player.CanMove)
         {
             PlayerBackground.GetComponent<Image>().material = TurnMaterial;
             OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
@@ -355,33 +363,57 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
     
-    private IEnumerator SetOpponentTime(int which, Photon.Realtime.Player p)
+    private IEnumerator SetOpponentTime(int which, Player localPlayer, Photon.Realtime.Player photonPlayer = null)
     {
-        while ((float) p.CustomProperties["TimeRemaining"] > 0)
+        if (GameInstance.instance.IsMultiplayer)
         {
-            
-            float timeRemaining = (float) p.CustomProperties["TimeRemaining"];
-            switch(which)
+            while ((float)photonPlayer.CustomProperties["TimeRemaining"] > 0)
             {
-                case 0:
-                   OpponentTimeTxt.text = OpponentTimeText(timeRemaining);
-                    break;
-                case 1:
-                   OpponentTimeTxtSecond.text = OpponentTimeText(timeRemaining);
-                    break;
-                case 2:
-                    OpponentTimeTxtThird.text = OpponentTimeText(timeRemaining);           
-                    break;
-                default:
-                    break;
+                float timeRemaining = (float)photonPlayer.CustomProperties["TimeRemaining"];
+                setText(which, timeRemaining);
+                yield return new WaitForEndOfFrame();
             }
-            yield return new WaitForSeconds(1);
+        }
+        else
+        {
+            while (localPlayer.TimeRemaining > 0)
+            {
+                float timeRemaining = localPlayer.TimeRemaining;
+                setText(which, timeRemaining);
+                yield return new WaitForEndOfFrame();
+            }
+        }
+    }
+
+    private void setText(int which, float timeRemaining)
+    {
+        switch (which)
+        {
+            case 0:
+                OpponentTimeTxt.text = OpponentTimeText(timeRemaining);
+                break;
+            case 1:
+                OpponentTimeTxtSecond.text = OpponentTimeText(timeRemaining);
+                break;
+            case 2:
+                OpponentTimeTxtThird.text = OpponentTimeText(timeRemaining);
+                break;
+            default:
+                break;
         }
     }
     
     public void SetOpponentText(int which, Player p)
     {
-        switch(which)
+
+        OpponentNameTxt.text = "";
+        OpponentScoreTxt.text = "";
+        OpponentNameTxtSecond.text = "";
+        OpponentScoreTxtSecond.text = "";
+        OpponentNameTxtThird.text = "";
+        OpponentScoreTxtThird.text = "";
+
+        switch (which)
         {
             case 0:
                 OpponentNameTxt.text = p.Name;

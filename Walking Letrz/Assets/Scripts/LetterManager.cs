@@ -79,29 +79,31 @@ namespace Assets.Scripts
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
         #endregion positions
-
-        private void Awake()
-        {
-//            InitStartingLetters();
-//            InitFirstLetters();
-//            InitPlacedLetterPositions();
-        }
+        
 
         private void Start()
         {
-            _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
-            _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
-            _gameBoard.LetterManager = this;
-            _gameBoard.PlaceHolderObject = PlaceHolderObject;
-            _gameBoard.TheLM = TheLetterManager;
-            _gameBoard.FixedLettersBlockObject = FixedLettersBlockObject;
-            _gameBoard.PlayerLettersBlockObject = PlayerLetterBlockObject;
+            if(GameInstance.instance.IsMultiplayer)
+            {
+                _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
+                _gameBoard.GameBoardWordHolder = GameBoardWordHolder;
+                _gameBoard.LetterManager = this;
+                _gameBoard.PlaceHolderObject = PlaceHolderObject;
+                _gameBoard.TheLM = TheLetterManager;
+                _gameBoard.FixedLettersBlockObject = FixedLettersBlockObject;
+                _gameBoard.PlayerLettersBlockObject = PlayerLetterBlockObject;
 
-            if (PhotonNetwork.IsMasterClient)
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    InitStartingLetters();
+                    InitFirstLetters();
+                }
+            } else
             {
                 InitStartingLetters();
                 InitFirstLetters();
             }
+            
 
             InitBoosterButtons();
             InitPlacedLetterPositions();
@@ -137,9 +139,14 @@ namespace Assets.Scripts
         private void InitStartingLetters()
         {
             FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
-            _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0);
             SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
-            _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1);
+
+            if(GameInstance.instance.IsMultiplayer)
+            {
+                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0);
+                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1);
+
+            }
         }
 
         private void InitBoosterButtons()
@@ -208,21 +215,33 @@ namespace Assets.Scripts
                 if(i < 5)
                 {
                     InstantiateLetterButton(startingLetters[i], false, false, 1, i + 2);
-                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 1, i + 2);
+                    if (GameInstance.instance.IsMultiplayer)
+                    {
+                        _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 1, i + 2);
+                    }
                 }
                 else if(i < 12)
                 {
                     InstantiateLetterButton(startingLetters[i], false, false, 2, i - 5);
-                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 2, i - 5);
+                    if (GameInstance.instance.IsMultiplayer)
+                    {
+                        _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 2, i - 5);
+                    }
                 }
                 else
                 {
                     InstantiateLetterButton(startingLetters[i], false, false, 3, i - 12);
-                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 3, i -12);
+                    if (GameInstance.instance.IsMultiplayer)
+                    {
+                        _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 3, i - 12);
+                    }
                 }                                           
             }
             InitPlayerLetters();
-            _gameBoard.CallRPCInitPlayerLetters();
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                _gameBoard.CallRPCInitPlayerLetters();
+            }
         }
         
         public void InitPlayerLetters()
@@ -305,7 +324,15 @@ namespace Assets.Scripts
 
         private void TradeLetterBtnTouch()
         {
-            bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            bool canMove;
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            } else
+            {
+                canMove = Player.CanMove;
+            }
+
             if (!canMove || Player.EarnedPoints < 20) return;
             var buttonImage = TradeBtn.GetComponentsInChildren<RectTransform>().Where(img => img.name == "TradeBtnImg").ToList()[0];
             StartCoroutine(RotateTradeButton(buttonImage, 1));
@@ -325,31 +352,28 @@ namespace Assets.Scripts
         public LetterBlock InstantiateLetterButton(char letter, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
         {
             LetterBlock block;
-//            if (PhotonNetwork.CountOfPlayers <= 1)
-//            {
-                if (isFirstLetter || isSecondLetter)
+            if (isFirstLetter || isSecondLetter)
+            {
+                block = FixedLettersBlockObject;
+                block = Instantiate(block);
+                block.IsFirstLetter = isFirstLetter;
+                block.IsSecondLetter = isSecondLetter;
+                block.OnLetterTouched += LetterTouched;
+                //Todo
+                //lttrBlock.OnLetterDragged += LetterDragged;
+                block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+                block.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues
+                    .First(x => x.Key == char.ToLower(letter)).Value.ToString();
+                GameObject parentRow = GetRightRow(row);
+                block.transform.SetParent(parentRow.transform, false);
+                if (index != null)
                 {
-                    block = FixedLettersBlockObject;
-                    block = Instantiate(block);
-                    block.IsFirstLetter = isFirstLetter;
-                    block.IsSecondLetter = isSecondLetter;
-                    block.OnLetterTouched += LetterTouched;
-                    //Todo
-                    //lttrBlock.OnLetterDragged += LetterDragged;
-                    block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
-                    block.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues
-                        .First(x => x.Key == char.ToLower(letter)).Value.ToString();
-                    GameObject parentRow = GetRightRow(row);
-                    block.transform.SetParent(parentRow.transform, false);
-                    if (index != null)
-                    {
-                        block.transform.SetSiblingIndex((int) index);
-                    }
-
-                    PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
-                    return block;
+                    block.transform.SetSiblingIndex((int) index);
                 }
-//            }
+
+                PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+                return block;
+            }
 
             block = PlayerLetterBlockObject;
             return Spawn(block, this, lttrBlock =>
@@ -386,8 +410,15 @@ namespace Assets.Scripts
         private void PlaceWord()
         {
             // Alleen wanneer mag versturen
-            
-            bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            bool canMove;
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            } else
+            {
+                canMove = Player.CanMove;
+            }
+
             if (canMove)
             {
                 if (PlacedLetters.Any(x => x.LetterBlock != null))
@@ -426,7 +457,15 @@ namespace Assets.Scripts
 
         private void ShowPlayerWhyInactive()
         {
-            bool canMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            bool canMove;
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            } else
+            {
+                canMove = Player.CanMove;
+            }
+
             if(!canMove)
             {
                 Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("info_not_your_turn");
@@ -449,10 +488,63 @@ namespace Assets.Scripts
         // TheLetterManager
         private void PlaceWordInGameBoard(long points = 0)
         {
-            long playerPoints = (long) PhotonNetwork.LocalPlayer.CustomProperties["Points"];
-            Hashtable hash = new Hashtable {{"Points", playerPoints + points}};
-            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-            _gameBoard.CallRPC(points, PlacedLetters);
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                long playerPoints = (long)PhotonNetwork.LocalPlayer.CustomProperties["Points"];
+                Hashtable hash = new Hashtable { { "Points", playerPoints + points } };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                _gameBoard.CallRPC(points, PlacedLetters);
+            } else
+            {
+                //Instantiate wordHolder
+                GameObject wordHolder = Instantiate(GameBoardWordHolder);
+
+                // Walk through all the letters placed
+                foreach (LetterPosition letterPos in PlacedLetters)
+                {
+                    LetterBlock block = letterPos.LetterBlock;
+                    if (block != null)
+                    {
+                        block.transform.SetParent(wordHolder.transform, false);
+                        block.GetComponent<Button>().interactable = false;
+                        
+                        Vector3 pos = block.transform.position;
+                        ShowScoreGainedText(points, pos);
+
+                        // Replace placeholder with letter on playerBoard
+                        int row = letterPos.GetRow();
+                        int index = letterPos.GetOldIndex();
+                        int currentIndex = letterPos.GetCurrentIndex();
+                        PlayerLetters.Remove(letterPos);
+
+                        if (!block.IsFirstLetter && !block.IsSecondLetter)
+                        {
+                            // Placeholders verwijderen
+                            GameObject parentRow = GetRightRow(row);
+                            Transform placeHolder = parentRow.transform.GetChild(index);
+                            DestroyImmediate(placeHolder.gameObject);
+                        }
+
+                        // Lege gameobjecten toevoegen aan writeboard
+                        GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
+                        emptyBlock.transform.SetParent(WritingBoard.transform, false);
+                        emptyBlock.transform.SetSiblingIndex(currentIndex);
+
+                        // Nieuwe playerletters aanmaken
+                        if (!block.IsFirstLetter && !block.IsSecondLetter)
+                        {
+                            AddLetter(row, index);
+                        }
+                    }
+                    else
+                    {
+                        GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
+                        emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
+                    }
+                    wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
+                }
+
+            }
         }
 
         public void LetterTouched(LetterBlock block)
@@ -515,8 +607,11 @@ namespace Assets.Scripts
                 DestroyImmediate(placeHolder.gameObject);
                 SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
 
-                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0, 1);
-                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1, 1);
+                if (GameInstance.instance.IsMultiplayer)
+                {
+                    _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0, 1);
+                    _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1, 1);
+                }
             }
         }    
 
@@ -670,5 +765,25 @@ namespace Assets.Scripts
             }
         }
 
+        /*public void setEmptyPointToStartingLetters()
+        {
+            bool canMove;
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            }
+            else
+            {
+                canMove = Player.CanMove;
+            }
+
+            if (canMove) return;
+            
+            FirstLetterBlock.GetComponentInChildren<Text>().text = ".";
+            FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
+
+            SecondLetterBlock.GetComponentInChildren<Text>().text = ".";
+            SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
+        }*/
     }
 }

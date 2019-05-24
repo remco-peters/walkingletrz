@@ -50,12 +50,22 @@ using System.Collections.Generic;
 
         public void Update()
         {
-            CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-            if (!joinedRoom) return;
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                CanMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+                if (!joinedRoom) return;
+            }
+
             if (!CanMove) return;
+
             TimeRemaining -= Time.deltaTime;
-            Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
-            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+
+            if(GameInstance.instance.IsMultiplayer)
+            {
+                Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            }
+            
             if (TimeRemaining <= 0)
             {
                 //CanMove = false;
@@ -66,7 +76,11 @@ using System.Collections.Generic;
         {
             while(Seconds >= 0)
             {
-                CanMove = (bool) PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+                if (GameInstance.instance.IsMultiplayer)
+                {
+                    CanMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+                }
+
                 if (CanMove)
                 {
                     Seconds--;

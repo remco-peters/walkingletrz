@@ -10,7 +10,7 @@ public class GameInstance : MonoBehaviour
     private static int vibrationMode;
     private static string language;
     public static GameInstance instance = null;
-    public bool IsMultiplayer = false;
+    public bool IsMultiplayer { get; set; }
     public List<PlayerData> PlayerData = new List<PlayerData>();
     public Difficulty difficulty;
     public long credits{get;set;}
