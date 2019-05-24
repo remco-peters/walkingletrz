@@ -30,7 +30,7 @@ public class MyPlayer : Player
     {
         base.Start();
         AchievementManager.Player = this;
-        CanMove = true;
+        CanMove = false;
         placedWordCount = 0;
         Instantiate(Credit);
         //Todo fix this
