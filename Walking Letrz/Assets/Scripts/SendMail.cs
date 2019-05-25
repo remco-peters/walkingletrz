@@ -11,12 +11,17 @@ namespace Assets.Scripts
     class SendMail : MyMonoBehaviour
     {
         public Text emailaddress;
+        public Text infoText;
+        public InputField emailInput;
         private const string templateId = "520D981132030A3";
         string PlayFabId {get;set; }
 
         public void Succes(SendEmailFromTemplateResult r)
         {
             Debug.Log("Succesfully send mail");
+            emailaddress.text = string.Empty;
+            emailInput.text = string.Empty;
+            infoText.text = "succesvol verzonden";
             DeleteDummyAccount(PlayFabId);
         }
 
@@ -32,6 +37,7 @@ namespace Assets.Scripts
                 CreateAccount = true // otherwise this will create an account with that ID
             };
             var emailAddress = emailaddress.text; // Set this to your own email
+            infoText.text = "versturen...";
             PlayFabClientAPI.LoginWithCustomID(loginReq, loginRes =>
             {
                 Debug.Log("Successfully logged in player with PlayFabId: " + loginRes.PlayFabId);
@@ -56,8 +62,8 @@ namespace Assets.Scripts
             PlayFabClientAPI.AddOrUpdateContactEmail(request, result =>
             {
                 Debug.Log("The player's account has been updated with a contact email");
+                SendTemplateMail(playFabId);
             }, FailureCallback, null, new Dictionary<string,string>{["X-SecretKey"] = "GX7ZFEH4AXZSHQGNSOKSJHCIKH73ONA5NAJG1QJO9GHYSIEIJ7" });
-            SendTemplateMail(playFabId);
         }
 
         private void DeleteDummyAccount(string playFabId)
@@ -88,6 +94,7 @@ namespace Assets.Scripts
         void FailureCallback(PlayFabError error)
         {
             Debug.LogWarning("Something went wrong with your API call. Here's some debug information:");
+            infoText.text = "Niet verzonden. Probeer opnieuw";
             Debug.LogError(error.GenerateErrorReport());
         }
         bool IsValidEmail(string email)

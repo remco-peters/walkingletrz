@@ -10,6 +10,7 @@ public class ProfileScript : MonoBehaviour
     public GameObject ShowEmailInfo;
     public GameObject AddFacebookButton;
     public GameObject ShowFacebookInfo;
+    public GameObject InviteMailPopUp;
 
     void Awake()
     {
@@ -39,5 +40,10 @@ public class ProfileScript : MonoBehaviour
             AddFacebookButton.SetActive(false);
             ShowFacebookInfo.SetActive(true);
         }
+    }
+
+    public void AddFriendClick()
+    {
+        InviteMailPopUp.SetActive(!InviteMailPopUp.activeSelf);
     }
 }
