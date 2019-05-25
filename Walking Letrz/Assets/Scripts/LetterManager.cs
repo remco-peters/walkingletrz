@@ -82,7 +82,8 @@ namespace Assets.Scripts
         
 
         private void Start()
-        {
+        {            
+            InitBoosterButtons();
             if(GameInstance.instance.IsMultiplayer)
             {
                 _gameBoard = GameBoardWordContainer.GetComponent<GameBoard>();
@@ -105,7 +106,6 @@ namespace Assets.Scripts
             }
             
 
-            InitBoosterButtons();
             InitPlacedLetterPositions();
 
 
