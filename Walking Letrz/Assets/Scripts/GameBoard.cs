@@ -17,14 +17,12 @@ public class GameBoard : MonoBehaviour
     public LetterBlock PlayerLettersBlockObject { get; set; }
     public LetterBlock FixedLettersBlockObject { get; set; }
 
-
     public LetterBlock FixedLettersBlockObjectGameBoard;
     public LetterBlock PlayerLetterBlockObjectGameBoard;
 
     private Vector3 _pos;
     private LetterManager _letterManager;
     private PhotonView _photonView;
-//    private List<LetterPosition> PlacedLetters;
     
     public LetterManager LetterManager
     {

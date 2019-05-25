@@ -284,55 +284,52 @@ public class UIPlayerPanel : UIBehaviour
 
     IEnumerator CheckIfAllPlayersHaveTimeLeft()
     {
-        while (Players.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
+        if (GameInstance.instance.IsMultiplayer)
         {
-            yield return new WaitForFixedUpdate();
+            
+
+            while (PhotonManager.PhotonInstance.GetAllPlayersList()
+                .FirstOrDefault(player => (float)player.CustomProperties["TimeRemaining"] <= 0) == null)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            string timeUp = LocalizationManager.GetTranslation("time_up");
+            string playAgain = LocalizationManager.GetTranslation("play_again");
+            string pointsPre = LocalizationManager.GetTranslation("points_earned");
+            string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
+
+            TimeRemainingText.text = timeUp;
+            ShowInfoText($"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}", 5);
+            
+            WrapUpGame();
+            StopCoroutine(Timer());
+            StopCoroutine(CheckIfAllPlayersHaveTimeLeft());
+
+            PutAllDataInPlayerData();
+            SceneSwitcher.SwitchSceneStatic("MatchResultScene");
         }
-
-        string timeUp = LocalizationManager.GetTranslation("time_up");
-        string playAgain = LocalizationManager.GetTranslation("play_again");
-        string pointsPre = LocalizationManager.GetTranslation("points_earned");
-        string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
-        TimeRemainingText.text = timeUp;
-        ShowInfoText($"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}", 5);
-        WrapUpGame();
-        StopCoroutine(Timer());
-        StopCoroutine(CheckIfAllPlayersHaveTimeLeft());
-        PutAllDataInPlayerData();
-        SceneSwitcher.SwitchSceneStatic("MatchResultScene");            
-    }
-
-    private void PutAllDataInPlayerData()
-    {
-        GameInstance.instance.PlayerData = new List<PlayerData>();
-        for(int i = 0; i < Players.Count; i++)
+        else
         {
-            Player p = Players[i];
-            PlayerData pd = new PlayerData();
-            pd.Name = p.Name;
-            pd.Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / 2);
-            pd.PointsWithoutTime = p.EarnedPoints;
-            pd.place = i + 1;
-            pd.timeLeft = p.TimeRemaining;
-            pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
-            pd.WordCountTwelveLetters = p.WordsWithTwelveLetters;
-            Debug.Log(pd.WordCountTwelveLetters + ":PDside + Pside:" + p.WordsWithTwelveLetters);
-            pd.FinalWordCountPerMinute = p.AmountOfWordsPerMinuteFinal;
-            if (p == Player)
+            while (Players.FirstOrDefault(player => player.TimeRemaining <= 0) == null)
             {
-                var myPlayer = (MyPlayer) p;
-                // Make sure you're thing is placed first
-                pd.localPlayer = true;
-                pd.WordCount = myPlayer.GetPlacedWordCount();
-                GameInstance.instance.PlayerData.Insert(0, pd);
+                yield return new WaitForFixedUpdate();
             }
-            else
-            {
-                GameInstance.instance.PlayerData.Add(pd);
-            }
+
+            string timeUp = LocalizationManager.GetTranslation("time_up");
+            string playAgain = LocalizationManager.GetTranslation("play_again");
+            string pointsPre = LocalizationManager.GetTranslation("points_earned");
+            string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
+            TimeRemainingText.text = timeUp;
+            ShowInfoText($"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}", 5);
+            WrapUpGame();
+            StopCoroutine(Timer());
+            StopCoroutine(CheckIfAllPlayersHaveTimeLeft());
+            PutAllDataInPlayerData();
+            SceneSwitcher.SwitchSceneStatic("MatchResultScene");
         }
     }
-
+    
     private string TimeText(float seconds)
     {
         TimeSpan t = TimeSpan.FromSeconds(seconds);
@@ -370,7 +367,7 @@ public class UIPlayerPanel : UIBehaviour
             while ((float)photonPlayer.CustomProperties["TimeRemaining"] > 0)
             {
                 float timeRemaining = (float)photonPlayer.CustomProperties["TimeRemaining"];
-                setText(which, timeRemaining);
+                SetText(which, timeRemaining);
                 yield return new WaitForEndOfFrame();
             }
         }
@@ -379,13 +376,13 @@ public class UIPlayerPanel : UIBehaviour
             while (localPlayer.TimeRemaining > 0)
             {
                 float timeRemaining = localPlayer.TimeRemaining;
-                setText(which, timeRemaining);
+                SetText(which, timeRemaining);
                 yield return new WaitForEndOfFrame();
             }
         }
     }
 
-    private void setText(int which, float timeRemaining)
+    private void SetText(int which, float timeRemaining)
     {
         switch (which)
         {
@@ -454,9 +451,43 @@ public class UIPlayerPanel : UIBehaviour
     private void WrapUpGame()
     {
         int creditsToGive = 0;
+        if (GameInstance.instance.IsMultiplayer)
+        {
+            var playersList = PhotonManager.PhotonInstance.GetOtherPlayersList();
+            foreach(var pl in playersList)
+            {
+                Player p = new Player();
+                p.EarnedPoints = (long)pl.CustomProperties["Points"];
+                p.Name = pl.NickName;
+                p.TimeRemaining = (float)pl.CustomProperties["TimeRemaining"];
+
+                string w1 = (string)pl.CustomProperties["BestWords1"];
+                string w2 = (string)pl.CustomProperties["BestWords2"];
+                string w3 = (string)pl.CustomProperties["BestWords3"];
+
+                List<Word> woorden = new List<Word>
+                {
+                    new Word(word: w1, points: 0),
+                    new Word(word: w2, points: 0),
+                    new Word(word: w3, points: 0)
+                };
+
+                p.BestWordsThisGame = woorden;
+                Players.Add(p);
+            }
+
+            Player.Name = Player.name;
+        }
+
         Players.Sort((p1, p2) => (p2.EarnedPoints + (p2.TimeRemaining / 2)).CompareTo(p1.EarnedPoints + (p1.TimeRemaining / 2)));
+        
+        foreach (Player p in Players)
+        {
+            Debug.Log(p.Name);
+            Debug.Log(p.TimeRemaining);
+        }
+
         var indexOfPlayer = Players.IndexOf(Player);
-        Debug.Log($"Index of player in list: {indexOfPlayer}");
         if (Players[0].EarnedPoints == Players[1].EarnedPoints)
             creditsToGive = 25;
         else if (indexOfPlayer == 0)
@@ -465,6 +496,37 @@ public class UIPlayerPanel : UIBehaviour
             creditsToGive = 5;
         Debug.Log($"Credits to give: {creditsToGive}");
         Player.Credit.AddCredits(creditsToGive);
+    }
+
+
+    private void PutAllDataInPlayerData()
+    {
+        GameInstance.instance.PlayerData = new List<PlayerData>();
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Player p = Players[i];
+            PlayerData pd = new PlayerData();
+            pd.Name = p.Name;
+            pd.Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / 2);
+            pd.PointsWithoutTime = p.EarnedPoints;
+            pd.place = i + 1;
+            pd.timeLeft = p.TimeRemaining;
+            pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
+            pd.WordCountTwelveLetters = p.WordsWithTwelveLetters;
+            pd.FinalWordCountPerMinute = p.AmountOfWordsPerMinuteFinal;
+            if (p == Player)
+            {
+                var myPlayer = (MyPlayer)p;
+                // Make sure you're thing is placed first
+                pd.localPlayer = true;
+                pd.WordCount = myPlayer.GetPlacedWordCount();
+                GameInstance.instance.PlayerData.Insert(0, pd);
+            }
+            else
+            {
+                GameInstance.instance.PlayerData.Add(pd);
+            }
+        }
     }
 
     private void ShowInfoText(string text, int time)

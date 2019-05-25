@@ -1,6 +1,7 @@
 ﻿﻿using System.Collections;
 using System.Collections.Generic;
- using Photon.Pun;
+using System.Linq;
+using Photon.Pun;
  using UnityEngine;
  using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -41,6 +42,11 @@ using System.Collections.Generic;
         {
             TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                Hashtable hash = new Hashtable { { "TimeRemaining", TimeRemaining } };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            }
         }
 
         public void Start()
@@ -60,15 +66,10 @@ using System.Collections.Generic;
 
             TimeRemaining -= Time.deltaTime;
 
-            if(GameInstance.instance.IsMultiplayer)
+            if (GameInstance.instance.IsMultiplayer)
             {
-                Hashtable hash = new Hashtable{{"TimeRemaining", TimeRemaining}};
+                Hashtable hash = new Hashtable { { "TimeRemaining", TimeRemaining }};
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-            }
-            
-            if (TimeRemaining <= 0)
-            {
-                //CanMove = false;
             }
         }
 

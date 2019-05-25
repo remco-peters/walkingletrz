@@ -178,5 +178,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         return PhotonNetwork.PlayerListOthers;
     }
+
+    public Photon.Realtime.Player[] GetAllPlayersList()
+    {
+        return PhotonNetwork.PlayerList;
+    }
     #endregion
 }

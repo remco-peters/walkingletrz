@@ -490,8 +490,32 @@ namespace Assets.Scripts
         {
             if (GameInstance.instance.IsMultiplayer)
             {
+                //bestWords = Player.BestWordsThisGame.Select(w => w.word).ToList();
+                List<string> bestWords = Player.BestWordsThisGame.Select(w => w.word).ToList();
+                string w1 = "";
+                string w2 = "";
+                string w3 = "";
+
+                if (bestWords.Count > 0)
+                {
+                    w1 = bestWords[0];
+                    if (bestWords.Count > 1)
+                    {
+                        w2 = bestWords[1];
+                        if (bestWords.Count > 2)
+                        {
+                            w3 = bestWords[2];
+                        }
+                    }
+                }
+
+                Debug.Log(w1);
+                Debug.Log(w2);
+                Debug.Log(w3);
+                Debug.Log("test");
+
                 long playerPoints = (long)PhotonNetwork.LocalPlayer.CustomProperties["Points"];
-                Hashtable hash = new Hashtable { { "Points", playerPoints + points } };
+                Hashtable hash = new Hashtable { { "Points", playerPoints + points }, { "BestWords1", w1 }, { "BestWords2", w2 }, { "BestWords3", w3 } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 _gameBoard.CallRPC(points, PlacedLetters);
             } else

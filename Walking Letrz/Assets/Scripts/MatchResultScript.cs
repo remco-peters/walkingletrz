@@ -52,9 +52,39 @@ public class MatchResultScript : MonoBehaviour
         // pp.GetComponent<PlayerPanel>().playerScore.text = p.Points.ToString();
         pp.GetComponent<PlayerPanel>().crownImg.sprite = GetRightImg(p.place);
         //pp.GetComponent<PlayerPanel>().playerTimeLeft.text = $"+ {p.timeLeft.ToString()}";
-        if (p.BestWords.Count > 0) pp.GetComponent<PlayerPanel>().firstWord.text = p.BestWords[0].ToUpper();
-        if (p.BestWords.Count > 1) pp.GetComponent<PlayerPanel>().secondWord.text = p.BestWords[1].ToUpper();
-        if (p.BestWords.Count > 2) pp.GetComponent<PlayerPanel>().thirdWord.text = p.BestWords[2].ToUpper();
+
+        Debug.Log($"Name: {p.Name}, countOfWords: {p.BestWords.Count}");
+        foreach(string t in p.BestWords)
+        {
+            Debug.Log(t);
+        }
+
+        if (p.BestWords.Count > 0)
+        {
+            pp.GetComponent<PlayerPanel>().firstWord.text = p.BestWords[0].ToUpper();
+        } else
+        {
+            pp.GetComponent<PlayerPanel>().firstWord.text = "";
+            pp.GetComponent<PlayerPanel>().secondWord.text = "";
+            pp.GetComponent<PlayerPanel>().thirdWord.text = "";
+        }
+
+        if (p.BestWords.Count > 1)
+        {
+            pp.GetComponent<PlayerPanel>().secondWord.text = p.BestWords[1].ToUpper();
+        } else
+        {
+            pp.GetComponent<PlayerPanel>().secondWord.text = "";
+            pp.GetComponent<PlayerPanel>().thirdWord.text = "";
+        }
+
+        if (p.BestWords.Count > 2)
+        {
+            pp.GetComponent<PlayerPanel>().thirdWord.text = p.BestWords[2].ToUpper();
+        } else
+        {
+            pp.GetComponent<PlayerPanel>().thirdWord.text = "";
+        }
         pp.transform.SetParent(PlayerPanelHolder.transform, false);
 
         StartCoroutine(AddTimeToPlayerScore(p, pp));
