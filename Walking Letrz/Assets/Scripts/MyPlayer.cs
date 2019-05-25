@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Assets.Scripts;
+using Photon.Pun;
 using PlayFab;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,12 +31,10 @@ public class MyPlayer : Player
     {
         base.Start();
         AchievementManager.Player = this;
+
         CanMove = false;
         placedWordCount = 0;
         Instantiate(Credit);
-        //Todo fix this
-        //Instantiate(WriteBoard);
-        //GameObject LetterBoard = Instantiate(LetterBoardObject);
     }
 
     // Update is called once per frame

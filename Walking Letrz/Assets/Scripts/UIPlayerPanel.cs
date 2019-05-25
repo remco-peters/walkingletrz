@@ -481,12 +481,6 @@ public class UIPlayerPanel : UIBehaviour
 
         Players.Sort((p1, p2) => (p2.EarnedPoints + (p2.TimeRemaining / 2)).CompareTo(p1.EarnedPoints + (p1.TimeRemaining / 2)));
         
-        foreach (Player p in Players)
-        {
-            Debug.Log(p.Name);
-            Debug.Log(p.TimeRemaining);
-        }
-
         var indexOfPlayer = Players.IndexOf(Player);
         if (Players[0].EarnedPoints == Players[1].EarnedPoints)
             creditsToGive = 25;

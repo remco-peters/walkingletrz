@@ -67,8 +67,8 @@ public class SceneSwitcher : MonoBehaviour
     public void LeaveLobby()
     {
         PhotonManager.PhotonInstance.LeaveLobby();
-        SwitchScene("StartScene");
         Destroy(PhotonManager.PhotonInstance.gameObject);
+        SwitchScene("StartScene");
     }
     
     public void LoadPhotonBoosterScene()

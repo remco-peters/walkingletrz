@@ -19,19 +19,19 @@ namespace Assets.Scripts
             {
                 var currentPlayer = GetCurrentActivePlayer();
                 index = Array.IndexOf(PhotonNetwork.PlayerList, currentPlayer);
+
                 if (index == -1) return;
+
                 index += 1;
                 if (index == PhotonNetwork.PlayerList.Length)
                     index = 0;
+
                 Photon.Realtime.Player newPlayer = PhotonNetwork.PlayerList[index];
-                Debug.Log($"{newPlayer.NickName}");
-                Debug.Log($"index: {index}");
-                Debug.Log($"count: {PhotonNetwork.PlayerList.Length}");
                 Hashtable hash = new Hashtable { { "CanMove", true } };
                 newPlayer.SetCustomProperties(hash);
+
                 Hashtable hashh = new Hashtable { { "CanMove", false } };
                 currentPlayer.SetCustomProperties(hashh);
-                Debug.Log($"{currentPlayer.NickName} {currentPlayer.CustomProperties["CanMove"]}");
             }
             else
             {

@@ -67,7 +67,7 @@ public class DynamicUI : MyMonoBehaviour
         MyPlayer localPlayer;
         if(GameInstance.instance.IsMultiplayer)
         {
-            localPlayer = PhotonNetwork.Instantiate("MyPlayer", new Vector3(), new Quaternion()).GetComponent<MyPlayer>();
+            localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass; });
             localPlayer.AchievementManager = achievementManager;
             localPlayer.name = PhotonNetwork.LocalPlayer.NickName;
             localPlayer.Credit = CreditClass;
@@ -105,8 +105,6 @@ public class DynamicUI : MyMonoBehaviour
 
             PlayerManagerClass = Spawn(PlayerManagerClass, this);
             PlayerManagerClass.Players = new List<Player> { localPlayer };
-
-            Debug.Log(PlayerManagerClass.Players.Count);
 
             HUD.PlayersList = PlayerManagerClass.Players;
             BotClass.playerManager = PlayerManagerClass;

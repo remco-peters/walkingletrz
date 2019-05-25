@@ -6,6 +6,7 @@ using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class MatchResultScript : MonoBehaviour
 {
@@ -22,6 +23,14 @@ public class MatchResultScript : MonoBehaviour
         for (int i = 0; i < GameInstance.instance.PlayerData.Count; i++)
         {
             SetUpInfo(GameInstance.instance.PlayerData[i]);
+        }
+
+        // End the connection if in multiplayer, also put the flag isMultiplayer to false
+        if(GameInstance.instance.IsMultiplayer)
+        {
+            PhotonManager.PhotonInstance.LeaveLobby();
+            Destroy(PhotonManager.PhotonInstance.gameObject);
+            GameInstance.instance.IsMultiplayer = false;
         }
     }
 
@@ -49,42 +58,12 @@ public class MatchResultScript : MonoBehaviour
     {
         PlayerPanel pp = Instantiate(PlayerPanelClass);
         pp.GetComponent<PlayerPanel>().playerName.text = p.Name;
-        // pp.GetComponent<PlayerPanel>().playerScore.text = p.Points.ToString();
         pp.GetComponent<PlayerPanel>().crownImg.sprite = GetRightImg(p.place);
-        //pp.GetComponent<PlayerPanel>().playerTimeLeft.text = $"+ {p.timeLeft.ToString()}";
-
-        Debug.Log($"Name: {p.Name}, countOfWords: {p.BestWords.Count}");
-        foreach(string t in p.BestWords)
-        {
-            Debug.Log(t);
-        }
-
-        if (p.BestWords.Count > 0)
-        {
-            pp.GetComponent<PlayerPanel>().firstWord.text = p.BestWords[0].ToUpper();
-        } else
-        {
-            pp.GetComponent<PlayerPanel>().firstWord.text = "";
-            pp.GetComponent<PlayerPanel>().secondWord.text = "";
-            pp.GetComponent<PlayerPanel>().thirdWord.text = "";
-        }
-
-        if (p.BestWords.Count > 1)
-        {
-            pp.GetComponent<PlayerPanel>().secondWord.text = p.BestWords[1].ToUpper();
-        } else
-        {
-            pp.GetComponent<PlayerPanel>().secondWord.text = "";
-            pp.GetComponent<PlayerPanel>().thirdWord.text = "";
-        }
-
-        if (p.BestWords.Count > 2)
-        {
-            pp.GetComponent<PlayerPanel>().thirdWord.text = p.BestWords[2].ToUpper();
-        } else
-        {
-            pp.GetComponent<PlayerPanel>().thirdWord.text = "";
-        }
+                
+        pp.GetComponent<PlayerPanel>().firstWord.text = (p.BestWords.ElementAtOrDefault(0) != null) ? p.BestWords[0].ToUpper() : "";
+        pp.GetComponent<PlayerPanel>().secondWord.text = (p.BestWords.ElementAtOrDefault(1) != null) ? p.BestWords[1].ToUpper() : ""; ;
+        pp.GetComponent<PlayerPanel>().thirdWord.text = (p.BestWords.ElementAtOrDefault(2) != null) ? p.BestWords[2].ToUpper() : ""; ;
+        
         pp.transform.SetParent(PlayerPanelHolder.transform, false);
 
         StartCoroutine(AddTimeToPlayerScore(p, pp));
@@ -104,6 +83,7 @@ public class MatchResultScript : MonoBehaviour
                 result => Debug.Log("Success saving scores"),
                 error => Debug.LogError(error.GenerateErrorReport()));
 
+            #region statistics
             // Check if there are statistics present. If so, set previousScore & statisticsPresent to true
             int previousScore = 0;
             int? previousWins = 0;
@@ -277,6 +257,7 @@ public class MatchResultScript : MonoBehaviour
             if (statistics.Count <= 0) return;
             updateStatisticsRequest.Statistics = statistics;
             PlayFabClientAPI.UpdatePlayerStatistics(updateStatisticsRequest, OnSuccess, OnFailure);
+            #endregion
         }
     }
 

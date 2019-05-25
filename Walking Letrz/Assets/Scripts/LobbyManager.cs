@@ -43,8 +43,8 @@ public class LobbyManager : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
+            ShowAllPlayers();
         }
-        ShowAllPlayers();
     }
     
     void ShowAllPlayers()

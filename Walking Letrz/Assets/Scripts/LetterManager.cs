@@ -508,12 +508,7 @@ namespace Assets.Scripts
                         }
                     }
                 }
-
-                Debug.Log(w1);
-                Debug.Log(w2);
-                Debug.Log(w3);
-                Debug.Log("test");
-
+                
                 long playerPoints = (long)PhotonNetwork.LocalPlayer.CustomProperties["Points"];
                 Hashtable hash = new Hashtable { { "Points", playerPoints + points }, { "BestWords1", w1 }, { "BestWords2", w2 }, { "BestWords3", w3 } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);

@@ -31,7 +31,6 @@ public class GameBoard : MonoBehaviour
         {
             _letterManager = value;
             _letterManager.OnWordPlaced = CallRPC;
-            Debug.Log("RPC Set");
         }
     }
     
