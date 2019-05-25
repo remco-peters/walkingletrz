@@ -16,11 +16,19 @@ public class LetterBlock : MyMonoBehaviour, IPunObservable
 
     public void ButtonClicked()
     {
-        GameInstance.PlopSound.Play();
-        if(GameInstance.GetVibrationMode() == 1)
+        if (GameInstance.GetSoundVolume())
         {
-            //Handheld.Vibrate();
+            GameInstance.PlopSound.Play();
         }
+
+        # if UNITY_ANDROID || UNITY_IOS
+            if(GameInstance.GetVibrationMode() == 1)
+            {
+                Handheld.Vibrate();
+        
+            }
+        #endif
+
         OnLetterTouched(this);
     }
 

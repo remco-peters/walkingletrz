@@ -16,22 +16,15 @@ public class GameSettingScript : MonoBehaviour
 
     void Awake()
     {
-        SetSoundSlider();
         SetButtonPushSlider();
         SetVibrateSlider();
         SetGameTimeSlider();
         SetLanguageText();
     }
 
-    private void SetSoundSlider()
-    {
-        // Todo, implement sounds
-    }
-
     private void SetButtonPushSlider()
     {
         ButtonPushSlider.value = GameInstance.PlopSound.volume;
-        GameInstance.PlopSound.Play();
     }
 
     private void SetVibrateSlider()
@@ -79,6 +72,7 @@ public class GameSettingScript : MonoBehaviour
     public void SetButtonVolume(float value)
     {
         GameInstance.SetButtonSoundVolume(value);
+        GameInstance.PlopSound.Play();
     }
 
     public void SetGameVibration(float value)

@@ -95,6 +95,11 @@ public class GameInstance : MonoBehaviour
         PlayerPrefs.SetString("GameLanguagePref", value);
     }
 
+    public static bool GetSoundVolume()
+    {
+        return PlopSound.volume > 0;
+    }
+
     public static void SetButtonSoundVolume(float value)
     {
         PlopSound.volume = value;

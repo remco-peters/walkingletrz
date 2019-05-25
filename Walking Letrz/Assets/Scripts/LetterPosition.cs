@@ -12,25 +12,6 @@ public class LetterPosition
     private int Row;
     private int OldIndex;
     private int CurrentIndex;
-
-    public static object Deserialize(byte[] data)
-    {
-        var result = new LetterPosition {Id = data[0], Row = data[1], OldIndex = data[2], CurrentIndex = data[3]};
-        return result;
-    }
-
-    public static byte[] Serialize(object letterPosition)
-    {
-        var lp = (LetterPosition) letterPosition;
-        if (lp.LetterBlock == null)
-        {
-            return new byte[] {lp.Id, (byte) lp.Row, (byte) lp.OldIndex, (byte) lp.CurrentIndex};
-        }
-        else
-        {
-            return new byte[] {lp.Id, (byte) lp.Row, (byte) lp.OldIndex, (byte) lp.CurrentIndex};
-        }
-    }
     
     internal LetterPosition(int row, int index, LetterBlock letterBlock)
     {
