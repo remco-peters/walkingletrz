@@ -58,23 +58,22 @@ namespace Assets.Scripts
 
         #endregion unity properties
 
-        #region 
+        #region other properties
         public List<LetterPosition> PlacedLetters { get; } = new List<LetterPosition>();
         public List<LetterPosition> PlayerLetters { get; } = new List<LetterPosition>();
         private StartingLetters StartLetters { get; set; }
         public MyPlayer Player { get; set; }
         public DynamicUI DynamicUi { get; set; }
-        #endregion
-
         private bool DoubleWordValue = false;
         private bool TripleWordValue = false;
         public LetterBlock FirstLetterBlock { get;set; }
         public LetterBlock SecondLetterBlock { get; set; }
         private Image PointsGainedPanelImage;
-
         private GameBoard _gameBoard;
         public UnityAction<long, List<LetterPosition>> OnWordPlaced;
 
+        #endregion
+        
         #region positions
         private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
         private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
@@ -99,7 +98,8 @@ namespace Assets.Scripts
                     InitStartingLetters();
                     InitFirstLetters();
                 }
-            } else
+            }
+            else
             {
                 InitStartingLetters();
                 InitFirstLetters();
@@ -107,8 +107,7 @@ namespace Assets.Scripts
             
 
             InitPlacedLetterPositions();
-
-
+            
             _shuffleTimeRemaining = 1;
             _lowPassFilterFactor = AccelerometerUpdateInterval / LowPassKernelWidthInSeconds;
             _shakeDetectionThreshold *= _shakeDetectionThreshold;
@@ -313,11 +312,10 @@ namespace Assets.Scripts
             if (deltaAcceleration.sqrMagnitude >= _shakeDetectionThreshold && _shuffleTimeRemaining <= 0)
             {
                 _shuffleTimeRemaining = 1;
-                List<LetterBlock> letters = PlayerLetters.Select(x => x.LetterBlock).OrderBy(a => Random.Range(0, 100)).ToList(); // random order
+                List<LetterBlock> letters = PlayerLetters.Select(x => x.LetterBlock).OrderBy(a => Random.Range(0, 100)).ToList();
                 for (int i = 0; i < PlayerLetters.Count; i++)
-                {     
-                    //Todo             
-                    //PlayerLetters[i].AddLetter(letters[i]);
+                {
+                    PlayerLetters[i].AddLetter(letters[i], PlayerLetters[i].GetOldIndex(), PlayerLetters[i].GetRow());
                 }
             }
         }

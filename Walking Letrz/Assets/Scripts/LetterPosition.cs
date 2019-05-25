@@ -31,11 +31,6 @@ public class LetterPosition
             return new byte[] {lp.Id, (byte) lp.Row, (byte) lp.OldIndex, (byte) lp.CurrentIndex};
         }
     }
-
-    internal LetterPosition()
-    {
-        
-    }
     
     internal LetterPosition(int row, int index, LetterBlock letterBlock)
     {

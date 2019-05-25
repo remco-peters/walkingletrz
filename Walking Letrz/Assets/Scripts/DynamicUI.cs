@@ -116,7 +116,8 @@ public class DynamicUI : MyMonoBehaviour
                     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 };
             }
-        } else
+        }
+        else
         {
             localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass; });
             localPlayer.AchievementManager = achievementManager;
