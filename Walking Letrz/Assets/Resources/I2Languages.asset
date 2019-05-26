@@ -942,6 +942,14 @@ MonoBehaviour:
       - No friends (yet)
       Flags: 0000
       Languages_Touch: []
+    - Term: friends_leaderboard
+      TermType: 0
+      Description: 
+      Languages:
+      - Leaderboard vrienden
+      - Friends leaderboard
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -957,7 +965,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1558903533731
+    Google_LastUpdatedVersion: 1558904926091
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

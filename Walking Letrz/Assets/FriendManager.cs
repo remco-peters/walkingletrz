@@ -17,6 +17,7 @@ public class FriendManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        AccountManager.instance.UpdateFriendsList();
         _friends = AccountManager.instance.GetFriends();
     }
 

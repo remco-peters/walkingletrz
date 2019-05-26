@@ -19,12 +19,13 @@ public class AccountManager : MonoBehaviour
     public GameObject StartSceneCanvas;
     private string _displayName;
     public static AccountManager instance;
-    public string Credits {get;set; } = "0";
+    public string Credits { get; set; } = "0";
     public bool fullyLoaded = false;
     public bool failure = false;
-    public string playerName {get;set;}
+    public string playerName { get; set; }
     public Credit creditClass;
     private List<FriendInfo> _friends = null;
+    private List<PlayerLeaderboardEntry> _friendsLeaderboard = null;
 
     public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
@@ -57,7 +58,7 @@ public class AccountManager : MonoBehaviour
                 CreateAccount = true
             };
             PlayFabClientAPI.LoginWithAndroidDeviceID(request, Success, OnFailure);
-            leaderboardRequest = new GetLeaderboardRequest {StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10};
+            leaderboardRequest = new GetLeaderboardRequest { StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10 };
         }
     }
 
@@ -122,7 +123,7 @@ public class AccountManager : MonoBehaviour
     {
         CurrentPlayer = result.InfoResultPayload.PlayerProfile;
         CurrentPlayerAccount = result.InfoResultPayload.AccountInfo;
-        
+
         if (result.InfoResultPayload.UserVirtualCurrency.TryGetValue("CR", out int balance))
         {
             GameInstance.instance.credits = balance;
@@ -144,15 +145,10 @@ public class AccountManager : MonoBehaviour
         PlayFabClientAPI.GetLeaderboard(leaderboardRequest, LeaderboardSuccess, OnFailure);
         PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), PlayerAccountSuccess, OnFailure);
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), PlayerInventorySuccess, OnFailure);
-        GetFriendsListRequest req = new GetFriendsListRequest();
-        req.ProfileConstraints = new PlayerProfileViewConstraints() { ShowLastLogin = true, ShowDisplayName = true };
-        req.IncludeFacebookFriends = true;
-
-        PlayFabClientAPI.GetFriendsList(req, r => {
-            _friends = r.Friends;
-        }, OnFailure);
+        UpdateFriendsList();
+        UpdateFriendsLeaderboard();
     }
-    
+
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
     {
         CurrentPlayer = result.PlayerProfile;
@@ -182,10 +178,12 @@ public class AccountManager : MonoBehaviour
     private void PlayerInventorySuccess(GetUserInventoryResult result)
     {
         CurrentPlayerInventory = result;
-        if(result.VirtualCurrency.TryGetValue("CR", out int balance)) {
+        if (result.VirtualCurrency.TryGetValue("CR", out int balance))
+        {
             GameInstance.instance.credits = balance;
             Credits = balance.ToString();
-        } else
+        }
+        else
         {
             GameInstance.instance.credits = 0;
             Credits = "0";
@@ -218,7 +216,7 @@ public class AccountManager : MonoBehaviour
     //used from input field from editor on profile scene
     public void SetDisplayName(string displayName)
     {
-        var displayNameRequest = new UpdateUserTitleDisplayNameRequest {DisplayName = displayName};
+        var displayNameRequest = new UpdateUserTitleDisplayNameRequest { DisplayName = displayName };
         PlayFabClientAPI.UpdateUserTitleDisplayName(displayNameRequest, DisplayNameSuccess, OnFailure);
     }
 
@@ -259,9 +257,67 @@ public class AccountManager : MonoBehaviour
         creditClass.AddCredits(100);
         RefreshAccountStats();
     }
-    
+
+    public void UpdateFriendsList()
+    {
+        GetFriendsListRequest req = new GetFriendsListRequest
+        {
+            ProfileConstraints = new PlayerProfileViewConstraints() { ShowLastLogin = true, ShowDisplayName = true },
+            IncludeFacebookFriends = true
+        };
+
+        PlayFabClientAPI.GetFriendsList(req, r =>
+        {
+            _friends = r.Friends;
+        }, OnFailure);
+    }
+
     public List<FriendInfo> GetFriends()
     {
         return _friends;
+    }
+
+    public void AddFriend(string friendId)
+    {
+        var request = new AddFriendRequest
+        {
+            FriendPlayFabId = friendId
+        };
+
+        // Execute request and update friends when we are done
+        PlayFabClientAPI.AddFriend(request, result =>
+        {
+            Debug.Log("Friend added successfully!");
+        }, OnFailure);
+
+        UpdateFriendsList();
+    }
+
+    public void RemoveFriend(FriendInfo friendInfo)
+    {
+        PlayFabClientAPI.RemoveFriend(new RemoveFriendRequest
+        {
+            FriendPlayFabId = friendInfo.FriendPlayFabId
+        }, result =>
+        {
+            _friends.Remove(friendInfo);
+        }, OnFailure);
+    }
+
+    public void UpdateFriendsLeaderboard()
+    {
+        PlayFabClientAPI.GetFriendLeaderboard(new GetFriendLeaderboardRequest
+        {
+            StartPosition = 0,
+            StatisticName = "Score"
+        }, result =>
+        {
+            _friendsLeaderboard = result.Leaderboard;
+        }, OnFailure);
+    }
+
+    public List<PlayerLeaderboardEntry> GetFriendsLeaderboard()
+    {
+        return _friendsLeaderboard;
     }
 }
