@@ -1680,7 +1680,7 @@ GameObject:
   - component: {fileID: 1053070219}
   - component: {fileID: 1053070220}
   m_Layer: 5
-  m_Name: GameObject (1)
+  m_Name: BoosterRow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2074,7 +2074,7 @@ GameObject:
   - component: {fileID: 1544632497}
   - component: {fileID: 1544632498}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: BoosterRow1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2097,10 +2097,10 @@ RectTransform:
   m_Father: {fileID: 4849948}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1544632498
 MonoBehaviour:
@@ -3458,3 +3458,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10391b9e537bc0d45973d076b7ee8537, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row1: {fileID: 1544632496}
+  row2: {fileID: 1053070218}

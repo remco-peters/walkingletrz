@@ -7,6 +7,8 @@ public class BoosterScene : MonoBehaviour
 {
     // Start is called before the first frame update
     private long credits;
+    public GameObject row1;
+    public GameObject row2;
 
     void Start()
     {
@@ -19,9 +21,10 @@ public class BoosterScene : MonoBehaviour
         
     }
 
-    private IEnumerable<Toggle> GetActiveToggles(GameObject panel)
+    private IEnumerable<Toggle> GetActiveToggles()
     {
-        Toggle[] toggles = panel.GetComponentsInChildren<Toggle>() ?? new Toggle[] { };
+        List<Toggle> toggles = row1.GetComponentsInChildren<Toggle>().ToList() ?? new List<Toggle>();
+        toggles.AddRange(row2.GetComponentsInChildren<Toggle>());
         foreach(Toggle t in toggles)
         {
             if (t.isOn) yield return t;
@@ -30,7 +33,7 @@ public class BoosterScene : MonoBehaviour
 
     public void PlayBttnClick(GameObject panel)
     {
-        IEnumerable<Toggle> toggles = GetActiveToggles(panel);
+        IEnumerable<Toggle> toggles = GetActiveToggles();
         foreach(Toggle t in toggles)
         {
             GameInstance.instance.selectedBoosters.Add(t.name);
@@ -47,7 +50,7 @@ public class BoosterScene : MonoBehaviour
             Debug.Log("Not enough credits");
             return;
         }
-        else if (GetActiveToggles(toggle.transform.parent.gameObject).Count() > 3)
+        else if (GetActiveToggles().Count() > 3)
         {
             toggle.isOn = false;
             Debug.Log("Max 3 boosters");
