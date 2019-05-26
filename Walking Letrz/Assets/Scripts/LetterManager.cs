@@ -55,6 +55,8 @@ namespace Assets.Scripts
         public int RotateBy = 12;
         public GameObject PointsGainedPanel { get; set; }
         public Text PointsGainedText { get; set; }
+        public GameObject BoosterPanel{get;set;}
+        private Text BoosterText;
 
         #endregion unity properties
 
@@ -128,6 +130,7 @@ namespace Assets.Scripts
             PointsGainedPanelImage.color = new Color(1f, 1f, 1f, 0f);
             PointsGainedText = PointsGainedPanel.GetComponentInChildren<Text>();
             PointsGainedText.color = new Color(1f, 1f, 1f, 0f);
+            BoosterText = BoosterPanel.GetComponentInChildren<Text>();
         }
 
         private void Update()
@@ -263,6 +266,7 @@ namespace Assets.Scripts
             DoubleWordValue = true;
             GameObject placedHolder = Instantiate(PlaceHolderObject);
             placedHolder.transform.SetParent(BoosterBoard.transform, false);
+            BoosterText.text = TripleWordValue ? "6x" : "2x";
         }
 
         public void TripleWordOnTouched()
@@ -272,6 +276,7 @@ namespace Assets.Scripts
             TripleWordValue = true;
             GameObject placedHolder = Instantiate(PlaceHolderObject);
             placedHolder.transform.SetParent(BoosterBoard.transform, false);
+            BoosterText.text = DoubleWordValue ? "6x" : "3x";
         }
 
         private void OnTradeFixedTouched()
@@ -449,6 +454,7 @@ namespace Assets.Scripts
                     DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);
+                    BoosterText.text = "";
                 }
             }
         }

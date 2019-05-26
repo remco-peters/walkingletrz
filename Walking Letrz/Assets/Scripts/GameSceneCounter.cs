@@ -24,11 +24,8 @@ namespace Assets.Scripts
             int timeleft = 3;
             while (timeleft > 0) //wait 3 seconds
             {
-                if (timeleft < 3)
-                {
-                    rotate += 45f;
-                    StartCoroutine(AnimateBlock(rotate));
-                }
+                rotate += 45f;
+                StartCoroutine(AnimateBlock(rotate));
                 CounterText.text = timeleft.ToString();
                 timeleft--;
                 yield return new WaitForSeconds(1);

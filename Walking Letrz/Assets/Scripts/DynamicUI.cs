@@ -16,6 +16,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject SecondRow;
     public GameObject ThirdRow;
     public GameObject BoosterBoard;
+    public GameObject BoosterPanel;
     public RemoveWordBtn DeleteBtn;
     public PlaceWordBtn PlaceBtn;
     public BoosterBtn BoosterBtn;
@@ -98,6 +99,7 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.BoosterBoard = BoosterBoard;
                 letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
                 letterManager.TripleWordValueBtn = TripleWordValueBtn;
+                letterManager.BoosterPanel = BoosterPanel;
             });
 
             LetterManager letterManagerBot = LetterManagerClass;
@@ -152,6 +154,7 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.BoosterBoard = BoosterBoard;
                 letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
                 letterManager.TripleWordValueBtn = TripleWordValueBtn;
+                letterManager.BoosterPanel = BoosterPanel;
             });
 
             LetterManager letterManagerBot = LetterManagerClass;

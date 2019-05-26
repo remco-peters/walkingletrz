@@ -38,9 +38,9 @@ namespace Assets.Scripts
             if (difficulty == Difficulty.Easy) FirstPlayerLetters = GetLetters(19);
             else if (difficulty == Difficulty.Medium) FirstPlayerLetters = GetLetters(15);
             else FirstPlayerLetters = GetLetters(12);
-            char[] startingLetters = GetLetters(2);
-            FirstLetter = startingLetters[0];
-            SecondLetter =startingLetters[1];
+            //char[] startingLetters = GetLetters(2);
+            FirstLetter = GetVowelOrConsonant(false);
+            SecondLetter = GetVowelOrConsonant(true);
             
         }
 
@@ -73,7 +73,7 @@ namespace Assets.Scripts
             foreach (var key in CharacterOcurences.Keys)
             {
                 if (availableLetters.IndexOf(key) != -1)
-                    for (int i = 0; i < CharacterOcurences[key] * 3; i++)
+                    for (int i = 0; i < CharacterOcurences[key] * 2; i++)
                     {
                         lettersToChoseFrom.Add(key);
                     }
