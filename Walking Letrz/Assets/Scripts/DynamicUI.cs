@@ -41,13 +41,12 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject PlayerInfoPanel;
     public Text PlayerInfoTxt;
     public Credit CreditClass;
-    public GameObject FixedLetterOverlay;
+    public GameSceneCounter FixedLetterOverlay;
     public bool Tutorial { get; set; }
 
     void Awake()
     {
         TheLetterManagerClass = Spawn(TheLetterManagerClass, this);
-        
     }
 
     // Start is called before the first frame update
@@ -110,6 +109,9 @@ public class DynamicUI : MyMonoBehaviour
             BotClass.playerManager = PlayerManagerClass;
             if (PhotonNetwork.IsMasterClient)
             {
+                FixedLetterOverlay = Instantiate(FixedLetterOverlay);
+                FixedLetterOverlay.transform.SetParent(transform, false);
+
                 FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
                 {
                     Hashtable hash = new Hashtable {{"CanMove", true}};
@@ -167,10 +169,22 @@ public class DynamicUI : MyMonoBehaviour
             
             HUD.PlayersList = PlayerManagerClass.Players;
             BotClass.playerManager = PlayerManagerClass;
+
+            if(!localPlayer.IsInTutorial)
+            {
+                FixedLetterOverlay = Instantiate(FixedLetterOverlay);
+                FixedLetterOverlay.transform.SetParent(transform, false);
+            }
+
             FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
                 {
                     localPlayer.CanMove = true;
                 };
         }
+    }
+
+    void Update()
+    {
+
     }
 }

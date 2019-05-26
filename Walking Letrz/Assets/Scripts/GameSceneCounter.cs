@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 namespace Assets.Scripts
 {
-    class GameSceneCounter : MyMonoBehaviour
+    public class GameSceneCounter : MyMonoBehaviour
     {
         public Text CounterText;
         public GameObject FixedLetterOverlay;

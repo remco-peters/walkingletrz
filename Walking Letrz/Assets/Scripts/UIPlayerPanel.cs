@@ -10,6 +10,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -44,6 +45,8 @@ public class UIPlayerPanel : UIBehaviour
     public GameObject InfoTextPanel;
     public Text InfoPanelText;
     private Image InfoPanelImage;
+
+    public UnityAction OnTutorialFinished;
 
     #region tutorialImages
     public GameObject AchievementInfoPanel;
@@ -111,16 +114,17 @@ public class UIPlayerPanel : UIBehaviour
 
         if (Player.IsInTutorial)
         {
-            skipTutorialBtn = Instantiate(skipTutorialBtnClass, transform, false);
-            skipTutorialBtn.GetComponent<TutSkipBtn>().OnSkipTutorialBtnTouched += UiPlayerPanelOnSkipTutorialBtnTouched;
             Player.CanMove = false;
             ShowTutorial();
+            skipTutorialBtn = Instantiate(skipTutorialBtnClass, transform, false);
+            skipTutorialBtn.GetComponent<TutSkipBtn>().OnSkipTutorialBtnTouched += UiPlayerPanelOnSkipTutorialBtnTouched;
         }
 
         StartCoroutine(Timer());
         StartCoroutine(CheckIfAllPlayersHaveTimeLeft());
     }
 
+    #region Tutorial
     private void UiPlayerPanelOnSkipTutorialBtnTouched()
     {
         Destroy(skipTutorialBtn.gameObject);
@@ -177,7 +181,10 @@ public class UIPlayerPanel : UIBehaviour
         {
             Destroy(obj);
         }
+
+        OnTutorialFinished();
     }
+    #endregion
 
     // Update is called once per frame
     void Update()
@@ -204,7 +211,8 @@ public class UIPlayerPanel : UIBehaviour
                 }
                 index++;
             }
-        } else
+        }
+        else
         {
             foreach (Player p in Players)
             {
@@ -246,7 +254,8 @@ public class UIPlayerPanel : UIBehaviour
                 StartCoroutine(SetOpponentTime(index, null, p));
                 index++;
             }
-        } else
+        }
+        else
         {
             int index = 0;
             foreach (Player p in Players)
@@ -491,8 +500,7 @@ public class UIPlayerPanel : UIBehaviour
         Debug.Log($"Credits to give: {creditsToGive}");
         Player.Credit.AddCredits(creditsToGive);
     }
-
-
+    
     private void PutAllDataInPlayerData()
     {
         GameInstance.instance.PlayerData = new List<PlayerData>();
