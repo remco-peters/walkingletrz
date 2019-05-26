@@ -45,9 +45,9 @@ namespace Assets.Scripts
             }, FailureCallback, null, new Dictionary<string,string>{["X-SecretKey"] = "GX7ZFEH4AXZSHQGNSOKSJHCIKH73ONA5NAJG1QJO9GHYSIEIJ7" });
         }
 
-        private static System.Random random = new System.Random();
         public static string RandomString(int length)
         {
+            System.Random random = new System.Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[random.Next(s.Length)]).ToArray());

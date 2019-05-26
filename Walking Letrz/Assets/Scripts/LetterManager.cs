@@ -515,13 +515,14 @@ namespace Assets.Scripts
             {
                 //Instantiate wordHolder
                 GameObject wordHolder = Instantiate(GameBoardWordHolder);
-
+                int i = 0;
                 // Walk through all the letters placed
                 foreach (LetterPosition letterPos in PlacedLetters)
                 {
                     LetterBlock block = letterPos.LetterBlock;
                     if (block != null)
                     {
+                        i++;
                         block.transform.SetParent(wordHolder.transform, false);
                         block.GetComponent<Button>().interactable = false;
                         
@@ -552,15 +553,15 @@ namespace Assets.Scripts
                         {
                             AddLetter(row, index);
                         }
-                    }
-                    else
-                    {
-                        GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
-                        emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
-                    }
-                    wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
-                }
 
+                    }
+                }
+                for (;i <= 12; i++)
+                {
+                    GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
+                    emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
+                }
+                wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
             }
         }
 
