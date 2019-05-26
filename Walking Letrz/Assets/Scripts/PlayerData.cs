@@ -14,5 +14,6 @@ namespace Assets.Scripts
         public float timeLeft;
         public int WordCountTwelveLetters = 0;
         public int FinalWordCountPerMinute = 0;
+        public string playfabId;
     }
 }

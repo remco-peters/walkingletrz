@@ -12,6 +12,7 @@ public class PlayerPanel : MonoBehaviour
     public Text secondWord;
     public Text thirdWord;
 
-    public Image playerImg;
     public Image crownImg;
+
+    public Button addFriend;
 }

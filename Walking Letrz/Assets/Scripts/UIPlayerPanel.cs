@@ -465,10 +465,13 @@ public class UIPlayerPanel : UIBehaviour
             var playersList = PhotonManager.PhotonInstance.GetOtherPlayersList();
             foreach(var pl in playersList)
             {
-                Player p = new Player();
-                p.EarnedPoints = (long)pl.CustomProperties["Points"];
-                p.Name = pl.NickName;
-                p.TimeRemaining = (float)pl.CustomProperties["TimeRemaining"];
+                Player p = new Player
+                {
+                    EarnedPoints = (long)pl.CustomProperties["Points"],
+                    Name = pl.NickName,
+                    TimeRemaining = (float)pl.CustomProperties["TimeRemaining"],
+                    playfabId = pl.UserId
+                };
 
                 string w1 = (string)pl.CustomProperties["BestWords1"];
                 string w2 = (string)pl.CustomProperties["BestWords2"];
@@ -507,15 +510,18 @@ public class UIPlayerPanel : UIBehaviour
         for (int i = 0; i < Players.Count; i++)
         {
             Player p = Players[i];
-            PlayerData pd = new PlayerData();
-            pd.Name = p.Name;
-            pd.Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / 2);
-            pd.PointsWithoutTime = p.EarnedPoints;
-            pd.place = i + 1;
-            pd.timeLeft = p.TimeRemaining;
-            pd.BestWords = p.BestWordsThisGame.Select(w => w.word).ToList();
-            pd.WordCountTwelveLetters = p.WordsWithTwelveLetters;
-            pd.FinalWordCountPerMinute = p.AmountOfWordsPerMinuteFinal;
+            PlayerData pd = new PlayerData
+            {
+                Name = p.Name,
+                Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / 2),
+                PointsWithoutTime = p.EarnedPoints,
+                place = i + 1,
+                timeLeft = p.TimeRemaining,
+                BestWords = p.BestWordsThisGame.Select(w => w.word).ToList(),
+                WordCountTwelveLetters = p.WordsWithTwelveLetters,
+                FinalWordCountPerMinute = p.AmountOfWordsPerMinuteFinal,
+                playfabId = p.playfabId
+            };
             if (p == Player)
             {
                 var myPlayer = (MyPlayer)p;

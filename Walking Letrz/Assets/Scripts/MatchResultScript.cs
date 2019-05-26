@@ -65,6 +65,18 @@ public class MatchResultScript : MonoBehaviour
         pp.GetComponent<PlayerPanel>().thirdWord.text = (p.BestWords.ElementAtOrDefault(2) != null) ? p.BestWords[2].ToUpper() : ""; ;
         
         pp.transform.SetParent(PlayerPanelHolder.transform, false);
+        
+        if(GameInstance.instance.IsMultiplayer && !p.localPlayer && !AccountManager.instance.AlreadyFriends(p.playfabId))
+        {
+            Button addFriend = pp.GetComponent<PlayerPanel>().addFriend;
+            addFriend.gameObject.SetActive(true);
+            addFriend.GetComponent<AddFriendBtnScript>().OnAddFriendBtnTouched = () =>
+            {
+                AccountManager.instance.AddFriend(p.playfabId);
+                addFriend.GetComponentInChildren<Text>().text = I2.Loc.LocalizationManager.GetTranslation("friend_added_friend");
+                addFriend.interactable = false;
+            };
+        }
 
         StartCoroutine(AddTimeToPlayerScore(p, pp));
 

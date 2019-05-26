@@ -18,6 +18,7 @@ using Photon.Pun;
         public List<Word> BestWordsThisGame{get; set;} = new List<Word>();
         public int WordsWithTwelveLetters { get; set; }
         private int _amountOfWordsPerMinute;
+        public string playfabId { get; set; }
         public int AmountOfWordsPerMinute { 
             get {
                 return _amountOfWordsPerMinute;
@@ -40,7 +41,7 @@ using Photon.Pun;
 
         public void Awake()
         {
-            TimeRemaining = GameInstance.GetGameTimeInSeconds();
+            TimeRemaining = 10f;//GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
             if (GameInstance.instance.IsMultiplayer)
             {

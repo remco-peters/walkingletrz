@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FriendsScene.unity
     guid: 0b896025cd8fbd44f85aac90cd26def2
+  - enabled: 1
+    path: Assets/Scenes/FriendsLeaderboardScene.unity
+    guid: abc0988977561fe48b94d5f5f6b6e2cc
   m_configObjects: {}

@@ -29,8 +29,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected) return;
         PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
-          
-        
+        PhotonNetwork.AuthValues = new AuthenticationValues
+        {
+            UserId = AccountManager.CurrentPlayerAccount.PlayFabId
+        };
+
         Debug.Log("photon manager awake");
         bool success = PhotonNetwork.ConnectUsingSettings();
 
@@ -99,7 +102,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
             Failed(Error, Message);
         };
-        RoomOptions options = new RoomOptions {MaxPlayers =  2};
+        RoomOptions options = new RoomOptions {MaxPlayers =  2, PublishUserId = true};
         bool Result = PhotonNetwork.CreateRoom(Name, options);
 
         if (!Result) {

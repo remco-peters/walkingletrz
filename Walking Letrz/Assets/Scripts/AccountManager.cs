@@ -258,6 +258,7 @@ public class AccountManager : MonoBehaviour
         RefreshAccountStats();
     }
 
+    #region friendsStuff
     public void UpdateFriendsList()
     {
         GetFriendsListRequest req = new GetFriendsListRequest
@@ -291,6 +292,7 @@ public class AccountManager : MonoBehaviour
         }, OnFailure);
 
         UpdateFriendsList();
+        UpdateFriendsLeaderboard();
     }
 
     public void RemoveFriend(FriendInfo friendInfo)
@@ -302,6 +304,10 @@ public class AccountManager : MonoBehaviour
         {
             _friends.Remove(friendInfo);
         }, OnFailure);
+
+
+        UpdateFriendsList();
+        UpdateFriendsLeaderboard();
     }
 
     public void UpdateFriendsLeaderboard()
@@ -320,4 +326,17 @@ public class AccountManager : MonoBehaviour
     {
         return _friendsLeaderboard;
     }
+
+    public bool AlreadyFriends(string playfabId)
+    {
+        foreach(FriendInfo friend in _friends)
+        {
+            if (friend.FriendPlayFabId == playfabId)
+                return true;
+        }
+
+        return false;
+    }
+
+#endregion
 }
