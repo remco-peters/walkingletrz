@@ -77,6 +77,10 @@ public class MatchResultScript : MonoBehaviour
                 addFriend.interactable = false;
             };
         }
+        else if (AccountManager.instance.AlreadyFriends(p.playfabId))
+        {
+            pp.GetComponent<PlayerPanel>().alreadyFriendsImg.gameObject.SetActive(true);
+        }
 
         StartCoroutine(AddTimeToPlayerScore(p, pp));
 
