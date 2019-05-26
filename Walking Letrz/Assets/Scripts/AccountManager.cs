@@ -24,6 +24,7 @@ public class AccountManager : MonoBehaviour
     public bool failure = false;
     public string playerName {get;set;}
     public Credit creditClass;
+    private List<FriendInfo> _friends = null;
 
     public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
@@ -143,6 +144,13 @@ public class AccountManager : MonoBehaviour
         PlayFabClientAPI.GetLeaderboard(leaderboardRequest, LeaderboardSuccess, OnFailure);
         PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), PlayerAccountSuccess, OnFailure);
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), PlayerInventorySuccess, OnFailure);
+        GetFriendsListRequest req = new GetFriendsListRequest();
+        req.ProfileConstraints = new PlayerProfileViewConstraints() { ShowLastLogin = true, ShowDisplayName = true };
+        req.IncludeFacebookFriends = true;
+
+        PlayFabClientAPI.GetFriendsList(req, r => {
+            _friends = r.Friends;
+        }, OnFailure);
     }
     
     private void PlayerProfileSuccess(GetPlayerProfileResult result)
@@ -250,5 +258,10 @@ public class AccountManager : MonoBehaviour
     {
         creditClass.AddCredits(100);
         RefreshAccountStats();
+    }
+    
+    public List<FriendInfo> GetFriends()
+    {
+        return _friends;
     }
 }

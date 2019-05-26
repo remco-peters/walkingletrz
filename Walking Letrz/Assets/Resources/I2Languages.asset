@@ -886,6 +886,62 @@ MonoBehaviour:
       - Check yout internetconnection and try again
       Flags: 0000
       Languages_Touch: []
+    - Term: friends_list
+      TermType: 0
+      Description: 
+      Languages:
+      - Vriendenlijst
+      - Friendslist
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends_online
+      TermType: 0
+      Description: 
+      Languages:
+      - Online vrienden
+      - Friends online
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends_offline
+      TermType: 0
+      Description: 
+      Languages:
+      - Offline vrienden
+      - Friends offline
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends_add
+      TermType: 0
+      Description: 
+      Languages:
+      - Vriend toevoegen
+      - Add friend
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends_delete
+      TermType: 0
+      Description: 
+      Languages:
+      - Vriend verwijderen
+      - Delete friend
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends_invite
+      TermType: 0
+      Description: 
+      Languages:
+      - Vriend uitnodigen om te spelen
+      - Invite friend for a game
+      Flags: 0000
+      Languages_Touch: []
+    - Term: friends_none
+      TermType: 0
+      Description: 
+      Languages:
+      - (Nog) geen vrienden
+      - No friends (yet)
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -901,7 +957,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1558898358150
+    Google_LastUpdatedVersion: 1558903533731
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

@@ -44,4 +44,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
     guid: 3185631b395df4925ba137303a9a033c
+  - enabled: 1
+    path: Assets/Scenes/FriendsScene.unity
+    guid: 0b896025cd8fbd44f85aac90cd26def2
   m_configObjects: {}
