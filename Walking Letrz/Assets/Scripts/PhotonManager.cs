@@ -40,8 +40,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
 
         PhotonNetwork.AutomaticallySyncScene = true;
-        //PhotonNetwork.SendRate = 1;
-        //PhotonNetwork.SerializationRate = 1;
     }
     
     public override void OnConnectedToMaster()
@@ -135,11 +133,19 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         OnJoinedRoomDelegate();
     }
 
+    public override void OnJoinRoomFailed(short returnCode, string errorMsg)
+    {
+        CreateRoom(null, () =>
+        {
+            Debug.Log("Room created");
+        },
+             (short error, string message) => { Debug.Log($"Room create failed for reason {message}"); });
+    }
+
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (!newPlayer.IsLocal)
         {
-//            newPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
             Debug.Log("3rd partied");
             OnPlayerJoinedDelegate(newPlayer);
         }
