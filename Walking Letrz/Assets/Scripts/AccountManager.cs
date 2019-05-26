@@ -21,6 +21,7 @@ public class AccountManager : MonoBehaviour
     public static AccountManager instance;
     public string Credits {get;set; } = "0";
     public bool fullyLoaded = false;
+    public bool failure = false;
     public string playerName {get;set;}
     public Credit creditClass;
 
@@ -83,7 +84,7 @@ public class AccountManager : MonoBehaviour
         listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 15, 150, 5, "WordLengthOfTwelve"));
     }
 
-    public static List<PlayerLeaderboardEntry> GetLeaderboard()
+    public List<PlayerLeaderboardEntry> GetLeaderboard()
     {
         GetLeaderboardRequest glb = new GetLeaderboardRequest { StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10 };
         PlayFabClientAPI.GetLeaderboard(glb, LeaderboardSuccess, OnFailure);
@@ -200,9 +201,10 @@ public class AccountManager : MonoBehaviour
         CurrentPlayer.Statistics = statisticList;
     }
 
-    private static void OnFailure(PlayFabError error)
+    private void OnFailure(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
+        failure = true;
     }
 
     //used from input field from editor on profile scene
