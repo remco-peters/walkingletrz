@@ -57,6 +57,7 @@ namespace Assets.Scripts
         public Text PointsGainedText { get; set; }
         public GameObject BoosterPanel{get;set;}
         private Text BoosterText;
+        private bool FixedLettersVisible = false;
 
         #endregion unity properties
 
@@ -136,6 +137,22 @@ namespace Assets.Scripts
         private void Update()
         {
             ShufflePlayerLetters();
+            if (!Player.CanMove && FixedLettersVisible)
+            {
+                FirstLetterBlock.GetComponentInChildren<Text>().text = "?";
+                SecondLetterBlock.GetComponentInChildren<Text>().text = "?";
+                FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
+                SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
+                FixedLettersVisible = false;
+            }
+            else if (Player.CanMove && !FixedLettersVisible)
+            {
+                FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
+                SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+                FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
+                SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
+                FixedLettersVisible = true;
+            }
         }
         
         private void InitStartingLetters()
