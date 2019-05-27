@@ -44,6 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeRemaining: 0
-  playerManager: {fileID: 808285337691159210, guid: 1458a9102cb20b4459db46f7fca066a5,
-    type: 3}
+  playerManager: {fileID: 0}
   difficulty: 0
