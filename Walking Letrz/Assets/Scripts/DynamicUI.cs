@@ -182,7 +182,7 @@ public class DynamicUI : MyMonoBehaviour
                 FixedLetterOverlay.transform.SetParent(transform, false);
             }
 
-            localPlayer.BestWordsThisGame = null;
+            //localPlayer.BestWordsThisGame = null;
 
             FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
                 {
