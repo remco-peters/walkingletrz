@@ -20,6 +20,12 @@ public class GameBoard : MonoBehaviour
     public LetterBlock FixedLettersBlockObjectGameBoard;
     public LetterBlock PlayerLetterBlockObjectGameBoard;
 
+    public Material FixedLetterOtherPlayerMaterial;
+    public Material PlayerLetterOtherPlayerMaterial;
+
+    public Material NormalFixedMaterial;
+    public Material NormalPlayerLetterMaterial;
+
     private Vector3 _pos;
     private LetterManager _letterManager;
     private PhotonView _photonView;
@@ -41,7 +47,7 @@ public class GameBoard : MonoBehaviour
 
     }
 
-    public void CallRPC(long points, List<LetterPosition> placedLetters)
+    public void CallRPC(long points, List<LetterPosition> placedLetters, string pID)
     {
         Debug.Log("RPC called");
         
@@ -65,7 +71,7 @@ public class GameBoard : MonoBehaviour
             }
         }
 
-        _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second);
+        _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second, pID);
         RemoveAndChangeLetters(placedLetters, points);
 
     }
@@ -143,8 +149,9 @@ public class GameBoard : MonoBehaviour
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex)
+    private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex, string pID)
     {
+        Debug.Log($"LocalPlayer: {PhotonNetwork.LocalPlayer.UserId}, sended: {pID}");
         GameState.PlacedWordsInThisGame.Add(word.ToLower());
         GameObject wordHolder = Instantiate(GameBoardWordHolder);
         int i = 0;
@@ -154,10 +161,24 @@ public class GameBoard : MonoBehaviour
             if(i == firstIndex || i == secondIndex)
             {
                 block = FixedLettersBlockObjectGameBoard;
-
+                if(PhotonNetwork.LocalPlayer.UserId != pID)
+                {
+                    block.GetComponent<Image>().material = FixedLetterOtherPlayerMaterial;
+                } else
+                {
+                    block.GetComponent<Image>().material = NormalFixedMaterial;
+                }
             } else
             {
                 block = PlayerLetterBlockObjectGameBoard;
+
+                if (PhotonNetwork.LocalPlayer.UserId != pID)
+                {
+                    block.GetComponent<Image>().material = PlayerLetterOtherPlayerMaterial;
+                } else
+                {
+                    block.GetComponent<Image>().material = NormalPlayerLetterMaterial;
+                }
             }
 
             block = Instantiate(block);
