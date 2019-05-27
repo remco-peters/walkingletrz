@@ -72,7 +72,7 @@ namespace Assets.Scripts
         public LetterBlock SecondLetterBlock { get; set; }
         private Image PointsGainedPanelImage;
         private GameBoard _gameBoard;
-        public UnityAction<long, List<LetterPosition>> OnWordPlaced;
+        public UnityAction<long, List<LetterPosition>, string> OnWordPlaced;
 
         #endregion
         
@@ -516,7 +516,7 @@ namespace Assets.Scripts
                 long playerPoints = (long)PhotonNetwork.LocalPlayer.CustomProperties["Points"];
                 Hashtable hash = new Hashtable { { "Points", playerPoints + points }, { "BestWords1", w1 }, { "BestWords2", w2 }, { "BestWords3", w3 } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-                _gameBoard.CallRPC(points, PlacedLetters);
+                _gameBoard.CallRPC(points, PlacedLetters, PhotonNetwork.LocalPlayer.UserId);
             } else
             {
                 //Instantiate wordHolder
