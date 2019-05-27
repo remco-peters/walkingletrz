@@ -814,7 +814,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -623, y: -0.000061034883}
+  m_AnchoredPosition: {x: -623, y: -0.000061035156}
   m_SizeDelta: {x: 623, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512
@@ -870,6 +870,10 @@ MonoBehaviour:
     type: 3}
   PlayerLetterBlockObjectGameBoard: {fileID: 148769063733298645, guid: fceb3bcd306e10a429587ff8189a6852,
     type: 3}
+  OtherPlayerFixedMaterial: {fileID: 2100000, guid: ddbf82560fa7d954c9723ffd399b38ae,
+    type: 2}
+  OtherPlayerLetterMaterial: {fileID: 2100000, guid: 27ccd47d525630a469bc97cfb00d33a7,
+    type: 2}
 --- !u!114 &5496269054740555658
 MonoBehaviour:
   m_ObjectHideFlags: 0

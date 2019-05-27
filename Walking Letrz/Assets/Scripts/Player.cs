@@ -41,7 +41,7 @@ using Photon.Pun;
 
         public void Awake()
         {
-            TimeRemaining = 10f;//GameInstance.GetGameTimeInSeconds();
+            TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
             if (GameInstance.instance.IsMultiplayer)
             {

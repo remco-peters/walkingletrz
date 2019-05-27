@@ -28,6 +28,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public void ConnectToPhoton()
     {
         if (PhotonNetwork.IsConnected) return;
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.LocalPlayer.NickName = AccountManager.CurrentPlayer.DisplayName;
         PhotonNetwork.AuthValues = new AuthenticationValues
         {
@@ -42,7 +43,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             Debug.LogError("Failed connecting to Photon");
         }
 
-        PhotonNetwork.AutomaticallySyncScene = true;
     }
     
     public override void OnConnectedToMaster()

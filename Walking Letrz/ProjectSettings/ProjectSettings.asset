@@ -246,7 +246,7 @@ PlayerSettings:
   clonedFromGUID: 5f34be1353de5cf4398729fda238591b
   templatePackageId: com.unity.template.2d@1.0.2
   templateDefaultScene: Assets/Scenes/SampleScene.unity
-  AndroidTargetArchitectures: 7
+  AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: D:/Users/sanne/InHolland/Jaar 3 - Blok 3 en 4/walkingletrz/Walking
@@ -611,7 +611,7 @@ PlayerSettings:
     28: TextMeshPro;PHOTON_UNITY_NETWORKING;PUN_2_0_OR_NEWER;PUN_2_OR_NEWER
   platformArchitecture: {}
   scriptingBackend:
-    Android: 1
+    Android: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}

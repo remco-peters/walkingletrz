@@ -67,7 +67,7 @@ public class DynamicUI : MyMonoBehaviour
         MyPlayer localPlayer;
         if(GameInstance.instance.IsMultiplayer)
         {
-            localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass; });
+            localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = AccountManager.CurrentPlayer.DisplayName; p.Credit = CreditClass; });
             localPlayer.AchievementManager = achievementManager;
             localPlayer.name = PhotonNetwork.LocalPlayer.NickName;
             localPlayer.Credit = CreditClass;
@@ -106,24 +106,27 @@ public class DynamicUI : MyMonoBehaviour
 
             PlayerManagerClass = Spawn(PlayerManagerClass, this);
             PlayerManagerClass.Players = new List<Player> { localPlayer };
-
+            //localPlayer.TimeRemaining = 120f;
             HUD.PlayersList = PlayerManagerClass.Players;
             BotClass.playerManager = PlayerManagerClass;
+
+
+            FixedLetterOverlay = Instantiate(FixedLetterOverlay);
+            FixedLetterOverlay.transform.SetParent(transform, false);
+
             if (PhotonNetwork.IsMasterClient)
             {
-                FixedLetterOverlay = Instantiate(FixedLetterOverlay);
-                FixedLetterOverlay.transform.SetParent(transform, false);
-
                 FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
                 {
                     Hashtable hash = new Hashtable {{"CanMove", true}};
                     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 };
+
             }
         }
         else
         {
-            localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = "Ik"; p.Credit = CreditClass; });
+            localPlayer = Spawn(PlayerClass, this, p => { p.AchievementManager = achievementManager; p.Name = AccountManager.CurrentPlayer.DisplayName; p.Credit = CreditClass; });
             localPlayer.AchievementManager = achievementManager;
             localPlayer.Credit = CreditClass;
             localPlayer.IsInTutorial = Tutorial;
@@ -178,6 +181,8 @@ public class DynamicUI : MyMonoBehaviour
                 FixedLetterOverlay = Instantiate(FixedLetterOverlay);
                 FixedLetterOverlay.transform.SetParent(transform, false);
             }
+
+            localPlayer.BestWordsThisGame = null;
 
             FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
                 {
