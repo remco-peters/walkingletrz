@@ -284,7 +284,11 @@ public class UIPlayerPanel : UIBehaviour
                 TimeRemainingText.text = TimeText(Player.TimeRemaining);
                 yield return new WaitForSeconds(0.75f);
             }
-            
+
+            if (Player.TimeRemaining <= 11)
+            {
+                TimeRemainingText.color = new Color(1f, 0f, 0f);
+            }
             TimeRemainingText.text = TimeText(Player.TimeRemaining);
             
             yield return new WaitForEndOfFrame();
