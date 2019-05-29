@@ -9,7 +9,10 @@ public class LobbyManager : MonoBehaviour
     public GameObject usernamePlaceHolder;
     public GameObject UsernameClass;
     public Button StartGame;
+    public Image LoadingIndicator;
 
+    private float RotationSpeed = 200f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +20,11 @@ public class LobbyManager : MonoBehaviour
         PhotonManager.PhotonInstance.OnJoinedRoomDelegate += JoinedRoom;
         PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += PlayerJoined;
         PhotonManager.PhotonInstance.OnPlayerLeftDelegate += PlayerLeft;
+    }
+
+    private void FixedUpdate()
+    {
+        LoadingIndicator.GetComponent<RectTransform>().Rotate(0f, 0f, RotationSpeed * Time.deltaTime);
     }
 
     void JoinedRoom()
