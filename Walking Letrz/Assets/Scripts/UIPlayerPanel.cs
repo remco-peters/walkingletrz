@@ -514,10 +514,11 @@ public class UIPlayerPanel : UIBehaviour
         for (int i = 0; i < Players.Count; i++)
         {
             Player p = Players[i];
+            
             PlayerData pd = new PlayerData
             {
                 Name = p.Name,
-                Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / 2),
+                Points = p.EarnedPoints + (int)Math.Ceiling(p.TimeRemaining / (int)GameInstance.instance.difficulty),
                 PointsWithoutTime = p.EarnedPoints,
                 place = i + 1,
                 timeLeft = p.TimeRemaining,

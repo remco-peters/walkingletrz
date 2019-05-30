@@ -47,7 +47,7 @@ public class MatchResultScript : MonoBehaviour
             }
             else
             {
-                p.timeLeft -= 2;
+                p.timeLeft -= (int)GameInstance.instance.difficulty;
                 p.PointsWithoutTime += 1;
                 yield return new WaitForSeconds(0.2f);
             }

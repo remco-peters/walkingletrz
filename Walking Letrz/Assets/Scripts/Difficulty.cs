@@ -3,6 +3,6 @@ namespace Assets.Scripts
 {
     public enum Difficulty
     {
-        Easy, Medium, Hard
+        Easy=4, Medium=2, Hard=2
     }
 }
