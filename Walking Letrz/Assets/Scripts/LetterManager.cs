@@ -137,7 +137,7 @@ namespace Assets.Scripts
         private void Update()
         {
             bool canMove = GameInstance.instance.IsMultiplayer ? (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
-            ShufflePlayerLetters();
+            //ShufflePlayerLetters();
             /*if (!canMove && FixedLettersVisible)
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = "?";
