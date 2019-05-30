@@ -126,6 +126,9 @@ public class GameBoard : MonoBehaviour
             
 
             _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+
+            if (isFirstLetter)  _letterManager.FirstLetterBlock = block;
+            else if (isSecondLetter)  _letterManager.SecondLetterBlock = block;
         } else
         {
             block = PlayerLettersBlockObject;

@@ -249,9 +249,8 @@ PlayerSettings:
   AndroidTargetArchitectures: 5
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/Users/sanne/InHolland/Jaar 3 - Blok 3 en 4/walkingletrz/Walking
-    Letrz/user.keystore
-  AndroidKeyaliasName: keywalkingletrz
+  AndroidKeystoreName: 
+  AndroidKeyaliasName: 
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
   AndroidIsGame: 1

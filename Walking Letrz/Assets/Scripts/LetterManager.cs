@@ -136,8 +136,9 @@ namespace Assets.Scripts
 
         private void Update()
         {
+            bool canMove = GameInstance.instance.IsMultiplayer ? (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
             ShufflePlayerLetters();
-            if (!Player.CanMove && FixedLettersVisible)
+            if (!canMove && FixedLettersVisible)
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = "?";
                 SecondLetterBlock.GetComponentInChildren<Text>().text = "?";
@@ -145,7 +146,7 @@ namespace Assets.Scripts
                 SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
                 FixedLettersVisible = false;
             }
-            else if (Player.CanMove && !FixedLettersVisible)
+            else if (canMove && !FixedLettersVisible)
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
                 SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
@@ -392,6 +393,8 @@ namespace Assets.Scripts
                 }
 
                 PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
+                if (isFirstLetter) FirstLetterBlock = block;
+                if (isSecondLetter) SecondLetterBlock = block;
                 return block;
             }
 
