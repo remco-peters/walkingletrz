@@ -367,7 +367,6 @@ namespace Assets.Scripts
                 }
             }
             Player.EarnedPoints -= 20;
-            DynamicUi.PlayerManagerClass.NextTurn();
         }
         
         public LetterBlock InstantiateLetterButton(char letter, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
