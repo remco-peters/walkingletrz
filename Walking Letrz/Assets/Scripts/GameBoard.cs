@@ -117,6 +117,7 @@ public class GameBoard : MonoBehaviour
             block.OnLetterTouched += _letterManager.LetterTouched;
             //Todo
             //lttrBlock.OnLetterDragged += LetterDragged;
+            bool canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
             block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
             block.GetComponentsInChildren<Text>()[1].text = TheLM.CharactersValues
                 .First(x => x.Key == char.ToLower(letter[0])).Value.ToString();
@@ -126,9 +127,18 @@ public class GameBoard : MonoBehaviour
             
 
             _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
-
-            if (isFirstLetter)  _letterManager.FirstLetterBlock = block;
-            else if (isSecondLetter)  _letterManager.SecondLetterBlock = block;
+            /*if (isFirstLetter || isSecondLetter)
+            {
+                block.GetComponentsInChildren<Text>()[0].text = canMove ? letter.ToString().ToUpper() : "?";
+                block.GetComponentsInChildren<Text>()[1].text = canMove ? TheLM.CharactersValues
+                .First(x => x.Key == char.ToLower(letter[0])).Value.ToString() : "";
+            }*/
+            if (isFirstLetter){
+                _letterManager.FirstLetterBlock = block;                
+            }
+            else if (isSecondLetter) {              
+                _letterManager.SecondLetterBlock = block;
+            }
         } else
         {
             block = PlayerLettersBlockObject;

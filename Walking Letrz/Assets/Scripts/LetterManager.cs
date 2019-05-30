@@ -138,7 +138,7 @@ namespace Assets.Scripts
         {
             bool canMove = GameInstance.instance.IsMultiplayer ? (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
             ShufflePlayerLetters();
-            if (!canMove && FixedLettersVisible)
+            /*if (!canMove && FixedLettersVisible)
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = "?";
                 SecondLetterBlock.GetComponentInChildren<Text>().text = "?";
@@ -153,7 +153,7 @@ namespace Assets.Scripts
                 FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
                 SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
                 FixedLettersVisible = true;
-            }
+            }*/
         }
         
         private void InitStartingLetters()
@@ -377,13 +377,15 @@ namespace Assets.Scripts
                 block = FixedLettersBlockObject;
                 block = Instantiate(block);
                 block.IsFirstLetter = isFirstLetter;
-                block.IsSecondLetter = isSecondLetter;
+                block.IsSecondLetter = isSecondLetter; 
                 block.OnLetterTouched += LetterTouched;
                 //Todo
                 //lttrBlock.OnLetterDragged += LetterDragged;
                 block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
+                if (letter != '?')
                 block.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues
                     .First(x => x.Key == char.ToLower(letter)).Value.ToString();
+                else block.GetComponentsInChildren<Text>()[1].text = "";
                 GameObject parentRow = GetRightRow(row);
                 block.transform.SetParent(parentRow.transform, false);
                 if (index != null)
@@ -392,8 +394,8 @@ namespace Assets.Scripts
                 }
 
                 PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
-                if (isFirstLetter) FirstLetterBlock = block;
-                if (isSecondLetter) SecondLetterBlock = block;
+                //if (isFirstLetter) FirstLetterBlock = block;
+                //if (isSecondLetter) SecondLetterBlock = block;
                 return block;
             }
 
@@ -466,11 +468,11 @@ namespace Assets.Scripts
                     }
 
                     //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList()); Verplaatsen naar TheLetterManager
+                    DynamicUi.PlayerManagerClass.NextTurn();
                     PlaceWordInGameBoard(points);
                     RemoveAllLettersFromPlayerBoard();
                     ChangeFixedLetters(madeWord);
                     GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
-                    DynamicUi.PlayerManagerClass.NextTurn();
                     Player.IncreaseWordCount();
                     SetPlaceBtnActivity(false);
                     BoosterText.text = "";
@@ -637,6 +639,10 @@ namespace Assets.Scripts
             {
                 FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
                 SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+                FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues
+                    .First(x => x.Key == char.ToLower(TheLetterManager.FirstLetter)).Value.ToString();
+                SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues
+                    .First(x => x.Key == char.ToLower(TheLetterManager.SecondLetter)).Value.ToString();
                 RemoveAllLetters();
             }
             else
@@ -644,11 +650,11 @@ namespace Assets.Scripts
                 GameObject parentRow = GetRightRow(1);
                 Transform placeHolder = parentRow.transform.GetChild(0);
                 DestroyImmediate(placeHolder.gameObject);
-                FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
+                FirstLetterBlock = InstantiateLetterButton('?', true, false, 1, 0);
                 parentRow = GetRightRow(1);
                 placeHolder = parentRow.transform.GetChild(1);
                 DestroyImmediate(placeHolder.gameObject);
-                SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
+                SecondLetterBlock = InstantiateLetterButton('?', false, true, 1, 1);
 
                 if (GameInstance.instance.IsMultiplayer)
                 {
