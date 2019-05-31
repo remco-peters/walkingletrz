@@ -4,6 +4,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.PlayStreamModels;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AccountManager : MonoBehaviour
@@ -211,9 +212,10 @@ public class AccountManager : MonoBehaviour
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
     {
         Debug.Log($"New display name: {result.DisplayName}");
-        DestroyPopup();
         GameObject.FindGameObjectWithTag("SavedUsernameSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         CurrentPlayer.DisplayName = result.DisplayName;
+        if (SceneManager.GetActiveScene().name != "StartScene") return;
+        DestroyPopup();
     }
 
     private void DestroyPopup()
