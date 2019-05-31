@@ -127,7 +127,14 @@ public class DynamicUI : MyMonoBehaviour
                     Hashtable hash = new Hashtable {{"CanMove", true}};
                     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 };
-
+            }
+            else
+            {
+                FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
+                {
+                    Hashtable hash = new Hashtable {{"CanMove", false}};
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                };
             }
         }
         else

@@ -11,6 +11,7 @@ public class ProfileScript : MonoBehaviour
     public GameObject AddFacebookButton;
     public GameObject ShowFacebookInfo;
     public GameObject InviteMailPopUp;
+    public Text UsernameError;
 
     void Awake()
     {
@@ -45,5 +46,22 @@ public class ProfileScript : MonoBehaviour
     public void AddFriendClick()
     {
         InviteMailPopUp.SetActive(!InviteMailPopUp.activeSelf);
+    }
+
+    /// <summary>
+    /// Gets called when the editing of the display name ends
+    /// if the new displayname is longer than 13 characters an error is shown and the name is not saved
+    /// </summary>
+    /// <param name="newDisplayName"></param> the new display name to be saved
+    public void DisplayNameEditingEnded(string newDisplayName)
+    {
+        if (newDisplayName == AccountManager.CurrentPlayer.DisplayName) return;
+        if (newDisplayName.Length > 13)
+            UsernameError.enabled = true;
+        else
+        {
+            UsernameError.enabled = false;
+            AccountManager.instance.SetDisplayName(newDisplayName);
+        }
     }
 }

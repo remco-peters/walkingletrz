@@ -4,6 +4,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.PlayStreamModels;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AccountManager : MonoBehaviour
@@ -139,46 +140,36 @@ public class AccountManager : MonoBehaviour
 
     private void Success(LoginResult result)
     {
-        var playerRequest = new GetPlayerProfileRequest();
-        playerRequest.PlayFabId = result.PlayFabId;
-        PlayFabClientAPI.GetPlayerProfile(playerRequest, PlayerProfileSuccess, OnFailure);
+        var combinedReq = new GetPlayerCombinedInfoRequest();
+        combinedReq.PlayFabId = result.PlayFabId;
+        combinedReq.InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
+        {
+            GetUserAccountInfo = true,
+            GetUserInventory = false,
+            GetUserVirtualCurrency = true,
+            GetUserData = false,
+            GetUserReadOnlyData = false,
+            GetCharacterInventories = false,
+            GetCharacterList = false,
+            GetTitleData = false,
+            GetPlayerStatistics = true,
+            GetPlayerProfile = true
+        };
+        PlayFabClientAPI.GetPlayerCombinedInfo(combinedReq, StartGetInfoSuccess, OnFailure);
         PlayFabClientAPI.GetLeaderboard(leaderboardRequest, LeaderboardSuccess, OnFailure);
-        PlayFabClientAPI.GetAccountInfo(new GetAccountInfoRequest(), PlayerAccountSuccess, OnFailure);
-        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(), PlayerInventorySuccess, OnFailure);
         UpdateFriendsList();
         UpdateFriendsLeaderboard();
     }
 
-    private void PlayerProfileSuccess(GetPlayerProfileResult result)
+    private void StartGetInfoSuccess(GetPlayerCombinedInfoResult result)
     {
-        CurrentPlayer = result.PlayerProfile;
+        CurrentPlayer = result.InfoResultPayload.PlayerProfile;
         if (!string.IsNullOrEmpty(CurrentPlayer.DisplayName))
             playerName = CurrentPlayer.DisplayName;
 
-        var getStatistics = new GetPlayerStatisticsRequest();
-        var statisticNames = new List<string>
-        {
-            "Score",
-            "Wins",
-            "GamesPlayed",
-            "TotalScore",
-            "WordCount",
-            "AmountOfWordsPerMin",
-            "WordLengthOfTwelve"
-        };
-        getStatistics.StatisticNames = statisticNames;
-        PlayFabClientAPI.GetPlayerStatistics(getStatistics, OnStatisticsSuccess, OnFailure);
-    }
+        CurrentPlayerAccount = result.InfoResultPayload.AccountInfo;
 
-    private void PlayerAccountSuccess(GetAccountInfoResult result)
-    {
-        CurrentPlayerAccount = result.AccountInfo;
-    }
-
-    private void PlayerInventorySuccess(GetUserInventoryResult result)
-    {
-        CurrentPlayerInventory = result;
-        if (result.VirtualCurrency.TryGetValue("CR", out int balance))
+        if (result.InfoResultPayload.UserVirtualCurrency.TryGetValue("CR", out int balance))
         {
             GameInstance.instance.credits = balance;
             Credits = balance.ToString();
@@ -188,13 +179,9 @@ public class AccountManager : MonoBehaviour
             GameInstance.instance.credits = 0;
             Credits = "0";
         }
-        fullyLoaded = true;
-    }
 
-    private void OnStatisticsSuccess(GetPlayerStatisticsResult result)
-    {
         var statisticList = new List<StatisticModel>();
-        foreach (var statisticValue in result.Statistics)
+        foreach (var statisticValue in result.InfoResultPayload.PlayerStatistics)
         {
             var model = new StatisticModel
             {
@@ -205,8 +192,10 @@ public class AccountManager : MonoBehaviour
         }
 
         CurrentPlayer.Statistics = statisticList;
-    }
 
+        fullyLoaded = true;
+    }
+    
     private void OnFailure(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
@@ -223,9 +212,10 @@ public class AccountManager : MonoBehaviour
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
     {
         Debug.Log($"New display name: {result.DisplayName}");
-        DestroyPopup();
         GameObject.FindGameObjectWithTag("SavedUsernameSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         CurrentPlayer.DisplayName = result.DisplayName;
+        if (SceneManager.GetActiveScene().name != "StartScene") return;
+        DestroyPopup();
     }
 
     private void DestroyPopup()

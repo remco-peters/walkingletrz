@@ -41,12 +41,16 @@ using Photon.Pun;
 
         public void Awake()
         {
-            TimeRemaining = GameInstance.GetGameTimeInSeconds();
             EarnedPoints = 0;
             if (GameInstance.instance.IsMultiplayer)
             {
+                TimeRemaining = 120;
                 Hashtable hash = new Hashtable { { "TimeRemaining", TimeRemaining } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            }
+            else
+            {
+                TimeRemaining = GameInstance.GetGameTimeInSeconds();
             }
         }
 
