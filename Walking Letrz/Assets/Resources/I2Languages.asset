@@ -982,6 +982,30 @@ MonoBehaviour:
       - Your username can not be longer than 13 characters
       Flags: 0000
       Languages_Touch: []
+    - Term: trade_10_points
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt 10 punten nodig om je letters te ruilen
+      - You need 10 points to trade your letters
+      Flags: 0000
+      Languages_Touch: []
+    - Term: trade_20_points
+      TermType: 0
+      Description: 
+      Languages:
+      - Je hebt 20 punten nodig om je letters te ruilen
+      - You need 20 points to trade your letters
+      Flags: 0000
+      Languages_Touch: []
+    - Term: trade_used_all
+      TermType: 0
+      Description: 
+      Languages:
+      - Je kunt niet vaker dan 3 keer je letters ruilen
+      - You can not trade your letters more than 3 times
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -997,7 +1021,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1559293006420
+    Google_LastUpdatedVersion: 1559297767959
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

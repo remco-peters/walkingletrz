@@ -24,6 +24,7 @@ public class MyPlayer : Player
     public AchievementManager AchievementManager { private get; set; }
     public Credit Credit { get; set; }
     public bool IsInTutorial { get; set; } = false;
+    public int TimesTraded { get; set; } = 0;
 
     private int placedWordCount;
     // Start is called before the first frame update

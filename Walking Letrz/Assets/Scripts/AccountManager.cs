@@ -214,7 +214,6 @@ public class AccountManager : MonoBehaviour
         Debug.Log($"New display name: {result.DisplayName}");
         GameObject.FindGameObjectWithTag("SavedUsernameSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         CurrentPlayer.DisplayName = result.DisplayName;
-        if (SceneManager.GetActiveScene().name != "StartScene") return;
         DestroyPopup();
     }
 

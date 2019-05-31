@@ -329,10 +329,55 @@ namespace Assets.Scripts
                 canMove = Player.CanMove;
             }
 
-            if (!canMove || Player.EarnedPoints < 20) return;
+            int timesTraded;
+            if (GameInstance.instance.IsMultiplayer)
+                timesTraded = (int) PhotonNetwork.LocalPlayer.CustomProperties["TimesTraded"];
+            else
+                timesTraded = Player.TimesTraded;
+
+            switch (timesTraded)
+            {
+                case 0:
+                    TradeLetters(timesTraded);
+                    break;
+                case 1:
+                    if (Player.EarnedPoints < 10)
+                        Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_10_points");
+                    else
+                    {
+                        TradeLetters(timesTraded);
+                        Player.EarnedPoints -= 10;
+                    }
+                    break;
+                case 2:
+                    if (Player.EarnedPoints < 20)
+                        Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_20_points");
+                    else
+                    {
+                        TradeLetters(timesTraded);
+                        Player.EarnedPoints -= 20;
+                    }
+                    break;
+                default:
+                    Debug.Log("te vaak geruild");
+                    Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_used_all");
+                    break;
+            }
+            
+        }
+
+        private void TradeLetters(int timesTraded)
+        {
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                Hashtable hash = new Hashtable { { "TimesTraded", ++timesTraded} };
+                PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+            } 
+            else
+                Player.TimesTraded++;
+            RemoveAllLetters();
             var buttonImage = TradeBtn.GetComponentsInChildren<RectTransform>().Where(img => img.name == "TradeBtnImg").ToList()[0];
             StartCoroutine(RotateTradeButton(buttonImage, 1));
-            RemoveAllLetters();
             List<LetterPosition> letterPositions = GetPlayerLetters();
             foreach (LetterPosition letterPos in letterPositions)
             {
@@ -341,7 +386,6 @@ namespace Assets.Scripts
                     letterPos.LetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.GetLetters(1)[0].ToString().ToUpper();  
                 }
             }
-            Player.EarnedPoints -= 20;
         }
         
         public LetterBlock InstantiateLetterButton(char letter, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
