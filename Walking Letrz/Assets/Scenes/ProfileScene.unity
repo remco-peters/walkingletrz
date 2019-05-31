@@ -415,6 +415,19 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &68621525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332e36893e7cf4a49b3c1f72f76cd5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTarget: {fileID: 212459288}
 --- !u!1 &74808326
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +593,7 @@ GameObject:
   - component: {fileID: 131813753}
   - component: {fileID: 131813755}
   - component: {fileID: 131813754}
+  - component: {fileID: 131813756}
   m_Layer: 5
   m_Name: SendMailBtnTxt
   m_TagString: Untagged
@@ -648,6 +662,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131813752}
   m_CullTransparentMesh: 0
+--- !u!114 &131813756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131813752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTerm: Verstuur Mail
+  mTermSecondary: 
+  PrimaryTermModifier: 0
+  SecondaryTermModifier: 0
+  TermPrefix: 
+  TermSuffix: 
+  LocalizeOnAwake: 1
+  IgnoreRTL: 0
+  MaxCharactersInRTL: 0
+  IgnoreNumbersInRTL: 1
+  CorrectAlignmentForRTL: 1
+  AddSpacesToJoinedLanguages: 0
+  AllowLocalizedParameters: 1
+  TranslatedObjects: []
+  LocalizeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  AlwaysForceLocalize: 0
+  LocalizeCallBack:
+    Target: {fileID: 0}
+    MethodName: 
+  mGUI_ShowReferences: 0
+  mGUI_ShowTems: 1
+  mGUI_ShowCallback: 0
+  mLocalizeTarget: {fileID: 1892192510}
+  mLocalizeTargetName: I2.Loc.LocalizeTarget_UnityUI_Text
 --- !u!1 &188013047
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,7 +826,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gebruikersnaam succesvol opgeslagen!
+  m_Text: Username succesfully saved!
 --- !u!222 &188013052
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -792,6 +846,7 @@ GameObject:
   - component: {fileID: 212459287}
   - component: {fileID: 212459289}
   - component: {fileID: 212459288}
+  - component: {fileID: 212459290}
   m_Layer: 5
   m_Name: InfoText
   m_TagString: Untagged
@@ -860,6 +915,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212459286}
   m_CullTransparentMesh: 0
+--- !u!114 &212459290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212459286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTerm: Voer een geldig e-mailadres in
+  mTermSecondary: 
+  PrimaryTermModifier: 0
+  SecondaryTermModifier: 0
+  TermPrefix: 
+  TermSuffix: 
+  LocalizeOnAwake: 1
+  IgnoreRTL: 0
+  MaxCharactersInRTL: 0
+  IgnoreNumbersInRTL: 1
+  CorrectAlignmentForRTL: 1
+  AddSpacesToJoinedLanguages: 0
+  AllowLocalizedParameters: 1
+  TranslatedObjects: []
+  LocalizeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  AlwaysForceLocalize: 0
+  LocalizeCallBack:
+    Target: {fileID: 0}
+    MethodName: 
+  mGUI_ShowReferences: 0
+  mGUI_ShowTems: 1
+  mGUI_ShowCallback: 0
+  mLocalizeTarget: {fileID: 68621525}
+  mLocalizeTargetName: I2.Loc.LocalizeTarget_UnityUI_Text
 --- !u!1 &213370590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,7 +1232,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Koppel facebook
+  m_Text: Add Facebook
 --- !u!222 &229514619
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1349,6 +1444,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.00001001358}
   m_SizeDelta: {x: 4400, y: 649.33}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &504653451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332e36893e7cf4a49b3c1f72f76cd5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTarget: {fileID: 1222949955}
 --- !u!1 &524423692
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,7 +1934,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gebruikersnaam succesvol opgeslagen!
+  m_Text: Username succesfully saved!
 --- !u!222 &601554740
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1946,7 +2054,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Voeg je e-mailadres toe
+  m_Text: Add email
 --- !u!222 &613515343
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2430,7 +2538,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Je gebruikersnaam mag niet langer zijn dan 13 karakters
+  m_Text: Your username can not be longer than 13 characters
 --- !u!114 &1028612424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3051,6 +3159,7 @@ GameObject:
   - component: {fileID: 1222949957}
   - component: {fileID: 1222949956}
   - component: {fileID: 1222949955}
+  - component: {fileID: 1222949958}
   m_Layer: 5
   m_Name: Placeholder
   m_TagString: Untagged
@@ -3119,6 +3228,46 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5571.44, y: 315.9}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1222949958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1222949954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTerm: e-mail van vriend
+  mTermSecondary: 
+  PrimaryTermModifier: 0
+  SecondaryTermModifier: 0
+  TermPrefix: 
+  TermSuffix: 
+  LocalizeOnAwake: 1
+  IgnoreRTL: 0
+  MaxCharactersInRTL: 0
+  IgnoreNumbersInRTL: 1
+  CorrectAlignmentForRTL: 1
+  AddSpacesToJoinedLanguages: 0
+  AllowLocalizedParameters: 1
+  TranslatedObjects: []
+  LocalizeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  AlwaysForceLocalize: 0
+  LocalizeCallBack:
+    Target: {fileID: 0}
+    MethodName: 
+  mGUI_ShowReferences: 0
+  mGUI_ShowTems: 1
+  mGUI_ShowCallback: 0
+  mLocalizeTarget: {fileID: 504653451}
+  mLocalizeTargetName: I2.Loc.LocalizeTarget_UnityUI_Text
 --- !u!1 &1236894385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3346,7 +3495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332e36893e7cf4a49b3c1f72f76cd5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTarget: {fileID: 1028612423}
+  mTarget: {fileID: 2128127839}
 --- !u!1 &1381254764
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,7 +3747,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Profiel
+  m_Text: Profile
 --- !u!222 &1472829397
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3901,7 +4050,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Nodig vrienden uit
+  m_Text: Invite friends
 --- !u!222 &1545557871
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4133,7 +4282,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Voer een gebruikersnaam in
+  m_Text: Enter username
 --- !u!222 &1656265965
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4853,6 +5002,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870712285}
   m_CullTransparentMesh: 0
+--- !u!114 &1892192510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332e36893e7cf4a49b3c1f72f76cd5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTarget: {fileID: 131813754}
 --- !u!1 &1911556571
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,7 +5614,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gebruikersnaam succesvol opgeslagen!
+  m_Text: Username succesfully saved!
 --- !u!222 &2128127840
 CanvasRenderer:
   m_ObjectHideFlags: 0
