@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Photon.Pun;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -19,7 +18,6 @@ namespace Assets.Scripts
         public LetterBlock LetterBlockObject;
         public Material WalkingLetrMaterial;
         public Material NormalLetrMaterial;
-        public StartingLetters StartingLetters;
         public char[] FirstPlayerLetters{get;set;}
         private System.Random random;
 

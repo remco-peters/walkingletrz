@@ -18,9 +18,6 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject BoosterPanel;
     public RemoveWordBtn DeleteBtn;
     public PlaceWordBtn PlaceBtn;
-    public GenericButton TradeFixedLettersBtn;
-    public GenericButton DoubleWordValueBtn;
-    public GenericButton TripleWordValueBtn;
     public TradeLettersBtn TradeLettersBtnClass;
     public Button Booster1;
     public Button Booster2;
@@ -82,7 +79,6 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.DynamicUi = this;
                 letterManager.TheLetterManager = TheLetterManagerClass;
                 letterManager.Player = localPlayer;
-                letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
                 letterManager.PlaceHolderObject = PlaceHolderObject;
                 letterManager.FirstRow = FirstRow;
                 letterManager.SecondRow = SecondRow;
@@ -98,8 +94,6 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.GameBoardWordContainer = GameBoardWordContainer;
                 letterManager.PointsGainedPanel = PointsGainedPanel;
                 letterManager.PointsGainedText = PointsGainedText;
-                letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
-                letterManager.TripleWordValueBtn = TripleWordValueBtn;
                 letterManager.BoosterPanel = BoosterPanel;
                 letterManager.Booster1 = Booster1;
                 letterManager.Booster2 = Booster2;
@@ -150,7 +144,6 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.DynamicUi = this;
                 letterManager.TheLetterManager = TheLetterManagerClass;
                 letterManager.Player = localPlayer;
-                letterManager.TradeFixedLetterSBtn = TradeFixedLettersBtn;
                 letterManager.PlaceHolderObject = PlaceHolderObject;
                 letterManager.FirstRow = FirstRow;
                 letterManager.SecondRow = SecondRow;
@@ -166,8 +159,6 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.GameBoardWordContainer = GameBoardWordContainer;
                 letterManager.PointsGainedPanel = PointsGainedPanel;
                 letterManager.PointsGainedText = PointsGainedText;
-                letterManager.DoubleWordValueBtn = DoubleWordValueBtn;
-                letterManager.TripleWordValueBtn = TripleWordValueBtn;
                 letterManager.BoosterPanel = BoosterPanel;
                 letterManager.Booster1 = Booster1;
                 letterManager.Booster2 = Booster2;

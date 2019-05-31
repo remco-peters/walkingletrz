@@ -35,11 +35,6 @@ namespace Assets.Scripts
         public Button Booster3{get;set;}
         public Button Booster4{get;set;}
         public Button Booster5{get;set;}
-
-        public GenericButton TradeFixedLetterSBtn{get;set;}
-
-        public GenericButton DoubleWordValueBtn{get;set;}
-        public GenericButton TripleWordValueBtn {get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
         public LetterBlock PlayerLetterBlockObject { get; set; }
@@ -53,7 +48,6 @@ namespace Assets.Scripts
         //public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
         public TheLetterManager TheLetterManager;
-        public StartingLetters StartingLettersClass;
         public Material PlaceButtonInactiveMaterial;
         public Material PlaceButtonActiveMaterial;
         public int RotateBy = 12;
@@ -69,7 +63,6 @@ namespace Assets.Scripts
         #region other properties
         public List<LetterPosition> PlacedLetters { get; } = new List<LetterPosition>();
         public List<LetterPosition> PlayerLetters { get; } = new List<LetterPosition>();
-        private StartingLetters StartLetters { get; set; }
         public MyPlayer Player { get; set; }
         public DynamicUI DynamicUi { get; set; }
         private bool DoubleWordValue = false;
@@ -222,9 +215,6 @@ namespace Assets.Scripts
             DeleteBtn.OnRemoveTouched += RemoveAllLetters;
             TradeBtn.LetterManager = this;
             TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
-            TradeFixedLetterSBtn.OnTouched += OnTradeFixedTouched;
-            DoubleWordValueBtn.OnTouched += DoubleWordOnTouched;
-            TripleWordValueBtn.OnTouched += TripleWordOnTouched;
         }
 
         public void DoubleWordOnTouched()
