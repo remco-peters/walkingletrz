@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DifficultyScene.unity
     guid: 9175fa0fd0df06c45a77da7ccd14a750
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BoosterScene.unity
     guid: e93c63a5984270b42b944b24719f2985
   - enabled: 1

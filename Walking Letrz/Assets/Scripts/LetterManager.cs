@@ -30,11 +30,16 @@ namespace Assets.Scripts
         public RemoveWordBtn DeleteBtn { get; set; }
         public PlaceWordBtn PlaceBtn { get; set; }
         public TradeLettersBtn TradeBtn {get;set;}
+        public Button Booster1{get;set;}
+        public Button Booster2{get;set;}
+        public Button Booster3{get;set;}
+        public Button Booster4{get;set;}
+        public Button Booster5{get;set;}
+
         public GenericButton TradeFixedLetterSBtn{get;set;}
 
         public GenericButton DoubleWordValueBtn{get;set;}
         public GenericButton TripleWordValueBtn {get;set;}
-        public BoosterBtn BoosterBtn {get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
         public LetterBlock PlayerLetterBlockObject { get; set; }
@@ -42,7 +47,6 @@ namespace Assets.Scripts
         public GameObject GameBoardWordHolder { get; set; }
         public GameObject GameBoardWordContainer { get; set; }
 
-        public GameObject BoosterBoard{get;set;}
         #endregion UI
         
         #region unity properties
@@ -57,7 +61,8 @@ namespace Assets.Scripts
         public Text PointsGainedText { get; set; }
         public GameObject BoosterPanel{get;set;}
         private Text BoosterText;
-        private bool FixedLettersVisible = false;
+        private int BoostersUsed = 0;
+        private long credits;
 
         #endregion unity properties
 
@@ -77,14 +82,11 @@ namespace Assets.Scripts
 
         #endregion
         
-        #region positions
-        private readonly Vector3 _firstLetterPosition = new Vector3(-2.5f, -2.5f);
-        private readonly Vector3 _secondLetterPosition = new Vector3(-1.7f, -2.5f);
-        #endregion positions
         
 
         private void Start()
-        {            
+        {          
+            credits = GameInstance.instance.credits;
             InitBoosterButtons();
             if(GameInstance.instance.IsMultiplayer)
             {
@@ -136,24 +138,7 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            bool canMove = GameInstance.instance.IsMultiplayer ? (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
             ShufflePlayerLetters();
-            /*if (!canMove && FixedLettersVisible)
-            {
-                FirstLetterBlock.GetComponentInChildren<Text>().text = "?";
-                SecondLetterBlock.GetComponentInChildren<Text>().text = "?";
-                FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
-                SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
-                FixedLettersVisible = false;
-            }
-            else if (canMove && !FixedLettersVisible)
-            {
-                FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
-                SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
-                FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
-                SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
-                FixedLettersVisible = true;
-            }*/
         }
         
         private void InitStartingLetters()
@@ -171,44 +156,10 @@ namespace Assets.Scripts
 
         private void InitBoosterButtons()
         {
-            List<string> selectedBoosters = GameInstance.instance.selectedBoosters;
-            for (int i = 0; i < 3; i++)
-            {
-                string boosterName = i < selectedBoosters.Count ? selectedBoosters[i] : "";
-                GameObject p;
-                switch (boosterName)
-                {
-                    case "DoubleWordValue":
-                        DoubleWordValueBtn = Instantiate(DoubleWordValueBtn);
-                        Player.Credit.RemoveCredits(40);
-                        p = DoubleWordValueBtn.gameObject;
-                        break;
-                    case "TradeFixedLetters":
-                        TradeFixedLetterSBtn = Instantiate(TradeFixedLetterSBtn);
-                        Player.Credit.RemoveCredits(20);
-                        p = TradeFixedLetterSBtn.gameObject;
-                        break;
-                    case "TripleWordValue":
-                        TripleWordValueBtn = Instantiate(TripleWordValueBtn);
-                        Player.Credit.RemoveCredits(60);
-                        p = TripleWordValueBtn.gameObject;
-                        break;
-                    case "PickFixedLetter":
-                        Player.Credit.RemoveCredits(35);
-                        p = Instantiate(TradeFixedLetterSBtn).gameObject;
-                        break;
-                    case "ExtraTime":
-                        Player.TimeRemaining += 30f;
-                        Player.Credit.RemoveCredits(50);
-                        p = Instantiate(PlaceHolderObject);
-                        break;
-                    default:
-                        p = Instantiate(PlaceHolderObject);
-                        break;
-                }     
-                p.transform.SetParent(BoosterBoard.transform);
-            }
-            GameInstance.instance.selectedBoosters = new List<string>();
+            Booster2.onClick.AddListener(DoubleWordOnTouched); 
+            Booster3.onClick.AddListener(TripleWordOnTouched);
+            Booster4.onClick.AddListener(OnTradeFixedTouched);
+            Booster5.onClick.AddListener(ExtraTimeTouched);
         }
 
         public List<LetterPosition> GetPlayerLetters()
@@ -271,7 +222,6 @@ namespace Assets.Scripts
             DeleteBtn.OnRemoveTouched += RemoveAllLetters;
             TradeBtn.LetterManager = this;
             TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
-            BoosterBtn.OnBoosterTouched += BoosterBtnTouch;
             TradeFixedLetterSBtn.OnTouched += OnTradeFixedTouched;
             DoubleWordValueBtn.OnTouched += DoubleWordOnTouched;
             TripleWordValueBtn.OnTouched += TripleWordOnTouched;
@@ -279,41 +229,66 @@ namespace Assets.Scripts
 
         public void DoubleWordOnTouched()
         {
-            DoubleWordValueBtn.gameObject.SetActive(false);
-            BoosterBoard.SetActive(false);
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+            if (BoostersUsed >= 3|| credits < 40 || !canMove) return;
+            Player.Credit.RemoveCredits(40);
+            credits -= 40;
             DoubleWordValue = true;
-            GameObject placedHolder = Instantiate(PlaceHolderObject);
-            placedHolder.transform.SetParent(BoosterBoard.transform, false);
             BoosterText.text = TripleWordValue ? "6x" : "2x";
+            Booster2.interactable = false;
+            BoostersUsed++;
+            if (BoostersUsed >= 3) SetBoostersInactive();
         }
 
         public void TripleWordOnTouched()
         {
-            TripleWordValueBtn.gameObject.SetActive(false);
-            BoosterBoard.SetActive(false);
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+            if (BoostersUsed >= 3 || credits < 60 || !canMove) return;
+            Player.Credit.RemoveCredits(60);
+            credits -= 60;
             TripleWordValue = true;
-            GameObject placedHolder = Instantiate(PlaceHolderObject);
-            placedHolder.transform.SetParent(BoosterBoard.transform, false);
             BoosterText.text = DoubleWordValue ? "6x" : "3x";
+            Booster3.interactable = false;
+            BoostersUsed++;
+            if (BoostersUsed >= 3) SetBoostersInactive();
+        }
+
+        public void ExtraTimeTouched()
+        {
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+            if (BoostersUsed >= 3|| credits < 50 || !canMove) return;
+            Player.Credit.RemoveCredits(50);
+            credits -= 50;
+            Player.TimeRemaining += 30f;
+            Booster5.interactable = false;
+            BoostersUsed++;
+            if (BoostersUsed >= 3) SetBoostersInactive();
         }
 
         private void OnTradeFixedTouched()
         {
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+            if (BoostersUsed >= 3|| credits < 20 || !canMove) return;
+            Player.Credit.RemoveCredits(20);
+            credits -= 20;
             TheLetterManager.FirstLetter = TheLetterManager.GetLetters(1)[0];
             TheLetterManager.SecondLetter = TheLetterManager.GetLetters(1)[0];
             FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
             SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
             FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
             SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
-            TradeFixedLetterSBtn.gameObject.SetActive(false);
-            BoosterBoard.SetActive(false);
-            GameObject placedHolder = Instantiate(PlaceHolderObject);
-            placedHolder.transform.SetParent(BoosterBoard.transform, false);
+            Booster4.interactable = false;
+            BoostersUsed++;
+            if (BoostersUsed >= 3) SetBoostersInactive();
         }
 
-        private void BoosterBtnTouch()
+        private void SetBoostersInactive()
         {
-            BoosterBoard.SetActive(!BoosterBoard.activeSelf);
+                Booster1.interactable = false;
+                Booster2.interactable = false;
+                Booster3.interactable = false;
+                Booster4.interactable = false;
+                Booster5.interactable = false;
         }
 
         private void InitPlacedLetterPositions()

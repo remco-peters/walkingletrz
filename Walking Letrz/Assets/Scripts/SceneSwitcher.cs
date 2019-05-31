@@ -32,7 +32,7 @@ public class SceneSwitcher : MonoBehaviour
         }
         else
         {
-            SwitchScene("BoosterScene");
+            SwitchScene("GameScene");
         }
     }
 
@@ -44,7 +44,7 @@ public class SceneSwitcher : MonoBehaviour
             SwitchScene("LobbyScene");
         } else
         {
-            SwitchScene("BoosterScene");
+            SwitchScene("GameScene");
         }
             
         //Todo: fixen
@@ -60,7 +60,7 @@ public class SceneSwitcher : MonoBehaviour
         }
         else
         {
-            SwitchScene("BoosterScene");
+            SwitchScene("GameScene");
         }
     }
 
@@ -73,6 +73,6 @@ public class SceneSwitcher : MonoBehaviour
     
     public void LoadPhotonBoosterScene()
     {
-        SwitchScene("BoosterScene");
+        SwitchScene("GameScene");
     }
 }
