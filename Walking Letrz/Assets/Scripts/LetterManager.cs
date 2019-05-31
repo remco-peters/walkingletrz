@@ -832,26 +832,5 @@ namespace Assets.Scripts
                 yield return null;
             }
         }
-
-        /*public void setEmptyPointToStartingLetters()
-        {
-            bool canMove;
-            if (GameInstance.instance.IsMultiplayer)
-            {
-                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-            }
-            else
-            {
-                canMove = Player.CanMove;
-            }
-
-            if (canMove) return;
-            
-            FirstLetterBlock.GetComponentInChildren<Text>().text = ".";
-            FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
-
-            SecondLetterBlock.GetComponentInChildren<Text>().text = ".";
-            SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = "";
-        }*/
     }
 }

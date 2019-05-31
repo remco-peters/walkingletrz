@@ -835,11 +835,9 @@ MonoBehaviour:
   FirstRow: {fileID: 4581606843156360529}
   SecondRow: {fileID: 6528233895186230656}
   ThirdRow: {fileID: 7092412573550774700}
-  BoosterBoard: {fileID: 0}
   BoosterPanel: {fileID: 3341668453715871325}
   DeleteBtn: {fileID: 8832391943110821247}
   PlaceBtn: {fileID: 9128067340389394519}
-  BoosterBtn: {fileID: 0}
   TradeFixedLettersBtn: {fileID: 4888616462066529595, guid: 7c281b18f5bc675458dfeb13e3a91417,
     type: 3}
   DoubleWordValueBtn: {fileID: 7561267214987859657, guid: 1412513efd075134a8f6249fa540f5ca,
@@ -2054,8 +2052,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.21200001, y: 0.22000001}
   m_AnchorMax: {x: 0.78800005, y: 0.76400006}
-  m_AnchoredPosition: {x: -21.953, y: 0}
-  m_SizeDelta: {x: -2.1, y: 18.195}
+  m_AnchoredPosition: {x: -21.369, y: 0.99104}
+  m_SizeDelta: {x: 12.303, y: 31.582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6257516232679117164
 CanvasRenderer:
@@ -2085,8 +2083,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 0b3acb204df160b4990fc61165231e8e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

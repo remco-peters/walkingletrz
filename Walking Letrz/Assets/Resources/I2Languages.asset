@@ -1006,6 +1006,54 @@ MonoBehaviour:
       - You can not trade your letters more than 3 times
       Flags: 0000
       Languages_Touch: []
+    - Term: Extra tijd
+      TermType: 0
+      Description: 
+      Languages:
+      - Extra tijd
+      - Extra time
+      Flags: 0000
+      Languages_Touch: []
+    - Term: 2x
+      TermType: 0
+      Description: 
+      Languages:
+      - 
+      - 
+      Flags: 0000
+      Languages_Touch: []
+    - Term: 2x woordwaarde
+      TermType: 0
+      Description: 
+      Languages:
+      - 2x woordwaarde
+      - 2x word score
+      Flags: 0000
+      Languages_Touch: []
+    - Term: 3x woordwaarde
+      TermType: 0
+      Description: 
+      Languages:
+      - 3x woordwaarde
+      - 3x word score
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Ruil vaste letters
+      TermType: 0
+      Description: 
+      Languages:
+      - Ruil vaste letters
+      - Swap fixed letters
+      Flags: 0000
+      Languages_Touch: []
+    - Term: Kies vaste letter
+      TermType: 0
+      Description: 
+      Languages:
+      - Kies vaste letter
+      - Pick fixed letter
+      Flags: 0000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
