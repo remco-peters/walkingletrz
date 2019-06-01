@@ -78,11 +78,27 @@ public class GameBoard : MonoBehaviour
 
     public void CallRPCPlaceLtrz(string letter, bool isFirst, bool isSecond, int row, int index, int newLetrz = 0)
     {
+        StartCoroutine(ExecutePlaceLettersAfterTime(2, letter, isFirst, isSecond, row, index, newLetrz));
+    }
+
+    IEnumerator ExecutePlaceLettersAfterTime(float time, string letter, bool isFirst, bool isSecond, int row, int index, int newLetrz = 0)
+    {
+        yield return new WaitForSeconds(time);
+        
         _photonView.RPC(nameof(PlaceLetters), RpcTarget.Others, letter, isFirst, isSecond, row, index, newLetrz);
+        
     }
 
     public void CallRPCInitPlayerLetters()
     {
+        ExecuteInitPlayerLettersAfterTime(2);
+    }
+
+    IEnumerator ExecuteInitPlayerLettersAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        
+        
         _photonView.RPC(nameof(InitPlayerLetters), RpcTarget.Others);
     }
 
