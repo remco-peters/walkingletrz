@@ -32,14 +32,24 @@ namespace Assets.Scripts
 
         public void InitStartingLetters()
         {
-            Difficulty difficulty = GameInstance.instance.difficulty;
-            if (difficulty == Difficulty.Easy) FirstPlayerLetters = GetLetters(19);
-            else if (difficulty == Difficulty.Medium) FirstPlayerLetters = GetLetters(15);
-            else FirstPlayerLetters = GetLetters(12);
-            //char[] startingLetters = GetLetters(2);
-            FirstLetter = GetVowelOrConsonant(false);
-            SecondLetter = GetVowelOrConsonant(true);
-            
+            switch (GameInstance.instance.difficulty)
+            {
+                case Difficulty.Easy:
+                    FirstPlayerLetters = GetLetters(19);
+                    FirstLetter = GetVowelOrConsonant(false);
+                    SecondLetter = GetVowelOrConsonant(true);
+                    break;
+                case Difficulty.Medium:
+                    FirstPlayerLetters = GetLetters(15);
+                    FirstLetter = GetVowelOrConsonant(true);
+                    SecondLetter = GetVowelOrConsonant(true);
+                    break;
+                default:
+                    FirstPlayerLetters = GetLetters(12);
+                    FirstLetter = GetVowelOrConsonant(false);
+                    SecondLetter = GetVowelOrConsonant(false);
+                    break;
+            }
         }
 
         private void InitCharactersOcurenaceDictionary()
@@ -104,7 +114,7 @@ namespace Assets.Scripts
                 while (startingLetters[i] == default(char))
                 {
                     char letter;
-                    if (vowelsCount < 2 && i + currentLetters.Count() > 2)
+                    if (vowelsCount < 3)
                     {
                         letter = availableVowels[random.Next(0, availableVowels.Count)];
                         vowelsCount += 1;
@@ -123,6 +133,7 @@ namespace Assets.Scripts
                     startingLetters[i] = letter;
                 }
             }
+            startingLetters = startingLetters.OrderBy(x => random.Next()).ToArray(); //shuffle 
             return startingLetters;
         }
 
