@@ -261,8 +261,8 @@ namespace Assets.Scripts
             if (BoostersUsed >= 3|| credits < 20 || !canMove) return;
             Player.Credit.RemoveCredits(20);
             credits -= 20;
-            TheLetterManager.FirstLetter = TheLetterManager.GetLetters(1)[0];
-            TheLetterManager.SecondLetter = TheLetterManager.GetLetters(1)[0];
+            TheLetterManager.FirstLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty == Difficulty.Medium);
+            TheLetterManager.SecondLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty != Difficulty.Hard);
             FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
             SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
             FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
