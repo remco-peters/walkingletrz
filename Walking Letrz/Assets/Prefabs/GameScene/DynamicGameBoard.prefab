@@ -838,12 +838,6 @@ MonoBehaviour:
   BoosterPanel: {fileID: 3341668453715871325}
   DeleteBtn: {fileID: 8832391943110821247}
   PlaceBtn: {fileID: 9128067340389394519}
-  TradeFixedLettersBtn: {fileID: 4888616462066529595, guid: 7c281b18f5bc675458dfeb13e3a91417,
-    type: 3}
-  DoubleWordValueBtn: {fileID: 7561267214987859657, guid: 1412513efd075134a8f6249fa540f5ca,
-    type: 3}
-  TripleWordValueBtn: {fileID: 7200069135207676780, guid: 02443617fc5ac22458c37b0db1a2797c,
-    type: 3}
   TradeLettersBtnClass: {fileID: 8983268765662499214}
   Booster1: {fileID: 2357234754714903164}
   Booster2: {fileID: 7237587184432781339}
@@ -1753,7 +1747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -623, y: 0.000061035156}
+  m_AnchoredPosition: {x: -623, y: 0.00000003309373}
   m_SizeDelta: {x: 623, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512
@@ -2564,6 +2558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd2f74af5f9e894baf8eb849f7cae0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonText: {fileID: 5602029724044013433}
+  TradeRotateImage: {fileID: 8930045885793712813}
 --- !u!1 &5838261781367960607
 GameObject:
   m_ObjectHideFlags: 0
@@ -3519,13 +3515,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 300
-    m_Alignment: 7
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 20 punten
+  m_Text: Gratis
 --- !u!114 &7252305876934508283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3538,7 +3534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTerm: 20_points
+  mTerm: 0_points
   mTermSecondary: 
   PrimaryTermModifier: 0
   SecondaryTermModifier: 0

@@ -329,6 +329,7 @@ namespace Assets.Scripts
             {
                 case 0:
                     TradeLetters(timesTraded);
+                    TradeBtn.ButtonText.text = I2.Loc.LocalizationManager.GetTranslation("10_points");
                     break;
                 case 1:
                     if (Player.EarnedPoints < 10)
@@ -336,6 +337,7 @@ namespace Assets.Scripts
                     else
                     {
                         TradeLetters(timesTraded);
+                        TradeBtn.ButtonText.text = I2.Loc.LocalizationManager.GetTranslation("20_points");
                         Player.EarnedPoints -= 10;
                     }
                     break;
@@ -344,12 +346,16 @@ namespace Assets.Scripts
                         Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_20_points");
                     else
                     {
+                        var subtractColor = new Color(0, 0, 0, 0.5f);
                         TradeLetters(timesTraded);
+                        Button trade = TradeBtn.GetComponent<Button>();
+                        trade.image.color -= subtractColor;
+                        TradeBtn.ButtonText.color -= subtractColor;
+                        TradeBtn.TradeRotateImage.color -= subtractColor;
                         Player.EarnedPoints -= 20;
                     }
                     break;
                 default:
-                    Debug.Log("te vaak geruild");
                     Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_used_all");
                     break;
             }
