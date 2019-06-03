@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts;
 using ExitGames.Client.Photon;
@@ -20,6 +21,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private UnityAction<short, string> OnCreateRoomFailedDelegate;
 
     public static Dictionary<Photon.Realtime.Player, Player> Players { get; } = new Dictionary<Photon.Realtime.Player, Player>();
+    public bool createRoom { get; set; }
+    public string roomName { get; set; } = "";
 
     private void Awake()
     {
@@ -68,26 +71,35 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         
         Debug.Log("Room list updated");
 
-        foreach (RoomInfo room in roomList)
+        if (!createRoom)
         {
-            if (room.IsOpen)
+            foreach (RoomInfo room in roomList)
             {
-                Debug.Log($"Joining room {room.Name}");
+                if (!String.IsNullOrEmpty(roomName))
+                {
+                    if (room.Name == roomName)
+                    {
+                        Debug.Log($"Joining room {room.Name}");
 
-                if (PhotonNetwork.JoinRoom(room.Name)) return;
+                        if (PhotonNetwork.JoinRoom(room.Name)) return;
+                    }
+                }
+                else
+                {
+                    if (PhotonNetwork.JoinRoom(null)) return;
+                }
             }
         }
-        
-        Debug.Log("Creating room");
+        else
+        {
+            Debug.Log("Creating room");
 
-        CreateRoom(null, () =>
-            {
-                Debug.Log("Room created");
-            },
-            (short error, string message) => { Debug.Log($"Room create failed for reason {message}"); });
+            CreateRoom(roomName, () => { Debug.Log("Room created"); },
+                (short error, string message) => { Debug.Log($"Room create failed for reason {message}"); });
+        }
     }
     
-    public void CreateRoom(string Name, UnityAction Success, UnityAction<short, string> Failed) 
+    public void CreateRoom(string Name, UnityAction Success, UnityAction<short, string> Failed)
     {
         OnCreatedRoomDelegate = () => {
             OnCreatedRoomDelegate = null;
@@ -130,7 +142,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("Joined room");
+        Debug.Log($"Joined room {PhotonNetwork.CurrentRoom.Name}");
         
         Player.joinedRoom = true;
         OnJoinedRoomDelegate();
