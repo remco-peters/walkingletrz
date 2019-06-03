@@ -611,6 +611,8 @@ namespace Assets.Scripts
 
         public void LetterTouched(LetterBlock block)
         {
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+            if (!canMove) return;
             // Wanneer hij in de lijst placedLetters staat, moet deze terug naar beneden gezet worden, anders naar boven
             if (PlacedLetters.Select(x => x.LetterBlock).Contains(block))
             {
