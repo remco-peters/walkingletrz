@@ -583,6 +583,22 @@ MonoBehaviour:
       - 20 points
       Flags: 0000
       Languages_Touch: []
+    - Term: 10_points
+      TermType: 0
+      Description: 
+      Languages:
+      - 10 punten
+      - 10 points
+      Flags: 0000
+      Languages_Touch: []
+    - Term: 0_points
+      TermType: 0
+      Description: 
+      Languages:
+      - Gratis
+      - Free
+      Flags: 0000
+      Languages_Touch: []
     - Term: boosters
       TermType: 0
       Description: 
@@ -1006,78 +1022,6 @@ MonoBehaviour:
       - You can not trade your letters more than 3 times
       Flags: 0000
       Languages_Touch: []
-    - Term: Extra tijd
-      TermType: 0
-      Description: 
-      Languages:
-      - Extra tijd
-      - Extra time
-      Flags: 0000
-      Languages_Touch: []
-    - Term: 2x
-      TermType: 0
-      Description: 
-      Languages:
-      - 
-      - 
-      Flags: 0000
-      Languages_Touch: []
-    - Term: 2x woordwaarde
-      TermType: 0
-      Description: 
-      Languages:
-      - 2x woordwaarde
-      - 2x word score
-      Flags: 0000
-      Languages_Touch: []
-    - Term: 3x woordwaarde
-      TermType: 0
-      Description: 
-      Languages:
-      - 3x woordwaarde
-      - 3x word score
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Ruil vaste letters
-      TermType: 0
-      Description: 
-      Languages:
-      - Ruil vaste letters
-      - Swap fixed letters
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Kies vaste letter
-      TermType: 0
-      Description: 
-      Languages:
-      - Kies vaste letter
-      - Pick fixed letter
-      Flags: 0000
-      Languages_Touch: []
-    - Term: e-mail van vriend
-      TermType: 0
-      Description: 
-      Languages:
-      - "e-mail van vriend\t"
-      - friends email
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Verstuur Mail
-      TermType: 0
-      Description: 
-      Languages:
-      - Verstuur uitnodigin
-      - Send invite
-      Flags: 0000
-      Languages_Touch: []
-    - Term: Voer een geldig e-mailadres in
-      TermType: 0
-      Description: 
-      Languages:
-      - Voer een geldig e-mailadres in
-      - Enter a valid email address
-      Flags: 0000
-      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -1093,7 +1037,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1559297767959
+    Google_LastUpdatedVersion: 1559546930782
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
