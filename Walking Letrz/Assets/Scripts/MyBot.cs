@@ -112,6 +112,10 @@ namespace Assets.Scripts
             return true;
         }
 
+        
+        public Material FixedLetterOtherPlayerMaterial {get;set; }
+        public Material PlayerLetterOtherPlayerMaterial{get;set; }
+
         public void PlacedInBoard(string word, int firstLetterIndex, int secondLetterIndex)
         {
             // Insantiate wordHolder
@@ -130,6 +134,10 @@ namespace Assets.Scripts
             {
                 if (block != null)
                 {
+                    if (block.IsFirstLetter || block.IsSecondLetter)
+                        block.GetComponent<Image>().material = FixedLetterOtherPlayerMaterial;
+                    else
+                        block.GetComponent<Image>().material = PlayerLetterOtherPlayerMaterial;
                     block.transform.SetParent(wordHolder.transform, false);
                     block.GetComponent<Button>().interactable = false;
                 }

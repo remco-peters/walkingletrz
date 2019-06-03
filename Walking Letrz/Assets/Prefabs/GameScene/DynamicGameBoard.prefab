@@ -871,6 +871,10 @@ MonoBehaviour:
     type: 3}
   FixedLetterOverlay: {fileID: 5009798580799206389, guid: 80fe291e0bcc47b46bb4cdc50d601001,
     type: 3}
+  FixedLetterOtherPlayerMaterial: {fileID: 2100000, guid: ddbf82560fa7d954c9723ffd399b38ae,
+    type: 2}
+  PlayerLetterOtherPlayerMaterial: {fileID: 2100000, guid: 27ccd47d525630a469bc97cfb00d33a7,
+    type: 2}
 --- !u!1 &1784525552032376298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1747,7 +1751,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -623, y: 0.00000003309373}
+  m_AnchoredPosition: {x: -623, y: 0}
   m_SizeDelta: {x: 623, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512

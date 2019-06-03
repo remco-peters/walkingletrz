@@ -42,7 +42,9 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject PlayerInfoPanel;
     public Text PlayerInfoTxt;
     public Credit CreditClass;
-    public GameSceneCounter FixedLetterOverlay;
+    public GameSceneCounter FixedLetterOverlay;          
+    public Material FixedLetterOtherPlayerMaterial;
+    public Material PlayerLetterOtherPlayerMaterial;
     public bool Tutorial { get; set; }
 
     void Awake()
@@ -175,6 +177,8 @@ public class DynamicUI : MyMonoBehaviour
                 bot.TheLetterManager = TheLetterManagerClass;
                 bot.Name = $"{difficulty.ToString()} bot";
                 bot.difficulty = difficulty;
+                bot.PlayerLetterOtherPlayerMaterial = PlayerLetterOtherPlayerMaterial;
+                bot.FixedLetterOtherPlayerMaterial = FixedLetterOtherPlayerMaterial;
             });
 
             PlayerManagerClass = Spawn(PlayerManagerClass, this);
