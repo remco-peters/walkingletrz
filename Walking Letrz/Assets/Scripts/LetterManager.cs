@@ -369,11 +369,13 @@ namespace Assets.Scripts
             var buttonImage = TradeBtn.GetComponentsInChildren<RectTransform>().Where(img => img.name == "TradeBtnImg").ToList()[0];
             StartCoroutine(RotateTradeButton(buttonImage, 1));
             List<LetterPosition> letterPositions = GetPlayerLetters();
-            foreach (LetterPosition letterPos in letterPositions)
+            char[] newLetters = TheLetterManager.GetLetters(letterPositions.Count());
+            for (int i = 0; i < letterPositions.Count; i++)
             {
+                LetterPosition letterPos = letterPositions[i];
                 if (!letterPos.LetterBlock.IsFirstLetter && !letterPos.LetterBlock.IsSecondLetter)
                 {
-                    letterPos.LetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.GetLetters(1)[0].ToString().ToUpper();  
+                    letterPos.LetterBlock.GetComponentInChildren<Text>().text = newLetters[i].ToString().ToUpper();  
                 }
             }
         }
