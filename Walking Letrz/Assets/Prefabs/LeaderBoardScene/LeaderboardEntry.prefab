@@ -253,9 +253,9 @@ MonoBehaviour:
   score: {fileID: 965043820049621960}
   place: {fileID: 965043819459014849}
   crown: {fileID: 965043820961214284}
-  goldCrown: {fileID: 21300000, guid: c8fdc18828a977d4b91b89081918a983, type: 3}
-  silverCrown: {fileID: 21300000, guid: 92c417c30a297b745a54b1e9a2896de5, type: 3}
-  bronzeCrown: {fileID: 21300000, guid: 8936f7fa730242f41861a7a2951a42a5, type: 3}
+  firstPlace: {fileID: 21300000, guid: 0f23ba20331e65e499ef820032ce0ed2, type: 3}
+  secondPlace: {fileID: 21300000, guid: 6c45b0153ce508b4bb15fc4bd36ae421, type: 3}
+  thirdPlace: {fileID: 21300000, guid: 0239d48724b8fc64b828dfdf1e697655, type: 3}
 --- !u!1 &965043820049621966
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: c8fdc18828a977d4b91b89081918a983, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0f23ba20331e65e499ef820032ce0ed2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

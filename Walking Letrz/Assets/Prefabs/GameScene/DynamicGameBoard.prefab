@@ -838,12 +838,6 @@ MonoBehaviour:
   BoosterPanel: {fileID: 3341668453715871325}
   DeleteBtn: {fileID: 8832391943110821247}
   PlaceBtn: {fileID: 9128067340389394519}
-  TradeFixedLettersBtn: {fileID: 4888616462066529595, guid: 7c281b18f5bc675458dfeb13e3a91417,
-    type: 3}
-  DoubleWordValueBtn: {fileID: 7561267214987859657, guid: 1412513efd075134a8f6249fa540f5ca,
-    type: 3}
-  TripleWordValueBtn: {fileID: 7200069135207676780, guid: 02443617fc5ac22458c37b0db1a2797c,
-    type: 3}
   TradeLettersBtnClass: {fileID: 8983268765662499214}
   Booster1: {fileID: 2357234754714903164}
   Booster2: {fileID: 7237587184432781339}
@@ -1753,7 +1747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -623, y: 0.000061035156}
+  m_AnchoredPosition: {x: -623, y: -0.0000535025}
   m_SizeDelta: {x: 623, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512

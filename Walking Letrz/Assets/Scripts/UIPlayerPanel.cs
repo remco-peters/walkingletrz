@@ -38,9 +38,9 @@ public class UIPlayerPanel : UIBehaviour
     public GameObject PlayerBackground;
     public GameObject OthersBackground;
 
-    public Sprite crownBronze;
-    public Sprite crownSilver;
-    public Sprite crownGold;
+    public Sprite thirdPlace;
+    public Sprite secondPlace;
+    public Sprite firstPlace;
 
     public GameObject InfoTextPanel;
     public Text InfoPanelText;
@@ -203,11 +203,11 @@ public class UIPlayerPanel : UIBehaviour
                 SetOpponentPoints(index, points);
                 if (Player.EarnedPoints > points || Player.EarnedPoints == points)
                 {
-                    CrownImage.sprite = crownGold;
+                    CrownImage.sprite = firstPlace;
                 }
                 else
                 {
-                    CrownImage.sprite = crownSilver;
+                    CrownImage.sprite = secondPlace;
                 }
                 index++;
             }
@@ -222,10 +222,10 @@ public class UIPlayerPanel : UIBehaviour
                     // change this later on
                     if(Player.EarnedPoints > p.EarnedPoints || Player.EarnedPoints == p.EarnedPoints)
                     {
-                        CrownImage.sprite = crownGold;
+                        CrownImage.sprite = firstPlace;
                     } else
                     {
-                        CrownImage.sprite = crownSilver;
+                        CrownImage.sprite = secondPlace;
                     }
                     index++;
                 }

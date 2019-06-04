@@ -9,9 +9,9 @@ public class LeaderboardEntry : MonoBehaviour
     public Text score;
     public Text place;
     public Image crown;
-    public Sprite goldCrown;
-    public Sprite silverCrown;
-    public Sprite bronzeCrown;
+    public Sprite firstPlace;
+    public Sprite secondPlace;
+    public Sprite thirdPlace;
 
 
     public void SetName(string name)
@@ -30,13 +30,13 @@ public class LeaderboardEntry : MonoBehaviour
         switch(place)
         {
             case 0:
-                crown.sprite = goldCrown;
+                crown.sprite = firstPlace;
                 break;
             case 1:
-                crown.sprite = silverCrown;
+                crown.sprite = secondPlace;
                 break;
             case 2:
-                crown.sprite = bronzeCrown;
+                crown.sprite = thirdPlace;
                 break;
             default:
                 crown.sprite = null;
