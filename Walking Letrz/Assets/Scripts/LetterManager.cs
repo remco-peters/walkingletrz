@@ -569,9 +569,6 @@ namespace Assets.Scripts
                         i++;
                         block.transform.SetParent(wordHolder.transform, false);
                         block.GetComponent<Button>().interactable = false;
-                        
-                        Vector3 pos = block.transform.position;
-                        ShowScoreGainedText(points, pos);
 
                         // Replace placeholder with letter on playerBoard
                         int row = letterPos.GetRow();
@@ -600,12 +597,19 @@ namespace Assets.Scripts
 
                     }
                 }
+
+                int nrOfLetters = i;
+
                 for (;i <= 12; i++)
                 {
                     GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
                     emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
                 }
                 wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
+                Vector3 pos = new Vector3();
+                pos.y = wordHolder.transform.position.y - 25;
+                pos.x = wordHolder.transform.GetChild(nrOfLetters - 1).transform.position.x;
+                ShowScoreGainedText(points, pos);
             }
         }
 
