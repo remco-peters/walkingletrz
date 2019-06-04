@@ -220,29 +220,26 @@ public class MatchResultScript : MonoBehaviour
                 );
             }
 
-            if (p.WordCountTwelveLetters > AmountOfWordLenghtOfTwelve)
-            {
-                statistic = new StatisticUpdate { StatisticName = "WordLengthOfTwelve", Value = p.WordCountTwelveLetters };
-                statistics.Add(statistic);
+            
+            statistic = new StatisticUpdate { StatisticName = "WordLengthOfTwelve", Value = p.WordCountTwelveLetters + (AmountOfWordLenghtOfTwelve ?? 0) };
+            statistics.Add(statistic);
 
-                // When statistics aren't present, set these to currentPlayer
-                if (!statisticsPresent)
+            // When statistics aren't present, set these to currentPlayer
+            if (!statisticsPresent || AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve") == null)
+            {
+                AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
                 {
-                    AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
+                    new StatisticModel
                     {
-                        new StatisticModel
-                        {
-                            Value = p.WordCountTwelveLetters,
-                            Name = "WordLengthOfTwelve"
-                        }
-                    };
-                }
-                else
-                {
-                    // If they are present, make sure the new score is added to currentPlayer
-                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve").Value = p.WordCountTwelveLetters;
-                }
-                Debug.Log(p.WordCountTwelveLetters + " MatchResult");
+                        Value = p.WordCountTwelveLetters + (AmountOfWordLenghtOfTwelve ?? 0),
+                        Name = "WordLengthOfTwelve"
+                    }
+                };
+            }
+            else
+            {
+                // If they are present, make sure the new score is added to currentPlayer
+                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "WordLengthOfTwelve").Value = p.WordCountTwelveLetters + (AmountOfWordLenghtOfTwelve ?? 0);
             }
 
             int finalAmount;
@@ -280,6 +277,7 @@ public class MatchResultScript : MonoBehaviour
     private void OnSuccess(UpdatePlayerStatisticsResult result)
     {
         Debug.Log("Statistic successfully updated");
+        AccountManager.instance.RefreshAccountStats();
     }
 
     private void OnFailure(PlayFabError error)

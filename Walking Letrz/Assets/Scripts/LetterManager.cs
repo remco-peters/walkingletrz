@@ -600,7 +600,7 @@ namespace Assets.Scripts
 
                 int nrOfLetters = i;
 
-                for (;i <= 12; i++)
+                for (;i < 12; i++)
                 {
                     GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
                     emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);

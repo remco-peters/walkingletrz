@@ -23,7 +23,7 @@ public class AccountManager : MonoBehaviour
     public string Credits { get; set; } = "0";
     public bool fullyLoaded = false;
     public bool failure = false;
-    public string playerName { get; set; }
+    public string PlayerName { get; set; }
     public Credit creditClass;
     private List<FriendInfo> _friends = null;
     private List<PlayerLeaderboardEntry> _friendsLeaderboard = null;
@@ -135,6 +135,20 @@ public class AccountManager : MonoBehaviour
             GameInstance.instance.credits = 0;
             Credits = "0";
         }
+
+        var statisticList = new List<StatisticModel>();
+        foreach (var statisticValue in result.InfoResultPayload.PlayerStatistics)
+        {
+            var model = new StatisticModel
+            {
+                Value = statisticValue.Value,
+                Name = statisticValue.StatisticName
+            };
+            statisticList.Add(model);
+        }
+
+        CurrentPlayer.Statistics = statisticList;
+
         fullyLoaded = true;
     }
 
@@ -165,7 +179,7 @@ public class AccountManager : MonoBehaviour
     {
         CurrentPlayer = result.InfoResultPayload.PlayerProfile;
         if (!string.IsNullOrEmpty(CurrentPlayer.DisplayName))
-            playerName = CurrentPlayer.DisplayName;
+            PlayerName = CurrentPlayer.DisplayName;
 
         CurrentPlayerAccount = result.InfoResultPayload.AccountInfo;
 

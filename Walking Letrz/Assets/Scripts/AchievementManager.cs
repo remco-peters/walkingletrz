@@ -187,7 +187,7 @@ public class AchievementManager : MyMonoBehaviour
                             if (doesStatExists)
                             {
                                 // Set value in statistics
-                                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = earnedPoints;
+                                AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = earnedPoints + (int)_points;
                                 TotalPointsAchievement = checkAchievement;
                             }
                             Player.Credit.AddCredits(checkAchievement.Credits);
@@ -196,8 +196,6 @@ public class AchievementManager : MyMonoBehaviour
                         break;
                     }
                 case "WordLengthOfTwelve":
-                    // Checken of het behaald aantal woorden per minuut hoger is dan de woorden per minuut tot nu toe
-                    if (_wordOfTwelve > earnedPoints)
                     {
                         // Achievement ophalen waar hij/zij op dit moment mee bezig is
                         Achievement currentAchievement = achievementGroup.FirstOrDefault(x => earnedPoints < x.Amount && x.Name == "WordLengthOfTwelve");
@@ -205,7 +203,7 @@ public class AchievementManager : MyMonoBehaviour
                         {
                             currentAchievement = achievementGroup.Last();
                         }
-                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _wordOfTwelve < x.Amount && x.Name == "WordLengthOfTwelve");
+                        Achievement checkAchievement = achievementGroup.FirstOrDefault(x => _wordOfTwelve + earnedPoints < x.Amount && x.Name == "WordLengthOfTwelve");
                         if (checkAchievement.Level > currentAchievement.Level && TwelveLengthWordAchievement != checkAchievement)
                         {
                             if(doesStatExists)
@@ -213,7 +211,7 @@ public class AchievementManager : MyMonoBehaviour
                                 // Set value in statistics
                                 AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == lastAchievement.NameInPlayfab).Value = _wordOfTwelve;
                             }
-                            Debug.Log(_wordOfTwelve + " Achievement");
+                            Debug.Log(Player.WordsWithTwelveLetters + " Achievement");
                             TwelveLengthWordAchievement = checkAchievement;
                             Player.Credit.AddCredits(checkAchievement.Credits);
                             returnString = $"{achievement} {LocalizationManager.GetTranslation(achievementGroup.Key)} ({currentAchievement.Credits} {points})";
