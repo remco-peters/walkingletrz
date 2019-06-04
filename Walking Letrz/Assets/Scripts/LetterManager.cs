@@ -617,6 +617,13 @@ namespace Assets.Scripts
         {
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
             if (!canMove) return;
+            
+            // When firstletter isn't placed yet, make sure second letter does nothing
+            if(block == SecondLetterBlock && !PlacedLetters.Select(x => x.LetterBlock).Contains(FirstLetterBlock))
+            {
+                return;
+            }
+
             // Wanneer hij in de lijst placedLetters staat, moet deze terug naar beneden gezet worden, anders naar boven
             if (PlacedLetters.Select(x => x.LetterBlock).Contains(block))
             {
