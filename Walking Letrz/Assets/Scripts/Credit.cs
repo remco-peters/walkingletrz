@@ -20,10 +20,7 @@ public class Credit : MonoBehaviour
     private void OnSuccess(ModifyUserVirtualCurrencyResult result)
     {
         Debug.Log($"Added currency, new balance: {result.Balance}");
-        if(AccountManager.CurrentPlayerInventory.VirtualCurrency.TryGetValue("CR", out int val))
-        {
-            AccountManager.CurrentPlayerInventory.VirtualCurrency["CR"] = val;
-        }
+        GameInstance.instance.credits = result.Balance;
     }
 
     private void OnFailure(PlayFabError error)

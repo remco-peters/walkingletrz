@@ -20,7 +20,6 @@ public class UIPlayerPanel : UIBehaviour
     public Text TimeRemainingText;
     public Text PointText;
     public Text PlayerNameTxt;
-    public Image PlayerImg;
     public Image CrownImage;
 
     public Text OpponentNameTxt;
@@ -47,6 +46,8 @@ public class UIPlayerPanel : UIBehaviour
     private Image InfoPanelImage;
 
     public UnityAction OnTutorialFinished;
+
+    public Text CreditsTxt;
 
     #region tutorialImages
     public GameObject AchievementInfoPanel;
@@ -111,6 +112,8 @@ public class UIPlayerPanel : UIBehaviour
         
         TimeRemainingText.text = TimeText(Player.TimeRemaining);
         InitOtherPlayers();
+
+        CreditsTxt.text = GameInstance.instance.credits.ToString();
 
         if (Player.IsInTutorial)
         {
@@ -191,7 +194,7 @@ public class UIPlayerPanel : UIBehaviour
     {
         string pointString = LocalizationManager.GetTranslation("points");
         PointText.text = $"{Player.EarnedPoints}";
-        
+        CreditsTxt.text = GameInstance.instance.credits.ToString();
         SetBackgroundPlayerColor();
 
         int index = 0;
