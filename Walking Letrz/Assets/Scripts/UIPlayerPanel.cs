@@ -25,12 +25,6 @@ public class UIPlayerPanel : UIBehaviour
     public Text OpponentNameTxt;
     public Text OpponentScoreTxt;
     public Text OpponentTimeTxt;
-    public Text OpponentNameTxtSecond;
-    public Text OpponentScoreTxtSecond;
-    public Text OpponentTimeTxtSecond;
-    public Text OpponentNameTxtThird;
-    public Text OpponentScoreTxtThird;
-    public Text OpponentTimeTxtThird;
 
     public Material TopBoardMaterial;
     public Material TurnMaterial;
@@ -242,10 +236,6 @@ public class UIPlayerPanel : UIBehaviour
         {
             OpponentNameTxt.text = "";
             OpponentScoreTxt.text = "";
-            OpponentNameTxtSecond.text = "";
-            OpponentScoreTxtSecond.text = "";
-            OpponentNameTxtThird.text = "";
-            OpponentScoreTxtThird.text = "";
 
             int index = 0;
             foreach(Photon.Realtime.Player p in PhotonManager.PhotonInstance.GetOtherPlayersList())
@@ -405,12 +395,12 @@ public class UIPlayerPanel : UIBehaviour
             case 0:
                 OpponentTimeTxt.text = OpponentTimeText(timeRemaining);
                 break;
-            case 1:
+            /*case 1:
                 OpponentTimeTxtSecond.text = OpponentTimeText(timeRemaining);
                 break;
             case 2:
                 OpponentTimeTxtThird.text = OpponentTimeText(timeRemaining);
-                break;
+                break;*/
             default:
                 break;
         }
@@ -421,10 +411,6 @@ public class UIPlayerPanel : UIBehaviour
 
         OpponentNameTxt.text = "";
         OpponentScoreTxt.text = "";
-        OpponentNameTxtSecond.text = "";
-        OpponentScoreTxtSecond.text = "";
-        OpponentNameTxtThird.text = "";
-        OpponentScoreTxtThird.text = "";
 
         switch (which)
         {
@@ -432,14 +418,14 @@ public class UIPlayerPanel : UIBehaviour
                 OpponentNameTxt.text = p.Name;
                 OpponentScoreTxt.text = $"{p.EarnedPoints}";
                 break;
-            case 1:
+            /*case 1:
                 OpponentNameTxtSecond.text = p.Name;
                 OpponentScoreTxtSecond.text = $"{p.EarnedPoints}";
                 break;
             case 2:
                 OpponentNameTxtThird.text = p.name;
                 OpponentScoreTxtThird.text = $"{p.EarnedPoints}";
-                break;
+                break;*/
             default:
                 break;
         }
@@ -453,12 +439,12 @@ public class UIPlayerPanel : UIBehaviour
             case 0:
                 OpponentScoreTxt.text = $"{points}";
                 break;
-            case 1:
+            /*case 1:
                 OpponentScoreTxtSecond.text = $"{points}";
                 break;
             case 2:
                 OpponentScoreTxtThird.text = $"{points}";
-                break;
+                break;*/
             default:
                 break;
         }

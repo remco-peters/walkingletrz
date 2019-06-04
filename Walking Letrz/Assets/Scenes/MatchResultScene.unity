@@ -389,7 +389,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1435175022}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1204,9 +1204,9 @@ MonoBehaviour:
   PlayerPanelHolder: {fileID: 1822508467}
   PlayerPanelClass: {fileID: 174009243261879554, guid: c446b29a82ee6d64a96bd9ebe94cd77b,
     type: 3}
-  bronze: {fileID: 21300000, guid: 8936f7fa730242f41861a7a2951a42a5, type: 3}
-  silver: {fileID: 21300000, guid: 92c417c30a297b745a54b1e9a2896de5, type: 3}
-  gold: {fileID: 21300000, guid: c8fdc18828a977d4b91b89081918a983, type: 3}
+  bronze: {fileID: 21300000, guid: 0239d48724b8fc64b828dfdf1e697655, type: 3}
+  silver: {fileID: 21300000, guid: 6c45b0153ce508b4bb15fc4bd36ae421, type: 3}
+  gold: {fileID: 21300000, guid: 0f23ba20331e65e499ef820032ce0ed2, type: 3}
 --- !u!1 &1056084140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1595,7 +1595,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000044946587}
+  m_AnchoredPosition: {x: 0, y: -0.00006387116}
   m_SizeDelta: {x: 0, y: -585.1}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1822508469
