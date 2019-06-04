@@ -261,8 +261,8 @@ namespace Assets.Scripts
             if (BoostersUsed >= 3|| credits < 20 || !canMove) return;
             Player.Credit.RemoveCredits(20);
             credits -= 20;
-            TheLetterManager.FirstLetter = TheLetterManager.GetLetters(1)[0];
-            TheLetterManager.SecondLetter = TheLetterManager.GetLetters(1)[0];
+            TheLetterManager.FirstLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty == Difficulty.Medium);
+            TheLetterManager.SecondLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty != Difficulty.Hard);
             FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
             SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
             FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
@@ -329,6 +329,7 @@ namespace Assets.Scripts
             {
                 case 0:
                     TradeLetters(timesTraded);
+                    TradeBtn.ButtonText.text = I2.Loc.LocalizationManager.GetTranslation("10_points");
                     break;
                 case 1:
                     if (Player.EarnedPoints < 10)
@@ -336,6 +337,7 @@ namespace Assets.Scripts
                     else
                     {
                         TradeLetters(timesTraded);
+                        TradeBtn.ButtonText.text = I2.Loc.LocalizationManager.GetTranslation("20_points");
                         Player.EarnedPoints -= 10;
                     }
                     break;
@@ -344,12 +346,16 @@ namespace Assets.Scripts
                         Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_20_points");
                     else
                     {
+                        var subtractColor = new Color(0, 0, 0, 0.5f);
                         TradeLetters(timesTraded);
+                        Button trade = TradeBtn.GetComponent<Button>();
+                        trade.image.color -= subtractColor;
+                        TradeBtn.ButtonText.color -= subtractColor;
+                        TradeBtn.TradeRotateImage.color -= subtractColor;
                         Player.EarnedPoints -= 20;
                     }
                     break;
                 default:
-                    Debug.Log("te vaak geruild");
                     Player.InfoText = I2.Loc.LocalizationManager.GetTranslation("trade_used_all");
                     break;
             }
@@ -369,11 +375,13 @@ namespace Assets.Scripts
             var buttonImage = TradeBtn.GetComponentsInChildren<RectTransform>().Where(img => img.name == "TradeBtnImg").ToList()[0];
             StartCoroutine(RotateTradeButton(buttonImage, 1));
             List<LetterPosition> letterPositions = GetPlayerLetters();
-            foreach (LetterPosition letterPos in letterPositions)
+            char[] newLetters = TheLetterManager.GetLetters(letterPositions.Count());
+            for (int i = 0; i < letterPositions.Count; i++)
             {
+                LetterPosition letterPos = letterPositions[i];
                 if (!letterPos.LetterBlock.IsFirstLetter && !letterPos.LetterBlock.IsSecondLetter)
                 {
-                    letterPos.LetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.GetLetters(1)[0].ToString().ToUpper();  
+                    letterPos.LetterBlock.GetComponentInChildren<Text>().text = newLetters[i].ToString().ToUpper();  
                 }
             }
         }
@@ -561,9 +569,6 @@ namespace Assets.Scripts
                         i++;
                         block.transform.SetParent(wordHolder.transform, false);
                         block.GetComponent<Button>().interactable = false;
-                        
-                        Vector3 pos = block.transform.position;
-                        ShowScoreGainedText(points, pos);
 
                         // Replace placeholder with letter on playerBoard
                         int row = letterPos.GetRow();
@@ -592,17 +597,26 @@ namespace Assets.Scripts
 
                     }
                 }
+
+                int nrOfLetters = i;
+
                 for (;i <= 12; i++)
                 {
                     GameObject emptyPlaceHolder = Instantiate(PlaceHolderObject);
                     emptyPlaceHolder.transform.SetParent(wordHolder.transform, false);
                 }
                 wordHolder.transform.SetParent(GameBoardWordContainer.transform, false);
+                Vector3 pos = new Vector3();
+                pos.y = wordHolder.transform.position.y - 25;
+                pos.x = wordHolder.transform.GetChild(nrOfLetters - 1).transform.position.x;
+                ShowScoreGainedText(points, pos);
             }
         }
 
         public void LetterTouched(LetterBlock block)
         {
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+            if (!canMove) return;
             // Wanneer hij in de lijst placedLetters staat, moet deze terug naar beneden gezet worden, anders naar boven
             if (PlacedLetters.Select(x => x.LetterBlock).Contains(block))
             {

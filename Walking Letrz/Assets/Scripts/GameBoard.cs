@@ -71,7 +71,7 @@ public class GameBoard : MonoBehaviour
             }
         }
 
-        _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second, pID);
+        _photonView.RPC(nameof(PlaceWordInGameBoard), RpcTarget.All, word, first, second, pID, points);
         RemoveAndChangeLetters(placedLetters, points);
 
     }
@@ -178,7 +178,7 @@ public class GameBoard : MonoBehaviour
     }
 
     [PunRPC]
-    private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex, string pID)
+    private void PlaceWordInGameBoard(string word, int firstIndex, int secondIndex, string pID, long points)
     {
         Debug.Log($"LocalPlayer: {PhotonNetwork.LocalPlayer.UserId}, sended: {pID}");
         GameState.PlacedWordsInThisGame.Add(word.ToLower());
@@ -231,7 +231,12 @@ public class GameBoard : MonoBehaviour
         }
 
         wordHolder.transform.SetParent(transform, false);
-        _pos = wordHolder.transform.position;
+        
+        _pos = new Vector3();
+        _pos.y = wordHolder.transform.position.y - 25;
+        _pos.x = wordHolder.transform.GetChild(word.Length).transform.position.x + 100;
+        
+        _letterManager.ShowScoreGainedText(points, _pos);
     }
 
     private void RemoveAndChangeLetters(List<LetterPosition> placedLetters, long points)
@@ -241,7 +246,6 @@ public class GameBoard : MonoBehaviour
             LetterBlock block = letterPos.LetterBlock;
             if (block != null)
             {
-                _letterManager.ShowScoreGainedText(points, _pos);
 
                 // Replace placeholder with letter on playerBoard
                 int row = letterPos.GetRow();

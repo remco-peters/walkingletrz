@@ -1,6 +1,8 @@
-﻿using ExitGames.Client.Photon;
+﻿using System;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using Photon.Realtime;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,18 +12,38 @@ public class LobbyManager : MonoBehaviour
     public GameObject UsernameClass;
     public Button StartGame;
     public Image LoadingIndicator;
+    public GameObject RoomNamePopup;
 
     private float RotationSpeed = 200f;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    public void SetRoomName(string roomName = "")
+    {
+        PhotonManager.PhotonInstance.roomName = roomName;
+    }
+
+    public void JoinRoom()
+    {
+        PhotonManager.PhotonInstance.createRoom = false;
+        GoConnect();
+        Destroy(RoomNamePopup);
+        
+    }
+
+    public void CreateRoom()
+    {
+        PhotonManager.PhotonInstance.createRoom = true;
+        GoConnect();
+        Destroy(RoomNamePopup);
+    }
+
+    private void GoConnect()
     {
         PhotonManager.PhotonInstance.ConnectToPhoton();
         PhotonManager.PhotonInstance.OnJoinedRoomDelegate += JoinedRoom;
         PhotonManager.PhotonInstance.OnPlayerJoinedDelegate += PlayerJoined;
         PhotonManager.PhotonInstance.OnPlayerLeftDelegate += PlayerLeft;
     }
-
+    
     private void FixedUpdate()
     {
         LoadingIndicator.GetComponent<RectTransform>().Rotate(0f, 0f, RotationSpeed * Time.deltaTime);

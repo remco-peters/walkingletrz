@@ -32,22 +32,18 @@ namespace Assets.Scripts
 
         public void InitStartingLetters()
         {
+            FirstLetter = GetVowelOrConsonant(GameInstance.instance.difficulty == Difficulty.Medium);
+            SecondLetter = GetVowelOrConsonant(GameInstance.instance.difficulty != Difficulty.Hard);
             switch (GameInstance.instance.difficulty)
             {
                 case Difficulty.Easy:
                     FirstPlayerLetters = GetLetters(19);
-                    FirstLetter = GetVowelOrConsonant(false);
-                    SecondLetter = GetVowelOrConsonant(true);
                     break;
                 case Difficulty.Medium:
                     FirstPlayerLetters = GetLetters(15);
-                    FirstLetter = GetVowelOrConsonant(true);
-                    SecondLetter = GetVowelOrConsonant(true);
                     break;
                 default:
                     FirstPlayerLetters = GetLetters(12);
-                    FirstLetter = GetVowelOrConsonant(false);
-                    SecondLetter = GetVowelOrConsonant(false);
                     break;
             }
         }
