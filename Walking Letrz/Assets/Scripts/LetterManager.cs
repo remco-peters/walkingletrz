@@ -40,9 +40,10 @@ namespace Assets.Scripts
         public GameObject PlaceHolderObject { get; set; }
         public GameObject GameBoardWordHolder { get; set; }
         public GameObject GameBoardWordContainer { get; set; }
-
+        public LetterBlock FixedLettersBlockObjectGameBoard { get; set; }
+        public LetterBlock PlayerLetterBlockObjectGameBoard { get; set; }
         #endregion UI
-        
+
         #region unity properties
         //public PlayerLetters PlayerLettersClass;
         public LetterBlock LetterBlockObject;
@@ -553,7 +554,8 @@ namespace Assets.Scripts
                 Hashtable hash = new Hashtable { { "Points", playerPoints + points }, { "BestWords1", w1 }, { "BestWords2", w2 }, { "BestWords3", w3 } };
                 PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
                 _gameBoard.CallRPC(points, PlacedLetters, PhotonNetwork.LocalPlayer.UserId);
-            } else
+            }
+            else
             {
                 //Instantiate wordHolder
                 GameObject wordHolder = Instantiate(GameBoardWordHolder);
@@ -616,12 +618,6 @@ namespace Assets.Scripts
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
             if (!canMove) return;
             
-            // When firstletter isn't placed yet, make sure second letter does nothing
-            if(block == SecondLetterBlock && !PlacedLetters.Select(x => x.LetterBlock).Contains(FirstLetterBlock))
-            {
-                return;
-            }
-
             // Wanneer hij in de lijst placedLetters staat, moet deze terug naar beneden gezet worden, anders naar boven
             if (PlacedLetters.Select(x => x.LetterBlock).Contains(block))
             {
@@ -629,6 +625,12 @@ namespace Assets.Scripts
             }
             else
             {
+                // When firstletter isn't placed yet, make sure second letter does nothing
+                if (block == SecondLetterBlock && !PlacedLetters.Select(x => x.LetterBlock).Contains(FirstLetterBlock))
+                {
+                    return;
+                }
+
                 // Wanneer er meer dan 12 zijn, niks doen
                 if (PlacedLetters.Count(x => x.LetterBlock != null) >= 12) return;
                 
@@ -645,6 +647,7 @@ namespace Assets.Scripts
                 Destroy(t.gameObject);
 
                 // Het geklikte blokje verplaatsen naar de plaats van het lege object
+                //block.transform.localScale -= new Vector3(0.1f, 0, 0);
                 block.transform.SetParent(WritingBoard.transform, false);
                 block.transform.SetSiblingIndex(EmptyLetterBlock.GetCurrentIndex());
                 
@@ -764,6 +767,7 @@ namespace Assets.Scripts
 
             // Nieuw, leeg block toevoegen in writingBoard
             GameObject emptyBlock = Instantiate(EmptyLetterBlockObject);
+            //block.transform.localScale += new Vector3(0.1f, 0, 0);
             emptyBlock.transform.SetParent(WritingBoard.transform, false);
             emptyBlock.transform.SetSiblingIndex(currentIndex);
 

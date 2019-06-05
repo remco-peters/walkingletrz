@@ -23,6 +23,7 @@ public class DynamicUI : MyMonoBehaviour
     public Button Booster2;
     public Button Booster3;
     public Button Booster4;
+    public Button Booster5;
     public GameObject EmptyLetterBlockObject;
     public LetterBlock FixedLetterBlockObject;
     public LetterBlock PlayerLetterBlockObject;
@@ -44,6 +45,8 @@ public class DynamicUI : MyMonoBehaviour
     public GameSceneCounter FixedLetterOverlay;          
     public Material FixedLetterOtherPlayerMaterial;
     public Material PlayerLetterOtherPlayerMaterial;
+    public LetterBlock FixedLettersBlockObjectGameBoard;
+    public LetterBlock PlayerLetterBlockObjectGameBoard;
     public bool Tutorial { get; set; }
 
     void Awake()
@@ -100,6 +103,9 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.Booster2 = Booster2;
                 letterManager.Booster3 = Booster3;
                 letterManager.Booster4 = Booster4;
+                letterManager.Booster5 = Booster5;
+                letterManager.FixedLettersBlockObjectGameBoard = FixedLettersBlockObjectGameBoard;
+                letterManager.PlayerLetterBlockObjectGameBoard = PlayerLetterBlockObjectGameBoard;
             });
 
             LetterManager letterManagerBot = LetterManagerClass;
@@ -164,6 +170,9 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.Booster2 = Booster2;
                 letterManager.Booster3 = Booster3;
                 letterManager.Booster4 = Booster4;
+                letterManager.Booster5 = Booster5;
+                letterManager.FixedLettersBlockObjectGameBoard = FixedLettersBlockObjectGameBoard;
+                letterManager.PlayerLetterBlockObjectGameBoard = PlayerLetterBlockObjectGameBoard;
             });
 
             LetterManager letterManagerBot = LetterManagerClass;

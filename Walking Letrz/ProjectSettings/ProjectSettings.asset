@@ -251,7 +251,7 @@ PlayerSettings:
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: D:/Users/sanne/InHolland/Jaar 3 - Blok 3 en 4/walkingletrz/Walking
     Letrz/user.keystore
-  AndroidKeyaliasName: 
+  AndroidKeyaliasName: keywalkingletrz
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
