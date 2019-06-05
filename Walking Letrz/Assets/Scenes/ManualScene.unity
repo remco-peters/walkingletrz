@@ -1176,36 +1176,27 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'De spelers krijgen allemaal dezelfde letters waarmee zij beginnen. Van
+  m_Text: "De spelers krijgen allemaal dezelfde letters waarmee zij beginnen. Van
     alle letters zijn er 2 letters vaste letters die gebruikt moeten worden om woorden
     te maken. De woorden die gemaakt worden moeten minimaal 2 letters en maximaal
     12 letters bevatten. De 2 gegeven vaste letters en de volgorde daarvan kunnen
-    niet veranderen in het woord. Wel kunnen er letters voor-, tussen- en/of achter
-    de 2 gegeven letters worden geplaatst.
-
-
-    De speler maakt de woorden middels het typen van de letters van het toetsenbord.
-    Als een woord verkeerd gespeld wordt dan kan de speler een letter toevoegen of
-    weghlen door op de letters te tikken. Een woord kan ook in zijn geheel verwijderd
-    worden door op het kruisje te drukken. Als de speler het woord af heeft, drukt
-    hij/zij op het vinkje. Als het vinkje niet lichtgroen kleurt, komt het woord niet
-    voor in de LETRZ woordenlijst en kan het niet worden gespeeld.
-
-
-    Wanneer een woord gelegd is, "lopen" de 2 vaste letters. De letter die op de eerste
-    plaats stond, gaat door naar de tweede plaats en de laatste letter van het gelegde
-    woord, wordt een nieuwe eerste vaste letter. Zodoende zijn het "Lopende Letters".
-
-
-    Uitgangspunt bij het goedkeuren van de woorden bij LETRZ is de voor die taal specifieke
-    officiele woordenlijst genoemd onder de kop "Gebruiksvoorwaarden/Intellectuele
-    eigendomsrechten".
-
-
-    De letters hebben verschillende waardes. De speler die met zijn/haar woorden de
-    meeste punten maakt wint het spel. Een woord wat al eerder is neergelegd in een
-    ronde, mag niet nogmaals neergelegd worden. Aan het einde van elk spel kunnen
-    alle spelers zien welke beste woorden ze gespeeld hebben van zichzelf en elkaar.'
+    niet veranderen in het woord. Wel kunnen er letters voor, tussen en/of achter
+    de 2 gegeven letters worden geplaatst.\r\n\r\nDe speler maakt de woorden middels
+    het typen van de letters van het toetsenbord. Als een woord verkeerd gespeld wordt
+    dan kan de speler een letter toevoegen of weghalen door op de letters te tikken.
+    Een woord kan ook in zijn geheel verwijderd worden door op het kruisje te drukken.
+    Als de speler het woord af heeft, drukt hij/zij op het vinkje. Als het vinkje
+    niet lichtgroen kleurt, komt het woord niet voor in de LETRZ woordenlijst en kan
+    het niet worden gespeeld.\r\n\r\nWanneer een woord gelegd is, \"lopen\" de 2 vaste
+    letters. De letter die op de eerste plaats stond, gaat door naar de tweede plaats
+    en de laatste letter van het gelegde woord, wordt een nieuwe eerste vaste letter.
+    Zodoende zijn het \"Lopende Letters\".\r\n\r\nUitgangspunt bij het goedkeuren
+    van de woorden bij LETRZ is de voor die taal specifieke offici\xEBle woordenlijst
+    genoemd onder de kop \"Gebruiksvoorwaarden/Intellectuele eigendomsrechten\".\r\n\r\nDe
+    letters hebben verschillende waardes. De speler die met zijn/haar woorden de meeste
+    punten maakt wint het spel. Een woord wat al eerder is neergelegd in een ronde,
+    mag niet nogmaals neergelegd worden. Aan het einde van elk spel kunnen alle spelers
+    zien welke beste woorden ze gespeeld hebben van zichzelf en elkaar.\r\n"
 --- !u!222 &1183491745
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1249,7 +1240,7 @@ MonoBehaviour:
   LocalizeCallBack:
     Target: {fileID: 0}
     MethodName: 
-  mGUI_ShowReferences: 0
+  mGUI_ShowReferences: 1
   mGUI_ShowTems: 1
   mGUI_ShowCallback: 0
   mLocalizeTarget: {fileID: 13828838}
@@ -1958,14 +1949,14 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Bij het opstellen van de LETRZ woordenlijst wordt uitgegaan van twee hoofdbegrippen:
-    het lemma (de basisvorm van een woord, ook wel trefwoord genoemd) en de flexies
-    (woordvormen) zoals deze vanuit de taalregels gevormd kunnen worden door middel
-    van verbuigingen, vervoegingen of afleidingen. Denk daarbij aan werkwoorden (met
-    alle vervoegingen, inclusief aanvoegende wijs*), zelfstandige naamwoorden (inclusief
-    het meervoud) en de verkleinwoorden, bijvoeglijke naamwoorden (inclusief de trappen
-    van vergelijking), telwoorden en overige woordsoorten.\n\nDelen van scheidbare
-    werkwoorden die in een hoofdzin los van elkaar voorkomen, worden in een bijzin
-    aan elkaar geschreven (ik speelde mee, maar: zij vroeg of ik meespeelde).\n\nDe
+    het <b>lemma</b> (de basisvorm van een woord, ook wel trefwoord genoemd) en de
+    <b>flexies</b> (woordvormen) zoals deze vanuit de taalregels gevormd kunnen worden
+    door middel van verbuigingen, vervoegingen of afleidingen. Denk daarbij aan werkwoorden
+    (met alle vervoegingen, inclusief aanvoegende wijs*), zelfstandige naamwoorden
+    (inclusief het meervoud) en de verkleinwoorden, bijvoeglijke naamwoorden (inclusief
+    de trappen van vergelijking), telwoorden en overige woordsoorten.\n\nDelen van
+    scheidbare werkwoorden die in een hoofdzin los van elkaar voorkomen, worden in
+    een bijzin aan elkaar geschreven (ik speelde mee, maar: zij vroeg of ik <b>meespeelde</b>).\n\nDe
     hoofdtelwoorden en de overeenkomstige rangtelwoorden die aaneengeschreven worden,
     zijn toegelaten. Van twintig tot en met negenennegentig wordt bovendien een verlenging
     toegelaten met \u2013en, er en \u2013ers (achttienen, eenentwintigers, zesenzestigers).
