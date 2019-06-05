@@ -229,6 +229,96 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIPlayerPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6944547797432281964, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944547797432281964, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944547797432281964, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944547797432281964, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944547797432281964, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6944547797432281964, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393734284600132308, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393734284600132308, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393734284600132308, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393734284600132308, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393734284600132308, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393734284600132308, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475039769489756968, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475039769489756968, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475039769489756968, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475039769489756968, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475039769489756968, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2475039769489756968, guid: 9e79a75a40c13464195425d9beead252,
+        type: 3}
+      propertyPath: m_Name
+      value: UIPlayerPanel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e79a75a40c13464195425d9beead252, type: 3}
 --- !u!224 &5700680543440224804 stripped
