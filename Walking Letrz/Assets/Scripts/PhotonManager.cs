@@ -75,7 +75,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             foreach (RoomInfo room in roomList)
             {
-                if (!String.IsNullOrEmpty(roomName))
+                if (!string.IsNullOrEmpty(roomName))
                 {
                     if (room.Name == roomName)
                     {
@@ -114,6 +114,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
             Failed(Error, Message);
         };
+        
         RoomOptions options = new RoomOptions {MaxPlayers =  2, PublishUserId = true};
         bool Result = PhotonNetwork.CreateRoom(Name, options);
 

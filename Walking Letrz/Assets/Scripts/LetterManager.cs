@@ -172,6 +172,7 @@ namespace Assets.Scripts
             return playerLetters;           
         }
 
+        
         public void InitFirstLetters()
         {
             char[] startingLetters = TheLetterManager.FirstPlayerLetters;
