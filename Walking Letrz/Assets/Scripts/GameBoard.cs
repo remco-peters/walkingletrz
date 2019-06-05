@@ -172,9 +172,6 @@ public class GameBoard : MonoBehaviour
         
             _letterManager.PlayerLetters.Add(new LetterPosition(row, block.transform.GetSiblingIndex(), block));
         }
-
-        
-
     }
 
     [PunRPC]

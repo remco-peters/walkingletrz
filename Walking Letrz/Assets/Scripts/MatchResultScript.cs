@@ -112,7 +112,20 @@ public class MatchResultScript : MonoBehaviour
             if (AccountManager.CurrentPlayer.Statistics.Count > 0)
             {
                 statisticsPresent = true;
-                previousScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Score").Value;
+                if (GameInstance.instance.difficulty == Difficulty.Easy && AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "easy_score") != null)
+                {
+                    previousScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "easy_score")
+                        .Value;
+                } else if (GameInstance.instance.difficulty == Difficulty.Medium && AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "medium_score") != null)
+                {
+                    previousScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "medium_score")
+                        .Value;
+                }
+                else if (GameInstance.instance.difficulty == Difficulty.Hard && AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "hard_score") != null)
+                {
+                    previousScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "hard_score")
+                        .Value;
+                }
                 previousWins = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Wins")?.Value;
                 gamesPlayed = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "GamesPlayed")?.Value;
                 totalScore = AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "TotalScore")?.Value;
@@ -126,27 +139,73 @@ public class MatchResultScript : MonoBehaviour
             var statistic = new StatisticUpdate();
 
             // if new points are more than other points, put the new points
-            if (p.Points > previousScore || p.Points == previousScore)
+            if (p.Points > previousScore || p.Points == previousScore || previousScore == 0)
             {
-                statistic = new StatisticUpdate {StatisticName = "Score", Value = (int) p.Points};
-                statistics.Add(statistic);
-
-                // When statistics aren't present, set these to currentPlayer
-                if (!statisticsPresent)
+                if (GameInstance.instance.difficulty == Difficulty.Easy)
                 {
-                    AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
+                    statistic = new StatisticUpdate {StatisticName = "easy_score", Value = (int) p.Points};
+                    statistics.Add(statistic);
+                    if (previousScore == 0)
                     {
-                        new StatisticModel
+                        AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
                         {
-                            Value = (int) p.Points,
-                            Name = "Score"
-                        }
-                    };
+                            new StatisticModel
+                            {
+                                Value = (int) p.Points,
+                                Name = "easy_score"
+                            }
+                        };
+                    }
+                    else
+                    {
+                        // If they are present, make sure the new score is added to currentPlayer
+                        AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "easy_score").Value =
+                            (int) p.Points;
+                    }
                 }
-                else
+                else if (GameInstance.instance.difficulty == Difficulty.Medium)
                 {
-                    // If they are present, make sure the new score is added to currentPlayer
-                    AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "Score").Value = (int) p.Points;
+                    statistic = new StatisticUpdate {StatisticName = "medium_score", Value = (int) p.Points};
+                    statistics.Add(statistic);
+                    if (previousScore == 0)
+                    {
+                        AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
+                        {
+                            new StatisticModel
+                            {
+                                Value = (int) p.Points,
+                                Name = "medium_score"
+                            }
+                        };
+                    }                   
+                    else
+                    {
+                        // If they are present, make sure the new score is added to currentPlayer
+                        AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "medium_score").Value =
+                            (int) p.Points;
+                    }
+                }
+                else if (GameInstance.instance.difficulty == Difficulty.Hard)
+                {
+                    statistic = new StatisticUpdate {StatisticName = "hard_score", Value = (int) p.Points};
+                    statistics.Add(statistic);
+                    if (previousScore == 0)
+                    {
+                        AccountManager.CurrentPlayer.Statistics = new List<StatisticModel>
+                        {
+                            new StatisticModel
+                            {
+                                Value = (int) p.Points,
+                                Name = "hard_score"
+                            }
+                        };
+                    }                   
+                    else
+                    {
+                        // If they are present, make sure the new score is added to currentPlayer
+                        AccountManager.CurrentPlayer.Statistics.Find(model => model.Name == "hard_score").Value =
+                            (int) p.Points;
+                    }
                 }
             }
 

@@ -4,6 +4,7 @@ using PlayFab;
 using PlayFab.ClientModels;
 using PlayFab.PlayStreamModels;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ public class AccountManager : MonoBehaviour
     public Credit creditClass;
     private List<FriendInfo> _friends = null;
     private List<PlayerLeaderboardEntry> _friendsLeaderboard = null;
+    public UnityAction<List<PlayerLeaderboardEntry>> OnLeaderboardReceived;
 
     public List<Achievement> listOfAchievements = new List<Achievement>();
     private void Awake()
@@ -59,7 +61,6 @@ public class AccountManager : MonoBehaviour
                 CreateAccount = true
             };
             PlayFabClientAPI.LoginWithAndroidDeviceID(request, Success, OnFailure);
-            leaderboardRequest = new GetLeaderboardRequest { StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10 };
         }
     }
 
@@ -87,16 +88,16 @@ public class AccountManager : MonoBehaviour
         listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 15, 150, 5, "WordLengthOfTwelve"));
     }
 
-    public List<PlayerLeaderboardEntry> GetLeaderboard()
+    public void GetLeaderboard(string difficulty)
     {
-        GetLeaderboardRequest glb = new GetLeaderboardRequest { StatisticName = "Score", StartPosition = 0, MaxResultsCount = 10 };
+        GetLeaderboardRequest glb = new GetLeaderboardRequest { StatisticName = $"{difficulty}_score", StartPosition = 0, MaxResultsCount = 10 };
         PlayFabClientAPI.GetLeaderboard(glb, LeaderboardSuccess, OnFailure);
-        return Leaderboard;
     }
 
-    private static void LeaderboardSuccess(GetLeaderboardResult result)
+    private void LeaderboardSuccess(GetLeaderboardResult result)
     {
         Leaderboard = result.Leaderboard;
+        OnLeaderboardReceived(Leaderboard);
     }
 
     public void RefreshAccountStats()
@@ -172,7 +173,6 @@ public class AccountManager : MonoBehaviour
             GetPlayerProfile = true
         };
         PlayFabClientAPI.GetPlayerCombinedInfo(combinedReq, StartGetInfoSuccess, OnFailure);
-        PlayFabClientAPI.GetLeaderboard(leaderboardRequest, LeaderboardSuccess, OnFailure);
         UpdateFriendsList();
         UpdateFriendsLeaderboard();
     }
