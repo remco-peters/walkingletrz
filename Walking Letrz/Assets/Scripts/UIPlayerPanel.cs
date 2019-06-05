@@ -305,7 +305,7 @@ public class UIPlayerPanel : UIBehaviour
             string pointsPre = LocalizationManager.GetTranslation("points_earned");
             string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
 
-            TimeRemainingText.text = timeUp;
+            //TimeRemainingText.text = timeUp;
             ShowInfoText($"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}", 5);
             
             WrapUpGame();
@@ -326,7 +326,7 @@ public class UIPlayerPanel : UIBehaviour
             string playAgain = LocalizationManager.GetTranslation("play_again");
             string pointsPre = LocalizationManager.GetTranslation("points_earned");
             string pointsSuf = LocalizationManager.GetTranslation("points_earned_suffix");
-            TimeRemainingText.text = timeUp;
+            //TimeRemainingText.text = timeUp;
             ShowInfoText($"{timeUp} {playAgain} {pointsPre} {Player.EarnedPoints} {pointsSuf}", 5);
             WrapUpGame();
             StopCoroutine(Timer());
