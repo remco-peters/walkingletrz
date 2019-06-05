@@ -102,20 +102,22 @@ public class AccountManager : MonoBehaviour
     public void RefreshAccountStats()
     {
         fullyLoaded = false;
-        var combinedReq = new GetPlayerCombinedInfoRequest();
-        combinedReq.PlayFabId = CurrentPlayer.PlayerId;
-        combinedReq.InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
+        var combinedReq = new GetPlayerCombinedInfoRequest
         {
-            GetUserAccountInfo = true,
-            GetUserInventory = false,
-            GetUserVirtualCurrency = true,
-            GetUserData = false,
-            GetUserReadOnlyData = false,
-            GetCharacterInventories = false,
-            GetCharacterList = false,
-            GetTitleData = false,
-            GetPlayerStatistics = true,
-            GetPlayerProfile = true
+            PlayFabId = CurrentPlayer.PlayerId,
+            InfoRequestParameters = new GetPlayerCombinedInfoRequestParams()
+            {
+                GetUserAccountInfo = true,
+                GetUserInventory = false,
+                GetUserVirtualCurrency = true,
+                GetUserData = false,
+                GetUserReadOnlyData = false,
+                GetCharacterInventories = false,
+                GetCharacterList = false,
+                GetTitleData = false,
+                GetPlayerStatistics = true,
+                GetPlayerProfile = true
+            }
         };
         PlayFabClientAPI.GetPlayerCombinedInfo(combinedReq, instance.CombinedInfoSuccess, OnFailure);
     }
