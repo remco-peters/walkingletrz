@@ -484,7 +484,8 @@ public class UIPlayerPanel : UIBehaviour
             Player.Name = Player.name;
         }
 
-        Players.Sort((p1, p2) => (p2.EarnedPoints + (p2.TimeRemaining / 2)).CompareTo(p1.EarnedPoints + (p1.TimeRemaining / 2)));
+        Players.Sort((p1, p2) => (p2.EarnedPoints + (p2.TimeRemaining / (int)GameInstance.instance.difficulty))
+        .CompareTo(p1.EarnedPoints + (p1.TimeRemaining /  (int)GameInstance.instance.difficulty)));
         
         var indexOfPlayer = Players.IndexOf(Player);
         if (Players[0].EarnedPoints == Players[1].EarnedPoints)

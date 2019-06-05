@@ -149,8 +149,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - punten verdiend
-      - points earned
+      - credits verdiend
+      - credits earned
       Flags: 0000
       Languages_Touch: []
     - Term: choose_difficulty
@@ -1022,14 +1022,15 @@ MonoBehaviour:
       - You can not trade your letters more than 3 times
       Flags: 0000
       Languages_Touch: []
-    - Term: lobby_name_title
+    - Term: room_name_title
       TermType: 0
       Description: 
       Languages:
-      - Je kunt een naam invullen voor jouw lobby om samen met een vriend te spelen.
-        Laat hem leeg om een willekeurige kamer aan te maken
-      - You can enter a name for your lobby so you can play with your friends. Leave
-        it blank for a random room. If you want to join a friend enter the same lobby
+      - Je kunt een naam invullen voor jouw kamer om samen met een vriend te spelen.
+        Laat hem leeg om een willekeurige kamer aan te maken. Als je een vriend wilt
+        joinen vul je dezelfde naam in en druk je op join
+      - You can enter a name for your room so you can play with your friends. Leave
+        it blank for a random room. If you want to join a friend enter the same room
         name and press join.
       Flags: 0000
       Languages_Touch: []
@@ -1053,8 +1054,8 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Vul een lobby naam in...
-      - Enter a lobby name...
+      - Vul een kamer naam in...
+      - Enter a room name...
       Flags: 0000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -1072,7 +1073,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1559551683731
+    Google_LastUpdatedVersion: 1559685573180
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
