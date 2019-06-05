@@ -34,7 +34,6 @@ namespace Assets.Scripts
         public Button Booster2{get;set;}
         public Button Booster3{get;set;}
         public Button Booster4{get;set;}
-        public Button Booster5{get;set;}
         public GameObject EmptyLetterBlockObject { get; set; }
         public LetterBlock FixedLettersBlockObject { get; set; }
         public LetterBlock PlayerLetterBlockObject { get; set; }
@@ -150,10 +149,10 @@ namespace Assets.Scripts
 
         private void InitBoosterButtons()
         {
+            Booster1.onClick.AddListener(ExtraTimeTouched);
             Booster2.onClick.AddListener(DoubleWordOnTouched); 
             Booster3.onClick.AddListener(TripleWordOnTouched);
             Booster4.onClick.AddListener(OnTradeFixedTouched);
-            Booster5.onClick.AddListener(ExtraTimeTouched);
         }
 
         public List<LetterPosition> GetPlayerLetters()
@@ -251,7 +250,7 @@ namespace Assets.Scripts
             Player.Credit.RemoveCredits(50);
             credits -= 50;
             Player.TimeRemaining += 30f;
-            Booster5.interactable = false;
+            Booster1.interactable = false;
             BoostersUsed++;
             if (BoostersUsed >= 3) SetBoostersInactive();
         }
@@ -275,11 +274,10 @@ namespace Assets.Scripts
 
         private void SetBoostersInactive()
         {
-                Booster1.interactable = false;
-                Booster2.interactable = false;
-                Booster3.interactable = false;
+                Booster1.interactable = 
+                Booster2.interactable = 
+                Booster3.interactable = 
                 Booster4.interactable = false;
-                Booster5.interactable = false;
         }
 
         private void InitPlacedLetterPositions()
