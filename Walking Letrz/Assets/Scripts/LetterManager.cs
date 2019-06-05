@@ -322,7 +322,10 @@ namespace Assets.Scripts
 
             int timesTraded;
             if (GameInstance.instance.IsMultiplayer)
-                timesTraded = (int) PhotonNetwork.LocalPlayer.CustomProperties["TimesTraded"];
+                if (PhotonNetwork.LocalPlayer.CustomProperties["TimesTraded"] != null)
+                    timesTraded = (int) PhotonNetwork.LocalPlayer.CustomProperties["TimesTraded"];
+                else
+                    timesTraded = 0;
             else
                 timesTraded = Player.TimesTraded;
 

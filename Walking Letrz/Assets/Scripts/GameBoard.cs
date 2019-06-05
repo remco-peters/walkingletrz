@@ -91,7 +91,7 @@ public class GameBoard : MonoBehaviour
 
     public void CallRPCInitPlayerLetters()
     {
-        ExecuteInitPlayerLettersAfterTime(2);
+        StartCoroutine(ExecuteInitPlayerLettersAfterTime(2));
     }
 
     IEnumerator ExecuteInitPlayerLettersAfterTime(float time)
