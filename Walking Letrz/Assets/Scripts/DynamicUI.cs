@@ -103,7 +103,6 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.Booster2 = Booster2;
                 letterManager.Booster3 = Booster3;
                 letterManager.Booster4 = Booster4;
-                letterManager.Booster5 = Booster5;
                 letterManager.FixedLettersBlockObjectGameBoard = FixedLettersBlockObjectGameBoard;
                 letterManager.PlayerLetterBlockObjectGameBoard = PlayerLetterBlockObjectGameBoard;
             });
@@ -170,7 +169,6 @@ public class DynamicUI : MyMonoBehaviour
                 letterManager.Booster2 = Booster2;
                 letterManager.Booster3 = Booster3;
                 letterManager.Booster4 = Booster4;
-                letterManager.Booster5 = Booster5;
                 letterManager.FixedLettersBlockObjectGameBoard = FixedLettersBlockObjectGameBoard;
                 letterManager.PlayerLetterBlockObjectGameBoard = PlayerLetterBlockObjectGameBoard;
             });

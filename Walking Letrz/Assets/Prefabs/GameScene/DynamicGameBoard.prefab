@@ -843,6 +843,7 @@ MonoBehaviour:
   Booster2: {fileID: 7237587184432781339}
   Booster3: {fileID: 6767960126284045144}
   Booster4: {fileID: 8395421580346434245}
+  Booster5: {fileID: 0}
   EmptyLetterBlockObject: {fileID: 4388394497308393125, guid: 3f4f02693b3ecb842ba3181e3439b5dd,
     type: 3}
   FixedLetterBlockObject: {fileID: 643303682265407740, guid: 8b8caca40716307498100b2cbbe0ce9d,
@@ -1544,7 +1545,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -640.00006, y: -0.000061035156}
+  m_AnchoredPosition: {x: -640.00006, y: 0.000054782016}
   m_SizeDelta: {x: 640, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512
@@ -3247,7 +3248,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -320, y: 0.024993896}
+  m_AnchoredPosition: {x: -320, y: 0.025024414}
   m_SizeDelta: {x: 640, y: 0.05011}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3214039937144638037
