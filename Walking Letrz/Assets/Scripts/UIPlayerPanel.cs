@@ -189,7 +189,6 @@ public class UIPlayerPanel : UIBehaviour
         string pointString = LocalizationManager.GetTranslation("points");
         PointText.text = $"{Player.EarnedPoints}";
         CreditsTxt.text = GameInstance.instance.credits.ToString();
-        SetBackgroundPlayerColor();
 
         int index = 0;
         if (GameInstance.instance.IsMultiplayer)
