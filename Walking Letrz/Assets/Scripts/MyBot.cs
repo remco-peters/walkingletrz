@@ -84,7 +84,7 @@ namespace Assets.Scripts
             }
             if (difficulty == Difficulty.Easy) timeRemaining = TheLetterManager.CalculatePoints(foundWord) + 5;
             else if (difficulty == Difficulty.Medium) timeRemaining = TheLetterManager.CalculatePoints(foundWord);
-            else timeRemaining = TheLetterManager.CalculatePoints(foundWord) - 5;
+            else timeRemaining = TheLetterManager.CalculatePoints(foundWord);
         }
 
         private void ChangeLetters(string word, int firstLetterIndex, int secondLetterIndex)
