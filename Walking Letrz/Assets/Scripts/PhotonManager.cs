@@ -86,7 +86,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 }
                 else
                 {
-                    if (PhotonNetwork.JoinRoom(null)) return;
+                    if (PhotonNetwork.JoinRandomRoom()) return;
                 }
             }
         }
