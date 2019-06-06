@@ -1330,8 +1330,8 @@ GameObject:
   - component: {fileID: 296387107}
   - component: {fileID: 296387106}
   - component: {fileID: 296387105}
-  - component: {fileID: 296387104}
   - component: {fileID: 296387108}
+  - component: {fileID: 296387104}
   m_Layer: 5
   m_Name: StartMultiplayerGameBtn
   m_TagString: Untagged
@@ -1412,9 +1412,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 296387104}
-        m_MethodName: SwitchScene
-        m_Mode: 5
+      - m_Target: {fileID: 296387108}
+        m_MethodName: SetMultiplayer
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1423,8 +1423,8 @@ MonoBehaviour:
           m_StringArgument: DifficultyScene
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 296387108}
-        m_MethodName: SetMultiplayer
+      - m_Target: {fileID: 296387104}
+        m_MethodName: MakeEasyGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
