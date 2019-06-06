@@ -125,6 +125,7 @@ public class DynamicUI : MyMonoBehaviour
                 {
                     Hashtable hash = new Hashtable {{"CanMove", true}};
                     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                    StartCoroutine(HUD.GetComponentInChildren<UIPlayerPanel>().SetBackgroundPlayerColor());
                 };
             }
             else
@@ -133,6 +134,7 @@ public class DynamicUI : MyMonoBehaviour
                 {
                     Hashtable hash = new Hashtable {{"CanMove", false}};
                     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                    StartCoroutine(HUD.GetComponentInChildren<UIPlayerPanel>().SetBackgroundPlayerColor());
                 };
             }
         }
@@ -202,7 +204,9 @@ public class DynamicUI : MyMonoBehaviour
             FixedLetterOverlay.GetComponent<GameSceneCounter>().OnCountDownFinished = () =>
                 {
                     localPlayer.CanMove = true;
+                    StartCoroutine(HUD.GetComponentInChildren<UIPlayerPanel>().SetBackgroundPlayerColor());
                 };
+           
         }
     }
 

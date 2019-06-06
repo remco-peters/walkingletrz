@@ -348,21 +348,25 @@ public class UIPlayerPanel : UIBehaviour
         return t.ToString(@"m\:ss");
     }
 
-    private void SetBackgroundPlayerColor()
+    public IEnumerator SetBackgroundPlayerColor()
     {
-        if (GameInstance.instance.IsMultiplayer)
+        while (true)
         {
-            Player.CanMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-        }
+            if (GameInstance.instance.IsMultiplayer)
+            {
+                Player.CanMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
+            }
 
-        if(Player.CanMove)
-        {
-            PlayerBackground.GetComponent<Image>().material = TurnMaterial;
-            OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
-        } else
-        {
-            PlayerBackground.GetComponent<Image>().material = TopBoardMaterial;
-            OthersBackground.GetComponent<Image>().material = TurnMaterial;
+            if(Player.CanMove)
+            {
+                PlayerBackground.GetComponent<Image>().material = TurnMaterial;
+                OthersBackground.GetComponent<Image>().material = TopBoardMaterial;
+            } else
+            {
+                PlayerBackground.GetComponent<Image>().material = TopBoardMaterial;
+                OthersBackground.GetComponent<Image>().material = TurnMaterial;
+            }
+            yield return new WaitForFixedUpdate();
         }
     }
     
