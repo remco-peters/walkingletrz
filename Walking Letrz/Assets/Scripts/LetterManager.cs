@@ -147,14 +147,6 @@ namespace Assets.Scripts
             }
         }
 
-        private void InitBoosterButtons()
-        {
-            Booster1.onClick.AddListener(ExtraTimeTouched);
-            Booster2.onClick.AddListener(DoubleWordOnTouched); 
-            Booster3.onClick.AddListener(TripleWordOnTouched);
-            Booster4.onClick.AddListener(OnTradeFixedTouched);
-        }
-
         public List<LetterPosition> GetPlayerLetters()
         {
             List<LetterPosition> playerLetters = new List<LetterPosition>();
@@ -175,32 +167,19 @@ namespace Assets.Scripts
         public void InitFirstLetters()
         {
             char[] startingLetters = TheLetterManager.FirstPlayerLetters;
+            int row = 1;
+            int indexoffset = 2;
             for (int i = 0; i < startingLetters.Length; i++)
             {
-                if(i < 5)
-                {
-                    InstantiateLetterButton(startingLetters[i], false, false, 1, i + 2);
-                    if (GameInstance.instance.IsMultiplayer)
-                    {
-                        _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 1, i + 2);
-                    }
+                if (i == 5 || i == 12){
+                    row++;
+                    indexoffset -= 7;
                 }
-                else if(i < 12)
+                InstantiateLetterButton(startingLetters[i], false, false, row, i + indexoffset);
+                if (GameInstance.instance.IsMultiplayer)
                 {
-                    InstantiateLetterButton(startingLetters[i], false, false, 2, i - 5);
-                    if (GameInstance.instance.IsMultiplayer)
-                    {
-                        _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 2, i - 5);
-                    }
-                }
-                else
-                {
-                    InstantiateLetterButton(startingLetters[i], false, false, 3, i - 12);
-                    if (GameInstance.instance.IsMultiplayer)
-                    {
-                        _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, 3, i - 12);
-                    }
-                }                                           
+                    _gameBoard.CallRPCPlaceLtrz(startingLetters[i].ToString(), false, false, row, i + indexoffset);
+                }                                                      
             }
             InitPlayerLetters();
             if (GameInstance.instance.IsMultiplayer)
@@ -214,6 +193,14 @@ namespace Assets.Scripts
             PlaceBtn.onClick.AddListener(PlaceWord);
             DeleteBtn.onClick.AddListener(RemoveAllLetters);
             TradeBtn.onClick.AddListener(TradeLetterBtnTouch);
+        }
+
+        private void InitBoosterButtons()
+        {
+            Booster1.onClick.AddListener(ExtraTimeTouched);
+            Booster2.onClick.AddListener(DoubleWordOnTouched); 
+            Booster3.onClick.AddListener(TripleWordOnTouched);
+            Booster4.onClick.AddListener(OnTradeFixedTouched);
         }
 
         public void DoubleWordOnTouched()
