@@ -48,6 +48,10 @@ namespace Assets.Scripts
             
         }
 
+        /// <summary>
+        /// Gets the players that can move from photon
+        /// </summary>
+        /// <returns></returns>
         public Photon.Realtime.Player GetCurrentActivePlayer()
         {
             return PhotonNetwork.PlayerList.FirstOrDefault(x => (bool) x.CustomProperties["CanMove"]);
@@ -64,14 +68,6 @@ namespace Assets.Scripts
             {
                 LetterBlock firstLetter = player.LetterManager.InstantiateLetterButton(FirstLetter, true, false, 0, 0);
                 LetterBlock secondLetter = player.LetterManager.InstantiateLetterButton(SecondLetter, false, true, 0, 1);
-            }
-        }
-
-        private void AddNewPlayer(Photon.Realtime.Player player)
-        {
-            if (Players != null)
-            {
-//                Players.Add(player);
             }
         }
     }

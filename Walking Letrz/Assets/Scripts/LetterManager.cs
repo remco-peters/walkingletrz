@@ -120,6 +120,9 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Initialize the points gained panel and the booster text
+        /// </summary>
         private void SetPanelsReady()
         {
             PointsGainedPanelImage = PointsGainedPanel.GetComponent<Image>();
@@ -289,6 +292,11 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Gets called when the trade button is touched
+        /// First there is a check to see if the player can move
+        /// Then the points will be deducted if it is not the first trade
+        /// </summary>
         private void TradeLetterBtnTouch()
         {
             int timesTraded;
@@ -337,6 +345,11 @@ namespace Assets.Scripts
             
         }
 
+        /// <summary>
+        /// Increases the trade count for a player, starts an animation for the button
+        /// Gets new letters and replaces the old letters
+        /// </summary>
+        /// <param name="timesTraded"></param>
         private void TradeLetters(int timesTraded)
         {
             if (GameInstance.instance.IsMultiplayer)
@@ -764,6 +777,11 @@ namespace Assets.Scripts
             
         }
 
+        /// <summary>
+        /// Shows a small popup with the amount of points earned for 3 seconds
+        /// </summary>
+        /// <param name="points"></param>
+        /// <param name="pos"></param>
         public void ShowScoreGainedText(long points, Vector3 pos)
         {
             PointsGainedPanel.transform.position = pos;
@@ -779,6 +797,14 @@ namespace Assets.Scripts
             StopCoroutine(ShowInfoTextTimer(imageObj, txtObj, time));
         }
         
+        /// <summary>
+        /// Provides a smooth fade in/out animation
+        /// </summary>
+        /// <param name="aValue"></param> target value
+        /// <param name="aTime"></param> animation duration
+        /// <param name="imageObj"></param> the panel to animate
+        /// <param name="txtObj"></param> the text to animate
+        /// <returns></returns>
         IEnumerator FadeTo(float aValue, float aTime, Image imageObj, Text txtObj)
         {
             float alpha = imageObj.color.a;
@@ -792,6 +818,12 @@ namespace Assets.Scripts
             }
         }
         
+        /// <summary>
+        /// Rotates the trade button icon 360 degrees once
+        /// </summary>
+        /// <param name="tradeButtonImage"></param>
+        /// <param name="duration"></param>
+        /// <returns></returns>
         IEnumerator RotateTradeButton(RectTransform tradeButtonImage, float duration)
         {
             var eulerAngles = tradeButtonImage.transform.eulerAngles;

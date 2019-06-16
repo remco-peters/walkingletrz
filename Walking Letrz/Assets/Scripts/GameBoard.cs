@@ -40,6 +40,9 @@ public class GameBoard : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// When a game is started get the photonview so RPC's can be called
+    /// </summary>
     private void Start()
     {
         _photonView = PhotonView.Get(this);
@@ -49,8 +52,6 @@ public class GameBoard : MonoBehaviour
 
     public void CallRPC(long points, List<LetterPosition> placedLetters, string pID)
     {
-        Debug.Log("RPC called");
-        
         string word = "";
         int first = 0, 
             second = 0;
@@ -81,6 +82,17 @@ public class GameBoard : MonoBehaviour
         StartCoroutine(ExecutePlaceLettersAfterTime(2, letter, isFirst, isSecond, row, index, newLetrz));
     }
 
+    /// <summary>
+    /// Call the rpc after 2 seconds so the rpc can be called on all clients (sometimes rpc was called before photon view was set)
+    /// </summary>
+    /// <param name="time"></param>
+    /// <param name="letter"></param>
+    /// <param name="isFirst"></param>
+    /// <param name="isSecond"></param>
+    /// <param name="row"></param>
+    /// <param name="index"></param>
+    /// <param name="newLetrz"></param>
+    /// <returns></returns>
     IEnumerator ExecutePlaceLettersAfterTime(float time, string letter, bool isFirst, bool isSecond, int row, int index, int newLetrz = 0)
     {
         yield return new WaitForSeconds(time);
@@ -94,6 +106,11 @@ public class GameBoard : MonoBehaviour
         StartCoroutine(ExecuteInitPlayerLettersAfterTime(2));
     }
 
+    /// <summary>
+    /// Call the rpc after 2 seconds so the rpc can be called on all clients (sometimes rpc was called before photon view was set)
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     IEnumerator ExecuteInitPlayerLettersAfterTime(float time)
     {
         yield return new WaitForSeconds(time);
@@ -236,6 +253,11 @@ public class GameBoard : MonoBehaviour
         _letterManager.ShowScoreGainedText(points, _pos);
     }
 
+    /// <summary>
+    /// Moves the letters from the playerboard to the word list and creates new objects to replace them
+    /// </summary>
+    /// <param name="placedLetters"></param>
+    /// <param name="points"></param>
     private void RemoveAndChangeLetters(List<LetterPosition> placedLetters, long points)
     {
         foreach (LetterPosition letterPos in placedLetters)

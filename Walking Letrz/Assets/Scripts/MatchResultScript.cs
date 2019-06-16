@@ -333,12 +333,20 @@ public class MatchResultScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Statistics successfully updated, refresh account statistics in account manager
+    /// </summary>
+    /// <param name="result"></param>
     private void OnSuccess(UpdatePlayerStatisticsResult result)
     {
         Debug.Log("Statistic successfully updated");
         AccountManager.instance.RefreshAccountStats();
     }
 
+    /// <summary>
+    /// Gets called when updating user statictics fails
+    /// </summary>
+    /// <param name="error"></param>
     private void OnFailure(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
