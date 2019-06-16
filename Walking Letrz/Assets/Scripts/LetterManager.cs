@@ -203,57 +203,53 @@ namespace Assets.Scripts
             Booster4.onClick.AddListener(OnTradeFixedTouched);
         }
 
+        public void ExtraTimeTouched()
+        {
+            BoosterTouched(() =>
+            {
+                Player.TimeRemaining += 30f;
+            }, 50, Booster1);
+        }
+
         public void DoubleWordOnTouched()
         {
-            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
-            if (BoostersUsed >= 3|| credits < 40 || !canMove) return;
-            Player.Credit.RemoveCredits(40);
-            credits -= 40;
-            DoubleWordValue = true;
-            BoosterText.text = TripleWordValue ? "6x" : "2x";
-            Booster2.interactable = false;
-            BoostersUsed++;
-            if (BoostersUsed >= 3) SetBoostersInactive();
+            BoosterTouched(() =>
+            {
+                DoubleWordValue = true;
+                BoosterText.text = TripleWordValue ? "6x" : "2x";
+            }, 40, Booster2);
         }
 
         public void TripleWordOnTouched()
         {
-            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
-            if (BoostersUsed >= 3 || credits < 60 || !canMove) return;
-            Player.Credit.RemoveCredits(60);
-            credits -= 60;
-            TripleWordValue = true;
-            BoosterText.text = DoubleWordValue ? "6x" : "3x";
-            Booster3.interactable = false;
-            BoostersUsed++;
-            if (BoostersUsed >= 3) SetBoostersInactive();
-        }
-
-        public void ExtraTimeTouched()
-        {
-            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
-            if (BoostersUsed >= 3|| credits < 50 || !canMove) return;
-            Player.Credit.RemoveCredits(50);
-            credits -= 50;
-            Player.TimeRemaining += 30f;
-            Booster1.interactable = false;
-            BoostersUsed++;
-            if (BoostersUsed >= 3) SetBoostersInactive();
+            BoosterTouched(() =>
+            {
+                TripleWordValue = true;
+                BoosterText.text = DoubleWordValue ? "6x" : "3x";
+            }, 60, Booster3);
         }
 
         private void OnTradeFixedTouched()
         {
+            BoosterTouched(() =>
+            {
+                TheLetterManager.FirstLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty == Difficulty.Medium);
+                TheLetterManager.SecondLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty != Difficulty.Hard);
+                FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
+                SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
+                FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
+                SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
+            }, 20, Booster4);
+        }
+      
+        private void BoosterTouched(UnityAction boosterAction, int cost, Button booster)
+        {
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
-            if (BoostersUsed >= 3|| credits < 20 || !canMove) return;
-            Player.Credit.RemoveCredits(20);
-            credits -= 20;
-            TheLetterManager.FirstLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty == Difficulty.Medium);
-            TheLetterManager.SecondLetter = TheLetterManager.GetVowelOrConsonant(GameInstance.instance.difficulty != Difficulty.Hard);
-            FirstLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.FirstLetter.ToString().ToUpper();
-            SecondLetterBlock.GetComponentInChildren<Text>().text = TheLetterManager.SecondLetter.ToString().ToUpper();
-            FirstLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.FirstLetter).Value.ToString().ToUpper();
-            SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
-            Booster4.interactable = false;
+            if (BoostersUsed >= 3|| credits < cost || !canMove) return;
+            Player.Credit.RemoveCredits(cost);
+            credits -= cost;
+            boosterAction();
+            booster.interactable = false;
             BoostersUsed++;
             if (BoostersUsed >= 3) SetBoostersInactive();
         }
