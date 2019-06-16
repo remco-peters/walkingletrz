@@ -16,11 +16,19 @@ public class LobbyManager : MonoBehaviour
 
     private float RotationSpeed = 200f;
 
+    /// <summary>
+    /// If a room name is entered it is set in the photonmanager
+    /// </summary>
+    /// <param name="roomName"></param>
     public void SetRoomName(string roomName = "")
     {
         PhotonManager.PhotonInstance.roomName = roomName;
     }
 
+    /// <summary>
+    /// Join a room, so a room doesn't have to be created
+    /// destroys the room name popup
+    /// </summary>
     public void JoinRoom()
     {
         PhotonManager.PhotonInstance.createRoom = false;
@@ -29,6 +37,10 @@ public class LobbyManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Create a room, so createRoom = true
+    /// destroys the room name popup
+    /// </summary>
     public void CreateRoom()
     {
         PhotonManager.PhotonInstance.createRoom = true;
@@ -36,6 +48,9 @@ public class LobbyManager : MonoBehaviour
         Destroy(RoomNamePopup);
     }
 
+    /// <summary>
+    /// Connect to photon and set all delegates
+    /// </summary>
     private void GoConnect()
     {
         PhotonManager.PhotonInstance.ConnectToPhoton();
@@ -44,11 +59,18 @@ public class LobbyManager : MonoBehaviour
         PhotonManager.PhotonInstance.OnPlayerLeftDelegate += PlayerLeft;
     }
     
+    /// <summary>
+    /// Rotates the loading indicator at a constant pace
+    /// </summary>
     private void FixedUpdate()
     {
         LoadingIndicator.GetComponent<RectTransform>().Rotate(0f, 0f, RotationSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// When joining a room, set CanMove to false (you are the 2nd player)
+    /// Tell ui that a player has joined and needs to update
+    /// </summary>
     void JoinedRoom()
     {
         Hashtable hash = new Hashtable {{"CanMove", false}};
@@ -57,6 +79,10 @@ public class LobbyManager : MonoBehaviour
         ShowAllPlayers();
     }
 
+    /// <summary>
+    /// When a player joins the room tell ui to update
+    /// </summary>
+    /// <param name="player"></param>
     void PlayerJoined(Player player)
     {
         Debug.Log(

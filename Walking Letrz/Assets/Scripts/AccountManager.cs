@@ -84,13 +84,20 @@ public class AccountManager : MonoBehaviour
         listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 10, 100, 4, "WordLengthOfTwelve"));
         listOfAchievements.Add(new Achievement("WordLengthOfTwelve", 15, 150, 5, "WordLengthOfTwelve"));
     }
-
+    /// <summary>
+    /// Gets the correct leaderboard from playfab using the difficulty parameter
+    /// </summary>
+    /// <param name="difficulty"></param>
     public void GetLeaderboard(string difficulty)
     {
         GetLeaderboardRequest glb = new GetLeaderboardRequest { StatisticName = $"{difficulty}_score", StartPosition = 0, MaxResultsCount = 10 };
         PlayFabClientAPI.GetLeaderboard(glb, LeaderboardSuccess, OnFailure);
     }
 
+    /// <summary>
+    /// When leaderboard is successfully received the leaderboard received delegate gets called
+    /// </summary>
+    /// <param name="result"></param> the resulting leaderboard
     private void LeaderboardSuccess(GetLeaderboardResult result)
     {
         Leaderboard = result.Leaderboard;
@@ -216,20 +223,30 @@ public class AccountManager : MonoBehaviour
     }
 
     //used from input field from editor on profile scene
+    /// <summary>
+    /// Sets the entered displayname of a user
+    /// </summary>
+    /// <param name="displayName"></param> The name that is entered in the textfield
     public void SetDisplayName(string displayName)
     {
         var displayNameRequest = new UpdateUserTitleDisplayNameRequest { DisplayName = displayName };
         PlayFabClientAPI.UpdateUserTitleDisplayName(displayNameRequest, DisplayNameSuccess, OnFailure);
     }
-
+    
+    /// <summary>
+    /// When the displayname is successfully saved a short toast message is shown to the user and the popup gets destroyed
+    /// </summary>
+    /// <param name="result"></param>
     private void DisplayNameSuccess(UpdateUserTitleDisplayNameResult result)
     {
-        Debug.Log($"New display name: {result.DisplayName}");
         GameObject.FindGameObjectWithTag("SavedUsernameSuccess").GetComponent<ShowInfoText>().ShowToast(3);
         CurrentPlayer.DisplayName = result.DisplayName;
         DestroyPopup();
     }
 
+    /// <summary>
+    /// Destroys the popup for setting a display name
+    /// </summary>
     private void DestroyPopup()
     {
         DisplayNamePopupClass.DestroyPopup();

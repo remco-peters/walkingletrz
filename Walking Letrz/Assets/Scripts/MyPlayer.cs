@@ -40,6 +40,9 @@ public class MyPlayer : Player
         base.Update();
     }
     
+    /// <summary>
+    /// Increases the word count and updates all achievement stats and checks if an achievement has been completed
+    /// </summary>
     public void IncreaseWordCount()
     {
         AmountOfWordsPerMinute++;
@@ -50,6 +53,10 @@ public class MyPlayer : Player
         InfoText = AchievementManager.CheckIfAchievementIsGet();
     }
 
+    /// <summary>
+    /// Returns the placed word count
+    /// </summary>
+    /// <returns></returns> placedWordCount
     public int GetPlacedWordCount()
     {
         return placedWordCount;
