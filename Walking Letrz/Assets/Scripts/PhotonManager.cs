@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
-using ExitGames.Client.Photon;
+﻿using System.Collections.Generic;
 using Photon.Pun;
 using Photon.Realtime;
-using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.Events;
 using Player = Assets.Scripts.Player;

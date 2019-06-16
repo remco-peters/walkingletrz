@@ -231,32 +231,5 @@ namespace Assets.Scripts
         {
             return AllWords.Contains(word);
         }
-
-// Todo: Deze aanpassen aan nieuwe variant
-        public LetterBlock InstantiateLetterButton(char letter, Vector3 pos, bool isFirstLetter = false, bool isSecondLetter = false)
-        {
-            return Spawn(LetterBlockObject, this, lttrblock =>
-            {
-                if (isFirstLetter || isSecondLetter) lttrblock.GetComponent<MeshRenderer>().material = WalkingLetrMaterial;
-                else lttrblock.GetComponent<MeshRenderer>().material = NormalLetrMaterial;
-                lttrblock.IsFirstLetter = isFirstLetter;
-                lttrblock.IsSecondLetter = isSecondLetter;
-                lttrblock.GetComponentsInChildren<TextMesh>()[0].text = letter.ToString().ToUpper();
-                lttrblock.GetComponentsInChildren<TextMesh>()[1].text = CharactersValues.First(x => x.Key == char.ToLower(letter)).Value.ToString();
-                lttrblock.transform.position = pos;
-            });
-        }
-        // Todo: Deze aanpassen aan de nieuwe variant
-        public void PlaceWordInGameBoard(List<LetterBlock> blocks)
-        {
-            Vector3 firstLetterPositionWordList = new Vector3(-2.75f, 4.3f);
-            firstLetterPositionWordList.y -= 0.45f * PlacedWords.Count;
-            foreach(LetterBlock block in blocks)
-            {
-                if (block == null) continue;
-                firstLetterPositionWordList.x += 0.45f;
-                InstantiateLetterButton(block.GetLetter(), firstLetterPositionWordList, block.IsFirstLetter, block.IsSecondLetter);
-            }
-        }
     }
 }

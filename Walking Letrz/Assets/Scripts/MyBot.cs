@@ -48,12 +48,13 @@ namespace Assets.Scripts
 
         private void PlaceWord()
         {         
-            playerManager.NextTurn();
             if (foundWord == "")
             {
                 Letters = TheLetterManager.GetLetters(TheLetterManager.FirstPlayerLetters.Count()).ToList();
+                hasFoundWord = false;
                 return;
             }
+            playerManager.NextTurn();
             ChangeLetters(foundWord, indexFirstLetter, indexSecondLetter);
             long points = TheLetterManager.CalculatePoints(foundWord);
             EarnedPoints += points;
@@ -69,6 +70,7 @@ namespace Assets.Scripts
         {
             char firstLetter = char.ToLower(TheLetterManager.FirstLetter);
             char secondLetter = char.ToLower(TheLetterManager.SecondLetter);
+            List<string> possibleWords = new List<string>();
             foundWord = "";
             int prefferedMaxWordLength;
             if (difficulty == Difficulty.Easy) prefferedMaxWordLength = Random.Range(4, 5);
@@ -76,12 +78,12 @@ namespace Assets.Scripts
             else prefferedMaxWordLength = Random.Range(6, 12);
             foreach (var word in TheLetterManager.AllWords)
             {
-                indexFirstLetter = word.IndexOf(firstLetter);
-                indexSecondLetter = word.LastIndexOf(secondLetter);
-                if (word.Length > prefferedMaxWordLength || !CheckWord(word, indexFirstLetter, indexSecondLetter)) continue;
-                foundWord = word;
-                break;
+                if (word.Length <= prefferedMaxWordLength && CheckWord(word, word.IndexOf(firstLetter), word.LastIndexOf(secondLetter))) possibleWords.Add(word);
             }
+            if (possibleWords.Any())
+                foundWord = possibleWords[Random.Range(0, possibleWords.Count())];
+            indexFirstLetter = foundWord.IndexOf(firstLetter);
+            indexSecondLetter = foundWord.LastIndexOf(secondLetter);
             if (difficulty == Difficulty.Easy) timeRemaining = TheLetterManager.CalculatePoints(foundWord) + 5;
             else if (difficulty == Difficulty.Medium) timeRemaining = TheLetterManager.CalculatePoints(foundWord);
             else timeRemaining = TheLetterManager.CalculatePoints(foundWord);
@@ -99,7 +101,7 @@ namespace Assets.Scripts
 
         private bool CheckWord(string word, int firstLetterIndex, int secondLetterIndex)
         {
-            if (indexFirstLetter == -1 || indexSecondLetter == -1 || indexFirstLetter >= indexSecondLetter) return false;
+            if (firstLetterIndex == -1 || secondLetterIndex == -1 || firstLetterIndex >= secondLetterIndex) return false;
             if (TheLetterManager.PlacedWords.Contains(word)) return false;
             List<char> availableLetters = Letters.ToList();
             for (int i = 0; i < word.Length; i++)

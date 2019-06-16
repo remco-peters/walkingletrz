@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Assets.Scripts;
 using I2.Loc;
 using UnityEngine;

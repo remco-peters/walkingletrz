@@ -16,14 +16,7 @@ public class DynamicUI : MyMonoBehaviour
     public GameObject SecondRow;
     public GameObject ThirdRow;
     public GameObject BoosterPanel;
-    public RemoveWordBtn DeleteBtn;
-    public PlaceWordBtn PlaceBtn;
-    public TradeLettersBtn TradeLettersBtnClass;
-    public Button Booster1;
-    public Button Booster2;
-    public Button Booster3;
-    public Button Booster4;
-    public Button Booster5;
+    public Button DeleteBtn, PlaceBtn, TradeLettersBtnClass, Booster1, Booster2, Booster3, Booster4;
     public GameObject EmptyLetterBlockObject;
     public LetterBlock FixedLetterBlockObject;
     public LetterBlock PlayerLetterBlockObject;

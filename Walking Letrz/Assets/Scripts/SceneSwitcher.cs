@@ -1,7 +1,4 @@
 ﻿using Assets.Scripts;
-using I2.Loc;
-using System.Collections;
-using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

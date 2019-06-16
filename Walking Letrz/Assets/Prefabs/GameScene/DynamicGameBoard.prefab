@@ -306,7 +306,6 @@ GameObject:
   - component: {fileID: 4150850563259838848}
   - component: {fileID: 3818083111555923606}
   - component: {fileID: 902026561886014785}
-  - component: {fileID: 9128067340389394519}
   m_Layer: 5
   m_Name: PlaceBtn
   m_TagString: Untagged
@@ -413,20 +412,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &9128067340389394519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 497237280679725673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38fbc7161d9de0846b86c3263cae8b7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
-  delegates: []
 --- !u!1 &705419997431681040
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,14 +821,13 @@ MonoBehaviour:
   SecondRow: {fileID: 6528233895186230656}
   ThirdRow: {fileID: 7092412573550774700}
   BoosterPanel: {fileID: 3341668453715871325}
-  DeleteBtn: {fileID: 8832391943110821247}
-  PlaceBtn: {fileID: 9128067340389394519}
-  TradeLettersBtnClass: {fileID: 8983268765662499214}
+  DeleteBtn: {fileID: 6839281380039161295}
+  PlaceBtn: {fileID: 902026561886014785}
+  TradeLettersBtnClass: {fileID: 3901705977632991137}
   Booster1: {fileID: 2357234754714903164}
   Booster2: {fileID: 7237587184432781339}
   Booster3: {fileID: 6767960126284045144}
   Booster4: {fileID: 8395421580346434245}
-  Booster5: {fileID: 0}
   EmptyLetterBlockObject: {fileID: 4388394497308393125, guid: 3f4f02693b3ecb842ba3181e3439b5dd,
     type: 3}
   FixedLetterBlockObject: {fileID: 643303682265407740, guid: 8b8caca40716307498100b2cbbe0ce9d,
@@ -1545,7 +1529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -640.00006, y: 0.000054782016}
+  m_AnchoredPosition: {x: -640.00006, y: 0.000030514322}
   m_SizeDelta: {x: 640, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3062068981218959512
@@ -2150,7 +2134,6 @@ GameObject:
   - component: {fileID: 111180524865120731}
   - component: {fileID: 539621682141075185}
   - component: {fileID: 3901705977632991137}
-  - component: {fileID: 8983268765662499214}
   m_Layer: 5
   m_Name: TradeBtn
   m_TagString: Untagged
@@ -2256,7 +2239,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8983268765662499214}
+      - m_Target: {fileID: 0}
         m_MethodName: ButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -2269,20 +2252,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &8983268765662499214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5704559277036937106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd2f74af5f9e894baf8eb849f7cae0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ButtonText: {fileID: 5602029724044013433}
-  TradeRotateImage: {fileID: 8930045885793712813}
 --- !u!1 &5982175527739110423
 GameObject:
   m_ObjectHideFlags: 0
@@ -2538,7 +2507,6 @@ GameObject:
   - component: {fileID: 9134151190041931010}
   - component: {fileID: 5168502886207783112}
   - component: {fileID: 6839281380039161295}
-  - component: {fileID: 8832391943110821247}
   m_Layer: 5
   m_Name: DeleteBtn
   m_TagString: Untagged
@@ -2643,7 +2611,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8832391943110821247}
+      - m_Target: {fileID: 0}
         m_MethodName: ButtonClicked
         m_Mode: 1
         m_Arguments:
@@ -2656,18 +2624,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &8832391943110821247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6642547217467090729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd789585dd538ee43b38b470d7734f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6649778694297922948
 GameObject:
   m_ObjectHideFlags: 0

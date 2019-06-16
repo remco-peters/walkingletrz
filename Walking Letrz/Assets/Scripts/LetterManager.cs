@@ -27,9 +27,9 @@ namespace Assets.Scripts
         public GameObject FirstRow { get; set; }
         public GameObject SecondRow { get; set; }
         public GameObject ThirdRow { get; set; }
-        public RemoveWordBtn DeleteBtn { get; set; }
-        public PlaceWordBtn PlaceBtn { get; set; }
-        public TradeLettersBtn TradeBtn {get;set;}
+        public Button DeleteBtn { get; set; }
+        public Button PlaceBtn { get; set; }
+        public Button TradeBtn {get;set;}
         public Button Booster1{get;set;}
         public Button Booster2{get;set;}
         public Button Booster3{get;set;}
@@ -211,11 +211,9 @@ namespace Assets.Scripts
         
         public void InitPlayerLetters()
         {
-            PlaceBtn.OnPlaceBtnTouched += PlaceWord;
-            PlaceBtn.OnPlaceBtnTouchedWhileInteractive += ShowPlayerWhyInactive;
-            DeleteBtn.OnRemoveTouched += RemoveAllLetters;
-            TradeBtn.LetterManager = this;
-            TradeBtn.OnTradeTouched += TradeLetterBtnTouch;
+            PlaceBtn.onClick.AddListener(PlaceWord);
+            DeleteBtn.onClick.AddListener(RemoveAllLetters);
+            TradeBtn.onClick.AddListener(TradeLetterBtnTouch);
         }
 
         public void DoubleWordOnTouched()
@@ -310,15 +308,6 @@ namespace Assets.Scripts
 
         private void TradeLetterBtnTouch()
         {
-            bool canMove;
-            if (GameInstance.instance.IsMultiplayer)
-            {
-                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-            } else
-            {
-                canMove = Player.CanMove;
-            }
-
             int timesTraded;
             if (GameInstance.instance.IsMultiplayer)
                 if (PhotonNetwork.LocalPlayer.CustomProperties["TimesTraded"] != null)
@@ -332,7 +321,7 @@ namespace Assets.Scripts
             {
                 case 0:
                     TradeLetters(timesTraded);
-                    TradeBtn.ButtonText.text = I2.Loc.LocalizationManager.GetTranslation("10_points");
+                    TradeBtn.GetComponentInChildren<Text>().text = I2.Loc.LocalizationManager.GetTranslation("10_points");
                     break;
                 case 1:
                     if (Player.EarnedPoints < 10)
@@ -340,7 +329,7 @@ namespace Assets.Scripts
                     else
                     {
                         TradeLetters(timesTraded);
-                        TradeBtn.ButtonText.text = I2.Loc.LocalizationManager.GetTranslation("20_points");
+                        TradeBtn.GetComponentInChildren<Text>().text = I2.Loc.LocalizationManager.GetTranslation("20_points");
                         Player.EarnedPoints -= 10;
                     }
                     break;
@@ -353,8 +342,8 @@ namespace Assets.Scripts
                         TradeLetters(timesTraded);
                         Button trade = TradeBtn.GetComponent<Button>();
                         trade.image.color -= subtractColor;
-                        TradeBtn.ButtonText.color -= subtractColor;
-                        TradeBtn.TradeRotateImage.color -= subtractColor;
+                        TradeBtn.GetComponentInChildren<Text>().color -= subtractColor;
+                        TradeBtn.GetComponentInChildren<Image>().color -= subtractColor;
                         Player.EarnedPoints -= 20;
                     }
                     break;
@@ -453,63 +442,52 @@ namespace Assets.Scripts
         
         private void PlaceWord()
         {
+            if (!PlaceBtn.IsActive())
+            {
+                ShowPlayerWhyInactive();
+                return;
+            }
+
             // Alleen wanneer mag versturen
-            bool canMove;
-            if (GameInstance.instance.IsMultiplayer)
+            bool canMove = GameInstance.instance.IsMultiplayer ? (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
+
+            if (!canMove || !PlacedLetters.Any(x => x.LetterBlock != null)) 
+                return;
+
+            string madeWord = "";
+            foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
             {
-                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-            } else
+                if (block == null) continue;
+                madeWord += block.GetLetter();
+            }
+            if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters, Player)) return;
+            int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
+            Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
+            if (DoubleWordValue) points *= 2;
+            if (TripleWordValue) points *= 3;
+            DoubleWordValue = false;
+            TripleWordValue = false;
+            Player.EarnedPoints += points;
+
+            if (madeWord.Count() == 12)
             {
-                canMove = Player.CanMove;
+                Player.WordsWithTwelveLetters++;
             }
 
-            if (canMove)
-            {
-                if (PlacedLetters.Any(x => x.LetterBlock != null))
-                {
-                    string madeWord = "";
-                    foreach (LetterBlock block in PlacedLetters.Select(x => x.LetterBlock).ToList())
-                    {
-                        if (block == null) continue;
-                        madeWord += block.GetLetter();
-                    }
-                    if (!TheLetterManager.CheckWord(madeWord, out long points, PlacedLetters, Player)) return;
-                    int bestWordIndex = Player.BestWordsThisGame.Count(word => word.points > points);
-                    Player.BestWordsThisGame.Insert(bestWordIndex, new Word(madeWord, points));
-                    if (DoubleWordValue) points *= 2;
-                    if (TripleWordValue) points *= 3;
-                    DoubleWordValue = false;
-                    TripleWordValue = false;
-                    Player.EarnedPoints += points;
-                    
-                    if(madeWord.Count() == 12)
-                    {
-                        Player.WordsWithTwelveLetters++;
-                    }
-
-                    //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList()); Verplaatsen naar TheLetterManager
-                    DynamicUi.PlayerManagerClass.NextTurn();
-                    PlaceWordInGameBoard(points);
-                    RemoveAllLettersFromPlayerBoard();
-                    ChangeFixedLetters(madeWord);
-                    GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
-                    Player.IncreaseWordCount();
-                    SetPlaceBtnActivity(false);
-                    BoosterText.text = "";
-                }
-            }
+            //TheLetterManager.PlaceWordInGameBoard(PlacedLetters.Select(x => x.LetterBlock).ToList()); Verplaatsen naar TheLetterManager
+            DynamicUi.PlayerManagerClass.NextTurn();
+            PlaceWordInGameBoard(points);
+            RemoveAllLettersFromPlayerBoard();
+            ChangeFixedLetters(madeWord);
+            GameBoardWordContainer.transform.parent.transform.parent.GetComponent<GameboardScroll>().ScrollDownBar();
+            Player.IncreaseWordCount();
+            SetPlaceBtnActivity(false);
+            BoosterText.text = "";
         }
 
         private void ShowPlayerWhyInactive()
         {
-            bool canMove;
-            if (GameInstance.instance.IsMultiplayer)
-            {
-                canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
-            } else
-            {
-                canMove = Player.CanMove;
-            }
+            bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
 
             if(!canMove)
             {
@@ -626,41 +604,38 @@ namespace Assets.Scripts
             if (PlacedLetters.Select(x => x.LetterBlock).Contains(block))
             {
                 RemoveLetterFromWritingBoardToPlayerBoard(block);
+                CheckWordAndSetSubmitButtonState();
+                return;
             }
-            else
-            {
-                // When firstletter isn't placed yet, make sure second letter does nothing
-                if (block == SecondLetterBlock && !PlacedLetters.Select(x => x.LetterBlock).Contains(FirstLetterBlock))
-                {
-                    return;
-                }
 
-                // Wanneer er meer dan 12 zijn, niks doen
-                if (PlacedLetters.Count(x => x.LetterBlock != null) >= 12) return;
-                
-                // Find the block in de playerletters
-                LetterPosition letterBlock = PlayerLetters.FirstOrDefault(x => x.LetterBlock == block);
-                // Find the first empty block in PlacedLetters
-                LetterPosition EmptyLetterBlock = PlacedLetters.FirstOrDefault(x => x.LetterBlock == null);
-                
-                // De geklikte letter toevoegen aan EmptyLetterBlock en values overnemen
-                EmptyLetterBlock.AddLetter(block, letterBlock.GetCurrentIndex(), letterBlock.GetRow());
-                
-                // Het lege object vinden om te kunnen destroyen
-                Transform t = WritingBoard.transform.GetChild(EmptyLetterBlock.GetCurrentIndex());
-                Destroy(t.gameObject);
+            // When firstletter isn't placed yet, make sure second letter does nothing
+            if (block == SecondLetterBlock && !PlacedLetters.Select(x => x.LetterBlock).Contains(FirstLetterBlock)) return;
 
-                // Het geklikte blokje verplaatsen naar de plaats van het lege object
-                //block.transform.localScale -= new Vector3(0.1f, 0, 0);
-                block.transform.SetParent(WritingBoard.transform, false);
-                block.transform.SetSiblingIndex(EmptyLetterBlock.GetCurrentIndex());
+            // Wanneer er meer dan 12 zijn, niks doen
+            if (PlacedLetters.Count(x => x.LetterBlock != null) >= 12) return;
                 
-                // Een lege placeholder plaatsen waar de letter vandaan is gehaald
-                GameObject ph = Instantiate(PlaceHolderObject);
-                GameObject parentRow = GetRightRow(letterBlock.GetRow());
-                ph.transform.SetParent(parentRow.transform, false);
-                ph.transform.SetSiblingIndex(letterBlock.GetCurrentIndex());
-            }
+            // Find the block in de playerletters
+            LetterPosition letterBlock = PlayerLetters.FirstOrDefault(x => x.LetterBlock == block);
+            // Find the first empty block in PlacedLetters
+            LetterPosition EmptyLetterBlock = PlacedLetters.FirstOrDefault(x => x.LetterBlock == null);
+                
+            // De geklikte letter toevoegen aan EmptyLetterBlock en values overnemen
+            EmptyLetterBlock.AddLetter(block, letterBlock.GetCurrentIndex(), letterBlock.GetRow());
+                
+            // Het lege object vinden om te kunnen destroyen
+            Transform t = WritingBoard.transform.GetChild(EmptyLetterBlock.GetCurrentIndex());
+            Destroy(t.gameObject);
+
+            // Het geklikte blokje verplaatsen naar de plaats van het lege object
+            //block.transform.localScale -= new Vector3(0.1f, 0, 0);
+            block.transform.SetParent(WritingBoard.transform, false);
+            block.transform.SetSiblingIndex(EmptyLetterBlock.GetCurrentIndex());
+                
+            // Een lege placeholder plaatsen waar de letter vandaan is gehaald
+            GameObject ph = Instantiate(PlaceHolderObject);
+            GameObject parentRow = GetRightRow(letterBlock.GetRow());
+            ph.transform.SetParent(parentRow.transform, false);
+            ph.transform.SetSiblingIndex(letterBlock.GetCurrentIndex());
             CheckWordAndSetSubmitButtonState();
         }
 

@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using Assets.Scripts;
-using Photon.Pun;
-using PlayFab;
+﻿using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MyPlayer : Player
 {
