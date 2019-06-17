@@ -22,7 +22,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
     }
-
+    /// <summary>
+    /// Method to connect with photon. Scenes will be automatically synced, nickname is the display of current player and the userId is PlayFabID
+    /// </summary>
     public void ConnectToPhoton()
     {
         if (PhotonNetwork.IsConnected) return;
@@ -43,6 +45,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     }
     
+    /// <summary>
+    /// When connected to master, join lobby
+    /// </summary>
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to master.");
@@ -50,16 +55,26 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby();
     }
 
+    /// <summary>
+    /// When joined lobby, show text in debug
+    /// </summary>
     public override void OnJoinedLobby()
     {
         Debug.Log("Joined lobby");
     }
 
+    /// <summary>
+    /// On left lobby, show text in debug
+    /// </summary>
     public override void OnLeftLobby()
     {
         Debug.Log("Left lobby");
     }
 
+    /// <summary>
+    /// Method that is called when the roomlist is updated. Checks if there was a room with a specific name, otherwhise join existing room, otherwhise create new one
+    /// </summary>
+    /// <param name="roomList"></param>
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         if (PhotonNetwork.InRoom) return;
@@ -94,6 +109,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
     
+    /// <summary>
+    /// Create a new room with 2 players maximum
+    /// </summary>
+    /// <param name="Name"></param>
+    /// <param name="Success"></param>
+    /// <param name="Failed"></param>
     public void CreateRoom(string Name, UnityAction Success, UnityAction<short, string> Failed)
     {
         OnCreatedRoomDelegate = () => {
@@ -125,17 +146,27 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Begin photonmanager");
     }
-
+    /// <summary>
+    /// When room is created, delegate will be called
+    /// </summary>
     public override void OnCreatedRoom()
     {
         OnCreatedRoomDelegate();
     }
 
+    /// <summary>
+    /// When creating room has failed, failedDelegate will be called
+    /// </summary>
+    /// <param name="returnCode"></param>
+    /// <param name="message"></param>
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         OnCreateRoomFailedDelegate(returnCode, message);
     }
 
+    /// <summary>
+    /// When joined room, joinedRoomDelegate will be called
+    /// </summary>
     public override void OnJoinedRoom()
     {
         Debug.Log($"Joined room {PhotonNetwork.CurrentRoom.Name}");
@@ -143,7 +174,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Player.joinedRoom = true;
         OnJoinedRoomDelegate();
     }
-
+    /// <summary>
+    /// On room joined failed, a room will be created to join
+    /// </summary>
+    /// <param name="returnCode"></param>
+    /// <param name="errorMsg"></param>
     public override void OnJoinRoomFailed(short returnCode, string errorMsg)
     {
         CreateRoom(null, () =>
@@ -152,7 +187,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         },
              (short error, string message) => { Debug.Log($"Room create failed for reason {message}"); });
     }
-
+    /// <summary>
+    /// Method will be called after a player (not the master) has joined the room
+    /// </summary>
+    /// <param name="newPlayer"></param>
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (!newPlayer.IsLocal)
@@ -161,13 +199,19 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             OnPlayerJoinedDelegate(newPlayer);
         }
     }
-
+    /// <summary>
+    /// Method that will be called when player has left the room
+    /// </summary>
+    /// <param name="otherPlayer"></param>
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         Debug.Log("doei doei");
         OnPlayerLeftDelegate(otherPlayer);
     }
 
+    /// <summary>
+    /// Method to leave the lobby
+    /// </summary>
     public void LeaveLobby()
     {
         PhotonNetwork.Disconnect();

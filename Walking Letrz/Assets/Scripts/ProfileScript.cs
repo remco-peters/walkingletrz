@@ -19,11 +19,17 @@ public class ProfileScript : MonoBehaviour
         ReplaceAddFacebookPanel();
     }
 
+    /// <summary>
+    /// To show the panel where a user can enter his emailadredd
+    /// </summary>
     public void ShowAddEmailPanel()
     {
         AddEmailPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// Set the emailaddress on screen when an address is already filled in
+    /// </summary>
     public void ReplaceAddEmailPanel()
     {
         if(AccountManager.CurrentPlayerAccount.PrivateInfo.Email != null && AccountManager.CurrentPlayerAccount.PrivateInfo.Email.Length > 0)
@@ -34,6 +40,9 @@ public class ProfileScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the text that facebook is already linked, when there is a link available
+    /// </summary>
     public void ReplaceAddFacebookPanel()
     {
         if (AccountManager.CurrentPlayerAccount.FacebookInfo != null && AccountManager.CurrentPlayerAccount.FacebookInfo.FacebookId.Length > 0)
@@ -43,6 +52,9 @@ public class ProfileScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Popup for inviting a  friend
+    /// </summary>
     public void AddFriendClick()
     {
         InviteMailPopUp.SetActive(!InviteMailPopUp.activeSelf);

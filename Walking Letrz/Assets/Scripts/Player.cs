@@ -19,6 +19,10 @@ using Photon.Pun;
         public int WordsWithTwelveLetters { get; set; }
         private int _amountOfWordsPerMinute;
         public string playfabId { get; set; }
+
+        /// <summary>
+        /// When the AmmountOfWordsPerMinute is equal to 1, the 60 will start to countdown. Greater than 1 will increase wordCount
+        /// </summary>
         public int AmountOfWordsPerMinute { 
             get {
                 return _amountOfWordsPerMinute;
@@ -78,6 +82,10 @@ using Photon.Pun;
             }
         }
 
+        /// <summary>
+        /// The timer for the seconds of the game. Will decrease by one each second
+        /// </summary>
+        /// <returns></returns>
         IEnumerator TimerForSeconds()
         {
             while(Seconds >= 0)

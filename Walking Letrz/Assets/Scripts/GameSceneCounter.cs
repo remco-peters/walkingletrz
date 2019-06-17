@@ -18,6 +18,10 @@ namespace Assets.Scripts
             StartCoroutine(AnimateFixedLettersScreen());
         }
 
+        /// <summary>
+        /// IEnumerator for the countDown square at the start of the game
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator AnimateFixedLettersScreen()
         {
             float rotate = 0;
@@ -34,6 +38,11 @@ namespace Assets.Scripts
             OnCountDownFinished();
         }
 
+        /// <summary>
+        /// The IEnumerator for the antimation
+        /// </summary>
+        /// <param name="rotate"></param>
+        /// <returns></returns>
         private IEnumerator AnimateBlock(float rotate)
         {        
             float duration = 0.3f;

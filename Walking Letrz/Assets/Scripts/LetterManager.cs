@@ -130,6 +130,9 @@ namespace Assets.Scripts
             ShufflePlayerLetters();
         }
         
+        /// <summary>
+        /// Instantiate the starting letters (orange ones)
+        /// </summary>
         private void InitStartingLetters()
         {
             FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
@@ -143,6 +146,10 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Gets the letters to play with
+        /// </summary>
+        /// <returns>List of LetterPosition</returns>
         public List<LetterPosition> GetPlayerLetters()
         {
             List<LetterPosition> playerLetters = new List<LetterPosition>();
@@ -159,7 +166,9 @@ namespace Assets.Scripts
             return playerLetters;           
         }
 
-        
+        /// <summary>
+        /// Init the other letters to play with
+        /// </summary>
         public void InitFirstLetters()
         {
             char[] startingLetters = TheLetterManager.FirstPlayerLetters;
@@ -184,6 +193,9 @@ namespace Assets.Scripts
             }
         }
         
+        /// <summary>
+        /// Adds listeners to the buttons
+        /// </summary>
         public void InitPlayerLetters()
         {
             PlaceBtn.onClick.AddListener(PlaceWord);
@@ -191,6 +203,9 @@ namespace Assets.Scripts
             TradeBtn.onClick.AddListener(TradeLetterBtnTouch);
         }
 
+        /// <summary>
+        /// Adds listeners to the boosterbuttons
+        /// </summary>
         private void InitBoosterButtons()
         {
             Booster1.onClick.AddListener(ExtraTimeTouched);
@@ -199,6 +214,9 @@ namespace Assets.Scripts
             Booster4.onClick.AddListener(OnTradeFixedTouched);
         }
 
+        /// <summary>
+        /// When booster ExtraTime is touched
+        /// </summary>
         public void ExtraTimeTouched()
         {
             BoosterTouched(() =>
@@ -207,6 +225,9 @@ namespace Assets.Scripts
             }, 50, Booster1);
         }
 
+        /// <summary>
+        /// When booster DoubleWordValue is touched
+        /// </summary>
         public void DoubleWordOnTouched()
         {
             BoosterTouched(() =>
@@ -216,6 +237,9 @@ namespace Assets.Scripts
             }, 40, Booster2);
         }
 
+        /// <summary>
+        /// When booster tripleWordValue is touched
+        /// </summary>
         public void TripleWordOnTouched()
         {
             BoosterTouched(() =>
@@ -225,6 +249,9 @@ namespace Assets.Scripts
             }, 60, Booster3);
         }
 
+        /// <summary>
+        /// When booster to trade fixed letters is touched
+        /// </summary>
         private void OnTradeFixedTouched()
         {
             BoosterTouched(() =>
@@ -238,6 +265,12 @@ namespace Assets.Scripts
             }, 20, Booster4);
         }
       
+        /// <summary>
+        /// Handler for when a booster is touched
+        /// </summary>
+        /// <param name="boosterAction"></param>
+        /// <param name="cost"></param>
+        /// <param name="booster"></param>
         private void BoosterTouched(UnityAction boosterAction, int cost, Button booster)
         {
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
@@ -250,6 +283,9 @@ namespace Assets.Scripts
             if (BoostersUsed >= 3) SetBoostersInactive();
         }
 
+        /// <summary>
+        /// Method to set all boosters inactive
+        /// </summary>
         private void SetBoostersInactive()
         {
                 Booster1.interactable = 
@@ -258,6 +294,9 @@ namespace Assets.Scripts
                 Booster4.interactable = false;
         }
 
+        /// <summary>
+        /// To init all the positions of the placed letters
+        /// </summary>
         private void InitPlacedLetterPositions()
         {
             for (int i = 0; i < 12; i++)
@@ -268,6 +307,9 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Currently not in use! To shuffle all the letters
+        /// </summary>
         private void ShufflePlayerLetters()
         {
             Vector3 acceleration = Input.acceleration;
@@ -367,6 +409,15 @@ namespace Assets.Scripts
             }
         }
         
+        /// <summary>
+        /// Method to instantiate a letterbutton
+        /// </summary>
+        /// <param name="letter"></param>
+        /// <param name="isFirstLetter"></param>
+        /// <param name="isSecondLetter"></param>
+        /// <param name="row"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public LetterBlock InstantiateLetterButton(char letter, bool isFirstLetter = false, bool isSecondLetter = false, int row = 1, int? index = null)
         {
             LetterBlock block;
@@ -392,6 +443,9 @@ namespace Assets.Scripts
             });         
         }
         
+        /// <summary>
+        /// A method to remove all the letters from the writingboard and place them back to the field
+        /// </summary>
         private void RemoveAllLetters()
         {
             foreach(LetterPosition lttrPos in PlacedLetters)
@@ -404,6 +458,9 @@ namespace Assets.Scripts
             SetPlaceBtnActivity(false);
         }
         
+        /// <summary>
+        /// Method that will be called when a word is placed
+        /// </summary>
         private void PlaceWord()
         {
             if (!PlaceBtn.IsActive())
@@ -449,6 +506,9 @@ namespace Assets.Scripts
             BoosterText.text = "";
         }
 
+        /// <summary>
+        /// Method that will be called with info why the player is inactive
+        /// </summary>
         private void ShowPlayerWhyInactive()
         {
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
@@ -462,7 +522,12 @@ namespace Assets.Scripts
             }
 
         }
-
+        /// <summary>
+        /// Method to add a char to a letterBlock
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="index"></param>
+        /// <returns>LetterBlock</returns>
         public LetterBlock AddLetter(int row, int index)
         {
             List<char> myLetters = GetPlayerLetters().Select(p => char.ToLower(p?.LetterBlock?.GetLetter() ?? default)).ToList();
@@ -472,7 +537,10 @@ namespace Assets.Scripts
             return block; 
         }
 
-        // TheLetterManager
+        /// <summary>
+        /// Method that will be called when a word will be placed
+        /// </summary>
+        /// <param name="points"></param>
         private void PlaceWordInGameBoard(long points = 0)
         {
             if (GameInstance.instance.IsMultiplayer)
@@ -543,6 +611,10 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Method that is called when a letter is touched
+        /// </summary>
+        /// <param name="block"></param>
         public void LetterTouched(LetterBlock block)
         {
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
@@ -587,6 +659,11 @@ namespace Assets.Scripts
             CheckWordAndSetSubmitButtonState();
         }
 
+        /// <summary>
+        /// Method to change the fixed letters after a word is placed
+        /// </summary>
+        /// <param name="madeWord"></param>
+        /// <param name="isBot"></param>
         public void ChangeFixedLetters(string madeWord, bool isBot = false)
         {
             TheLetterManager.SecondLetter = TheLetterManager.FirstLetter;
@@ -621,7 +698,9 @@ namespace Assets.Scripts
                 }
             }
         }    
-
+        /// <summary>
+        /// Method to remove all letters from Playerboard
+        /// </summary>
         private void RemoveAllLettersFromPlayerBoard()
         {
             foreach (LetterPosition position in PlacedLetters)
@@ -631,6 +710,10 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Method that will be called after each touch on a letter
+        /// </summary>
+        /// <param name="placeBtnClick"></param>
         private void CheckWordAndSetSubmitButtonState(bool placeBtnClick = false)
         {
             string madeWord = "";
@@ -672,6 +755,10 @@ namespace Assets.Scripts
 
         }
 
+        /// <summary>
+        /// Method to remove the letters from the writingboard and place them back to the playerboard
+        /// </summary>
+        /// <param name="block"></param>
         private void RemoveLetterFromWritingBoardToPlayerBoard(LetterBlock block)
         {
             // Het weghalen van de letter
@@ -696,6 +783,11 @@ namespace Assets.Scripts
             block.transform.SetSiblingIndex(oldIndex);
         }
 
+        /// <summary>
+        /// Get the right row in the gameboard
+        /// </summary>
+        /// <param name="row"></param>
+        /// <returns></returns>
         public GameObject GetRightRow(int row)
         {
             switch(row)
@@ -709,6 +801,10 @@ namespace Assets.Scripts
             }
         }
 
+        /// <summary>
+        /// Set the material of the placebutton to show the user when it's (in)active
+        /// </summary>
+        /// <param name="SetActive"></param>
         private void SetPlaceBtnActivity(bool SetActive)
         {
             if(SetActive)

@@ -41,6 +41,9 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
     }
 
     #region Login / Logout
+    /// <summary>
+    ///  To login to facebook & ask permission for public profile, emailaddress and friends
+    /// </summary>
     public void FacebookLogin()
     {
         FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends" }, OnFacebookLoggedIn);
@@ -48,6 +51,10 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
         ShowFacebookInfo.SetActive(true);
     }
 
+    /// <summary>
+    ///  When logged in successfully, call the AddFaceBookLink in AccountManager
+    /// </summary>
+    /// <param name="result"></param>
     private void OnFacebookLoggedIn(ILoginResult result)
     {
         if (result == null || string.IsNullOrEmpty(result.Error))
@@ -62,44 +69,6 @@ public class PlayfabFacebookAuthExample : MonoBehaviour
     }
     #endregion
 
-    public void FacebookShare()
-    {
-        //FB.ShareLink(new System.Uri("http://", "check it out!");
-    }
-
-    #region Inviting
-    public void FacebookGameRequest()
-    {
-        FB.AppRequest("Hey, play this game!", title: "testtitle");
-    }
-
-    public void FacebookInvite()
-    {
-        FB.AppRequest(
-    "Come play this great game!",
-    null, null, null, null, null, null,
-    delegate (IAppRequestResult result) {
-        if (result == null || string.IsNullOrEmpty(result.Error))
-        {
-            AccountManager.instance.creditClass.AddCredits(10);
-        }
-    }
-);
-    }
-    #endregion
-
-    public void GetFriendsPlayingThisGame()
-    {/*
-        string query = "/me/friends";
-        FB.API(query, HttpMethod.GET, result =>
-        {
-            var dictionary = (Dictionary<string, object>)Facebook.MiniJSON.Json.Deserialize(result.RawResult);
-            var friendsList = (List<object>)dictionary["data"];
-            FriendsText.text = string.Empty;
-            foreach(var dict in friendsList)
-            {
-                FriendsText.text += ((Dictionary<string, object>)dict)["name"];
-            }
-        });*/
-    }
+   
+    
 }

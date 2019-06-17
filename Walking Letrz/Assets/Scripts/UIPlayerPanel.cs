@@ -229,6 +229,9 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
 
+    /// <summary>
+    /// Method to set the info of the other players (bot when singleplayer and others in MP)
+    /// </summary>
     void InitOtherPlayers()
     {
         if (GameInstance.instance.IsMultiplayer)
@@ -264,6 +267,10 @@ public class UIPlayerPanel : UIBehaviour
         
     }
 
+    /// <summary>
+    /// IEnumerator to blink the timer when you're waiting, when less than 11 seconds, timer will be red
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Timer()
     {
         while (Player.TimeRemaining >= 0)
@@ -287,6 +294,10 @@ public class UIPlayerPanel : UIBehaviour
         } 
     }
 
+    /// <summary>
+    /// IEnumerator to check if all the players still have time left
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CheckIfAllPlayersHaveTimeLeft()
     {
         if (GameInstance.instance.IsMultiplayer)
@@ -347,6 +358,10 @@ public class UIPlayerPanel : UIBehaviour
         return t.ToString(@"m\:ss");
     }
 
+    /// <summary>
+    /// IEnumerator that sets the backgroundcolor of the players
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator SetBackgroundPlayerColor()
     {
         while (true)
@@ -369,6 +384,13 @@ public class UIPlayerPanel : UIBehaviour
         }
     }
     
+    /// <summary>
+    /// IEnumerator to set the time of the opponent in your screen
+    /// </summary>
+    /// <param name="which"></param>
+    /// <param name="localPlayer"></param>
+    /// <param name="photonPlayer"></param>
+    /// <returns></returns>
     private IEnumerator SetOpponentTime(int which, Player localPlayer, Photon.Realtime.Player photonPlayer = null)
     {
         if (GameInstance.instance.IsMultiplayer)
@@ -398,12 +420,6 @@ public class UIPlayerPanel : UIBehaviour
             case 0:
                 OpponentTimeTxt.text = OpponentTimeText(timeRemaining);
                 break;
-            /*case 1:
-                OpponentTimeTxtSecond.text = OpponentTimeText(timeRemaining);
-                break;
-            case 2:
-                OpponentTimeTxtThird.text = OpponentTimeText(timeRemaining);
-                break;*/
             default:
                 break;
         }
@@ -421,14 +437,6 @@ public class UIPlayerPanel : UIBehaviour
                 OpponentNameTxt.text = p.Name;
                 OpponentScoreTxt.text = $"{p.EarnedPoints}";
                 break;
-            /*case 1:
-                OpponentNameTxtSecond.text = p.Name;
-                OpponentScoreTxtSecond.text = $"{p.EarnedPoints}";
-                break;
-            case 2:
-                OpponentNameTxtThird.text = p.name;
-                OpponentScoreTxtThird.text = $"{p.EarnedPoints}";
-                break;*/
             default:
                 break;
         }
@@ -442,17 +450,14 @@ public class UIPlayerPanel : UIBehaviour
             case 0:
                 OpponentScoreTxt.text = $"{points}";
                 break;
-            /*case 1:
-                OpponentScoreTxtSecond.text = $"{points}";
-                break;
-            case 2:
-                OpponentScoreTxtThird.text = $"{points}";
-                break;*/
             default:
                 break;
         }
     }
 
+    /// <summary>
+    /// Method to wrap up the game if it's finisched. After this, it will go to the MatchResultScreen
+    /// </summary>
     private void WrapUpGame()
     {
         int creditsToGive = 0;
@@ -501,6 +506,9 @@ public class UIPlayerPanel : UIBehaviour
         Player.Credit.AddCredits(creditsToGive);
     }
     
+    /// <summary>
+    /// Method to put all the usefull data from the game in a PlayerData Object
+    /// </summary>
     private void PutAllDataInPlayerData()
     {
         GameInstance.instance.PlayerData = new List<PlayerData>();
@@ -534,6 +542,7 @@ public class UIPlayerPanel : UIBehaviour
             }
         }
     }
+
 
     private void ShowInfoText(string text, int time)
     {

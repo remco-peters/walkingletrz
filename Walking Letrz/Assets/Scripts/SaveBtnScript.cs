@@ -16,7 +16,9 @@ public class SaveBtnScript : MonoBehaviour
     {
         passwrd = pass;
     }
-
+    /// <summary>
+    /// Method to save the emailaddress and password in PlayFab via AccountManager
+    /// </summary>
     public void SaveEmail()
     {
         AccountManager.instance.AddUsernameAndPassword(email, passwrd);

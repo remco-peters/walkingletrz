@@ -52,7 +52,6 @@ public class DynamicUI : MyMonoBehaviour
     {
    
         Difficulty difficulty = GameInstance.instance.difficulty;
-        Debug.Log(difficulty.ToString());
 
         Assert.IsNotNull(PlayerClass, "Player misses in GameState");
         Assert.IsNotNull(HUDClass, "HUD misses in GameState");

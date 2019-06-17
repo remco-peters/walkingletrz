@@ -12,6 +12,9 @@ namespace Assets.Scripts
     {
         public List<Player> Players { get; set; }
         
+        /// <summary>
+        /// Method that will be executed when the next player needs to get the turn
+        /// </summary>
         public void NextTurn()
         {
             int index;

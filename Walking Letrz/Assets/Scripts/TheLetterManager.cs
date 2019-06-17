@@ -30,6 +30,9 @@ namespace Assets.Scripts
             InitStartingLetters();
         }
 
+        /// <summary>
+        /// To init all the starting letters, depending on difficulty
+        /// </summary>
         public void InitStartingLetters()
         {
             FirstLetter = GetVowelOrConsonant(GameInstance.instance.difficulty == Difficulty.Medium);
@@ -47,7 +50,7 @@ namespace Assets.Scripts
                     break;
             }
         }
-
+        
         private void InitCharactersOcurenaceDictionary()
         {
             string json = JsonAsset.text;
@@ -85,6 +88,12 @@ namespace Assets.Scripts
             return lettersToChoseFrom[random.Next(0, lettersToChoseFrom.Count)];
         }
 
+        /// <summary>
+        /// To get the right amount of letters
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="currentLetters"></param>
+        /// <returns>char array</returns>
         public char[] GetLetters(int amount, List<char> currentLetters = null)
         {
             currentLetters = currentLetters ?? new List<char>();
@@ -133,6 +142,9 @@ namespace Assets.Scripts
             return startingLetters;
         }
 
+        /// <summary>
+        /// Init the values of the letters
+        /// </summary>
         public void InitCharactersValues()
         {
             string json = JsonAsset.text;
@@ -146,6 +158,10 @@ namespace Assets.Scripts
                 }
             }
         }
+
+        /// <summary>
+        /// Use the words from our wordslist
+        /// </summary>
         private void InitAllWords()
         {            
             if (Application.isMobilePlatform)
@@ -155,6 +171,14 @@ namespace Assets.Scripts
             Woordenlijst = null;
         }
 
+        /// <summary>
+        /// Method to check if the word is valid
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="points"></param>
+        /// <param name="placedLetters"></param>
+        /// <param name="p"></param>
+        /// <returns>bool</returns>
         public bool CheckWord(string word, out long points, List<LetterPosition> placedLetters, MyPlayer p = null)
         {
             word = word.ToLower();
@@ -213,6 +237,11 @@ namespace Assets.Scripts
             return false;
         }
 
+        /// <summary>
+        /// Method to calculate earned points
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns>long</returns>
         public long CalculatePoints(string word)
         {
             long value = 0;
@@ -227,6 +256,11 @@ namespace Assets.Scripts
             return value;
         }      
         
+        /// <summary>
+        /// Method to check if the word exists in our wordslist
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns>bool</returns>
         public bool Exists(string word)
         {
             return AllWords.Contains(word);

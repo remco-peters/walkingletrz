@@ -18,27 +18,43 @@ public class AchievementManager : MyMonoBehaviour
     {
         DontDestroyOnLoad(this);
     }
-    
+    /// <summary>
+    /// Set the wordCount
+    /// </summary>
+    /// <param name="count"></param>
     public void SubmitWordCountToAchievements(int count)
     {
         _wordCount = count;
     }
-
+    /// <summary>
+    /// Set the points
+    /// </summary>
+    /// <param name="points"></param>
     internal void SubmitPointsToAchievements(long points)
     {
         _points = points;
     }
-
+    /// <summary>
+    /// Set the count of words with 12 letters
+    /// </summary>
+    /// <param name="amount"></param>
     public void SubmitTwelveCharWordToAchievements(int amount)
     {
         _wordOfTwelve = amount;
     }
-
+    /// <summary>
+    /// Set the amount of words per minute
+    /// </summary>
+    /// <param name="amount"></param>
     public void SubmitWordCountPerMinuteToAchievements(int amount)
     {
         _wordPerMinute = amount;
     }
 
+    /// <summary>
+    /// To check if the achievement is earned
+    /// </summary>
+    /// <returns>string</returns>
     internal string CheckIfAchievementIsGet()
     {
         string achievement = LocalizationManager.GetTranslation("achievement_unlocked");

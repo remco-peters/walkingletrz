@@ -33,6 +33,10 @@ public class GameState : MonoBehaviourPunCallbacks
         Instantiate(CameraClass);
     }
     
+    /// <summary>
+    /// Check if a player has to play a tutorial level; Skip when in multiplayer
+    /// </summary>
+    /// <returns>bool</returns>
     private bool GetTutorial()
     {
         if (GameInstance.instance.IsMultiplayer) return false;

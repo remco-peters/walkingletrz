@@ -33,7 +33,12 @@ public class MatchResultScript : MonoBehaviour
             GameInstance.instance.IsMultiplayer = false;
         }
     }
-
+    /// <summary>
+    /// Adds the extra points to a player when a  player has time left after a game
+    /// </summary>
+    /// <param name="p"></param>
+    /// <param name="pp"></param>
+    /// <returns></returns>
     private IEnumerator AddTimeToPlayerScore(PlayerData p, PlayerPanel pp)
     {
         while (true)
@@ -54,6 +59,10 @@ public class MatchResultScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets up the info to sent to the MatchResultScreen
+    /// </summary>
+    /// <param name="p"></param>
     private void SetUpInfo(PlayerData p)
     {
         PlayerPanel pp = Instantiate(PlayerPanelClass);

@@ -15,6 +15,9 @@ public class MenuBtnScript : MonoBehaviour
         hamburgerImg = GetComponent<Image>().sprite;
     }
 
+    /// <summary>
+    /// Method that will be called after the player clicks on the menu
+    /// </summary>
     public void OnMenuClicked()
     {
         if (!menuPanel.activeInHierarchy)

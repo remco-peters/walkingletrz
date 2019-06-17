@@ -50,6 +50,12 @@ public class GameBoard : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// the CallRPC that will be called when a word is placed by a player in multiplayer
+    /// </summary>
+    /// <param name="points"></param>
+    /// <param name="placedLetters"></param>
+    /// <param name="pID"></param>
     public void CallRPC(long points, List<LetterPosition> placedLetters, string pID)
     {
         string word = "";
@@ -77,6 +83,15 @@ public class GameBoard : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// The RPC that is called by the master for each letter that is placed
+    /// </summary>
+    /// <param name="letter"></param>
+    /// <param name="isFirst"></param>
+    /// <param name="isSecond"></param>
+    /// <param name="row"></param>
+    /// <param name="index"></param>
+    /// <param name="newLetrz"></param>
     public void CallRPCPlaceLtrz(string letter, bool isFirst, bool isSecond, int row, int index, int newLetrz = 0)
     {
         StartCoroutine(ExecutePlaceLettersAfterTime(2, letter, isFirst, isSecond, row, index, newLetrz));
@@ -101,6 +116,9 @@ public class GameBoard : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// This method will be called in multiplayer when a game starts
+    /// </summary>
     public void CallRPCInitPlayerLetters()
     {
         StartCoroutine(ExecuteInitPlayerLettersAfterTime(2));

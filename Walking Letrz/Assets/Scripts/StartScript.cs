@@ -17,7 +17,10 @@ public class StartScript : MonoBehaviour
             //Instantiate gameManager prefab
             Instantiate(gameInstance);
         }
+
+        
         creditsText.text = AccountManager.instance?.Credits ?? "0";  
+
         if (string.IsNullOrEmpty(AccountManager.CurrentPlayer.DisplayName))
         {
             //Show popup for display name

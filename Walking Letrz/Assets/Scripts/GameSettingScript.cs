@@ -22,6 +22,10 @@ public class GameSettingScript : MonoBehaviour
         SetLanguageText();
     }
 
+    /// <summary>
+    /// This is to set all the values of the settings
+    /// </summary>
+
     private void SetButtonPushSlider()
     {
         ButtonPushSlider.value = GameInstance.PlopSound.volume;

@@ -91,6 +91,10 @@ public class LobbyManager : MonoBehaviour
         CreatePlayerNameText(player);
     }
 
+    /// <summary>
+    /// Method that will be called when a user has left the lobby
+    /// </summary>
+    /// <param name="player"></param>
     void PlayerLeft(Player player)
     {
         if (usernamePlaceHolder != null)
@@ -103,6 +107,9 @@ public class LobbyManager : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Method to show all the players in current room
+    /// </summary>
     void ShowAllPlayers()
     {
         var list = PhotonManager.PhotonInstance.GetOtherPlayersList();
@@ -111,7 +118,10 @@ public class LobbyManager : MonoBehaviour
             CreatePlayerNameText(player);
         }
     }
-
+    /// <summary>
+    /// Creates the object with the name of the player and places this
+    /// </summary>
+    /// <param name="player"></param>
     void CreatePlayerNameText(Player player)
     {
         GameObject txtHolder = Instantiate(UsernameClass, usernamePlaceHolder.transform, false);

@@ -6,6 +6,9 @@ public class MyPlayer : Player
     public delegate void OnInfoTextChangeDelegate(string newInfo, int time);
     public event OnInfoTextChangeDelegate OnInfoTextChange;
 
+    /// <summary>
+    /// When infoText is longer than 0 chars, the delegate OnInfoTextChangeDelegate will be called
+    /// </summary>
     public string InfoText {
         get { return InfoText; }
         set

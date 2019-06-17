@@ -61,6 +61,9 @@ public class AccountManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates the list of achievements currently in the game
+    /// </summary>
     private void CreateListOfAchievements()
     {
         listOfAchievements.Add(new Achievement("AmountOfWordsPerMin", 3, 25, 1, "AmountOfWordsPerMin"));
@@ -104,6 +107,9 @@ public class AccountManager : MonoBehaviour
         OnLeaderboardReceived(Leaderboard);
     }
 
+    /// <summary>
+    /// Refreshes the accountstats after a purchase or so
+    /// </summary>
     public void RefreshAccountStats()
     {
         fullyLoaded = false;
@@ -127,6 +133,10 @@ public class AccountManager : MonoBehaviour
         PlayFabClientAPI.GetPlayerCombinedInfo(combinedReq, instance.CombinedInfoSuccess, OnFailure);
     }
 
+    /// <summary>
+    /// Successfunction that is called after the combinedInfoRequest was successfull
+    /// </summary>
+    /// <param name="result"></param>
     public void CombinedInfoSuccess(GetPlayerCombinedInfoResult result)
     {
         CurrentPlayer = result.InfoResultPayload.PlayerProfile;
@@ -159,6 +169,10 @@ public class AccountManager : MonoBehaviour
         fullyLoaded = true;
     }
 
+    /// <summary>
+    /// Successfunction called after the loginrequest was successfull
+    /// </summary>
+    /// <param name="result"></param>
     private void Success(LoginResult result)
     {
         var combinedReq = new GetPlayerCombinedInfoRequest();
@@ -181,6 +195,10 @@ public class AccountManager : MonoBehaviour
         UpdateFriendsLeaderboard();
     }
 
+    /// <summary>
+    /// Successfunction called after the first init combinedResultRequest was successfull
+    /// </summary>
+    /// <param name="result"></param>
     private void StartGetInfoSuccess(GetPlayerCombinedInfoResult result)
     {
         CurrentPlayer = result.InfoResultPayload.PlayerProfile;
@@ -216,6 +234,10 @@ public class AccountManager : MonoBehaviour
         fullyLoaded = true;
     }
     
+    /// <summary>
+    /// Called when a request has failed
+    /// </summary>
+    /// <param name="error"></param>
     private void OnFailure(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
@@ -252,12 +274,21 @@ public class AccountManager : MonoBehaviour
         DisplayNamePopupClass.DestroyPopup();
     }
 
+    /// <summary>
+    /// Adds a username and a password in PlayFab
+    /// </summary>
+    /// <param name="email"></param>
+    /// <param name="password"></param>
     public void AddUsernameAndPassword(string email, string password)
     {
         var addUsernameAndPassword = new AddUsernamePasswordRequest { Email = email, Password = password, Username = CurrentPlayer.DisplayName };
         PlayFabClientAPI.AddUsernamePassword(addUsernameAndPassword, AddUsernameSuccess, OnFailure);
     }
 
+    /// <summary>
+    /// Successfunction, called when the username and password are successfully added in PlayFab
+    /// </summary>
+    /// <param name="result"></param>
     private void AddUsernameSuccess(AddUsernamePasswordResult result)
     {
         GameObject.FindGameObjectWithTag("SavedEmailAddressSuccess").GetComponent<ShowInfoText>().ShowToast(3);
@@ -265,12 +296,20 @@ public class AccountManager : MonoBehaviour
         RefreshAccountStats();
     }
 
+    /// <summary>
+    /// Function to add the Facebook link in PlayFab
+    /// </summary>
+    /// <param name="facebookToken"></param>
     public void AddFacebookLink(string facebookToken)
     {
         var request = new LinkFacebookAccountRequest { AccessToken = facebookToken };
         PlayFabClientAPI.LinkFacebookAccount(request, AddFacebookSuccess, OnFailure);
     }
 
+    /// <summary>
+    /// Successfuntion, called when the facebook link was successfully added in PlayFab
+    /// </summary>
+    /// <param name="result"></param>
     private void AddFacebookSuccess(LinkFacebookAccountResult result)
     {
         creditClass.AddCredits(100);
@@ -278,6 +317,10 @@ public class AccountManager : MonoBehaviour
     }
 
     #region friendsStuff
+
+    /// <summary>
+    /// Function that will update/reload the friends list
+    /// </summary>
     public void UpdateFriendsList()
     {
         GetFriendsListRequest req = new GetFriendsListRequest
@@ -292,11 +335,20 @@ public class AccountManager : MonoBehaviour
         }, OnFailure);
     }
 
+    /// <summary>
+    /// Function to get a list of friends
+    /// </summary>
+    /// <returns>List<FriendsInfo></returns>
     public List<FriendInfo> GetFriends()
     {
         return _friends;
     }
 
+
+    /// <summary>
+    /// Function to add a friend in PlayFab
+    /// </summary>
+    /// <param name="friendId"></param>
     public void AddFriend(string friendId)
     {
         var request = new AddFriendRequest
@@ -314,6 +366,10 @@ public class AccountManager : MonoBehaviour
         UpdateFriendsLeaderboard();
     }
 
+    /// <summary>
+    /// Function to remove a friend from Playfab
+    /// </summary>
+    /// <param name="friendInfo"></param>
     public void RemoveFriend(FriendInfo friendInfo)
     {
         PlayFabClientAPI.RemoveFriend(new RemoveFriendRequest
@@ -329,6 +385,9 @@ public class AccountManager : MonoBehaviour
         UpdateFriendsLeaderboard();
     }
 
+    /// <summary>
+    /// Function to update the friends leaderboard
+    /// </summary>
     public void UpdateFriendsLeaderboard()
     {
         PlayFabClientAPI.GetFriendLeaderboard(new GetFriendLeaderboardRequest
@@ -341,11 +400,19 @@ public class AccountManager : MonoBehaviour
         }, OnFailure);
     }
 
+    /// <summary>
+    /// To get a list with leaderboardentries
+    /// </summary>
+    /// <returns>List of leaderboardentries</returns>
     public List<PlayerLeaderboardEntry> GetFriendsLeaderboard()
     {
         return _friendsLeaderboard;
     }
-
+    /// <summary>
+    /// Function that will check if you're already friends with a specific person
+    /// </summary>
+    /// <param name="playfabId"></param>
+    /// <returns>bool</returns>
     public bool AlreadyFriends(string playfabId)
     {
         foreach(FriendInfo friend in _friends)

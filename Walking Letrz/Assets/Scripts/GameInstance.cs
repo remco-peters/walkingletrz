@@ -34,7 +34,9 @@ public class GameInstance : MonoBehaviour
 
         InitPlayerPrefs();
     }
-
+    /// <summary>
+    /// To get the prefs from the player's device
+    /// </summary>
     private void InitPlayerPrefs()
     {
         gameTime = PlayerPrefs.GetInt("GameTimePref", 0);
@@ -43,6 +45,10 @@ public class GameInstance : MonoBehaviour
         PlopSound.volume = PlayerPrefs.GetFloat("GameButtonSounds", 1);
     }
 
+    /// <summary>
+    /// Get the gameTime in seconds
+    /// </summary>
+    /// <returns>int</returns>
     public static int GetGameTimeInSeconds()
     {
         switch(gameTime)
@@ -62,22 +68,38 @@ public class GameInstance : MonoBehaviour
         } 
     }
 
+    /// <summary>
+    /// Get the int (1 - 4) for the slider
+    /// </summary>
+    /// <returns></returns>
     public static int GetGameTimeForSlider()
     {
         return gameTime;
     }
 
+    /// <summary>
+    /// Set the game time
+    /// </summary>
+    /// <param name="value">Gametime</param>
     public static void SetGameTime(int value)
     {
         gameTime = value;
         PlayerPrefs.SetInt("GameTimePref", value);
     }
 
+    /// <summary>
+    /// Get the vibration setting
+    /// </summary>
+    /// <returns>bool</returns>
     public static int GetVibrationMode()
     {
         return vibrationMode;
     }
 
+    /// <summary>
+    /// Set the vibrationmode
+    /// </summary>
+    /// <param name="value"></param>
     public static void SetVibrationMode(int value)
     {
         vibrationMode = value;
