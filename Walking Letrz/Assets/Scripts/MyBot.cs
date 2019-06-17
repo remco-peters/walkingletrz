@@ -38,7 +38,9 @@ namespace Assets.Scripts
             }
             base.Update();
         }
-        
+        /// <summary>
+        /// Find and choose a word
+        /// </summary>
         private void FindWord()
         {
             List<string> possibleWords = new List<string>();
@@ -62,13 +64,21 @@ namespace Assets.Scripts
             else timeRemaining = TheLetterManager.CalculatePoints(foundWord);
             StartCoroutine(WaitToPlaceWord(timeRemaining, foundWord));
         }
-
+        /// <summary>
+        /// Spoof thinking time
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="word"></param>
+        /// <returns></returns>
         private IEnumerator WaitToPlaceWord(float time, string word)
         {
             yield return new WaitForSeconds(time);
             PlaceWord(word);
         }
-
+        /// <summary>
+        /// All logic for placing a word
+        /// </summary>
+        /// <param name="foundWord"></param>
         private void PlaceWord(string foundWord)
         {       
             hasFoundWord = false;
@@ -88,7 +98,12 @@ namespace Assets.Scripts
             int bestWordIndex = BestWordsThisGame.Count(word => word.points > points);
             BestWordsThisGame.Insert(bestWordIndex, new Word(foundWord, points));   
         }
-
+        /// <summary>
+        /// After placing a word get new letters
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="firstLetterIndex"></param>
+        /// <param name="secondLetterIndex"></param>
         private void ChangeLetters(string word, int firstLetterIndex, int secondLetterIndex)
         {
             for (int i = 0; i < word.Length; i++)
@@ -98,7 +113,11 @@ namespace Assets.Scripts
             }
             Letters.AddRange(TheLetterManager.GetLetters(word.Length));
         }
-
+        /// <summary>
+        /// Check if word is placable
+        /// </summary>
+        /// <param name="word">the word to check</param>
+        /// <returns>true if placable false if not</returns>
         private bool CheckWord(string word)
         {
             int firstLetterIndex = word.IndexOf(FirstLetter);
@@ -115,7 +134,12 @@ namespace Assets.Scripts
             }
             return true;
         }
-
+        /// <summary>
+        ///  Place word in gameboard
+        /// </summary>
+        /// <param name="word"></param>
+        /// <param name="firstLetterIndex"></param>
+        /// <param name="secondLetterIndex"></param>
         public void PlacedInBoard(string word, int firstLetterIndex, int secondLetterIndex)
         {
             // Insantiate wordHolder
