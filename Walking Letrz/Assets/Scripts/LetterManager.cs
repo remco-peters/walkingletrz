@@ -190,7 +190,9 @@ namespace Assets.Scripts
             DeleteBtn.onClick.AddListener(RemoveAllLetters);
             TradeBtn.onClick.AddListener(TradeLetterBtnTouch);
         }
-
+        /// <summary>
+        /// Add onClick listeners to the booster buttons
+        /// </summary>
         private void InitBoosterButtons()
         {
             Booster1.onClick.AddListener(ExtraTimeTouched);
@@ -198,7 +200,9 @@ namespace Assets.Scripts
             Booster3.onClick.AddListener(TripleWordOnTouched);
             Booster4.onClick.AddListener(OnTradeFixedTouched);
         }
-
+        /// <summary>
+        /// Add extra 30 seconds to the players time
+        /// </summary>
         public void ExtraTimeTouched()
         {
             BoosterTouched(() =>
@@ -206,7 +210,9 @@ namespace Assets.Scripts
                 Player.TimeRemaining += 30f;
             }, 50, Booster1);
         }
-
+        /// <summary>
+        /// Next word is double value stacks with triple value
+        /// </summary>
         public void DoubleWordOnTouched()
         {
             BoosterTouched(() =>
@@ -215,7 +221,9 @@ namespace Assets.Scripts
                 BoosterText.text = TripleWordValue ? "6x" : "2x";
             }, 40, Booster2);
         }
-
+        /// <summary>
+        /// Next word is triple value stacks with double value
+        /// </summary>
         public void TripleWordOnTouched()
         {
             BoosterTouched(() =>
@@ -224,7 +232,9 @@ namespace Assets.Scripts
                 BoosterText.text = DoubleWordValue ? "6x" : "3x";
             }, 60, Booster3);
         }
-
+        /// <summary>
+        /// Trade the fixed letters for two random ones
+        /// </summary>
         private void OnTradeFixedTouched()
         {
             BoosterTouched(() =>
@@ -237,7 +247,12 @@ namespace Assets.Scripts
                 SecondLetterBlock.GetComponentsInChildren<Text>()[1].text = TheLetterManager.CharactersValues.FirstOrDefault(x => x.Key == TheLetterManager.SecondLetter).Value.ToString().ToUpper();
             }, 20, Booster4);
         }
-      
+        /// <summary>
+        /// check if booster can be pressed, remove credits and make the booster inactive
+        /// </summary>
+        /// <param name="boosterAction">Booster logic</param>
+        /// <param name="cost">amount of credits the booster costs</param>
+        /// <param name="booster">the booster button</param>
         private void BoosterTouched(UnityAction boosterAction, int cost, Button booster)
         {
             bool canMove = GameInstance.instance.IsMultiplayer ?  (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"] : Player.CanMove;
