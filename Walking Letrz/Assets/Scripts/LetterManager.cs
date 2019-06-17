@@ -5,7 +5,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Events;
-using UnityEngine.UI;
+using UnityEngine.UI; 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
 
@@ -90,20 +90,13 @@ namespace Assets.Scripts
                 _gameBoard.TheLM = TheLetterManager;
                 _gameBoard.FixedLettersBlockObject = FixedLettersBlockObject;
                 _gameBoard.PlayerLettersBlockObject = PlayerLetterBlockObject;
-
-                if (PhotonNetwork.IsMasterClient)
-                {
-                    InitStartingLetters();
-                    InitFirstLetters();
-                }
             }
-            else
+            if (!GameInstance.instance.IsMultiplayer || PhotonNetwork.IsMasterClient)
             {
                 InitStartingLetters();
                 InitFirstLetters();
             }
-            
-
+           
             InitPlacedLetterPositions();
             
             _shuffleTimeRemaining = 1;
