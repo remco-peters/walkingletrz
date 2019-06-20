@@ -150,11 +150,13 @@ public class GameBoard : MonoBehaviour
         if (isFirstLetter || isSecondLetter)
         {
             GameObject parentRow = _letterManager.GetRightRow(row);
-
-            if (isFirstLetter)
-                TheLM.FirstLetter = letter[0];
-            if (isSecondLetter)
-                TheLM.SecondLetter = letter[0];
+            if (letter != "?")
+            {
+                if (isFirstLetter)
+                    TheLM.FirstLetter = letter[0];
+                if (isSecondLetter)
+                    TheLM.SecondLetter = letter[0];
+            }
             
             if (newLetrz == 1)
             {
@@ -170,8 +172,8 @@ public class GameBoard : MonoBehaviour
             //lttrBlock.OnLetterDragged += LetterDragged;
             bool canMove = (bool)PhotonNetwork.LocalPlayer.CustomProperties["CanMove"];
             block.GetComponentsInChildren<Text>()[0].text = letter.ToString().ToUpper();
-            block.GetComponentsInChildren<Text>()[1].text = TheLM.CharactersValues
-                .First(x => x.Key == char.ToLower(letter[0])).Value.ToString();
+            block.GetComponentsInChildren<Text>()[1].text = letter[0] != '?' ? TheLM.CharactersValues
+                .First(x => x.Key == char.ToLower(letter[0])).Value.ToString(): "";
             block.transform.SetParent(parentRow.transform, false);
                 block.transform.SetSiblingIndex((int)index);
             

@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using UnityEngine.UI; 
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
-
+              
 namespace Assets.Scripts
 {
     public class LetterManager : MyMonoBehaviour
@@ -137,12 +137,10 @@ namespace Assets.Scripts
         {
             FirstLetterBlock = InstantiateLetterButton(TheLetterManager.FirstLetter, true, false, 1, 0);
             SecondLetterBlock = InstantiateLetterButton(TheLetterManager.SecondLetter, false, true, 1, 1);
-
             if(GameInstance.instance.IsMultiplayer)
-            {
-                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.FirstLetter.ToString(), true, false, 1, 0);
-                _gameBoard.CallRPCPlaceLtrz(TheLetterManager.SecondLetter.ToString(), false, true, 1, 1);
-
+            {           
+                _gameBoard.CallRPCPlaceLtrz("?", true, false, 1, 0);
+                _gameBoard.CallRPCPlaceLtrz("?", false, true, 1, 1);
             }
         }
 
