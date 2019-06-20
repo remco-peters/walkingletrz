@@ -531,7 +531,7 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Punten totaal verdient
+      - Punten totaal verdiend
       - Total points earned
       Flags: 0000
       Languages_Touch: []
@@ -737,10 +737,10 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Hier kun je de boosters vinden die je voor het potje begon hebt ingekocht.
-        De boosters kunnen vervolgens hier geactiveerd worden.
-      - Here you can find the boosters that you've purchased before the game started.
-        The boosters can be activated here.
+      - Hier kun je de boosters vinden die je tijdens een potje kunt gebruiken (maximaal
+        3). Een bepaalde booster kan maar eenmaal gebruikt worden.
+      - Here you can find the boosters that you can use in this game (max of 3 in
+        a game). Each booster can only be used once
       Flags: 0000
       Languages_Touch: []
     - Term: tutorial_swapBtn
@@ -748,10 +748,10 @@ MonoBehaviour:
       Description: 
       Languages:
       - Hiermee kan je je "gewone" letters ruilen. Dit is 1x per spel gratis. Daarna
-        moet je er 20 punten voor inleveren.
+        kost het 10 en 20 punten. Maximaal 3x te gebruiken
       - With this button you can swap your "normal" letters for new ones. Per game
-        you can swap them for free once, after that you have to pay for it with 20
-        earned points.
+        you can swap them once for free. After that you'll have to pay 10 and 20 points.
+        Max 3 times
       Flags: 0000
       Languages_Touch: []
     - Term: tutorial_writingArea
@@ -1073,7 +1073,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwRyKnblkj0a9iZ0tb_rsXeT9RP1TapKC5nZ3hR/exec
     Google_SpreadsheetKey: 1kRonZFV9MiNdeYX0iTYqIslnvkfEie071vTRSuMyKos
     Google_SpreadsheetName: I2Loc Walking Letrz Localization
-    Google_LastUpdatedVersion: 1559685573180
+    Google_LastUpdatedVersion: 1561022523621
     Google_Password: 
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
